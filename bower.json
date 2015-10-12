@@ -1,0 +1,18 @@
+{
+  "name": "dashboard-core",
+  "description": "A starter project for Tractive Dashboards",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "angular": "1.4.x",
+    "angular-mocks": "1.4.x",
+    "jquery": "~2.1.1",
+    "bootstrap": "~3.1.1",
+    "angular-route": "1.4.x",
+    "angular-resource": "1.4.x",
+    "angular-animate": "1.4.x",
+    "angular-loader": "~1.4.0",
+    "html5-boilerplate": "~5.2.0",
+    "angular-ui-router": "~0.2.11"
+  }
+}
