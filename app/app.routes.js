@@ -6,8 +6,8 @@ angular
 
 function config ($stateProvider,$urlRouterProvider) {
     $urlRouterProvider.
-        when('/', "dashboard/home")
-        .otherwise("dashboard/home");
+        when('/', "/home")
+        .otherwise("/home");
     $stateProvider
         .state('dashboard', {
             abstract: true,
@@ -15,8 +15,13 @@ function config ($stateProvider,$urlRouterProvider) {
             templateUrl: 'components/layout/layout.html'
         })
         .state('dashboard.home', {
-            url: '/home',
-            templateUrl: 'modules/home/homeTpl.html',
+            url: '^/home',
+            templateUrl: 'modules/home/homeTemplate.html',
             controller: 'HomeController as home'
+        })
+        .state('dashboard.player', {
+            url: '^/players',
+            templateUrl: 'modules/player/playerTemplate.html',
+            controller: 'PlayerController as player'
         });
 }

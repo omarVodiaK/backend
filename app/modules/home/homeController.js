@@ -3,40 +3,31 @@ angular
     .module('app.core')
     .controller('HomeController', function($scope, PageValues) {
         //Set page title and description
-        PageValues.title = "HOME";
-        PageValues.description = "Learn AngularJS using best practice real world examples.";
+        PageValues.title = "Dashboard";
+        PageValues.description = "";
         //Setup view model object
         var vm = this;
-        vm.tutorials = [
-            {
-                title: "INTRODUCTION",
-                description: "An introduction to the AngularJS by example application and the tutorial series. All about why this project exists, what the tutorial series is likely to include and who the tutorials are for.",
-                link: "http://www.revillweb.com/angularjs-by-example/1-introduction/"
-            },
-            {
-                title: "PROJECT STRUCTURE & MODULARITY",
-                description: "Looking at project structure in terms of AngularJS modularity and also how best to lay out your directories to make development a breeze.",
-                link: "http://www.revillweb.com/angularjs-by-example/2-project-structure/"
-            },
-            {
-                title: "CONTROLLERS",
-                description: "Investigating the different ways you can write AngularJS controllers along with recommended best practices.",
-                link: "http://www.revillweb.com/angularjs-by-example/3-controllers/"
-            },
-            {
-                title: "SHARING DATA WITH ANGULARJS SERVICES",
-                description: "The fourth part in the AngularJS by Example series showing how to use AngularJS services to consume a third-party API and share data throughout your entire application.",
-                link: "http://www.revillweb.com/angularjs-by-example/4-sharing-data-with-angularjs-services/"
-            },
-            {
-                title: "WRITING DIRECTIVES",
-                description: "Theories behind directive design and how to best implement them within your application.",
-                link: "#"
-            },
-            {
-                title: "BUILD PROCESS",
-                description: "So you have an awesome AngularJS app, how do you get it ready for production and deployment? Using Gulp & GitFlow to get the job done.",
-                link: "#"
-            }
+        vm.title = "Dashboard";
+        vm.description = "Babak this is just testing";
+        vm.dashboardSumary = {newComments: "26", newTasks: "12", newOrders: "124", supportTickets: "13"};
+        vm.tasks = [
+            {taskName: "Calendar updated", when: "just now"},
+            {taskName: "Commented on a post", when: "4 minutes ago"},
+            {taskName: "Order 329 shipped", when: "23 minutes ago"},
+            {taskName: "Invoice 653 has been paid", when: "46 minutes ago"},
+            {taskName: "A new user has been added", when: "1 hour ago"},
+            {taskName: 'Completed task:"pick up dry cleaning"', when: "2 hours ago"},
+            {taskName: "Saved the world", when: "yesterday"},
+            {taskName: 'Completed task:"fix error on sales page"', when: "two days ago"}
+        ];
+        vm.transactions = [
+            {orderId:"3326", orderDate:"10/21/2013", orderTime:"3:29 PM", amount:"$321.33"},
+            {orderId:"3325", orderDate:"10/21/2013", orderTime:"3:29 PM", amount:"$321.33"},
+            {orderId:"3324", orderDate:"10/21/2013", orderTime:"3:29 PM", amount:"$321.33"},
+            {orderId:"3323", orderDate:"10/21/2013", orderTime:"3:29 PM", amount:"$321.33"},
+            {orderId:"3322", orderDate:"10/21/2013", orderTime:"3:29 PM", amount:"$321.33"},
+            {orderId:"3321", orderDate:"10/21/2013", orderTime:"3:29 PM", amount:"$321.33"},
+            {orderId:"3320", orderDate:"10/21/2013", orderTime:"3:29 PM", amount:"$321.33"},
+            {orderId:"3319", orderDate:"10/21/2013", orderTime:"3:29 PM", amount:"$321.33"}
         ];
     });
