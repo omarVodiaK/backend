@@ -1,0 +1,175 @@
+<div class="page-header">
+    <h1>Categories</h1>
+</div>
+
+<div class="container" style="width: 100%">
+    <div class="row" style="margin-top:20px;">
+        <div class="col-xs-12 col-md-8">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label>Filter by: </label>
+                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                </div>
+            </form>
+        </div>
+        <div class="col-xs-6 col-md-4">
+            <div class="pull-right" ng-controller="ModalCategoryCtrl">
+                <!-- angular ui modal -->
+                <script type="text/ng-template" id="categoryModal.html">
+                    <div class="modal-header">
+                        <h3 class="modal-title">New Category</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-xs-2">Name:</label>
+
+                                <div class="col-xs-10">
+                                    <input type="text" class="form-control" placeholder="Name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-2">Description</label>
+
+                                <div class="col-xs-10">
+                                    <textarea type="text" class="form-control" rows="2"
+                                              placeholder="Description"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+                        <button class="btn btn-primary" type="button" ng-click="ok()">Save</button>
+                    </div>
+                </script>
+                <!-- / -->
+                <!-- Button trigger modal -->
+                <button type="button" ng-click="open('lg','categoryModal.html')" class="btn btn-primary">Add
+                    Category
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="bs-component" style="margin-top:20px;">
+    <div class="clearfix visible-sm"></div>
+    <table class="table table-responsive table-striped table-hover">
+        <thead>
+        <tr>
+            <th></th>
+            <th class="col-md-4">name</th>
+            <th class="col-md-4">Description</th>
+            <th class="col-md-6  text-right" colspan="2"></th>
+        </tr>
+        </thead>
+        <tbody dir-paginate="category in categories |filter:search|itemsPerPage:3">
+        <tr>
+            <td>
+                <!--<button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button>-->
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" data-toggle="toggle" ng-model="showZones"
+                               ng-click="getZones(category._id)">
+                        <span class="cr"><i class="cr-icon glyphicon glyphicon-arrow-down"></i></span>
+
+                    </label>
+                </div>
+
+            </td>
+            <td>{{category.cat_name}}</td>
+            <td>{{category.cat_description}}</td>
+
+            <td class="text-right">
+                <div class="btn-group" role="group">
+                    <input type="button" value="Remove" class="btn btn-danger" ng-click="removeCategoryRow(category._id)"/>
+
+                    <div class="pull-right" ng-controller="ModalCategoryCtrl">
+                        <!-- angular ui modal -->
+                        <script type="text/ng-template" id="assignZone.html">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Assign Zone</h3>
+                            </div>
+                            <div class="modal-body ng-scope">
+                                <table class="table table-responsive table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Range</th>
+                                        <th>Address</th>
+                                        <th>Latitude</th>
+                                        <th>Longitude</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr ng-repeat='zone in zones'>
+                                        <td><input type="checkbox"></td>
+                                        <td>{{ zone.zone_name }}</td>
+                                        <td>{{zone.zone_range}}</td>
+                                        <td>{{zone.zone_address}}</td>
+                                        <td>{{zone.zone_latitude}}</td>
+                                        <td>{{zone.zone_longitude}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="modal-footer">
+                                <div class="btn-group">
+                                    <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+                                    <button class="btn btn-primary" type="button" ng-click="ok()">Assign</button>
+                                </div>
+                            </div>
+                        </script>
+                        <!-- / -->
+                        <!-- Button trigger modal -->
+                        <input type="button" value="Assign zone" class="btn btn-success"
+                               ng-click="open('lg','assignZone.html',category._id)">
+                    </div>
+
+                </div>
+            </td>
+        </tr>
+        <tr ng-show="showZones" ng-if="zones.length!=0">
+            <td colspan="5">
+                <table class="table table-hover">
+                    <thead>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Range</th>
+                    <th>Address</th>
+                    <th>latitude</th>
+                    <th>longiture</th>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat='zone in zones'>
+                        <td></td>
+                        <td>{{ zone.zone_name }}</td>
+                        <td>{{zone.zone_range}}</td>
+                        <td>{{zone.zone_address}}</td>
+                        <td>{{zone.zone_latitude}}</td>
+                        <td>{{zone.zone_longitude}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr ng-show="showZones" ng-if="zones.length==0">
+            <td colspan="5">
+                <div class="alert alert-warning" role="alert">0 Zone assigned!</div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<dir-pagination-controls
+        max-size="5"
+        direction-links="true"
+        boundary-links="true">
+</dir-pagination-controls>

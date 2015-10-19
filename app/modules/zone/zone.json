@@ -1,0 +1,29 @@
+[
+  {
+    "_id" :1,
+    "zone_name":"zone1",
+    "zone_address":"address1",
+    "zone_range":"20",
+    "zone_latitude":"22.1",
+    "zone_longitude":"30.5",
+    "cat_id":"1"
+  },
+  {
+    "_id" :2,
+    "zone_name":"zone2",
+    "zone_address":"address2",
+    "zone_range":"20",
+    "zone_latitude":"22.1",
+    "zone_longitude":"30.5",
+    "cat_id":"1"
+  },
+  {
+    "_id" :3,
+    "zone_name":"zone3",
+    "zone_address":"address3",
+    "zone_range":"20",
+    "zone_latitude":"22.1",
+    "zone_longitude":"30.5",
+    "cat_id":"2"
+  }
+]

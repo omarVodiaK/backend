@@ -1,0 +1,17 @@
+[
+  {
+    "_id": "1",
+    "cat_name": "cat1",
+    "cat_description": "this is the first category"
+  },
+  {
+    "_id": "2",
+    "cat_name": "cat2",
+    "cat_description": "this is the second category"
+  },
+  {
+    "_id": "3",
+    "cat_name": "cat3",
+    "cat_description": "this is the third category"
+  }
+]
