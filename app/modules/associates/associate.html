@@ -25,7 +25,8 @@
                         <form role="form">
                             <div class="form-group">
                                 <label>Email address</label>
-                                <input auto-complete-directive ui-items="emails" class="form-control" id="emailAutoComplete"
+                                <input auto-complete-directive ui-items="emails" class="form-control"
+                                       id="emailAutoComplete"
                                        placeholder="Enter email"/>
 
                                 <div id="result"></div>
@@ -48,17 +49,18 @@
         <tr>
             <th class="col-md-4">Company</th>
             <th class="col-md-4">Status</th>
-            <th class="col-md-6" colspan="2">Action</th>
+            <th class="col-md-6" colspan="2"></th>
         </tr>
         </thead>
         <tbody>
         <tr dir-paginate="associate in associates |filter:search|itemsPerPage:2">
             <td>{{associate.cmp_id}}</td>
             <td>{{associate.state}}</td>
-            <td>
+            <td class="text-right">
                 <div class="btn-group" role="group">
+                    <input type="button" value="Remove" class="btn btn-danger"
+                           ng-click="removeAssociateRow(associate.id)"/>
                     <input type="button" value="Accept" class="btn btn-success" ng-show="associate.state != 'accept'"/>
-                    <input type="button" value="Remove" class="btn btn-danger" ng-click="removeAssociateRow(associate.id)"/>
                 </div>
             </td>
         </tr>

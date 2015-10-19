@@ -25,52 +25,53 @@
                             <div class="col-sm-6">
                                 <form class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="control-label col-xs-2">Name:</label>
+                                        <label class="control-label col-xs-3" style="text-align: left">Name:</label>
 
-                                        <div class="col-xs-10">
-                                            <input type="text" class="form-control" placeholder="Name">
+                                        <div class="col-xs-9">
+                                            <input type="text" class="form-control" placeholder="Name"
+                                                   value="{{zone.zone_name}}">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-xs-2">Address:</label>
+                                        <label class="control-label col-xs-3" style="text-align: left">Address:</label>
 
-                                        <div class="col-xs-10">
+                                        <div class="col-xs-9">
                                             <div class="input-group">
-                                                <textarea type="text" id="zoneAddress" ng-model="geocodeAddress"
+                                                <textarea type="text" id="zoneAddress" data-ng-model="zone.zone_address"
                                                           class="form-control" rows="2"
-                                                          placeholder="Address" aria-describedby="geocode-addon"></textarea>
-                                                <span class="input-group-addon" ng-click="geoCode()" id="geocode-addon"><i class="icon-search"></i></span>
-                                                <!--<button class="btn" type="button" ng-click="geoCode()" title="search">-->
-                                                    <!--&nbsp;
-                                                <!--</button>-->
+                                                          placeholder="Address"
+                                                          aria-describedby="geocode-addon"></textarea>
+                                                <span class="input-group-addon" ng-click="geoCode(zone.zone_address)"
+                                                      id="geocode-addon"><i class="icon-search"></i></span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-xs-2">Range:</label>
+                                        <label class="control-label col-xs-3" style="text-align: left">Range:</label>
 
-                                        <div class="col-xs-10">
+                                        <div class="col-xs-9">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" placeholder="20"
-                                                       aria-describedby="range-addon">
+                                                       aria-describedby="range-addon" value="{{zone.zone_range}}">
                                                 <span class="input-group-addon" id="range-addon">km</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-xs-2">Latitude:</label>
+                                        <label class="control-label col-xs-3" style="text-align: left">Latitude:</label>
 
-                                        <div class="col-xs-10">
+                                        <div class="col-xs-9">
                                             <input type="text" class="form-control" placeholder="10.31315"
-                                                   ng-model="loc.lat">
+                                                   data-ng-model="zone.zone_latitude">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-xs-2">Longitude:</label>
+                                        <label class="control-label col-xs-3"
+                                               style="text-align: left">Longitude:</label>
 
-                                        <div class="col-xs-10">
+                                        <div class="col-xs-9">
                                             <input type="text" class="form-control" placeholder="10.31315"
-                                                   ng-model="loc.lon">
+                                                   data-ng-model="zone.zone_longitude">
                                         </div>
                                     </div>
                                 </form>
@@ -102,46 +103,52 @@
     </div>
 </div>
 
-<div class="bs-component" style="margin-top:20px;">
-    <div class="clearfix visible-sm"></div>
-    <table class="table table-responsive table-striped table-hover">
-        <thead>
-        <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Range</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-            <th colspan="2"></th>
-        </tr>
-        </thead>
-        <tbody dir-paginate="zone in zones |filter:search|itemsPerPage:5">
-        <tr>
-            <td></td>
-            <td>{{zone.zone_name}}</td>
-            <td>{{zone.zone_address}}</td>
-            <td>{{zone.zone_range}}</td>
-            <td>{{zone.zone_latitude}}</td>
-            <td>{{zone.zone_longitude}}</td>
+<div class="bs-component" style="margin-top:20px;" ng-controller="ModalZoneCtrl">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Range</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th></th>
 
-            <td class="text-right">
-                <div class="btn-group" role="group">
-                    <input type="button" value="Remove" class="btn btn-danger" ng-click="removeZoneRow(zone._id)"/>
+            </tr>
+            </thead>
+            <tbody dir-paginate="zone in zones |filter:search|itemsPerPage:5">
+            <tr>
+                <td></td>
+                <td>{{zone.zone_name}}</td>
+                <td>{{zone.zone_address}}</td>
+                <td>{{zone.zone_range}}</td>
+                <td>{{zone.zone_latitude}}</td>
+                <td>{{zone.zone_longitude}}</td>
+                <td class="text-right">
+                    <div class="btn-group" role="group">
+                        <input type="button" value="Remove" class="btn btn-danger" ng-click="removeZoneRow(zone._id)"/>
 
-                    <!-- Button trigger modal -->
-                    <input type="button" value="Update zone" class="btn btn-warning" ng-click="">
+                        <!-- Button trigger modal -->
+                        <input type="button" value="Update zone" class="btn btn-warning"
+                               ng-click="open('lg','zoneModal.html', zone)">
 
 
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+                    </div>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
 
 <dir-pagination-controls
         max-size="5"
         direction-links="true"
         boundary-links="true">
 </dir-pagination-controls>
+
+

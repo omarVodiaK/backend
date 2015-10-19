@@ -22,7 +22,7 @@
     function zoneController($scope, ZoneService) {
 
 
-        ZoneService.getZone(function(data){
+        ZoneService.getZone(function (data) {
             $scope.zones = data;
         })
 
@@ -65,8 +65,7 @@
          * @param {string} size model's size keep empty for default size
          * @param {string} tpl template name
          */
-        $scope.open = function (size, tpl) {
-
+        $scope.open = function (size, tpl, zone) {
             var modalInstance = $uibModal.open({
                 animation: $scope.animationsEnabled,
                 templateUrl: tpl,
@@ -75,10 +74,14 @@
                 resolve: {
                     zones: function () {
                         return $scope.zones;
+                    },
+                    zone: function () {
+                        return zone;
                     }
                 }
             });
         };
+
     }
 
     /**
@@ -87,7 +90,9 @@
      * @param {object} $scope
      * @param {object} $modalInstance
      */
-    function modalInstanceController($scope, $modalInstance) {
+    function modalInstanceController($scope, $modalInstance, zone) {
+
+        $scope.zone = zone;
 
         $scope.ok = function () {
             $modalInstance.close();
@@ -103,7 +108,7 @@
      * @method geocodeController
      * @param {object} $scope
      */
-    function geocodeController($scope){
+    function geocodeController($scope) {
 
         /**
          * @description set the latitude and longitude to load map first time
@@ -112,29 +117,37 @@
          * @param {string} lon
          */
         $scope.gotoLocation = function (lat, lon) {
-            if ($scope.lat != lat || $scope.lon != lon) {
-                $scope.loc = { lat: lat, lon: lon };
-                if (!$scope.$$phase) $scope.$apply("loc");
+            // check if new lat and lon equals zone_latitude and zone_longitude
+            if ($scope.zone.zone_latitude != lat || $scope.zone.zone_longitude != lon) {
+                // set new geometry location
+                $scope.loc = {lat: lat, lon: lon};
+                // $$phase is used for safe $apply implementation
+                if (!$scope.$$phase) {
+                    // async function when async event occurs
+                    $scope.$apply(function () {
+                        $scope.zone.zone_latitude = lat;
+                        $scope.zone.zone_longitude = lon;
+                    });
+                }
             }
         };
 
-        $scope.geocodeAddress = "";
-
         /**
          * @description translate physical address to latitude and longitude
+         * @param {string} address
          * @method geoCode
          */
-        $scope.geoCode = function () {
+        $scope.geoCode = function (address) {
             // check if address not empty
-            if ($scope.geocodeAddress && $scope.geocodeAddress.length > 0) {
+            if (address && address.length > 0) {
                 // initiate geocoder
                 if (!this.geocoder) this.geocoder = new google.maps.Geocoder();
                 // geocode address
-                this.geocoder.geocode({ 'address': $scope.geocodeAddress }, function (results, status) {
+                this.geocoder.geocode({'address': address}, function (results, status) {
                     // if address geocoded
                     if (status == google.maps.GeocoderStatus.OK) {
                         var loc = results[0].geometry.location;
-                        $scope.geocodeAddress = results[0].formatted_address;
+                        address = results[0].formatted_address;
                         // move map to new location
                         $scope.gotoLocation(loc.lat(), loc.lng());
                     } else {
