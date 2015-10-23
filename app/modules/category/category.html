@@ -2,9 +2,9 @@
     <h1>Categories</h1>
 </div>
 
-<div class="container" style="width: 100%">
+<div class="container-fluid">
     <div class="row" style="margin-top:20px;">
-        <div class="col-xs-12 col-md-8">
+        <div class="col-md-6">
             <form class="form-inline">
                 <div class="form-group">
                     <label>Filter by: </label>
@@ -12,10 +12,10 @@
                 </div>
             </form>
         </div>
-        <div class="col-xs-6 col-md-4">
+        <div class="col-md-6">
             <div class="pull-right" ng-controller="ModalCategoryCtrl">
                 <!-- angular ui modal -->
-                <script type="text/ng-template" id="categoryModal.html">
+                <script type="text/ng-template" id="categoryModalTpl">
                     <div class="modal-header">
                         <h3 class="modal-title">New Category</h3>
                     </div>
@@ -45,7 +45,7 @@
                 </script>
                 <!-- / -->
                 <!-- Button trigger modal -->
-                <button type="button" ng-click="open('lg','categoryModal.html')" class="btn btn-primary">Add
+                <button type="button" ng-click="open('lg','categoryModalTpl')" class="btn btn-primary">Add
                     Category
                 </button>
             </div>
@@ -84,12 +84,9 @@
             <td>{{category.cat_description}}</td>
 
             <td class="text-right">
-                <div class="btn-group" role="group">
-                    <input type="button" value="Remove" class="btn btn-danger" ng-click="removeCategoryRow(category._id)"/>
-
-                    <div class="pull-right" ng-controller="ModalCategoryCtrl">
+                <div class="pull-right" ng-controller="ModalCategoryCtrl">
                         <!-- angular ui modal -->
-                        <script type="text/ng-template" id="assignZone.html">
+                    <script type="text/ng-template" id="assignZoneTpl">
                             <div class="modal-header">
                                 <h3 class="modal-title">Assign Zone</h3>
                             </div>
@@ -127,12 +124,18 @@
                             </div>
                         </script>
                         <!-- / -->
+                    <div class="btn-group">
+                        <button class="btn btn-danger" ng-click="removeCategoryRow(category._id)"><i
+                                class="glyphicon glyphicon-remove visible-xs-inline-block"><span class="hidden-xs">Remove</span></i>
+                        </button>
                         <!-- Button trigger modal -->
-                        <input type="button" value="Assign zone" class="btn btn-success"
-                               ng-click="open('lg','assignZone.html',category._id)">
+                        <button class="btn btn-success"
+                                ng-click="open('lg','assignZoneTpl',category._id)">
+                            <i class="glyphicon glyphicon-plus visible-xs-inline-block"><span
+                                    class="hidden-xs">Assign</span></i>
+                        </button>
                     </div>
-
-                </div>
+                    </div>
             </td>
         </tr>
         <tr ng-show="showZones" ng-if="zones.length!=0">

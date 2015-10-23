@@ -1,0 +1,26 @@
+[
+  {
+    "_id": 1,
+    "cht_category": "internal",
+    "cht_name": "content",
+    "cht_value": "text"
+  },
+  {
+    "_id": 2,
+    "cht_category": "internal",
+    "cht_name": "content",
+    "cht_value": "notification"
+  },
+  {
+    "_id": 3,
+    "cht_category": "internal",
+    "cht_name": "media",
+    "cht_value": "image"
+  },
+  {
+    "_id": 4,
+    "cht_category": "internal",
+    "cht_name": "media",
+    "cht_value": "video"
+  }
+]

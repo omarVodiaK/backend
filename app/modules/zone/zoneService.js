@@ -23,6 +23,18 @@
 
                         callback(data);
                     });
+                },
+                selectZone: function (id) {
+                    $http.get("./modules/zone/zone.json").success(function (data) {
+
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i] == id) {
+                                console.log(data[i])
+                                callback(data[i]);
+                            }
+                        }
+
+                    });
                 }
             };
         }])

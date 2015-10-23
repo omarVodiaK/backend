@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- build:css assets/css/styles.css -->
     <link rel="stylesheet" href="assets/bower_components/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="assets/css/font-icons.css" type='text/css'>
     <link rel="stylesheet" href="assets/bower_components/jquery-ui/themes/flick/jquery-ui.css">
+    <link rel="stylesheet" href="assets/bower_components/sweetalert/dist/sweetalert.css">
+    <link rel="stylesheet"
+          href="assets/bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.css">
+    <link rel="stylesheet" href="assets/css/font-icons.css" type='text/css'>
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -16,15 +19,11 @@
     <link href="assets/css/dashboard.css" rel="stylesheet">
     <!-- endbuild -->
 
-
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <!--<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>-->
     <!--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
     <!--[endif]-->
-
-
 </head>
 <body data-ng-app="app">
 
@@ -33,25 +32,42 @@
 <!-- build:assets assets.min.js -->
 <!-- ASSETS -->
 <!-- load jquery before bootstrap in order to have modal -->
+
 <script src="assets/bower_components/jquery/dist/jquery.js"></script>
 <script src="assets/bower_components/jquery-ui/jquery-ui.js"></script>
+
 <script src="assets/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
 <script src="assets/bower_components/angular/angular.min.js"></script>
-<script src="assets/js/angular-cookies.min.js"></script>
+
+<script src="assets/bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.js"></script>
+<!-- always load before ngSweetAlert -->
+<script src="assets/bower_components/sweetalert/dist/sweetalert-dev.js"></script>
+<script src="assets/bower_components/angular-sweetalert/dist/ngSweetAlert.js"></script>
+
+
+<!-- translation -->
+<script src="assets/bower_components/angular-translate/angular-translate.min.js"></script>
+<script src="assets/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
+<script src="assets/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+
 <script src="assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script src="assets/bower_components/angular-animate/angular-animate.min.js"></script>
 <script src="assets/bower_components/angular-route/angular-route.min.js"></script>
 <script src="assets/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+
 <script src="assets/js/angular-touch.min.js"></script>
 <script src="assets/js/moment.min.js"></script>
 <script src="assets/js/angular-moment.min.js"></script>
 <script src="assets/js/angular-truncate.js"></script>
 <script src="assets/js/angular-preload-image.min.js"></script>
-<!--pagination-->
-<script src="assets/js/dirPagination.js"></script>
-<!-- / -->
+
 <!--Map-->
 <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<!-- / -->
+
+<!--pagination-->
+<script src="assets/js/dirPagination.js"></script>
 <!-- / -->
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
@@ -75,6 +91,8 @@
 <script src="modules/category/categoryController.js"></script>
 <script src="modules/zone/zoneController.js"></script>
 <script src="modules/player/playerController.js"></script>
+<script src="modules/beacon/beaconController.js"></script>
+<script src="modules/content/contentController.js"></script>
 <!-- / -->
 
 <!-- SERVICES -->
@@ -82,6 +100,8 @@
 <script src="modules/associates/associateService.js"></script>
 <script src="modules/zone/zoneService.js"></script>
 <script src="modules/category/categoryService.js"></script>
+<script src="modules/beacon/beaconService.js"></script>
+<script src="modules/content/contentService.js"></script>
 <script src="services/showFactory.js"></script>
 <script src="services/pageValue.js"></script>
 <!-- / -->
@@ -90,6 +110,10 @@
 <script src="modules/associates/associateDirective.js"></script>
 <script src="modules/zone/mapDirective.js"></script>
 <!-- / -->
+<!-- FILTERS -->
+<script src="modules/content/contentFilter.js"></script>
+<!-- / -->
+
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
@@ -97,8 +121,7 @@
 <!-- endbuild -->
 
 
-
-<!-- CUSTOM URL -->
+<!-- CUSTOM SCRIPTS -->
 <script>
     $(function () {
         $(document).on('click', '[ui-toggle]', function (e) {
@@ -110,8 +133,30 @@
         });
     });
 </script>
+<!-- / -->
 
+<!-- CUSTOM STYLES -->
 <style>
+
+
+    @media (max-width: 768px) {
+        .btn-responsive {
+            padding: 2px 4px;
+            font-size: 80%;
+            line-height: 1;
+            border-radius: 3px;
+        }
+    }
+
+    @media (min-width: 769px) and (max-width: 992px) {
+        .btn-responsive {
+            padding: 4px 9px;
+            font-size: 90%;
+            line-height: 1.2;
+        }
+    }
+
+
     @media (min-width: 100px) {
         #app {
             position: absolute;
@@ -190,7 +235,6 @@
         height: 300px;
     }
 </style>
-
 <!-- / -->
 
 <!-- inject:js -->

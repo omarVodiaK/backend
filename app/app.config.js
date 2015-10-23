@@ -1,11 +1,12 @@
 'use strict';
 angular
-    .module('app.config', [])
+    .module('app.config', ['pascalprecht.translate', 'ngSanitize'])
     .config(configs)
+    .config(translateConfigs)
     .run(runs);
 
 function configs($httpProvider) {
-    var interceptor = function($location, $log, $q) {
+    var interceptor = function ($location, $log, $q) {
         function error(response) {
             if (response.status === 401) {
                 $log.error('You are unauthorised to access the requested resource (401)');
@@ -16,11 +17,13 @@ function configs($httpProvider) {
             }
             return $q.reject(response);
         }
+
         function success(response) {
             //Request completed successfully
             return response;
         }
-        return function(promise) {
+
+        return function (promise) {
             return promise.then(success, error);
         }
     };
@@ -28,10 +31,28 @@ function configs($httpProvider) {
 }
 
 function runs($rootScope, PageValues) {
-    $rootScope.$on('$routeChangeStart', function() {
+    $rootScope.$on('$routeChangeStart', function () {
         PageValues.loading = true;
     });
-    $rootScope.$on('$routeChangeSuccess', function() {
+    $rootScope.$on('$routeChangeSuccess', function () {
         PageValues.loading = false;
     });
+}
+
+function translateConfigs($translateProvider) {
+
+
+    $translateProvider.useStaticFilesLoader({
+        prefix: '/languages/', // file url
+        suffix: '.json' // file extention
+    });
+
+    var userLang = navigator.language || navigator.userLanguage;
+    if (userLang == 'en-US') {
+        $translateProvider.preferredLanguage('en');
+    } else {
+        $translateProvider.preferredLanguage('fr');
+    }
+
+    $translateProvider.useSanitizeValueStrategy('sanitize');
 }

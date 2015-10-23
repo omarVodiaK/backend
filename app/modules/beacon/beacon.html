@@ -1,0 +1,193 @@
+<div class="page-header">
+    <h1>Beacons</h1>
+</div>
+
+<div class="container" style="width: 100%">
+    <div class="row" style="margin-top:20px;">
+
+        <div class="col-md-6">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label>Filter by: </label>
+                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div class="pull-right" ng-controller="ModalBeaconCtrl">
+
+                <!-- angular ui modal -->
+                <script type="text/ng-template" id="beaconModalTpl">
+                    <div class="modal-header">
+                        <h3 class="modal-title">New Beacon</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3" style="text-align: left;">Name:</label>
+
+                                        <div class="col-xs-9">
+                                            <input value="{{beacon.bcn_name}}" type="text" class="form-control"
+                                                   placeholder="Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3" style="text-align: left;">UUID:</label>
+
+                                        <div class="col-xs-9">
+                                            <input type="text" value="{{beacon.bcn_uuid}}" class="form-control"
+                                                   placeholder="UUID">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" ng-controller="BeaconCtrl">
+                                        <label class="control-label col-xs-3" style="text-align: left;">Zone:</label>
+                                        <!-- Single button -->
+                                        <div class="col-xs-9">
+
+                                            <select class="btn btn-defautl">
+
+                                                <option ng-repeat="zone in zones"
+                                                        ng-selected="{false: '', true: 'selected'} [beacon.bcn_zone_id == zone._id]">
+                                                    {{zone.zone_name}}
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3"
+                                                       style="text-align: left;">Major:</label>
+
+                                                <div class="col-xs-9">
+                                                    <input value="{{beacon.bcn_major}}" type="text" class="form-control"
+                                                           placeholder="5">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3"
+                                                       style="text-align: left;">Minor:</label>
+
+                                                <div class="col-xs-9">
+                                                    <input value="{{beacon.bcn_minor}}" type="text" class="form-control"
+                                                           placeholder="1">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3"
+                                                       style="text-align: left;">Details:</label>
+
+                                                <div class="col-xs-9">
+                                    <textarea type="text" class="form-control" rows="2"
+                                              placeholder="Details">{{beacon.bcn_general_information}}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group">
+                            <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+                            <button class="btn btn-primary" type="button" ng-click="ok()">Save</button>
+                        </div>
+                    </div>
+                </script>
+                <!-- / -->
+                <!-- Button trigger modal -->
+                <button type="button" ng-click="open('lg','beaconModalTpl')" class="btn btn-primary">Add
+                    Beacon
+                </button>
+                <!-- / -->
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="bs-component" style="margin-top:20px;" ng-controller="ModalBeaconCtrl">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>UUID</th>
+                <th>Major</th>
+                <th>Minor</th>
+                <th>Zone</th>
+                <th>Shared</th>
+                <th></th>
+
+            </tr>
+            </thead>
+            <tbody dir-paginate="beacon in beacons |filter:search|itemsPerPage:5">
+            <tr>
+                <td></td>
+                <td>{{beacon.bcn_name}}</td>
+                <td>{{beacon.bcn_uuid}}</td>
+                <td>{{beacon.bcn_major}}</td>
+                <td>{{beacon.bcn_minor}}</td>
+                <td>{{getZoneName(beacon.bcn_zone_id)}}</td>
+                <td>
+
+                    <label class="switch">
+                        <input type="checkbox" ng-model="beacon.bcn_share" ng-true-value="'true'"
+                               ng-false-value="'false'" disabled>
+                        <i></i>
+                    </label>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group checkbox" role="group" ng-controller="BeaconAlertCtrl">
+
+                        <button ng-click="confirmCancel(beacon.bcn_share)"
+                                ng-class="{false: 'btn btn-success', true: 'btn btn-default'} [beacon.bcn_share == 'true']">
+                            <i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i>
+                            <span class="hidden-xs">{{beacon.bcn_share == "true" ? 'Unshare' : 'Share'}}</span>
+                        </button>
+
+                        <button class="btn btn-danger" ng-click="removeBeaconRow(beacon._id)"><i
+                                class="glyphicon glyphicon-remove visible-xs-inline-block"></i>
+                            <span class="hidden-xs">Remove</span></button>
+
+                        <!-- Button trigger modal -->
+                        <button class="btn btn-warning"
+                                ng-click="open('lg','beaconModalTpl',beacon)"><i
+                                class="glyphicon glyphicon-pencil visible-xs-inline-block"></i>
+                            <span class="hidden-xs">Update</span></button>
+                    </div>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<dir-pagination-controls
+        max-size="5"
+        direction-links="true"
+        boundary-links="true">
+</dir-pagination-controls>
+
+
+<link rel="stylesheet" href="assets/css/toggle.css">

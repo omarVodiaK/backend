@@ -21,11 +21,9 @@
      */
     function zoneController($scope, ZoneService) {
 
-
         ZoneService.getZone(function (data) {
             $scope.zones = data;
         })
-
 
         /**
          * @description delete row from zone table

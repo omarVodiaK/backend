@@ -4,7 +4,7 @@ angular
     .module('app.routes', ['ui.router'])
     .config(config);
 
-function config ($stateProvider,$urlRouterProvider) {
+function config($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.
         when('/', "/home")
         .otherwise("/home");
@@ -40,7 +40,16 @@ function config ($stateProvider,$urlRouterProvider) {
             templateUrl:'modules/zone/zone.html',
             controller:'ZoneCtrl'
         })
+        .state('dashboard.beacon', {
+            url: '/beacon',
+            templateUrl: 'modules/beacon/beacon.html',
+            controller: 'BeaconCtrl'
+        })
+        .state('dashboard.content', {
+            url: '/content',
+            templateUrl: 'modules/content/content.html',
+            controller: 'ContentCtrl'
+        });
 
-    ;
 
 }

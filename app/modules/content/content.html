@@ -1,0 +1,221 @@
+<div class="page-header">
+    <h1>Content</h1>
+</div>
+
+<div class="container" style="width: 100%">
+    <div class="row" style="margin-top:20px;">
+
+        <div class="col-md-6">
+
+            <form class="form-inline">
+                <div class="form-group">
+                    <label>Filter by: </label>
+                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div class="pull-right" ng-controller="ModalContentCtrl">
+
+                <!-- angular ui modal -->
+                <script type="text/ng-template" id="contentModalTpl">
+                    <div class="modal-header">
+                        <h3 class="modal-title">New Content</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3" style="text-align: left;">Title:</label>
+
+                                        <div class="col-xs-9">
+                                            <input value="{{content.cnt_title}}" type="text" class="form-control"
+                                                   placeholder="Title">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3"
+                                               style="text-align: left;">Description:</label>
+
+                                        <div class="col-xs-9">
+                                    <textarea type="text" class="form-control" rows="2"
+                                              placeholder="Details">{{content.cnt_description}}</textarea>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group" ng-controller="ContentCtrl">
+                                        <label class="control-label col-xs-3" style="text-align: left;">Content
+                                            Type:</label>
+                                        <!-- Single button -->
+                                        <div class="col-xs-9">
+                                            <select class="btn btn-defautl">
+                                                <option ng-repeat="contentType in contentTypes"
+                                                        ng-selected="{false: '', true: 'selected'} [content.cnt_type_id == contentType._id]">
+                                                    {{contentType.cht_value}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div ng-controller="GalleryCtrl">
+                                                <uib-tabset>
+                                                    <uib-tab heading="DS Content">
+                                                        <ul class="list-unstyled panel" style="margin-top: 10%;">
+
+                                                            <li ng-repeat="image in images |  contentPagesFilter: currentPage : itemsPerPage">
+
+                                                                <div class="row">
+
+                                                                    <div class="col-md-6 col-xs-6">
+
+                                                                        <a ng-click="openLightboxModal($index, itemsPerPage, currentPage)">
+                                                                            <img ng-src="{{image.thumbUrl}}"
+                                                                                 class="img-thumbnail">
+                                                                        </a>
+
+                                                                    </div>
+
+                                                                    <div class="col-md-6 col-xs-6 text-right  v-center"
+                                                                         style="display:table; height:100px;">
+
+                                                                        <div style="display:table-cell; vertical-align:middle; text-align:center;">
+                                                                            <label class="switch">
+                                                                                <input type="checkbox"
+                                                                                       ng-checked="{false: '', true: 'checked'} [content.cnt_url == image.thumbUrl]">
+                                                                                <i></i>
+                                                                            </label>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="text-center">
+                                                            <pagination
+                                                                    total-items="totalItems"
+                                                                    ng-model="currentPage"
+                                                                    items-per-page="itemsPerPage"
+                                                                    max-size="maxSize"
+                                                                    class="pagination-md">
+                                                            </pagination>
+                                                        </div>
+
+                                                    </uib-tab>
+                                                    <uib-tab heading="URL">
+
+                                                        <div class="input-group" style="margin-top: 10%;">
+                                                            <span class="input-group-addon" id="basic-addon3">https://example.com/</span>
+                                                            <input type="text" class="form-control" id="basic-url"
+                                                                   aria-describedby="basic-addon3"
+                                                                   value="{{content.cnt_url}}">
+                                                        </div>
+                                                    </uib-tab>
+                                                </uib-tabset>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group">
+                            <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+                            <button class="btn btn-primary" type="button" ng-click="ok()">Save</button>
+                        </div>
+                    </div>
+                </script>
+                <!-- / -->
+                <!-- Button trigger modal -->
+                <button type="button" ng-click="open('lg','contentModalTpl')" class="btn btn-primary">Add
+                    Content
+                </button>
+                <!-- / -->
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="bs-component" style="margin-top:20px;">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>URL</th>
+                <th>Type</th>
+                <th></th>
+
+            </tr>
+            </thead>
+            <tbody dir-paginate="content in contents |filter:search|itemsPerPage:5">
+            <tr>
+                <td></td>
+                <td>{{content.cnt_title}}</td>
+                <td>{{content.cnt_description}}</td>
+                <td>
+                    <div class="wrapper size">
+                        <img class="img-circle" ng-show="content.cnt_url != ''" ng-src="{{content.cnt_url}}"/>
+                    </div>
+
+                </td>
+                <td>{{getContentTypeName(content.cnt_type_id)}}</td>
+                <td></td>
+                <td class="text-right">
+                    <div class="btn-group checkbox" role="group" ng-controller="ModalContentCtrl">
+
+                        <button class="btn btn-danger" ng-click="removeContentRow(content._id)"><i
+                                class="glyphicon glyphicon-remove visible-xs-inline-block"></i>
+                            <span class="hidden-xs">Remove</span></button>
+
+                        <!-- Button trigger modal -->
+                        <button class="btn btn-warning"
+                                ng-click="open('lg','contentModalTpl',content)"><i
+                                class="glyphicon glyphicon-pencil visible-xs-inline-block"></i>
+                            <span class="hidden-xs">Update</span></button>
+                    </div>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+        <dir-pagination-controls
+                max-size="5"
+                direction-links="true"
+                boundary-links="true">
+        </dir-pagination-controls>
+    </div>
+</div>
+
+<link rel="stylesheet" href="assets/css/toggle.css">
+
+<style type="text/css">
+    .size {
+        width: 100px;
+        height: 100px;
+    }
+
+    .wrapper {
+        display: inline-block;
+        padding: 10px;
+    }
+
+    .wrapper img {
+        width: 100%;
+        height: 100%;
+    }
+
+</style>

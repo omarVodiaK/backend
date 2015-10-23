@@ -1,0 +1,11 @@
+{
+  "DASHBOARD_MENU" : "Home",
+  "ASSOCIATE_MENU" : "Associate",
+  "CATEGORY_MENU" : "Category",
+  "ZONE_MENU" : "Zone",
+  "BEACON_MENU" : "Beacon",
+  "CONTENT_MENU" : "Content",
+  "CAMPAIGN_MENU" : "Campaign",
+  "NOTIFICATION_MENU" : "Notification",
+  "ANALYTIC_MENU" : "Analytics"
+}

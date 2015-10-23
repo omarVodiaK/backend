@@ -4,7 +4,7 @@
 
 <div class="container" style="width: 100%">
     <div class="row" style="margin-top:20px;">
-        <div class="col-xs-12 col-md-8">
+        <div class="span-6">
             <form class="form-inline">
                 <div class="form-group">
                     <label>Filter by: </label>
@@ -12,7 +12,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-xs-6 col-md-4">
+        <div class="span-6">
             <div class="pull-right">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary" ng-click="toggleModal()">Add
@@ -57,10 +57,16 @@
             <td>{{associate.cmp_id}}</td>
             <td>{{associate.state}}</td>
             <td class="text-right">
-                <div class="btn-group" role="group">
-                    <input type="button" value="Remove" class="btn btn-danger"
-                           ng-click="removeAssociateRow(associate.id)"/>
-                    <input type="button" value="Accept" class="btn btn-success" ng-show="associate.state != 'accept'"/>
+                <div class="btn-group">
+
+                    <button class="btn btn-danger"
+                            ng-click="removeAssociateRow(associate.id)"><i
+                            class="glyphicon glyphicon-remove visible-xs-inline-block"></i>
+                        <span class="hidden-xs">Remove</span></button>
+
+                    <button ng-class="{false: 'btn btn-success', true: 'btn btn-default'} [associate.state == 'accept'] ">
+                        <i class="glyphicon glyphicon-ok visible-xs-inline-block"></i>
+                        <span class="hidden-xs">{{associate.state == "accept" ? 'Accepted' : 'Accept'}}</span></button>
                 </div>
             </td>
         </tr>
