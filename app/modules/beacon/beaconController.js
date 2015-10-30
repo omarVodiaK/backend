@@ -69,10 +69,8 @@
      * @method modalController
      * @param {object} $scope
      * @param {object} $uibModal
-     * @param {service} ZoneService
      */
     function modalController($scope, $uibModal) {
-
         $scope.animationsEnabled = true;
 
         /**
@@ -103,6 +101,7 @@
      * @method modalInstanceController
      * @param {object} $scope
      * @param {object} $modalInstance
+     * @param {object} beacon
      */
     function modalInstanceController($scope, $modalInstance, beacon) {
 
@@ -124,7 +123,6 @@
             $modalInstance.dismiss('cancel');
         };
     }
-
 
     /**
      * Description

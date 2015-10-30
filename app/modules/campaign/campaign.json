@@ -1,0 +1,52 @@
+[
+  {
+    "_id": 1,
+    "camp_name": "campaign 1",
+    "camp_description": "description 1",
+    "camp_priority": "high",
+    "camp_state": "archive",
+    "compagnies_camp_id": 1,
+    "schedule": [
+      {
+        "sch_start": "2015-10-15 00:00:00",
+        "sch_end": "2010-11-15 00:00:00"
+      }
+    ],
+    "days": [
+      {
+        "day": "monday"
+      },
+      {
+        "day": "tuesday"
+      },
+      {
+        "day": "wednesday"
+      }
+    ]
+  },
+  {
+    "_id": 2,
+    "camp_name": "campaign 2",
+    "camp_description": "description 2",
+    "camp_priority": "low",
+    "camp_state": "activated",
+    "compagnies_camp_id": 1,
+    "schedule": [
+      {
+        "sch_start": "2015-10-15 00:00:00",
+        "sch_end": "2010-11-15 00:00:00"
+      }
+    ],
+    "days": [
+      {
+        "day": "monday"
+      },
+      {
+        "day": "tuesday"
+      },
+      {
+        "day": "wednesday"
+      }
+    ]
+  }
+]

@@ -18,5 +18,15 @@
     "bcn_general_information": "this beacon is set in the west gate main entrance",
     "bcn_share": "false",
     "bcn_zone_id": 2
+  },
+  {
+    "_id": "3",
+    "bcn_name": "mint",
+    "bcn_uuid": "asdasd",
+    "bcn_major": "6",
+    "bcn_minor": "1",
+    "bcn_general_information": "this beacon is set in the north gate main entrance",
+    "bcn_share": "true",
+    "bcn_zone_id": 3
   }
 ]

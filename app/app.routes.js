@@ -49,7 +49,18 @@ function config($stateProvider, $urlRouterProvider, $locationProvider) {
             url: '/content',
             templateUrl: 'modules/content/content.html',
             controller: 'ContentCtrl'
-        });
+        })
+        .state('dashboard.campaign', {
+            url: '/campaign',
+            templateUrl: 'modules/campaign/campaign.html',
+            controller: 'CampaignCtrl'
+        })
+        .state('dashboard.new-campaign', {
+            url: '/new-campaign',
+            templateUrl: 'modules/campaign/newCampaign.html',
+            controller: 'CampaignCtrl'
+        })
+    ;
 
 
 }

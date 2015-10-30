@@ -1,0 +1,610 @@
+<div class="page-header">
+    <h1>New Campaign</h1>
+</div>
+
+<uib-accordion close-others="true">
+    <uib-accordion-group panel-class="panel-info" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+        <uib-accordion-heading>
+            General Informations
+        </uib-accordion-heading>
+        <form>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" placeholder="Your title go here">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea class="form-control" rows="3" placeholder="Your description go here"></textarea>
+            </div>
+        </form>
+    </uib-accordion-group>
+
+    <uib-accordion-group panel-class="panel-primary">
+        <uib-accordion-heading>
+            Schedule
+        </uib-accordion-heading>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <label>Start from</label>
+
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='text' class="form-control"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label>End at</label>
+
+                    <div class='input-group date' id='datetimepicker2'>
+                        <input type='text' class="form-control"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label>Days : </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" value="monday"> monday
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" value="tuesday"> tuesday
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" value="wednesday"> wednesday
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" value="thursday"> thursday
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" value="friday"> friday
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" value="saturday"> saturday
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" value="sunday"> sunday
+            </label>
+        </div>
+    </uib-accordion-group>
+
+    <uib-accordion-group panel-class="panel-warning">
+        <uib-accordion-heading>
+            Assign Beacons
+        </uib-accordion-heading>
+        <form class="form-vertical" ng-controller="CampaignStepCtrl">
+            <fieldset ng-show="step == 1">
+                <legend>Select Categories</legend>
+                <div class="form-group">
+                    <table class="table table-responsive table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th class="col-md-4">name</th>
+                            <th class="col-md-4">Description</th>
+                            <th class="col-md-6"></th>
+                        </tr>
+                        </thead>
+                        <tbody ng-repeat="category in categories">
+                        <tr>
+                            <td>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" data-toggle="toggle" ng-model="categories"
+                                               checklist-value="category" ng-change="check(category)">
+                                        <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                    </label>
+                                </div>
+                            </td>
+
+                            <td>{{category.cat_name}}</td>
+                            <td>{{category.cat_description}}</td>
+                            <td></td>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn btn-primary" ng-click="nextStep()">Next <span
+                        class="glyphicon glyphicon-chevron-right"></span></button>
+            </fieldset>
+            <fieldset ng-show="step == 2">
+                <legend>Zones</legend>
+                <div class="form-group">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Range</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody dir-paginate="zone in zones |filter:search|itemsPerPage:5">
+                            <tr>
+                                <td></td>
+                                <td>{{zone.zone_name}}</td>
+                                <td>{{zone.zone_address}}</td>
+                                <td>{{zone.zone_range}}</td>
+                                <td>{{zone.zone_latitude}}</td>
+                                <td>{{zone.zone_longitude}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <button class="btn btn-default" ng-click="prevStep()"><span
+                        class="glyphicon glyphicon-chevron-left"></span> Previous
+                </button>
+                <button class="btn btn-primary" ng-click="nextStep()">Next <span
+                        class="glyphicon glyphicon-chevron-right"></span></button>
+            </fieldset>
+            <fieldset ng-show="step == 3">
+                <legend>Beacon Devices</legend>
+                <div class="form-group">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>UUID</th>
+                                <th>Major</th>
+                                <th>Minor</th>
+                                <th>Shared</th>
+                                <th></th>
+
+                            </tr>
+                            </thead>
+                            <tbody dir-paginate="beacon in beacons |filter:search|itemsPerPage:5">
+                            <tr>
+                                <td>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" data-toggle="toggle">
+                                            <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>{{beacon.bcn_name}}</td>
+                                <td>{{beacon.bcn_uuid}}</td>
+                                <td>{{beacon.bcn_major}}</td>
+                                <td>{{beacon.bcn_minor}}</td>
+                                <td>
+                                    <label class="switch">
+                                        <input type="checkbox" ng-model="beacon.bcn_share" ng-true-value="'true'"
+                                               ng-false-value="'false'" disabled>
+                                        <i></i>
+                                    </label>
+                                </td>
+                                <td class="text-right" ng-controller="ModalCampaignCtrl">
+                                    <div class="btn-group checkbox" role="group">
+
+                                        <!-- Button trigger modal -->
+                                        <button class="btn btn-info"
+                                                ng-click="open('lg','campaignModalTpl', beacon)"><i
+                                                class="glyphicon glyphicon-plus-sign visible-xs-inline-block"></i>
+                                            <span class="hidden-xs">Complete Informations</span></button>
+
+                                        <button class="btn btn-success" ng-click="open('lg','assignContentModalTpl')"><i
+                                                class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
+                                            <span class="hidden-xs">Assign Content</span></button>
+                                    </div>
+
+                                    <!-- angular ui modal -->
+                                    <script type="text/ng-template" id="assignContentModalTpl">
+                                        <div class="modal-header">
+                                            <h3 class="modal-title">Choose Content</h3>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div ng-controller="GalleryCtrl">
+                                                        <uib-tabset justified="true">
+                                                            <uib-tab heading="DS Content">
+                                                                <ul class="list-unstyled panel"
+                                                                    style="margin-top: 10%;">
+
+                                                                    <li ng-repeat="image in images |  contentPagesFilter: currentPage : itemsPerPage">
+
+                                                                        <div class="row">
+
+                                                                            <div class="col-md-6 col-xs-6">
+
+                                                                                <a ng-click="openLightboxModal($index, itemsPerPage, currentPage)">
+                                                                                    <img ng-src="{{image.thumbUrl}}"
+                                                                                         class="img-rounded">
+                                                                                </a>
+
+                                                                            </div>
+
+                                                                            <div class="col-md-6 col-xs-6 text-right  v-center"
+                                                                                 style="display:table; height:100px;">
+
+                                                                                <div style="display:table-cell; vertical-align:middle; text-align:center;">
+                                                                                    <label class="switch">
+                                                                                        <input type="checkbox"
+                                                                                               ng-model="image"
+                                                                                               ng-change="saveChecked($index, itemsPerPage, currentPage)"
+                                                                                               ng-checked="{false: '', true: 'checked'} [content.cnt_url == image.thumbUrl] || true == getIndex($index, itemsPerPage, currentPage)">
+                                                                                        <i></i>
+                                                                                    </label>
+                                                                                </div>
+
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                                <div class="text-center">
+                                                                    <uib-pagination
+                                                                            total-items="totalItems"
+                                                                            ng-model="currentPage"
+                                                                            items-per-page="itemsPerPage"
+                                                                            max-size="maxSize"
+                                                                            class="pagination-md">
+                                                                    </uib-pagination>
+                                                                </div>
+
+                                                            </uib-tab>
+                                                            <uib-tab heading="URL">
+
+                                                                <div class="input-group" style="margin-top: 10%;">
+                                                                    <span class="input-group-addon" id="basic-addon3">https://example.com/</span>
+                                                                    <input type="text" class="form-control"
+                                                                           id="basic-url"
+                                                                           aria-describedby="basic-addon3"
+                                                                           value="{{content.cnt_url}}">
+                                                                </div>
+                                                            </uib-tab>
+                                                        </uib-tabset>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="btn-group">
+                                                <button class="btn btn-danger" type="button" ng-click="cancel()">
+                                                    Cancel
+                                                </button>
+                                                <button class="btn btn-primary" type="button" ng-click="ok()">Save
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </script>
+                                    <!-- / -->
+
+                                    <!-- angular ui modal -->
+                                    <script type="text/ng-template" id="campaignModalTpl">
+                                        <div class="modal-header">
+                                            <h3 class="modal-title">Complete Beacon</h3>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form-horizontal">
+                                                <div class="panelr">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-xs-3"
+                                                                       style="text-align: left;">Name:</label>
+
+                                                                <div class="col-xs-9">
+                                                                    <input value="{{beacon.bcn_name}}" type="text"
+                                                                           class="form-control"
+                                                                           placeholder="Name">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-xs-3"
+                                                                       style="text-align: left;">UUID:</label>
+
+                                                                <div class="col-xs-9">
+                                                                    <input type="text" value="{{beacon.bcn_uuid}}"
+                                                                           class="form-control"
+                                                                           placeholder="UUID">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group" ng-controller="BeaconCtrl">
+                                                                <label class="control-label col-xs-3"
+                                                                       style="text-align: left;">Zone:</label>
+                                                                <!-- Single button -->
+                                                                <div class="col-xs-9">
+
+                                                                    <select class="btn btn-defautl"
+                                                                            data-style="btn-inverse"
+                                                                            disabled>
+
+                                                                        <option ng-repeat="zone in zones"
+                                                                                ng-selected="{false: '', true: 'selected'} [beacon.bcn_zone_id == zone._id]">
+                                                                            {{zone.zone_name}}
+                                                                        </option>
+
+                                                                    </select>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-xs-3"
+                                                                               style="text-align: left;">Major:</label>
+
+                                                                        <div class="col-xs-9">
+                                                                            <input value="{{beacon.bcn_major}}"
+                                                                                   type="text"
+                                                                                   class="form-control"
+                                                                                   placeholder="5">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-xs-3"
+                                                                               style="text-align: left;">Minor:</label>
+
+                                                                        <div class="col-xs-9">
+                                                                            <input value="{{beacon.bcn_minor}}"
+                                                                                   type="text"
+                                                                                   class="form-control"
+                                                                                   placeholder="1">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label col-xs-3"
+                                                                               style="text-align: left;">Details:</label>
+
+                                                                        <div class="col-xs-9">
+                                                                            <textarea type="text" class="form-control"
+                                                                                      rows="5"
+                                                                                      placeholder="Details">{{beacon.bcn_general_information}}</textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <h3 class="panel-title">Campaign related informations</h3>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-xs-3"
+                                                                           style="text-align: left;">Beacon
+                                                                        Type:</label>
+
+                                                                    <div class="col-xs-9">
+                                                                        <select class="btn btn-default"
+                                                                                data-style="btn-inverse">
+                                                                            <option>entrance</option>
+                                                                            <option>exit</option>
+                                                                            <option>immediate</option>
+                                                                            <option>near</option>
+                                                                            <option>in range</option>
+                                                                            <option>far</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group"
+                                                                     ng-controller="GenderMultiSelectCtrl">
+                                                                    <label class="control-label col-xs-3"
+                                                                           style="text-align: left;">Gender:</label>
+
+                                                                    <div class="col-xs-9">
+                                                                        <oi-select
+                                                                                oi-options="item.name for item in arrGender track by item.id"
+                                                                                ng-model="bundle"
+                                                                                choseList
+                                                                                multiple>
+                                                                        </oi-select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group"
+                                                                     ng-controller="GenderMultiSelectCtrl">
+                                                                    <label class="control-label col-xs-3"
+                                                                           style="text-align: left;">Interact
+                                                                        With:</label>
+
+                                                                    <div class="col-xs-9">
+                                                                        <oi-select
+                                                                                oi-options="item.name for item in arrInteractWith track by item.id"
+                                                                                ng-model="bundle"
+                                                                                choseList
+                                                                                multiple>
+                                                                        </oi-select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-xs-3"
+                                                                           style="text-align: left;">Age:</label>
+
+                                                                    <div class="col-xs-9">
+                                                                        <div class="form-group">
+                                                                            <div class="col-xs-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-xs-3"
+                                                                                           style="text-align: left;">From: </label>
+
+                                                                                    <div class="col-xs-9">
+                                                                                        <input type="number"
+                                                                                               class="form-control"
+                                                                                               max="99"
+                                                                                               min="16">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-xs-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label col-xs-3"
+                                                                                           style="text-align: left;">To:</label>
+
+                                                                                    <div class="col-xs-9">
+                                                                                        <input type="number"
+                                                                                               class="form-control"
+                                                                                               min="16"
+                                                                                               max="99">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-xs-3"
+                                                                           style="text-align: left;">Interaction
+                                                                        type:</label>
+
+                                                                    <div class="col-xs-9">
+                                                                        <select class="form-control">
+                                                                            <optgroup label="Push Media">
+                                                                                <option>audio</option>
+                                                                                <option>video</option>
+                                                                                <option>image</option>
+                                                                            </optgroup>
+                                                                            <optgroup label="Push Content">
+                                                                                <option>text</option>
+                                                                                <option>notification</option>
+                                                                            </optgroup>
+                                                                            <optgroup label="Generate">
+                                                                                <option>voucher</option>
+                                                                            </optgroup>
+                                                                            <optgroup label="Fetch">
+                                                                                <option>voucher</option>
+                                                                            </optgroup>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6" ng-controller="PopulateFrequencyCtrl">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-xs-3">Frequency:</label>
+
+                                                                    <div class="col-xs-9">
+                                                                        <div class="form-group">
+                                                                            <label class="control-label col-xs-3">every: </label>
+
+                                                                            <div class="col-xs-9">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-5">
+                                                                                        <input class="form-control"
+                                                                                               type="number"
+                                                                                               min="{{min}}"
+                                                                                               max="{{max}}">
+                                                                                    </div>
+                                                                                    <div class="col-xs-7">
+                                                                                        <select class="form-control"
+                                                                                                ng-change="makeChanged(item)"
+                                                                                                ng-model="item"
+                                                                                                ng-options="item as item.name for item in frequecyItems">
+                                                                                            <option value="">select
+                                                                                                value
+                                                                                            </option>
+                                                                                        </select>
+
+                                                                                    </div>
+
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-xs-3"
+                                                                           style="text-align: left;">Limit:</label>
+
+                                                                    <div class="col-xs-9">
+                                                                        <input class="form-control" type="number"
+                                                                               min="1">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="btn-group">
+                                                <button class="btn btn-danger" type="button" ng-click="cancel()">
+                                                    Cancel
+                                                </button>
+                                                <button class="btn btn-primary" type="button" ng-click="ok()">Save
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </script>
+                                    <!-- / -->
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <button class="btn btn-default" ng-click="prevStep()"><span
+                        class="glyphicon glyphicon-chevron-left"></span> Previous
+                </button>
+                <button class="btn btn-success" ng-click="saveCampaign()">Save <span
+                        class="glyphicon glyphicon-ok"></span></button>
+            </fieldset>
+        </form>
+    </uib-accordion-group>
+</uib-accordion>
+
+<link rel="stylesheet" href="assets/css/toggle.css">
+
+<script type="text/javascript">
+
+    $(function () {
+        $('#datetimepicker1').datetimepicker();
+    });
+    $(function () {
+        $('#datetimepicker2').datetimepicker();
+    });
+</script>
