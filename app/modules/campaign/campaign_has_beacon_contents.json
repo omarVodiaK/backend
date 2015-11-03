@@ -1,0 +1,26 @@
+[
+  {
+    "_id": 1,
+    "chbc_chb_id": 1,
+    "chbc_cnt_id": 1,
+    "chbc_start_age": 18,
+    "chbc_end_age": 50,
+    "chbc_priority": 1
+  },
+  {
+    "_id": 2,
+    "chbc_chb_id": 1,
+    "chbc_cnt_id": 2,
+    "chbc_start_age": 18,
+    "chbc_end_age": 50,
+    "chbc_priority": 1
+  },
+  {
+    "_id": 3,
+    "chbc_chb_id": 2,
+    "chbc_cnt_id": 2,
+    "chbc_start_age": 18,
+    "chbc_end_age": 50,
+    "chbc_priority": 1
+  }
+]

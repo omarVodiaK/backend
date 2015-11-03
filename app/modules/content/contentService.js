@@ -24,6 +24,11 @@
                     $http.get("./modules/content/content_type.json").success(function (data) {
                         callback(data)
                     })
+                },
+                getDSContent: function (callback) {
+                    $http.get("./modules/content/ds.json").success(function (data) {
+                        callback(data);
+                    });
                 }
             };
         }])

@@ -85,45 +85,45 @@
 
             <td class="text-right">
                 <div class="pull-right" ng-controller="ModalCategoryCtrl">
-                        <!-- angular ui modal -->
+                    <!-- angular ui modal -->
                     <script type="text/ng-template" id="assignZoneTpl">
-                            <div class="modal-header">
-                                <h3 class="modal-title">Assign Zone</h3>
-                            </div>
-                            <div class="modal-body ng-scope">
-                                <table class="table table-responsive table-striped table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Name</th>
-                                        <th>Range</th>
-                                        <th>Address</th>
-                                        <th>Latitude</th>
-                                        <th>Longitude</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
+                        <div class="modal-header">
+                            <h3 class="modal-title">Assign Zone</h3>
+                        </div>
+                        <div class="modal-body ng-scope">
+                            <table class="table table-responsive table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Name</th>
+                                    <th>Range</th>
+                                    <th>Address</th>
+                                    <th>Latitude</th>
+                                    <th>Longitude</th>
+                                </tr>
+                                </thead>
+                                <tbody>
 
-                                    <tr ng-repeat='zone in zones'>
-                                        <td><input type="checkbox"></td>
-                                        <td>{{ zone.zone_name }}</td>
-                                        <td>{{zone.zone_range}}</td>
-                                        <td>{{zone.zone_address}}</td>
-                                        <td>{{zone.zone_latitude}}</td>
-                                        <td>{{zone.zone_longitude}}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                <tr ng-repeat='zone in zones'>
+                                    <td><input type="checkbox"></td>
+                                    <td>{{ zone.zone_name }}</td>
+                                    <td>{{zone.zone_range}}</td>
+                                    <td>{{zone.zone_address}}</td>
+                                    <td>{{zone.zone_latitude}}</td>
+                                    <td>{{zone.zone_longitude}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-                            <div class="modal-footer">
-                                <div class="btn-group">
-                                    <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
-                                    <button class="btn btn-primary" type="button" ng-click="ok()">Assign</button>
-                                </div>
+                        <div class="modal-footer">
+                            <div class="btn-group">
+                                <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+                                <button class="btn btn-primary" type="button" ng-click="ok()">Assign</button>
                             </div>
-                        </script>
-                        <!-- / -->
+                        </div>
+                    </script>
+                    <!-- / -->
                     <div class="btn-group">
                         <button class="btn btn-danger" ng-click="removeCategoryRow(category._id)"><i
                                 class="glyphicon glyphicon-remove visible-xs-inline-block"><span class="hidden-xs">Remove</span></i>
@@ -135,7 +135,7 @@
                                     class="hidden-xs">Assign</span></i>
                         </button>
                     </div>
-                    </div>
+                </div>
             </td>
         </tr>
         <tr ng-show="showZones" ng-if="zones.length!=0">

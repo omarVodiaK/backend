@@ -32,7 +32,6 @@
         $scope.zones = [];
         var arrZones = [];
 
-
         ZoneService.getZone(function (data) {
             arrZones = data;
         });
@@ -40,7 +39,6 @@
         CategoryService.getCategory(function (data) {
             $scope.categories = data;
         })
-
 
         /**
          * remove category row

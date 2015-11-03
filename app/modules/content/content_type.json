@@ -13,13 +13,13 @@
   },
   {
     "_id": 3,
-    "cht_category": "internal",
+    "cht_category": "external",
     "cht_name": "media",
     "cht_value": "image"
   },
   {
     "_id": 4,
-    "cht_category": "internal",
+    "cht_category": "external",
     "cht_name": "media",
     "cht_value": "video"
   }
