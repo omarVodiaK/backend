@@ -1,0 +1,14 @@
+[
+  {
+    "_id": 1,
+    "ntf_title": "first notification",
+    "ntf_content": "this is my first notification content",
+    "ntf_date": "2015-10-15 13:50:23"
+  },
+  {
+    "_id": 2,
+    "ntf_title": "second notification",
+    "ntf_content": "this is my second notification content",
+    "ntf_date": "2015-10-16 15:12:44"
+  }
+]

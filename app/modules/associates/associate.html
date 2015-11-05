@@ -25,11 +25,40 @@
                         <form role="form">
                             <div class="form-group">
                                 <label>Email address</label>
-                                <input auto-complete-directive ui-items="emails" class="form-control"
+                                <input auto-complete-directive ng-model="search" ui-items="emails" class="form-control"
                                        id="emailAutoComplete"
                                        placeholder="Enter email"/>
 
                                 <div id="result"></div>
+
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table class="table table-responsive table-striped table-hover"
+                                               data-show-refresh="true">
+                                            <thead>
+                                            <th></th>
+                                            <th>name</th>
+                                            <th>email</th>
+                                            </thead>
+                                            <tbody>
+                                            <tr dir-paginate="user in users |filter:search|itemsPerPage:5">
+                                                <td>
+                                                    <label class="switch">
+                                                        <input type="checkbox">
+                                                        <i></i>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    {{user.name}}
+                                                </td>
+                                                <td>
+                                                    {{user.email}}
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                             <div class="pull-right">
                                 <button type="submit" class="btn btn-primary">Send Request</button>
@@ -53,8 +82,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr dir-paginate="associate in associates |filter:search|itemsPerPage:2">
-            <td>{{associate.cmp_id}}</td>
+        <tr dir-paginate="associate in associates |filter:search|itemsPerPage:5">
+            <td>{{getAssociateName(associate.cmp_id)}}</td>
             <td>{{associate.state}}</td>
             <td class="text-right">
                 <div class="btn-group">
@@ -81,3 +110,4 @@
 </dir-pagination-controls>
 
 
+<link rel="stylesheet" href="assets/css/toggle.css">

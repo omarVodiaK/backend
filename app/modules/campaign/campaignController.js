@@ -16,16 +16,11 @@
         .controller('GenderMultiSelectCtrl', multiSelectController)
         .controller('PopulateFrequencyCtrl', populateFrequencyController)
 
-
     function campaignController($scope, CampaignService) {
 
         CampaignService.getCampaign(function (data) {
             $scope.campaigns = data;
         });
-
-        CampaignService.getBeaconsInCampaign(function (data) {
-            $scope.beaconsInCampaign = data;
-        })
 
         $scope.removeCampaignRow = function (id) {
             var index = -1;
@@ -45,96 +40,42 @@
 
             $scope.campaigns.splice(index, 1);
         };
+
+        CampaignService.getCampaignContent(function (data) {
+
+            for (var i = 0; i < data.length; i++) {
+                if (i == 0) {
+                    $scope.beacons = data[i].beacons;
+                }
+            }
+
+        });
+
     }
 
-    function campaignStepController($scope, CampaignService, ZoneService, BeaconService, ContentService, toastr) {
+    function campaignStepController($scope, ZoneService, CategoryService, ContentService) {
 
+        $scope.step = 1;
         $scope.categories = [];
         $scope.zones = [];
         $scope.contentTypes = [];
-        $scope.step = 1;
-        var arrCategories = [];
-        var isChecked = false;
-
-        CampaignService.getBeaconsInCampaign(function (data) {
-            $scope.beaconInCampaign = data;
-        })
-
-        CampaignService.getContentInBeacon(function (data) {
-            $scope.contentInBeacon = data;
-        })
+        $scope.contents = [];
 
         ContentService.getContent(function (data) {
             $scope.content = data;
-        })
+        });
 
         ContentService.getContentTypes(function (data) {
             $scope.contentTypes = data;
         });
 
-        selectBeacons();
+        ZoneService.getZone(function (data) {
+            $scope.zones = data;
+        });
 
-        //$scope.check = function (value) {
-        //    if (arrCategories.length > 0) {
-        //        var isTrue = true;
-        //        for (var i = 0; i < arrCategories.length; i++) {
-        //            if (arrCategories[i]._id == value._id) {
-        //                arrCategories.splice(i, 1);
-        //                isTrue = false;
-        //                break;
-        //            }
-        //        }
-        //        if (isTrue) {
-        //            arrCategories.push(value);
-        //        }
-        //    } else {
-        //        arrCategories.push(value);
-        //    }
-        //}
-        //
-        //$scope.nextStep = function () {
-        //    if (arrCategories.length == 0) {
-        //        toastController(toastr);
-        //    } else {
-        //        $scope.step++;
-        //        if ($scope.step == 2) {
-        //            selectZones();
-        //        } else if ($scope.step == 3) {
-        //            selectBeacons();
-        //        }
-        //    }
-        //}
-        //
-        //$scope.saveCampaign = function () {
-        //    // submit code goes here
-        //}
-
-        function selectZones() {
-            ZoneService.getZone(function (data) {
-                $scope.zones = [];
-                for (var i = 0; i < data.length; i++) {
-                    for (var j = 0; j < arrCategories.length; j++) {
-                        if (arrCategories[j]._id == data[i].cat_id) {
-                            $scope.zones.push(data[i]);
-                        }
-                    }
-                }
-            });
-        }
-
-        /*
-         * select all the beacons
-         * */
-
-        function selectBeacons() {
-            BeaconService.getBeacon(function (data) {
-
-                $scope.beacons = [];
-                for (var i = 0; i < data.length; i++) {
-                    $scope.beacons.push(data[i]);
-                }
-            });
-        }
+        CategoryService.getCategory(function (data) {
+            $scope.categories = data;
+        })
 
         $scope.nextStep = function () {
             $scope.step++;
@@ -158,36 +99,6 @@
             }
         }
 
-        $scope.getContent = function (id) {
-
-            var arrBeaconInCampaign = [];
-            var arrContentInBeacon = [];
-            $scope.contents = [];
-
-
-            for (var i = 0; i < $scope.beaconInCampaign.length; i++) {
-
-                if (id == $scope.beaconInCampaign[i].chb_bcn_id) {
-                    arrBeaconInCampaign.push($scope.beaconInCampaign[i]);
-                }
-            }
-
-            for (var i = 0; i < $scope.contentInBeacon.length; i++) {
-                for (var j = 0; j < arrBeaconInCampaign.length; j++) {
-                    if (arrBeaconInCampaign[j]._id == $scope.contentInBeacon[i].chbc_chb_id) {
-                        arrContentInBeacon.push($scope.contentInBeacon[i]);
-                    }
-                }
-            }
-
-            for (var i = 0; i < arrContentInBeacon.length; i++) {
-                for (var j = 0; j < $scope.content.length; j++) {
-                    if (arrContentInBeacon[i].chbc_cnt_id == $scope.content[j]._id) {
-                        $scope.contents.push($scope.content[j]);
-                    }
-                }
-            }
-        }
 
     }
 

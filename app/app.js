@@ -23,7 +23,8 @@ angular
         'app.zone',
         'app.beacon',
         'app.content',
-        'app.campaign'
+        'app.campaign',
+        'app.notification'
     ]);
 
 

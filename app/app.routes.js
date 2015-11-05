@@ -7,18 +7,14 @@ angular
 function config($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.
         when('/', "/home")
-        .otherwise("/home");
+        .otherwise("/dashboard/associate");
     $stateProvider
         .state('dashboard', {
             abstract: true,
             url: '/dashboard',
             templateUrl: 'components/layout/layout.html'
         })
-        .state('dashboard.home', {
-            url: '^/home',
-            templateUrl: 'modules/home/homeTemplate.html',
-            controller: 'HomeController as home'
-        })
+
 
         .state('login',{
             url:'/login',
@@ -59,6 +55,11 @@ function config($stateProvider, $urlRouterProvider, $locationProvider) {
             url: '/new-campaign',
             templateUrl: 'modules/campaign/newCampaign.html',
             controller: 'CampaignCtrl'
+        })
+        .state('dashboard.notification', {
+            url: '/notification',
+            templateUrl: 'modules/notification/notification.html',
+            controller: 'NotificationCtrl'
         })
     ;
 

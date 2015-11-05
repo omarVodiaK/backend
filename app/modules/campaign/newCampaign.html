@@ -1,8 +1,9 @@
 <div class="page-header">
-    <h1>New Campaign</h1>
+    <h1>Campaign</h1>
 </div>
 
 <uib-accordion close-others="true">
+
     <uib-accordion-group panel-class="panel-info" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
         <uib-accordion-heading>
             General Informations
@@ -80,6 +81,42 @@
             Assign Beacons
         </uib-accordion-heading>
         <form class="form-vertical" ng-controller="CampaignStepCtrl">
+            <div class="row">
+                <div class="col-md-5">
+                    <label class="control-label col-xs-3">Filter by Category:</label>
+
+                    <div class="col-xs-9">
+                        <oi-select
+                                oi-options="category.cat_name for category in categories track by category._id"
+                                ng-model="categoryValue"
+                                choseList
+                                multiple>
+                        </oi-select>
+                    </div>
+
+                </div>
+                <div class="col-md-5">
+                    <label class="control-label col-xs-3">Filter by Zone:</label>
+
+                    <div class="col-xs-9">
+                        <oi-select
+                                oi-options="zone.zone_name for zone in zones track by zone._id"
+                                ng-model="zoneValue"
+                                choseList
+                                multiple>
+                        </oi-select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+
+                    <select class="form-control">
+                        <option value="shared">shared</option>
+                        <option value="notShared">not shared</option>
+                    </select>
+
+                </div>
+            </div>
+
             <div class="form-group">
                 <div class="table-responsive">
                     <table class="table table-striped table-hover">
@@ -95,24 +132,29 @@
                             <th></th>
                         </tr>
                         </thead>
-                        <tbody ng-repeat="beacon in beacons">
+                        <tbody ng-repeat="beacon in beacons | ZoneFilter : zoneValue | CategoryFilter : categoryValue : zones">
                         <tr>
-                            <td></td>
+                            <td>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <i></i>
+                                </label>
+                            </td>
                             <td>{{beacon.bcn_name}}</td>
                             <td>{{beacon.bcn_uuid}}</td>
                             <td>{{beacon.bcn_major}}</td>
                             <td>{{beacon.bcn_minor}}</td>
                             <td>
-                                <label class="switch">
-                                    <input type="checkbox" ng-model="beacon.bcn_share" ng-true-value="'true'"
-                                           ng-false-value="'false'" disabled>
-                                    <i></i>
-                                </label>
+                                <span class="glyphicon glyphicon-ok" style="color:forestgreen;"
+                                      ng-model="beacon.bcn_share" ng-if="beacon.bcn_share == 'true'"
+                                      aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-remove" style="color:red;" ng-model="beacon.bcn_share"
+                                      ng-if="beacon.bcn_share == 'false'" aria-hidden="true"></span>
                             </td>
                             <td>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" ng-model="showContents" ng-click="getContent(beacon._id)"
+                                        <input type="checkbox" ng-model="showContents"
                                                data-toggle="toggle">
                                         <span class="cr"><i class="cr-icon glyphicon glyphicon-arrow-down"></i></span>
                                     </label>
@@ -120,28 +162,99 @@
                             </td>
                             <td class="text-right" ng-controller="ModalCampaignCtrl">
                                 <div class="btn-group checkbox" role="group">
-
                                     <!-- Button trigger modal -->
-                                    <button class="btn btn-info"
+                                    <button class="btn btn-info" ng-if="beacon.bcn_interaction_type == 'push' "
                                             ng-click="open('lg','campaignModalTpl', beacon)"><i
                                             class="glyphicon glyphicon-plus-sign visible-xs-inline-block"></i>
                                         <span class="hidden-xs">Complete Informations</span></button>
 
-                                    <button class="btn btn-success" ng-click="open('lg','assignContentModalTpl')"><i
+                                    <button class="btn btn-primary" ng-if="beacon.bcn_interaction_type == 'push' "
+                                            ng-click="open('lg','assignContentModalTpl')"><i
                                             class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
                                         <span class="hidden-xs">Assign Content</span>
-                                        <span class="badge"></span>
+                                        <span class="badge">{{beacon.contents.length}}</span>
                                     </button>
 
+                                    <button class="btn btn-primary" ng-if="beacon.bcn_interaction_type == 'generate' "
+                                            ng-click="open('lg','redeemFromModalTpl')"><i
+                                            class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
+                                        <span class="hidden-xs">Redeem from</span>
+                                    </button>
                                 </div>
 
-                                <!-- angular ui modal -->
+                                <!-- angular ui modal redeem from -->
+                                <script type="text/ng-template" id="redeemFromModalTpl">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">Redeem From</h3>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="form-horizontal" ng-controller="CampaignStepCtrl">
+                                            <div class="panelr">
+                                                <div class="row">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-hover">
+                                                            <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>Name</th>
+                                                                <th>UUID</th>
+                                                                <th>Major</th>
+                                                                <th>Minor</th>
+                                                                <th>Shared</th>
+                                                                <th></th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody ng-repeat="beacon in beacons">
+                                                            <tr ng-if="beacon.bcn_interaction_type == 'fetch' ">
+                                                                <td>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox">
+                                                                        <i></i>
+                                                                    </label>
+                                                                </td>
+                                                                <td>{{beacon.bcn_name}}</td>
+                                                                <td>{{beacon.bcn_uuid}}</td>
+                                                                <td>{{beacon.bcn_major}}</td>
+                                                                <td>{{beacon.bcn_minor}}</td>
+                                                                <td>
+                                                                    <span class="glyphicon glyphicon-ok"
+                                                                          style="color:forestgreen;"
+                                                                          ng-model="beacon.bcn_share"
+                                                                          ng-if="beacon.bcn_share == 'true'"
+                                                                          aria-hidden="true"></span>
+                                                                    <span class="glyphicon glyphicon-remove"
+                                                                          style="color:red;" ng-model="beacon.bcn_share"
+                                                                          ng-if="beacon.bcn_share == 'false'"
+                                                                          aria-hidden="true"></span>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="btn-group">
+                                            <button class="btn btn-danger" ng-click="cancel()">
+                                                Cancel
+                                            </button>
+                                            <button class="btn btn-primary" ng-click="ok()">Save
+                                            </button>
+                                        </div>
+                                    </div>
+                                </script>
+                                <!-- / -->
+
+                                <!-- angular ui modal assign Content -->
                                 <script type="text/ng-template" id="assignContentModalTpl">
                                     <form class="form-vertical" ng-controller="CampaignStepCtrl"
                                           novalidate>
                                         <fieldset ng-show="step == 1">
                                             <div class="modal-header">
-                                                <h1>Step one</h1>
+                                                <h1>Complete Informations</h1>
                                             </div>
                                             <div class="modal-body">
                                                 <div class="row">
@@ -200,32 +313,31 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <label class="control-label col-xs-3"
+                                                                       style="text-align: left;">Age from:</label>
 
-                                                        <div class="col-xs-6">
-
-                                                            <label class="control-label col-xs-3"
-                                                                   style="text-align: left;">Age from:</label>
-
-                                                            <div class="col-xs-9">
-                                                                <input type="number"
-                                                                       class="form-control"
-                                                                       max="99"
-                                                                       min="16">
+                                                                <div class="col-xs-9">
+                                                                    <input type="number"
+                                                                           class="form-control"
+                                                                           max="99"
+                                                                           min="16">
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                            <div class="col-md-6">
+                                                                <label class="control-label col-xs-3"
+                                                                       style="text-align: left;">Age to:</label>
 
-                                                        <div class="col-xs-6">
-                                                            <label class="control-label col-xs-3"
-                                                                   style="text-align: left;">Age to:</label>
-
-                                                            <div class="col-md-9">
-                                                                <input type="number"
-                                                                       class="form-control"
-                                                                       min="16"
-                                                                       max="99">
+                                                                <div class="col-md-9">
+                                                                    <input type="number"
+                                                                           class="form-control"
+                                                                           min="16"
+                                                                           max="99">
+                                                                </div>
                                                             </div>
-                                                        </div>
 
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -366,7 +478,7 @@
                                 </script>
                                 <!-- / -->
 
-                                <!-- angular ui modal -->
+                                <!-- angular ui modal complete informations -->
                                 <script type="text/ng-template" id="campaignModalTpl">
                                     <div class="modal-header">
                                         <h3 class="modal-title">Complete Beacon</h3>
@@ -650,7 +762,7 @@
                                 <!-- / -->
                             </td>
                         </tr>
-                        <tr ng-show="showContents" ng-if="contents.length!=0">
+                        <tr ng-show="showContents" ng-if="beacon.contents.length != 0">
                             <td colspan="8">
                                 <table class="table table-hover">
                                     <thead>
@@ -662,7 +774,7 @@
                                     <th></th>
                                     </thead>
                                     <tbody>
-                                    <tr ng-repeat='content in contents'>
+                                    <tr ng-repeat='content in beacon.contents'>
                                         <td></td>
                                         <td>{{content.cnt_title}}</td>
                                         <td>{{content.cnt_description}}</td>
@@ -680,7 +792,7 @@
                                 </table>
                             </td>
                         </tr>
-                        <tr ng-show="showContents" ng-if="contents.length==0">
+                        <tr ng-show="showContents" ng-if="beacon.contents.length == 0">
                             <td colspan="8">
                                 <div class="alert alert-warning" role="alert">0 Content assigned!</div>
                             </td>
@@ -690,13 +802,19 @@
                 </div>
             </div>
         </form>
+        <div class="pull-right">
+            <button class="btn btn-success"><i class="glyphicon glyphicon-save visible-xs-inline-block"></i><span
+                    class="hidden-xs"> Save</span></button>
+        </div>
+
+
     </uib-accordion-group>
+
 </uib-accordion>
 
 <link rel="stylesheet" href="assets/css/toggle.css">
 
 <script type="text/javascript">
-
     $(function () {
         $('#datetimepicker1').datetimepicker();
     });

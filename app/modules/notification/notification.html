@@ -1,0 +1,179 @@
+<div class="page-header">
+    <h1>Notification</h1>
+</div>
+
+<div class="container" style="width: 100%">
+    <div class="row" style="margin-top:20px;">
+
+        <div class="col-md-6">
+
+        </div>
+        <div class="col-md-6">
+            <div class="pull-right" ng-controller="ModalNotificationCtrl">
+
+                <!-- angular ui modal -->
+                <script type="text/ng-template" id="notificationModalTpl">
+                    <div class="modal-header">
+                        <h3 class="modal-title">New Notification</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-1" style="text-align: left;">Title:</label>
+
+                                        <div class="col-xs-11">
+                                            <input type="text" class="form-control"
+                                                   placeholder="Your Title goes here">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-1"
+                                               style="text-align: left;">Content:</label>
+
+                                        <div class="col-xs-11">
+                                    <textarea type="text" class="form-control" rows="2"
+                                              placeholder="Your content goes here"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group"
+                                         ng-controller="GenderMultiSelectCtrl">
+                                        <label class="control-label col-xs-2"
+                                               style="text-align: left;">Gender:</label>
+
+                                        <div class="col-xs-10">
+                                            <oi-select
+                                                    oi-options="item.name for item in arrGender track by item.id"
+                                                    ng-model="bundle"
+                                                    choseList
+                                                    multiple>
+                                            </oi-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group"
+                                         ng-controller="GenderMultiSelectCtrl">
+                                        <label class="control-label col-xs-3"
+                                               style="text-align: left;">Nationality:
+                                        </label>
+
+                                        <div class="col-xs-9">
+                                            <oi-select
+                                                    oi-options="item.name for item in arrInteractWith track by item.id"
+                                                    ng-model="bundle"
+                                                    choseList
+                                                    multiple>
+                                            </oi-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-2"
+                                               style="text-align: left;">From: </label>
+
+                                        <div class="col-xs-10">
+                                            <input type="number"
+                                                   class="form-control"
+                                                   max="99"
+                                                   min="16">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3"
+                                               style="text-align: left;">To:</label>
+
+                                        <div class="col-xs-9">
+                                            <input type="number"
+                                                   class="form-control"
+                                                   min="16"
+                                                   max="99">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group">
+                            <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+                            <button class="btn btn-primary" type="button" ng-click="ok()">Save</button>
+                        </div>
+                    </div>
+                </script>
+                <!-- / -->
+                <!-- Button trigger modal -->
+                <button type="button" ng-click="open('lg','notificationModalTpl')" class="btn btn-primary">New
+                    Notification
+                </button>
+                <!-- / -->
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="bs-component" style="margin-top:20px;" ng-controller="NotificationCtrl">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Date</th>
+                <th></th>
+
+            </tr>
+            </thead>
+            <tbody dir-paginate="notification in notifications |itemsPerPage:5">
+            <tr>
+                <td></td>
+                <td>{{notification.ntf_title}}</td>
+                <td>{{notification.ntf_content}}</td>
+                <td>{{notification.ntf_date}}</td>
+
+                <td class="text-right">
+                    <div class="btn-group checkbox" role="group" ng-controller="BeaconAlertCtrl">
+
+                        <button class="btn btn-info"><i
+                                class="glyphicon glyphicon-info-sign visible-xs-inline-block"></i>
+                            <span class="hidden-xs">More Info</span></button>
+
+                        <button class="btn btn-success"><i
+                                class="glyphicon glyphicon-send visible-xs-inline-block"></i>
+                            <span class="hidden-xs">Send</span></button>
+
+                    </div>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<dir-pagination-controls
+        max-size="5"
+        direction-links="true"
+        boundary-links="true">
+</dir-pagination-controls>

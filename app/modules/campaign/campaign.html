@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h1>Campaigns</h1>
+    <h1>Campaign</h1>
 </div>
 
 <div class="container" style="width: 100%">
@@ -27,6 +27,7 @@
 
 <div style="margin-top:20px;" ng-controller="CampaignCtrl">
     <div class="table-responsive">
+
         <table class="table table-striped table-hover">
             <thead>
             <tr>
@@ -37,10 +38,9 @@
                 <th>State</th>
                 <th>Priority</th>
                 <th></th>
-
             </tr>
             </thead>
-            <tbody dir-paginate="campaign in campaigns |filter:search|itemsPerPage:5">
+            <tbody dir-paginate="campaign in campaigns | filter:search | itemsPerPage:5">
             <tr>
                 <td></td>
                 <td>{{campaign.camp_name}}</td>
@@ -52,11 +52,9 @@
                 <td>
                     <prioritydirective data="campaign"></prioritydirective>
                 </td>
-
                 <td class="text-right">
 
                     <div class="btn-group" role="group" ng-controller="CampaignAlertCtrl">
-
 
                         <button ng-click="confirmCancel(campaign.camp_state)"
                                 ng-class="{false: 'btn btn-success', true: 'btn btn-default'} [campaign.camp_state == 'activated']">
@@ -69,7 +67,7 @@
                             <span class="hidden-xs  hidden-md">Remove</span>
                         </button>
 
-                        <button class="btn btn-warning">
+                        <button onclick="window.location.href='#/dashboard/new-campaign'" class="btn btn-warning">
                             <i class="glyphicon glyphicon-pencil visible-xs-inline-block"></i>
                             <span class="hidden-xs  hidden-md">Update</span>
                         </button>
@@ -77,10 +75,10 @@
                     </div>
 
                 </td>
-
             </tr>
             </tbody>
         </table>
+
     </div>
 </div>
 

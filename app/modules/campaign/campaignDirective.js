@@ -8,6 +8,10 @@
     angular
         .module('app.campaign')
 
+    /**
+     * @description replace html element with corresponding icon depending in the data retrieved
+     * @directive statedirective
+     */
         .directive('statedirective', function () {
             return {
                 template: '',
@@ -30,7 +34,10 @@
                 }
             }
         })
-
+    /**
+     * @description replace html element with corresponding html depending in the data retrieved
+     * @directive prioritydirective
+     */
         .directive('prioritydirective', function () {
             return {
                 template: '',

@@ -149,12 +149,15 @@
                 <td>{{beacon.bcn_minor}}</td>
                 <td>{{getZoneName(beacon.bcn_zone_id)}}</td>
                 <td>
-
-                    <label class="switch">
-                        <input type="checkbox" ng-model="beacon.bcn_share" ng-true-value="'true'"
-                               ng-false-value="'false'" disabled>
-                        <i></i>
-                    </label>
+                    <span class="glyphicon glyphicon-ok"
+                          style="color:forestgreen;"
+                          ng-model="beacon.bcn_share"
+                          ng-if="beacon.bcn_share == 'true'"
+                          aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-remove"
+                          style="color:red;" ng-model="beacon.bcn_share"
+                          ng-if="beacon.bcn_share == 'false'"
+                          aria-hidden="true"></span>
                 </td>
                 <td class="text-right">
                     <div class="btn-group checkbox" role="group" ng-controller="BeaconAlertCtrl">
