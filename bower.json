@@ -23,6 +23,9 @@
     "animate.css": "3.4.0",
     "oi.select": "0.2.16",
     "moment": "2.10.6",
-    "sweetalert": "1.1.3"
+    "sweetalert": "1.1.3",
+    "angular-sanitize": "~1.4.7",
+    "angular-translate": "~2.8.1",
+    "angular-translate-loader-static-files": "~2.8.1"
   }
 }
