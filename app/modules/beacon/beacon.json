@@ -1,8 +1,8 @@
 [
   {
     "_id": "1",
-    "bcn_name": "mint",
-    "bcn_uuid": "asdasd",
+    "bcn_name": "Main Entrance",
+    "bcn_uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D",
     "bcn_major": "5",
     "bcn_minor": "1",
     "bcn_general_information": "this beacon is set in the north gate main entrance",
@@ -11,8 +11,8 @@
   },
   {
     "_id": "2",
-    "bcn_name": "bluberry",
-    "bcn_uuid": "asdasd",
+    "bcn_name": "Escalator 1",
+    "bcn_uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D",
     "bcn_major": "4",
     "bcn_minor": "1",
     "bcn_general_information": "this beacon is set in the west gate main entrance",
@@ -21,8 +21,8 @@
   },
   {
     "_id": "3",
-    "bcn_name": "mint",
-    "bcn_uuid": "asdasd",
+    "bcn_name": "Escalator 2",
+    "bcn_uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D",
     "bcn_major": "6",
     "bcn_minor": "1",
     "bcn_general_information": "this beacon is set in the north gate main entrance",

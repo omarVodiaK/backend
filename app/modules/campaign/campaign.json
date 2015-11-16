@@ -1,10 +1,10 @@
 [
   {
     "_id": 1,
-    "camp_name": "campaign 1",
+    "camp_name": "Summer Campaign",
     "camp_description": "description 1",
     "camp_priority": "high",
-    "camp_state": "archive",
+    "camp_state": "draft",
     "compagnies_camp_id": 1,
     "schedule": [
       {
@@ -26,7 +26,7 @@
   },
   {
     "_id": 2,
-    "camp_name": "campaign 2",
+    "camp_name": "Hari Raya Campaign",
     "camp_description": "description 2",
     "camp_priority": "low",
     "camp_state": "activated",

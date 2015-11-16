@@ -1,7 +1,7 @@
 [
   {
     "_id" :1,
-    "zone_name":"zone1",
+    "zone_name": "G level",
     "zone_address":"address1",
     "zone_range":"20",
     "zone_latitude":"22.1",
@@ -10,7 +10,7 @@
   },
   {
     "_id" :2,
-    "zone_name":"zone2",
+    "zone_name": "1st level",
     "zone_address":"address2",
     "zone_range":"20",
     "zone_latitude":"22.1",
@@ -19,7 +19,7 @@
   },
   {
     "_id" :3,
-    "zone_name":"zone3",
+    "zone_name": "3rd level",
     "zone_address":"address3",
     "zone_range":"20",
     "zone_latitude":"22.1",

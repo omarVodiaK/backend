@@ -32,7 +32,6 @@
             $scope.zones = data;
         })
 
-
         $scope.getZoneName = function (id) {
             var data = $scope.zones;
             for (var i = 0; i < data.length; i++) {
@@ -41,7 +40,6 @@
                 }
             }
         }
-
 
         /**
          * @description delete row from zone table

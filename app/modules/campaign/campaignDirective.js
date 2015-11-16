@@ -21,12 +21,12 @@
                 },
                 restrict: 'E',
                 controller: function ($scope, $element) {
-                    if ($scope.campaign.camp_state == "archive") {
-                        $element.replaceWith('<span class="glyphicon glyphicon-file" aria-hidden="true"></span> <span class="glyphicon-class">Archived</span>')
+                    if ($scope.campaign.camp_state == "draft") {
+                        $element.replaceWith('<span class="glyphicon glyphicon-file" aria-hidden="true"></span> <span class="glyphicon-class">Draft</span>')
                     } else if ($scope.campaign.camp_state == "activated") {
                         $element.replaceWith('<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <span class="glyphicon-class">Activated</span>')
                     } else if ($scope.campaign.camp_state == "coming") {
-                        $element.replaceWith('<span class="glyphicon glyphicon-time" aria-hidden="true"></span> <span class="glyphicon-class">Coming</span>')
+                        $element.replaceWith('<span class="glyphicon glyphicon-time" aria-hidden="true"></span> <span class="glyphicon-class">Coming Soon</span>')
                     } else {
                         $element.replaceWith('<span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <span class="glyphicon-class">Finished</span>')
                     }

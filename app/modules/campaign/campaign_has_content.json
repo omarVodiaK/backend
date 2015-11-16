@@ -37,8 +37,8 @@
         "contents": [
           {
             "_id": 1,
-            "cnt_title": "content title 1",
-            "cnt_description": "content description 1",
+            "cnt_title": "Screen's Promotions",
+            "cnt_description": "Get 20% off if you buy now",
             "cnt_url": "",
             "chbc_start_age": 18,
             "chbc_end_age": 50,
@@ -47,8 +47,8 @@
           },
           {
             "_id": 2,
-            "cnt_title": "content title 2",
-            "cnt_description": "content description 2",
+            "cnt_title": "Flight Promotion",
+            "cnt_description": "Book your ticket to Penang",
             "cnt_url": "https://farm9.staticflickr.com/8033/8010849891_3f029d68b3_s.jpg",
             "chbc_start_age": 18,
             "chbc_end_age": 50,
