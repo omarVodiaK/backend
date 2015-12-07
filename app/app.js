@@ -11,8 +11,9 @@ angular
         'bootstrapLightbox',
         'angular-preload-image',
         'truncate',
-        'oi.select',
+        'oi.select', // multi select dropdown
         'hSweetAlert',
+        'angularFileUpload', // file upload used in app.beacon
         'pascalprecht.translate',
         'angularBootstrapNavTree',
         'app.routes',
