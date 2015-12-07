@@ -12,7 +12,6 @@
         .controller('ModalInstanceCtrl', modalInstanceController)
         .controller('GeocodeCtrl', geocodeController)
 
-
     /**
      * @description zone module main controller
      * @method zoneController
@@ -114,11 +113,17 @@
          * @param {string} lat
          * @param {string} lon
          */
-        $scope.gotoLocation = function (lat, lon) {
+
+        $scope.whoiswhere = [];
+
+        $scope.gotoLocation = function (lat, lon, range) {
             // check if new lat and lon equals zone_latitude and zone_longitude
             if ($scope.zone.zone_latitude != lat || $scope.zone.zone_longitude != lon) {
                 // set new geometry location
                 $scope.loc = {lat: lat, lon: lon};
+                $scope.whoiswhere = [
+                    {"name": "My Marker", "lat": lat, "lon": lon, "range": range},
+                ];
                 // $$phase is used for safe $apply implementation
                 if (!$scope.$$phase) {
                     // async function when async event occurs
@@ -135,7 +140,8 @@
          * @param {string} address
          * @method geoCode
          */
-        $scope.geoCode = function (address) {
+        $scope.geoCode = function (address, range) {
+
             // check if address not empty
             if (address && address.length > 0) {
                 // initiate geocoder
@@ -147,7 +153,7 @@
                         var loc = results[0].geometry.location;
                         address = results[0].formatted_address;
                         // move map to new location
-                        $scope.gotoLocation(loc.lat(), loc.lng());
+                        $scope.gotoLocation(loc.lat(), loc.lng(), range);
                     } else {
                         // alert
                         alert("Sorry, this search produced no results.");

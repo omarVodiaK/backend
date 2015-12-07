@@ -25,7 +25,6 @@
 
             LoginService.loginUser($scope.login.email, $scope.login.password).success(function (data) {
                  // if success redirect to dashboard
-                alert(data);
                 $location.path('/associate'); // redirect
 
             }).error(function (data) {

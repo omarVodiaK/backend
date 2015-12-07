@@ -14,7 +14,6 @@
         .controller('GalleryCtrl', galleryController)
         .controller('ContentAlertCtrl', alertController)
 
-
     /**
      *
      * @method contentController
@@ -98,7 +97,7 @@
      * @param {object} $scope
      * @param {object} $modalInstance
      */
-    function modalInstanceController($scope, $modalInstance, content) {
+    function modalInstanceController($scope, $uibModalInstance, content) {
 
         $scope.content = content;
 
@@ -107,7 +106,7 @@
          * @method ok
          */
         $scope.ok = function () {
-            $modalInstance.close();
+            $uibModalInstance.close();
         };
 
         /**
@@ -115,10 +114,9 @@
          * @method cancel
          */
         $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
     }
-
 
     function galleryController($scope, Lightbox, ContentService) {
 

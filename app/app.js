@@ -1,7 +1,8 @@
 'use strict';
 
 angular
-    .module('app', [
+    .module('app',
+    [
         'ui.router',
         'ngRoute',
         'ngAnimate',
@@ -13,18 +14,11 @@ angular
         'oi.select',
         'hSweetAlert',
         'pascalprecht.translate',
+        'angularBootstrapNavTree',
         'app.routes',
         'app.core',
         'app.services',
-        'app.config',
-        'app.associate',
-        'app.login',
-        'app.category',
-        'app.zone',
-        'app.beacon',
-        'app.content',
-        'app.campaign',
-        'app.notification'
+        'app.config'
     ]);
 
 

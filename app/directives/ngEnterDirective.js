@@ -1,6 +1,6 @@
 angular
     .module('app.core')
-    .directive('ngEnter', ngEnter);
+    .directive('ngEnter', ngEnter)
 
 function ngEnter() {
     return function(scope, element, attrs) {

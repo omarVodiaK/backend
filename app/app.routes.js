@@ -14,27 +14,30 @@ function config($stateProvider, $urlRouterProvider, $locationProvider) {
             url: '/dashboard',
             templateUrl: 'components/layout/layout.html'
         })
-
-
-        .state('login',{
-            url:'/login',
-            templateUrl:'modules/login/login.html',
-            controller:'LoginCtrl'
+        .state('login', {
+            url: '/login',
+            templateUrl: 'modules/login/login.html',
+            controller: 'LoginCtrl'
         })
-        .state('dashboard.associate',{
-            url:'/associate',
-            templateUrl:'modules/associates/associate.html',
-            controller:'AssociateCtrl'
+        .state('dashboard.associate', {
+            url: '/associate',
+            templateUrl: 'modules/associates/associate.html',
+            controller: 'AssociateCtrl'
         })
-        .state('dashboard.category',{
-            url:'/category',
-            templateUrl:'modules/category/category.html',
-            controller:'CategoryCtrl'
+        .state('dashboard.location', {
+            url: '/location',
+            templateUrl: 'modules/location/location.html',
+            controller: 'LocationCtrl'
         })
-        .state('dashboard.zone',{
-            url:'/zone',
-            templateUrl:'modules/zone/zone.html',
-            controller:'ZoneCtrl'
+        .state('dashboard.category', {
+            url: '/category',
+            templateUrl: 'modules/category/category.html',
+            controller: 'CategoryCtrl'
+        })
+        .state('dashboard.zone', {
+            url: '/zone',
+            templateUrl: 'modules/zone/zone.html',
+            controller: 'ZoneCtrl'
         })
         .state('dashboard.beacon', {
             url: '/beacon',
@@ -60,8 +63,7 @@ function config($stateProvider, $urlRouterProvider, $locationProvider) {
             url: '/notification',
             templateUrl: 'modules/notification/notification.html',
             controller: 'NotificationCtrl'
-        })
-    ;
+        });
 
 
 }

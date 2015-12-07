@@ -1,6 +1,7 @@
 {
   "DASHBOARD_MENU" : "Home",
   "ASSOCIATE_MENU" : "Associate",
+  "LOCATION_MENU" : "Location",
   "CATEGORY_MENU" : "Category",
   "ZONE_MENU" : "Zone",
   "BEACON_MENU" : "Beacon",

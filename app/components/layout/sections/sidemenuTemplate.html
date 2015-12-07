@@ -1,5 +1,5 @@
 <ul class="nav navbar-nav side-nav">
-    <li>
+    <li ng-controller="BadgeCtrl">
 
         <a href="#/dashboard/associate">
             <b class="badge bg-info pull-right"></b>
@@ -7,6 +7,7 @@
                     <span class="hide-toggled">
                         {{'ASSOCIATE_MENU' | translate}}
                     </span>
+            <span class="shake badge badge-info">{{requestNumber}}</span>
         </a>
     </li>
 
@@ -17,6 +18,16 @@
                     <span class="hide-toggled">
                         {{'CAMPAIGN_MENU'| translate}}
                         </span>
+        </a>
+    </li>
+
+    <li>
+        <a href="#/dashboard/location">
+            <b class="badge bg-info pull-right"></b>
+            <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
+                    <span class="hide-toggled">
+                        {{'LOCATION_MENU' | translate}}
+                    </span>
         </a>
     </li>
 
@@ -43,7 +54,7 @@
     <li>
         <a href="#/dashboard/beacon">
             <b class="badge bg-info pull-right"></b>
-            <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
                     <span class="hide-toggled">
                         {{'BEACON_MENU'| translate}}
                         </span>

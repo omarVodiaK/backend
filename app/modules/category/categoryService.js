@@ -1,7 +1,6 @@
 (function () {
     'use strict';
 
-
     /**
      * @description  use app.category module created in controller
      * @module app.category
@@ -22,5 +21,5 @@
                     });
                 }
             };
-        }])
+        }]);
 })();

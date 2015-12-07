@@ -44,7 +44,8 @@
                                                           class="form-control" rows="2"
                                                           placeholder="Address"
                                                           aria-describedby="geocode-addon"></textarea>
-                                                <span class="input-group-addon" ng-click="geoCode(zone.zone_address)"
+                                                <span class="input-group-addon"
+                                                      ng-click="geoCode(zone.zone_address, zone.zone_range)"
                                                       id="geocode-addon"><i class="icon-search"></i></span>
                                                 </div>
                                             </div>
@@ -55,9 +56,10 @@
 
                                             <div class="col-xs-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" placeholder="20"
+                                                    <input type="text" class="form-control" ng-model="zone.zone_range"
+                                                           placeholder="20"
                                                            aria-describedby="range-addon" value="{{zone.zone_range}}">
-                                                    <span class="input-group-addon" id="range-addon">km</span>
+                                                    <span class="input-group-addon" id="range-addon">m</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -84,7 +86,7 @@
                                 <div class="col-sm-6">
                                     <app-map style="height:400px;margin-bottom:10px;box-shadow:0 3px 25px black;"
                                              center="loc"
-                                             markers="airports">
+                                             markers="whoiswhere" ng-model="zone.zone_range">
                                     </app-map>
                                     <span>*make sure to geocode your address</span>
                                 </div>

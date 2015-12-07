@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="assets/bower_components/oi.select/dist/select.css">
     <link rel="stylesheet"
           href="assets/bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.css">
+    <link rel="stylesheet" href="assets/bower_components/angular-bootstrap-nav-tree-js/dist/abn_tree.css">
     <link rel="stylesheet" href="assets/css/font-icons.css" type='text/css'>
 
 
@@ -64,6 +65,7 @@
 <script src="assets/bower_components/angular-animate/angular-animate.min.js"></script>
 <script src="assets/bower_components/angular-route/angular-route.min.js"></script>
 <script src="assets/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="assets/bower_components/angular-bootstrap-nav-tree-js/dist/abn_tree_directive.js"></script>
 
 <script src="assets/js/angular-touch.min.js"></script>
 <script src="assets/js/moment.min.js"></script>
@@ -71,8 +73,9 @@
 <script src="assets/js/angular-truncate.js"></script>
 <script src="assets/js/angular-preload-image.min.js"></script>
 
+
 <!--Map-->
-<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3&language=&region="></script>
 <!-- / -->
 
 <!--pagination-->
@@ -82,7 +85,6 @@
 <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
 <!-- / -->
 <!-- endbuild -->
-
 
 <!-- build:js app.min.js -->
 <!-- MODULES -->
@@ -97,6 +99,7 @@
 <script src="modules/home/homeController.js"></script>
 <script src="modules/associates/associateController.js"></script>
 <script src="modules/login/loginController.js"></script>
+<script src="modules/location/locationController.js"></script>
 <script src="modules/category/categoryController.js"></script>
 <script src="modules/zone/zoneController.js"></script>
 <script src="modules/player/playerController.js"></script>
@@ -110,6 +113,7 @@
 <script src="modules/login/loginService.js"></script>
 <script src="modules/associates/associateService.js"></script>
 <script src="modules/zone/zoneService.js"></script>
+<script src="modules/location/locationService.js"></script>
 <script src="modules/category/categoryService.js"></script>
 <script src="modules/beacon/beaconService.js"></script>
 <script src="modules/content/contentService.js"></script>
@@ -154,6 +158,9 @@
 <!-- CUSTOM STYLES -->
 <style>
 
+    .badge-info {
+        background-color: #269abc;
+    }
 
     @media (max-width: 768px) {
         .btn-responsive {
@@ -171,7 +178,6 @@
             line-height: 1.2;
         }
     }
-
 
     @media (min-width: 100px) {
         #app {
@@ -250,6 +256,32 @@
         width: 400px;
         height: 300px;
     }
+
+    @keyframes shake {
+        0% {
+            transform: translateX(0);
+        }
+        12.5% {
+            transform: translateX(-6px) rotateY(-5deg)
+        }
+        37.5% {
+            transform: translateX(5px) rotateY(4deg)
+        }
+        62.5% {
+            transform: translateX(-3px) rotateY(-2deg)
+        }
+        87.5% {
+            transform: translateX(2px) rotateY(1deg)
+        }
+        100% {
+            transform: translateX(0)
+        }
+    }
+
+    .shake {
+        animation: shake 400ms ease-in-out;
+    }
+
 </style>
 <!-- / -->
 
