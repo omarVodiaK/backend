@@ -40,17 +40,35 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Password"
+                    <input ng-placeholder="Password{}" type="password" class="form-control"
                            required ng-model="formData.password">
-                    <div ng-messages="registerForm.userEmail.$error" ng-show="registerForm.userEmail.$touched">
+                    <div ng-messages="registerForm.password.$error" ng-show="registerForm.password.$touched">
                         <p ng-message="required" class="error-block">
-                            You forgot to enter your Email...
+                            You forgot to enter your Password...
                         </p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Confirm Password"
-                           required>
+                    <input ng-placeholder="Confirm Password{}" type="password" class="form-control" compare-to="registerForm.password"
+                           required ng-model="formData.confirmPassword">
+                    <div ng-messages="registerForm.confirmPassword.$error" ng-show="registerForm.confirmPassword.$touched">
+                        <p ng-message="required" class="error-block">
+                            Don't You forget to Confirm your Password...?
+                        </p>
+                        <p ng-message="comparison" class="error-block">
+                            Hey, are you sure it is same...?
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <select ng-placeholder="SomeSample{}" class="form-control">
+                        <option>Please Select</option>
+                        <option>lalalal </option>
+                        <option>asdfasdf </option>
+                        <option>zcvcvz </option>
+                        <option>qwe </option>
+                        <option>a </option>
+                    </select>
                 </div>
                 <button id="registerSubmit" class="btn btn-lg btn-block authSubmit"
                         type="submit" disabled="registerForm.$invalid">
