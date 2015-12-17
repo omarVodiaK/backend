@@ -17,6 +17,7 @@
     <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="assets/css/dashboard.css" rel="stylesheet">
+    <link href="assets/css/auth.css" rel="stylesheet">
     <!-- endbuild -->
 </head>
 <body data-ng-app="app">
@@ -28,6 +29,7 @@
         <script src="assets/bower_components/jquery/dist/jquery.js"></script>
         <script src="assets/bower_components/angular/angular.min.js"></script>
         <script src="assets/bower_components/angular-animate/angular-animate.min.js"></script>
+        <script src="assets/bower_components/angular-messages/angular-messages.js"></script>
         <script src="assets/js/angular-cookies.min.js"></script>
         <script src="assets/bower_components/angular-route/angular-route.min.js"></script>
         <script src="assets/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
@@ -53,13 +55,18 @@
     <!-- CONTROLLERS -->
         <script src="modules/home/homeController.js"></script>
         <script src="modules/player/playerController.js"></script>
+        <!-- USER -->
+        <script src="modules/user/userModule.js"></script>
+        <script src="modules/user/loginController.js"></script>
+        <script src="modules/user/registerController.js"></script>
     <!-- / -->
     <!-- SERVICES -->
-        <script src="services/showFactory.js"></script>
+        <script src="services/ShowFactory.js"></script>
+        <script src="services/RequestFactory.js"></script>
         <script src="services/pageValue.js"></script>
     <!-- / -->
     <!-- DIRECTIVES -->
-
+        <script src="directives/ngPlaceholderDirective.js"></script>
     <!-- / -->
 
     <!-- CUSTOM URL -->

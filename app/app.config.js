@@ -2,10 +2,13 @@
 angular
     .module('app.config', [])
     .config(configs)
+    .constant("DEFAULT_BACKEND_CONFIG", {"HOST": "localhost", "PORT": "8282", "POSTFIX": "api", "API_KEY": ""})
+    .constant("APP_VERSION", "1.0.0")
+    .constant("PROJECT_NAME", "BACKEND CORE")
     .run(runs);
 
 function configs($httpProvider) {
-    var interceptor = function($location, $log, $q) {
+    var interceptor = function ($location, $log, $q) {
         function error(response) {
             if (response.status === 401) {
                 $log.error('You are unauthorised to access the requested resource (401)');
@@ -16,11 +19,13 @@ function configs($httpProvider) {
             }
             return $q.reject(response);
         }
+
         function success(response) {
             //Request completed successfully
             return response;
         }
-        return function(promise) {
+
+        return function (promise) {
             return promise.then(success, error);
         }
     };
@@ -28,10 +33,10 @@ function configs($httpProvider) {
 }
 
 function runs($rootScope, PageValues) {
-    $rootScope.$on('$routeChangeStart', function() {
+    $rootScope.$on('$routeChangeStart', function () {
         PageValues.loading = true;
     });
-    $rootScope.$on('$routeChangeSuccess', function() {
+    $rootScope.$on('$routeChangeSuccess', function () {
         PageValues.loading = false;
     });
 }

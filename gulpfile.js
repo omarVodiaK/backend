@@ -12,6 +12,7 @@ var inject = require("gulp-inject");
 var clean = require('gulp-clean');
 var replace = require('gulp-replace');
 var gulpAngularExtender = require('gulp-angular-extender');
+var modRewrite = require('connect-modrewrite');
 
 //Convert all HTML tpl files to Angular template module
 gulp.task('create-templates', function() {
@@ -78,7 +79,14 @@ gulp.task('clean', ['usemin'], function () {
 gulp.task('connect-dev', function() {
     connect.server({
         root: 'app/',
-        port: 8282
+        port: 8282,
+        middleware: function(connect, opt) {
+            return [
+                modRewrite([
+                    '^/api/(.*)$ http://localhost:3000/api/$1 [P]'
+                ])
+            ]
+        }
     });
 });
 

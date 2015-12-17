@@ -1,0 +1,68 @@
+<div class="auth">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4 form-box">
+            <img class="profile-img box-shadow--4dp" id="loginImage" src="assets/images/Login.ico"
+                 alt="beacon" style="margin: -60px auto 0;">
+
+            <form novalidate class="form-register" name='registerForm' ng-submit="submit()"
+                  ng-controller="RegisterController">
+                <div class="form-group">
+                    <input ng-placeholder="Name{}John" type="text" class="form-control" required name="firstName"
+                           autocomplete="off" autofocus ng-model="formData.firstName">
+
+                    <div ng-messages="registerForm.firstName.$error" ng-show="registerForm.firstName.$touched">
+                        <p ng-message="required" class="error-block">
+                            You forgot to enter your First Name...
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input ng-placeholder="Last Name{}Smith" type="text" class="form-control" required name="lastName"
+                           ng-model="formData.lastName">
+
+                    <div ng-messages="registerForm.lastName.$error" ng-show="registerForm.lastName.$touched">
+                        <p ng-message="required" class="error-block">
+                            You forgot to enter your Last Name...
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input ng-placeholder="Email{}john@smith.com" type="email" class="form-control" required
+                           name="userEmail" ng-model="formData.userEmail">
+
+                    <div ng-messages="registerForm.userEmail.$error" ng-show="registerForm.userEmail.$touched">
+                        <p ng-message="required" class="error-block">
+                            You forgot to enter your Email...
+                        </p>
+                        <p ng-message="email" class="error-block">
+                            This needs to be a valid email
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password"
+                           required ng-model="formData.password">
+                    <div ng-messages="registerForm.userEmail.$error" ng-show="registerForm.userEmail.$touched">
+                        <p ng-message="required" class="error-block">
+                            You forgot to enter your Email...
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Confirm Password"
+                           required>
+                </div>
+                <button id="registerSubmit" class="btn btn-lg btn-block authSubmit"
+                        type="submit" disabled="registerForm.$invalid">
+                    Register
+                </button>
+                <div class="col-sm-12 col-md-12">
+                    <a class="pull-left" href="#/forgot">Forgot Password? </a>
+                    <br>
+                    <a class="pull-left" href="#/login">Login? </a>
+                </div>
+                <span class="clearfix"></span>
+            </form>
+        </div>
+    </div>
+</div>
