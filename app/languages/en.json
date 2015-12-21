@@ -6,6 +6,8 @@
   "ZONE_MENU" : "Zone",
   "BEACON_MENU" : "Beacon",
   "CONTENT_MENU" : "Content",
+  "ADVERTISEMENT_MENU":"Advertisement",
+  "PRODUCT_MENU":"Product",
   "CAMPAIGN_MENU" : "Campaign",
   "NOTIFICATION_MENU" : "Notification",
   "ANALYTIC_MENU" : "Analytics"

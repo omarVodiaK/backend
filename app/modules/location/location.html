@@ -20,13 +20,9 @@
                                 <label class="control-label col-xs-2">Name:</label>
 
                                 <div class="col-xs-10">
-                                    <input type="text" name="name" ng-model="location.label" class="form-control"
+                                    <input type="text" name="name" class="form-control"
                                            placeholder="Name"
                                            value="{{location.label}}" required>
-                                    <span style="color:red"
-                                          ng-show="locationForm.name.$dirty && locationForm.name.$invalid">
-                                        <span ng-show="locationForm.name.$error.required">Name is required.</span>
-                                    </span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -46,6 +42,7 @@
                                         <option value="0">No Parent</option>
                                         <option ng-repeat="l in fakeLocations" value="l._id"
                                                 ng-selected="{false: '', true: 'selected'} [l._id == location._id]">
+
                                             {{l.label}}
                                         </option>
 
@@ -56,7 +53,7 @@
                         <div class="modal-footer">
                             <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
                             <button class="btn btn-primary"
-                                    ng-disabled="locationForm.name.$dirty && locationForm.name.$invalid " type="submit">
+                                    type="submit" ng-click="ok()">
                                 Save
                             </button>
                         </div>
@@ -91,7 +88,7 @@
                 <div class="col-md-12">
                     <div>
                         <!-- TODO Fix image now showing-->
-                        <img src="assets/images/logo.png"
+                        <img lazy-src="assets/images/logo.png"
                              class="img-circle img-thumbnail">
 
                         <h2>{{output.label}}</h2>
@@ -109,32 +106,35 @@
             direction-links="true"
             boundary-links="true">
     </dir-pagination-controls>
+</div>
 
-    <style>
-        .stylish-panel {
-            text-align: center;
-        }
+<style>
 
-        .stylish-panel > div > div {
-            border: 1px solid transparent;
-            border-radius: 4px;
-            transition: 0.2s;
-        }
+    .stylish-panel {
+        text-align: center;
+    }
 
-        .stylish-panel > div:hover > div {
-            margin-top: -10px;
-            border: 1px solid rgb(200, 200, 200);
-            box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 2px;
-            background: rgba(200, 200, 200, 0.1);
-            transition: 0.5s;
-        }
+    .stylish-panel > div > div {
+        border: 1px solid transparent;
+        border-radius: 4px;
+        transition: 0.2s;
+    }
 
-        .stylish-panel > div:hover img {
-            border-radius: 50%;
-            -webkit-transform: rotate(360deg);
-            -moz-transform: rotate(360deg);
-            -o-transform: rotate(360deg);
-            -ms-transform: rotate(360deg);
-            transform: rotate(360deg);
-        }
-    </style>
+    .stylish-panel > div:hover > div {
+        margin-top: -10px;
+        border: 1px solid rgb(200, 200, 200);
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 2px;
+        background: rgba(200, 200, 200, 0.1);
+        transition: 0.5s;
+    }
+
+    .stylish-panel > div:hover img {
+        border-radius: 50%;
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+
+</style>

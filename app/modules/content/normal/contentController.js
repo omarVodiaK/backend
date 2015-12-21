@@ -45,6 +45,7 @@
             }
             $scope.contents.splice(index, 1);
         };
+
         $scope.getContentTypeName = function (id) {
             var data = $scope.contentTypes;
             for (var i = 0; i < data.length; i++) {
@@ -53,7 +54,7 @@
                     return result;
                 }
             }
-        }
+        };
 
     }
 
@@ -75,7 +76,7 @@
          * @param {string} tpl name of the template
          */
         $scope.open = function (size, tpl, content) {
-            var modalInstance = $uibModal.open({
+            var uibModalInstance = $uibModal.open({
                 animation: $scope.animationsEnabled,
                 templateUrl: tpl,
                 controller: 'ModalContentInstanceCtrl',
@@ -186,7 +187,6 @@
     function alertController($scope, sweet) {
 
         $scope.confirmCancel = function () {
-            console.log('here')
             sweet.show({
                 title: 'Warning',
                 text: 'Discard changes',

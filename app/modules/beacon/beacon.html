@@ -2,6 +2,7 @@
     <h1>Beacons</h1>
 </div>
 
+
 <div class="container" style="width: 100%">
     <div class="row" style="margin-top:20px;">
 
@@ -21,8 +22,8 @@
                     <div class="modal-header">
                         <h3 class="modal-title">New Beacon</h3>
                     </div>
-                    <div class="modal-body">
-                        <form class="form-horizontal">
+                    <div class="modal-body" ng-controller="BeaconCtrl">
+                        <form class="form-horizontal" name="myForm">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -42,7 +43,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group" ng-controller="BeaconCtrl">
+                                    <div class="form-group">
                                         <label class="control-label col-xs-3" style="text-align: left;">Zone:</label>
                                         <!-- Single button -->
                                         <div class="col-xs-9">
@@ -97,128 +98,77 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3"
+                                                       style="text-align: left;">Location:</label>
 
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h3>Beacon images</h3>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div ng-controller="UploadController" nv-file-drop="" uploader="uploader">
+                                                <div class="col-xs-9">
+                                                    <select class="btn btn-defautl">
 
-                                        <div class="row">
+                                                        <option ng-repeat="location in locations"
+                                                                ng-selected="{false: '', true: 'selected'} [beacon.bcn_loc_id == location._id]">
+                                                            {{location.label}}
+                                                        </option>
 
-                                            <div class="col-md-3">
-
-                                                <div ng-show="uploader.isHTML5">
-                                                    <div class="well my-drop-zone" nv-file-over="" uploader="uploader">
-                                                        Base drop zone
-                                                    </div>
+                                                    </select>
 
                                                 </div>
-
-                                                <input type="file" nv-file-select="" uploader="uploader"/><br/>
-
                                             </div>
-
-                                            <div class="col-md-9" style="margin-bottom: 40px">
-
-                                                <table class="table">
-                                                    <thead>
-                                                    <tr>
-                                                        <th width="50%">Name</th>
-                                                        <th ng-show="uploader.isHTML5">Size</th>
-                                                        <th ng-show="uploader.isHTML5">Progress</th>
-                                                        <th>Status</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr ng-repeat="item in uploader.queue">
-                                                        <td>
-                                                            <strong>{{ item.file.name }}</strong>
-                                                            <!-- Image preview -->
-                                                            <!--auto height-->
-                                                            <!--<div ng-thumb="{ file: item.file, width: 100 }"></div>-->
-                                                            <!--auto width-->
-                                                            <div ng-show="uploader.isHTML5"
-                                                                 ng-thumb="{ file: item._file, height: 100 }"></div>
-                                                            <!--fixed width and height -->
-                                                            <!--<div ng-thumb="{ file: item.file, width: 100, height: 100 }"></div>-->
-                                                        </td>
-                                                        <td ng-show="uploader.isHTML5" nowrap>{{
-                                                            item.file.size/1024/1024|number:2 }} MB
-                                                        </td>
-                                                        <td ng-show="uploader.isHTML5">
-                                                            <div class="progress" style="margin-bottom: 0;">
-                                                                <div class="progress-bar" role="progressbar"
-                                                                     ng-style="{ 'width': item.progress + '%' }"></div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span ng-show="item.isSuccess"><i
-                                                                    class="glyphicon glyphicon-ok"></i></span>
-                                                            <span ng-show="item.isCancel"><i
-                                                                    class="glyphicon glyphicon-ban-circle"></i></span>
-                                                            <span ng-show="item.isError"><i
-                                                                    class="glyphicon glyphicon-remove"></i></span>
-                                                        </td>
-                                                        <td nowrap>
-                                                            <button type="button" class="btn btn-success btn-xs"
-                                                                    ng-click="item.upload()"
-                                                                    ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-                                                                <span class="glyphicon glyphicon-upload"></span> Upload
-                                                            </button>
-                                                            <button type="button" class="btn btn-warning btn-xs"
-                                                                    ng-click="item.cancel()"
-                                                                    ng-disabled="!item.isUploading">
-                                                                <span class="glyphicon glyphicon-ban-circle"></span>
-                                                                Cancel
-                                                            </button>
-                                                            <button type="button" class="btn btn-danger btn-xs"
-                                                                    ng-click="item.remove()">
-                                                                <span class="glyphicon glyphicon-trash"></span> Remove
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-
-                                                <div>
-                                                    <div>
-                                                        Queue progress:
-                                                        <div class="progress" style="">
-                                                            <div class="progress-bar" role="progressbar"
-                                                                 ng-style="{ 'width': uploader.progress + '%' }"></div>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-success btn-s"
-                                                            ng-click="uploader.uploadAll()"
-                                                            ng-disabled="!uploader.getNotUploadedItems().length">
-                                                        <span class="glyphicon glyphicon-upload"></span> Upload all
-                                                    </button>
-                                                    <button type="button" class="btn btn-warning btn-s"
-                                                            ng-click="uploader.cancelAll()"
-                                                            ng-disabled="!uploader.isUploading">
-                                                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger btn-s"
-                                                            ng-click="uploader.clearQueue()"
-                                                            ng-disabled="!uploader.queue.length">
-                                                        <span class="glyphicon glyphicon-trash"></span> Remove all
-                                                    </button>
-                                                </div>
-
-                                            </div>
-
                                         </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12" ng-controller="UploadCtrl">
+
+                                    <div class="col-md-6">
+
+                                        <input class="btn btn-primary" type="file" ngf-select ng-model="picFile"
+                                               name="file"
+
+                                               accept="image/*" ngf-max-size="2MB" required>
+
+
+                                        <span class="control-label" ng-show="picFile.result">Upload Successful</span>
+                                        <span class="control-label" ng-show="errorMsg">{{errorMsg}}</span>
+
+                                        <div class="progress" ng-show="picFile.progress >= 0">
+                                            <div class="progress-bar progress-bar-success progress-bar-striped active"
+                                                 role="progressbar" ng-bind="picFile.progress + '%'"
+                                                 aria-valuenow="{{picFile.progress}}%" aria-valuemin="0"
+                                                 aria-valuemax="100"
+                                                 style="width: 100%">
+                                            </div>
+                                        </div>
+                                        <i ng-show="myForm.file.$error.maxSize">File too large
+                                            {{picFile.size / 1000000|number:1}}MB: max 2M</i>
 
                                     </div>
+
+                                    <div class="col-md-6">
+                                        <img class="img-responsive" lazy-src="{{beacon.bcn_thumbnail}}"
+                                             ng-show="!picFile">
+                                        <img class="img-responsive"
+                                             ngf-thumbnail="picFile"
+                                             ng-model="beacon.bcn_thumbnail" ng-show="picFile">
+
+                                        <button class="btn btn-danger" ng-click="picFile = null" ng-show="picFile">
+                                            Remove
+                                        </button>
+
+                                        <button class="btn btn-primary text-right" ng-disabled="!myForm.$valid"
+                                                ng-click="uploadPic(picFile)">Submit
+                                        </button>
+                                    </div>
+
+
                                 </div>
                             </div>
+
                         </form>
 
                     </div>
@@ -253,6 +203,7 @@
                 <th>Major</th>
                 <th>Minor</th>
                 <th>Zone</th>
+                <th>Location</th>
                 <th>Shared</th>
                 <th></th>
 
@@ -266,6 +217,7 @@
                 <td>{{beacon.bcn_major}}</td>
                 <td>{{beacon.bcn_minor}}</td>
                 <td>{{getZoneName(beacon.bcn_zone_id)}}</td>
+                <td>{{getLocationName(beacon.bcn_loc_id)}}</td>
                 <td>
                     <span class="glyphicon glyphicon-ok"
                           style="color:forestgreen;"
@@ -312,14 +264,9 @@
 
 
 <link rel="stylesheet" href="assets/css/toggle.css">
-<style>
-    .my-drop-zone {
-        border: dotted 3px lightgray;
-    }
 
-    .nv-file-over {
-        border: dotted 3px red;
-    }
-
-    /* Default class applied to drop zones on over */
-</style>
+<script>
+    $(document).ready(function () {
+        $('input[type=file]').bootstrapFileInput();
+    });
+</script>

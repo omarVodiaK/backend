@@ -7,7 +7,9 @@
     "bcn_minor": "1",
     "bcn_general_information": "this beacon is set in the north gate main entrance",
     "bcn_share": "true",
-    "bcn_zone_id": 1
+    "bcn_zone_id": 1,
+    "bcn_thumbnail": "http://192.168.1.7:63342/ngDroplet/example/server/uploads/1d5e32191bb1a778d6d76e869e3dd8e7.png",
+    "bcn_loc_id": 5
   },
   {
     "_id": "2",
@@ -17,7 +19,9 @@
     "bcn_minor": "1",
     "bcn_general_information": "this beacon is set in the west gate main entrance",
     "bcn_share": "false",
-    "bcn_zone_id": 2
+    "bcn_zone_id": 2,
+    "bcn_thumbnail": "http://192.168.1.7:63342/ngDroplet/example/server/uploads/1d5e32191bb1a778d6d76e869e3dd8e7.png",
+    "bcn_loc_id": 1
   },
   {
     "_id": "3",
@@ -27,6 +31,8 @@
     "bcn_minor": "1",
     "bcn_general_information": "this beacon is set in the north gate main entrance",
     "bcn_share": "true",
-    "bcn_zone_id": 3
+    "bcn_zone_id": 3,
+    "bcn_thumbnail": "http://192.168.1.7:63342/ngDroplet/example/server/uploads/1d5e32191bb1a778d6d76e869e3dd8e7.png",
+    "bcn_loc_id": 6
   }
 ]

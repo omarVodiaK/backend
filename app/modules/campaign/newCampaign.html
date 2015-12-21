@@ -401,7 +401,7 @@
                                                                                     <div class="col-md-6 col-xs-6">
 
                                                                                         <a ng-click="openLightboxModal($index, itemsPerPage, currentPage)">
-                                                                                            <img ng-src="{{image.thumbUrl}}"
+                                                                                            <img lazy-src="{{image.thumbUrl}}"
                                                                                                  class="img-rounded">
                                                                                         </a>
 
@@ -782,7 +782,7 @@
                                         <td>
                                             <div class="wrapper size">
                                                 <img class="img-circle" ng-show="content.cnt_url != ''"
-                                                     ng-src="{{content.cnt_url}}"/>
+                                                     lazy-src="{{content.cnt_url}}"/>
                                             </div>
                                         </td>
                                         <td></td>

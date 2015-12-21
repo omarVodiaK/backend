@@ -1,4 +1,5 @@
-<ul class="nav navbar-nav side-nav">
+<ul class="nav navbar-nav side-nav cl-effect-15">
+
     <li ng-controller="BadgeCtrl">
 
         <a href="#/dashboard/associate">
@@ -32,16 +33,6 @@
     </li>
 
     <li>
-        <a href="#/dashboard/category">
-            <b class="badge bg-info pull-right"></b>
-            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-                    <span class="hide-toggled">
-                        {{'CATEGORY_MENU' | translate}}
-                    </span>
-        </a>
-    </li>
-
-    <li>
         <a href="#/dashboard/zone">
             <b class="badge bg-info pull-right"></b>
             <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
@@ -61,16 +52,19 @@
         </a>
     </li>
 
-    <li>
-        <a href="#/dashboard/content">
+    <li class="dropdown-submenu">
+        <a>
             <b class="badge bg-info pull-right"></b>
             <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-                    <span class="hide-toggled">
-                        {{'CONTENT_MENU'| translate}}
-                        </span>
+            <span class="hide-toggled">{{'CONTENT_MENU'| translate}}</span>
         </a>
+        <ul class="dropdown-menu">
+            <li><a href="#/dashboard/content/normal"><span
+                    class="hide-toggled">{{'ADVERTISEMENT_MENU'| translate}}</span></a></li>
+            <li><a href="#/dashboard/content/product"><span
+                    class="hide-toggled">{{'PRODUCT_MENU'| translate}}</span></a></li>
+        </ul>
     </li>
-
 
     <li>
         <a href="#/dashboard/notification">
@@ -93,3 +87,60 @@
     </li>
 
 </ul>
+
+<style>
+
+    .dropdown-submenu > .dropdown-menu {
+        position: relative;
+        background: transparent;
+        -webkit-box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
+        -moz-box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
+        -o-box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
+        box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
+        border: transparent;
+        width: 100%;
+    }
+
+    .dropdown-submenu:hover > .dropdown-menu {
+        display: none;
+    }
+
+    .dropdown-submenu:hover > a:after {
+        color: #999;
+    }
+
+    .shown {
+        display: block;
+    }
+
+    .dropdown-submenu:hover > .shown {
+        display: block;
+    }
+
+    /* Effect 15: scale down, reveal */
+    .cl-effect-15 a {
+        color: rgba(0, 0, 0, 0.2);
+        font-weight: 700;
+        text-shadow: none;
+    }
+
+    .cl-effect-15 a::before {
+        color: #fff;
+        content: attr(data-hover);
+        position: absolute;
+        transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .cl-effect-15 a:hover::before,
+    .cl-effect-15 a:focus::before {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+</style>
+
+<script>
+    $('.dropdown-submenu > a').click(function () {
+        $(this).parent().children('.dropdown-menu').toggleClass('shown');
+    });
+</script>

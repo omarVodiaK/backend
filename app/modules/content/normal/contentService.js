@@ -15,18 +15,18 @@
                  * @param {} callback
                  */
                 getContent: function (callback) {
-                    $http.get("./modules/content/content.json").success(function (data) {
+                    $http.get("./modules/content/normal/content.json").success(function (data) {
                         // prepare data here
                         callback(data);
                     });
                 },
                 getContentTypes: function (callback) {
-                    $http.get("./modules/content/content_type.json").success(function (data) {
+                    $http.get("./modules/content/normal/content_type.json").success(function (data) {
                         callback(data)
                     })
                 },
                 getDSContent: function (callback) {
-                    $http.get("./modules/content/ds.json").success(function (data) {
+                    $http.get("./modules/content/normal/ds.json").success(function (data) {
                         callback(data);
                     });
                 }

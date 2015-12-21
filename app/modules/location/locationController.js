@@ -93,6 +93,7 @@
                     }
                 }
             });
+            console.log(location)
         };
 
     }
@@ -122,6 +123,5 @@
             $uibModalInstance.dismiss('cancel');
         };
     }
-
 
 })();

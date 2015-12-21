@@ -5,6 +5,8 @@ angular
     .config(config);
 
 function config($stateProvider, $urlRouterProvider, $locationProvider) {
+
+
     $urlRouterProvider.
         when('/', "/home")
         .otherwise("/dashboard/associate");
@@ -29,11 +31,6 @@ function config($stateProvider, $urlRouterProvider, $locationProvider) {
             templateUrl: 'modules/location/location.html',
             controller: 'LocationCtrl'
         })
-        .state('dashboard.category', {
-            url: '/category',
-            templateUrl: 'modules/category/category.html',
-            controller: 'CategoryCtrl'
-        })
         .state('dashboard.zone', {
             url: '/zone',
             templateUrl: 'modules/zone/zone.html',
@@ -45,9 +42,14 @@ function config($stateProvider, $urlRouterProvider, $locationProvider) {
             controller: 'BeaconCtrl'
         })
         .state('dashboard.content', {
-            url: '/content',
-            templateUrl: 'modules/content/content.html',
+            url: '/content/normal',
+            templateUrl: 'modules/content/normal/content.html',
             controller: 'ContentCtrl'
+        })
+        .state('dashboard.product', {
+            url: '/content/product',
+            templateUrl: 'modules/content/product/product.html',
+            controller: 'ProductCtrl'
         })
         .state('dashboard.campaign', {
             url: '/campaign',

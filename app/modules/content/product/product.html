@@ -1,0 +1,1189 @@
+<div class="page-header">
+    <h1>Product</h1>
+</div>
+
+<div class="container" style="width: 100%" ng-controller="CategoryCtrl">
+
+    <div class="row" style="margin-top:20px;">
+
+        <div class="col-md-6">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label>Filter:</label>
+
+                    <select class='form-control' ng-model="c" ng-options="c.cat_name for c in categories"
+                            ng-change="$parent.myFilter = {categories:{cat_id : c._id}}">
+                        <option value="">All</option>
+
+                    </select>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="pull-right" ng-controller="ModalProductCtrl">
+
+                <!-- angular ui modal -->
+                <script type="text/ng-template" id="productDetailsModalTpl">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Product Details</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+
+                            <div class="row">
+                                <div class="col-md-6" style="margin-bottom: 10px;">
+                                    <div class="row" ng-if="product.highlights.length > 0">
+                                        <h3>Highlights</h3>
+                                        <ul ng-repeat="highlight in product.highlights" class="list-unstyled">
+                                            <li>{{highlight.hlt_description}}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="row" ng-if="product.fineprints.length > 0">
+                                        <h3>FinePrints</h3>
+                                        <ul ng-repeat="fineprint in product.fineprints" class="list-unstyled">
+                                            <li>{{fineprint.fnp_description}}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="row" ng-controller="SubProductCtrl">
+                                        <div class="row" ng-if="product.subproducts.length > 0">
+                                            <div class="col-md-12">
+                                                <h3>Sub Products</h3>
+
+
+                                                <div pagination-id="subProductPagination"
+                                                     dir-paginate="sub in product.subproducts | itemsPerPage:2">
+
+                                                    <div class="item active">
+                                                        <ul class="event-list" class="list-unstyled">
+                                                            <li>
+                                                                <time>
+                                                                    <span class="month">{{sub.sbp_discount}}</span>
+                                                                </time>
+
+                                                                <div class="info">
+                                                                    <h2 class="title">{{sub.sbp_description}}</h2>
+
+                                                                    <p class="desc"><label>New
+                                                                        Price&nbsp;:&nbsp;</label>{{getAvailableProductQuantity(sub,
+                                                                        product)}}RM</p>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-center">
+                                                    <dir-pagination-controls
+                                                            pagination-id="subProductPagination"
+                                                            direction-links="true"
+                                                            boundary-links="true">
+                                                    </dir-pagination-controls>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div id="carousel-product-images" class="carousel slide carousel-fade"
+                                         data-ride="carousel" ng-if="product.images.length > 0">
+                                        <!-- Wrapper for slides -->
+                                        <div class="carousel-inner" role="listbox" ng-repeat="image in product.images">
+
+                                            <div class="item active" ng-if="image.img_is_cover == 'true'">
+                                                <img lazy-src="{{image.img_url}}">
+                                            </div>
+
+                                            <div class="item" ng-if="image.img_is_cover == 'false'">
+                                                <img lazy-src="{{image.img_url}}">
+                                            </div>
+                                        </div>
+
+                                        <!-- Controls -->
+                                        <a class="left carousel-control" ng-non-bindable
+                                           href="#carousel-product-images" role="button" data-slide="prev"
+                                           target="_self">
+                                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="right carousel-control" ng-non-bindable
+                                           href="#carousel-product-images" role="button" data-slide="next"
+                                           target="_self">
+                                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group">
+                            <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+                            <button class="btn btn-primary" type="button" ng-click="ok()">Save</button>
+
+                        </div>
+                    </div>
+                </script>
+                <!-- / -->
+
+                <!-- angular ui modal -->
+                <script type="text/ng-template" id="productModalTpl">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Product</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" ng-controller="ProductDetailCtrl">
+                            <wizard current-step-number="currentStepNumber" submit="submit()">
+                                <wizard-step title="GeneralInformations" entered="stepEntered()">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3"
+                                                       style="text-align: left;">Title:</label>
+
+                                                <div class="col-xs-9">
+                                                    <input value="{{product.prd_title}}" type="text"
+                                                           class="form-control"
+                                                           placeholder="Title" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3" style="text-align: left;">Original
+                                                    Price:</label>
+
+                                                <div class="col-xs-9">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control"
+                                                               placeholder="Original Price"
+                                                               aria-describedby="basic-addon2"
+                                                               value="{{product.prd_original_price}}" required>
+                                                        <span class="input-group-addon">RM</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3" style="text-align: left;">New
+                                                    Price:</label>
+
+                                                <div class="col-xs-9">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" placeholder="New Price"
+                                                               aria-describedby="basic-addon2"
+                                                               value="{{product.prd_new_price}}">
+                                                        <span class="input-group-addon">RM</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3"
+                                                       style="text-align: left;">Measure Unit:</label>
+
+                                                <div class="col-xs-9">
+
+                                                    <input value="{{product.prd_measure_unit}}" type="text"
+                                                           class="form-control"
+                                                           placeholder="KG" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3"
+                                                       style="text-align: left;">Description:</label>
+
+                                                <div class="col-xs-9">
+                                             <textarea type="text" class="form-control" rows="2"
+                                                       placeholder="Description"
+                                                       required>{{product.prd_description}}</textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" ng-controller="CategoryCtrl">
+                                                <label class="control-label col-xs-3"
+                                                       style="text-align: left;">Categories:</label>
+
+                                                <div class="col-xs-9">
+                                                    <oi-select
+                                                            oi-options="c.cat_group + '/' + c.cat_name for c in categories track by c._id"
+                                                            ng-model="product.categories"
+                                                            choseList
+                                                            required
+                                                            multiple>
+                                                    </oi-select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3"
+                                                       style="text-align: left;">Availability:</label>
+
+                                                <div class="col-xs-9">
+
+                                                    <input value="{{product.prd_availability}}" type="text"
+                                                           class="form-control"
+                                                           placeholder="Availability" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </wizard-step>
+                                <wizard-step title="DetailedInformations" required-step-number="0"
+                                             entered="stepEntered()">
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <h4 class=" text-center">FinePrints</h4><br/>
+
+                                            <ul class="list-unstyled">
+
+                                                <li ng-repeat="p in product.fineprints track by $index">
+
+                                                    <div class="input-group">
+                                                        <input class="form-control" type="text"
+                                                               ng-model="p.fnp_description"
+                                                               required/>
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-danger" type="button"
+                                                                    ng-click="deleteFinePrint(p)">
+                                                                <i class="glyphicon glyphicon-minus-sign visible-xs-inline-block"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                    <br/>
+                                                </li>
+
+                                                <li>
+                                                    <div class="btn-group" role="group">
+                                                        <button class="btn btn-info" type="button"
+                                                                ng-click="addFinePrint()">
+                                                            <span class="hidden-xs">add FinePrints</span>
+                                                            <i class="glyphicon glyphicon-plus-sign visible-xs-inline-block"></i>
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <h4 class=" text-center">HighLights</h4><br/>
+                                            <ul class="list-unstyled">
+
+                                                <li ng-repeat="p in product.highlights track by $index">
+
+                                                    <div class="input-group">
+                                                        <input class="form-control" type="text"
+                                                               ng-model="p.hlt_description" required/>
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-danger" type="button"
+                                                                    ng-click="deleteHighlight(p)">
+                                                                <i class="glyphicon glyphicon-minus-sign visible-xs-inline-block"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                    <br/>
+
+                                                </li>
+
+                                                <li>
+
+                                                    <div class="btn-group" role="group">
+                                                        <button class="btn btn-info" type="button"
+                                                                ng-click="addHighLight()">
+                                                            <span class="hidden-xs">add HighLights</span>
+                                                            <i class="glyphicon glyphicon-plus-sign visible-xs-inline-block"></i>
+                                                        </button>
+                                                    </div>
+
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+                                    </div>
+
+                                </wizard-step>
+                                <wizard-step title="SubProductsInformations" required-step-number="1"
+                                             entered="stepEntered()">
+
+
+                                    <div class="row">
+
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-info" type="button"
+                                                    ng-click="addSubProduct()">
+                                                <span class="hidden-xs">add Sub Product</span>
+                                                <i class="glyphicon glyphicon-plus-sign visible-xs-inline-block"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" pagination-id="newSubProductPagination"
+                                         dir-paginate="p in product.subproducts | itemsPerPage:2">
+                                        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                                            <div class="offer offer-success">
+                                                <div class="row">
+                                                    <div class="shape">
+                                                        <div class="shape-text">
+
+                                                            <button class="btn btn-danger rounded raised" type="button"
+                                                                    ng-click="deleteSubProduct(p)">
+                                                                <i class="glyphicon glyphicon-minus-sign visible-xs-inline-block"></i>
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="offer-content"
+                                                     style="padding-top: 0px; padding-left: 40px;">
+
+                                                    <div class="form-group">
+
+                                                        <div class="field">
+                                                            <label ng-show="p.sbp_description" class="show-hide">Description</label>
+                                                            <input type="text" class="form-control"
+                                                                   ng-model="p.sbp_description"
+                                                                   value="{{p.sbp_description}}"
+                                                                   placeholder="Description" required/>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+
+                                                        <div class="field">
+                                                            <label ng-show="p.sbp_discount"
+                                                                   class="show-hide">Discount</label>
+                                                            <input type="text" class="form-control"
+                                                                   ng-model="p.sbp_discount" value="{{p.sbp_discount}}"
+                                                                   placeholder="Discount" required/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+
+                                                        <div class="field">
+                                                            <label ng-show="p.sbp_initial_quantity" class="show-hide">Quantity</label>
+                                                            <input type="text" class="form-control"
+                                                                   ng-model="p.sbp_initial_quantity"
+                                                                   value="{{p.sbp_initial_quantity}}"
+                                                                   placeholder="Quantity" required/>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="text-center">
+                                            <dir-pagination-controls
+                                                    pagination-id="newSubProductPagination"
+                                                    direction-links="true"
+                                                    boundary-links="true">
+                                            </dir-pagination-controls>
+                                        </div>
+                                    </div>
+                                </wizard-step>
+
+                                <wizard-step title="ImgageUpload" required-step-number="2"
+                                             entered="stepEntered()">
+
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse"
+                                            data-target="#collapseExample" aria-expanded="false"
+                                            aria-controls="collapseExample">
+                                        Upload new images
+                                    </button>
+
+                                    <ul class="ch-grid">
+                                        <li ng-repeat="image in product.images">
+                                            <div class="ch-item">
+                                                <div class="ch-info" style="background: #c9512e url({{image.img_url}})">
+
+                                                    <p><a>
+                                                        <button class="btn btn-danger" type="button"
+                                                                ng-click="deleteImage(p)">
+                                                            <i class="glyphicon glyphicon-minus-sign visible-xs-inline-block"></i>
+                                                        </button>
+                                                    </a></p>
+                                                </div>
+                                                <div class="ch-thumb">
+                                                    <img class="img-responsive" src="{{image.img_url}}">
+                                                </div>
+
+
+                                            </div>
+                                        </li>
+
+                                    </ul>
+
+
+                                    <div class="collapse" id="collapseExample">
+
+                                        <div class="well">
+
+                                            <section class="container" ng-controller="dropletCtrl">
+
+                                                <section class="droplet"
+                                                         ng-class="{ uploading: interface.isUploading() }">
+
+                                                    <ul class="statistics">
+                                                        <li><label>Valid:</label>
+                                                            {{interface.getFiles(interface.FILE_TYPES.VALID).length}}
+                                                        </li>
+                                                        <li><label>Invalid:</label>
+                                                            {{interface.getFiles(interface.FILE_TYPES.INVALID).length}}
+                                                        </li>
+                                                        <li><label>Uploaded:</label>
+                                                            {{interface.getFiles(interface.FILE_TYPES.UPLOADED).length}}
+                                                        </li>
+                                                        <li><label>Deleted:</label>
+                                                            {{interface.getFiles(interface.FILE_TYPES.DELETED).length}}
+                                                        </li>
+                                                        <li><label>Total:</label> {{interface.getFiles().length}}</li>
+                                                    </ul>
+
+                                                    <section class="toolbar">
+
+                                                        <input type="button" class="button upload-files"
+                                                               value="Upload Files"
+                                                               ng-click="interface.uploadFiles()"
+                                                               ng-hide="interface.isUploading()"
+                                                               ng-class="{ clickable: interface.isReady() }"/>
+
+
+                                                        <div class="add-files">
+                                                            <input type="button" class="button add-files"
+                                                                   value="Add Files..." style="width: 100%;"/>
+                                                            <droplet-upload-multiple
+                                                                    ng-model="interface"></droplet-upload-multiple>
+                                                        </div>
+
+                                                        <comment class="progress"
+                                                                 ng-class="{ visible: interface.isUploading() }">
+                                                            Uploaded: {{interface.progress.percent}}%
+                                                        </comment>
+
+                                                    </section>
+
+                                                    <droplet ng-model="interface" product="product.images">
+
+                                                        <comment></comment>
+
+                                                        <section class="message success" ng-class="{ visible: success }"
+                                                                 ng-click="success = false">
+                                                            Successfully uploaded {{uploadCount}} files.
+                                                        </section>
+
+                                                        <section class="message error" ng-class="{ visible: error }"
+                                                                 ng-click="error = false">
+                                                            Failed to upload any of the files.
+                                                        </section>
+
+                                                        <ul class="files">
+
+                                                            <li ng-repeat="model in interface.getFiles(interface.FILE_TYPES.VALID)">
+                                                                <droplet-preview ng-model="model"
+                                                                                 product="product.images"></droplet-preview>
+                                                                <div class="delete"
+                                                                     ng-click="model.deleteFile()">&times;</div>
+                                                                <div class="size">{{model.file.size / 1024 / 1024 |
+                                                                    number:
+                                                                    1}}MB
+                                                                </div>
+                                                            </li>
+
+                                                        </ul>
+
+                                                    </droplet>
+
+                                                </section>
+
+                                            </section>
+
+                                        </div>
+
+                                    </div>
+
+                                </wizard-step>
+
+                            </wizard>
+
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <div class="btn-group">
+                            <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+                            <button class="btn btn-primary" type="button" ng-click="ok()">Save</button>
+                        </div>
+
+                    </div>
+
+                </script>
+                <!-- / -->
+
+                <!-- Button trigger modal -->
+                <button type="button" ng-click="open('lg','productModalTpl')" class="btn btn-primary">Add
+                    Product
+                </button>
+                <!-- / -->
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="container" style="width: 100%; margin-top:20px;">
+        <div class="row" ng-controller="ModalProductCtrl">
+
+            <div class="col-md-4 catalog fadeIn"
+                 dir-paginate="product in products | filter : myFilter | itemsPerPage:15">
+
+                <div class="thumbnail">
+
+                    <h4 class="text-center title"><span class="label label-info">{{product.prd_title}}</span></h4>
+
+                    <div class="text-center" ng-controller="RatingCtrl">
+                        <uib-rating class="stars"
+                                    value="{{getTotal(product._id)}}"
+                                    ng-model="total"
+                                    max="5"
+                                    readonly="isReadonly"
+                                    state-on="'glyphicon glyphicon-star'"
+                                    state-off="'glyphicon glyphicon-star-empty'"
+                                    aria-labelledby="default-rating">
+                        </uib-rating>
+                    </div>
+
+                    <div class="text-center" ng-if="product.images.length > 0"
+                         ng-repeat="image in product.images">
+                        <img style="height: 250px; width: 350px;"
+                             ng-if="image.img_is_cover == 'true'"
+                             lazy-src="{{image.img_url}}"
+                             class="img-responsive center-block"/>
+                    </div>
+
+                    <div class="text-center" ng-if="product.images.length == 0">
+                        <img style="height: 250px; width: 350px;"
+                             lazy-src="assets/images/no-image.png"
+                             class="img-responsive center-block"/>
+                    </div>
+
+                    <!--<span class="badge badge-success pull-right" ng-if="product.prd_new_price != 0">{{product.prd_new_price}}</span>-->
+
+                    <div class="caption">
+
+                        <div class="row">
+
+                            <div class="col-md-6 col-xs-6 text-left">
+                                <h3>{{product.prd_original_price}}RM</h3>
+                            </div>
+                            <div class="col-md-6 col-xs-6 text-right" ng-if="product.prd_new_price != 0">
+                                <h3>
+                                    {{product.prd_new_price}}RM
+                                </h3>
+                            </div>
+
+                        </div>
+
+                        <p>{{product.prd_description}}</p>
+
+                        <div class="row catalog-buttons">
+
+                            <div class="btn-group btn-group-justified" role="group" aria-label="...">
+
+                                <div class="btn-group" role="group" ng-if="hasInformations(product)">
+                                    <button class="btn btn-info"
+                                            ng-click="open('lg','productDetailsModalTpl', product)"><i
+                                            class="glyphicon glyphicon-info-sign visible-xs-inline-block"></i>
+                                        <span class="hidden-xs hidden-sm hidden-md">More</span></button>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-warning"
+                                            ng-click="open('lg','productModalTpl', product)">
+                                        <i class="glyphicon glyphicon-pencil visible-xs-inline-block"></i>
+                                        <span class="hidden-xs hidden-sm hidden-md">Update</span>
+                                    </button>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-danger" ng-click="removeProductRow(product._id)">
+                                        <i class="glyphicon glyphicon-remove visible-xs-inline-block"></i>
+                                        <span class="hidden-xs hidden-sm hidden-md">Remove</span>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <dir-pagination-controls
+                direction-links="true"
+                boundary-links="true">
+        </dir-pagination-controls>
+
+    </div>
+
+</div>
+
+<style type="text/css">
+
+    .size {
+        width: 100px;
+        height: 100px;
+    }
+
+    .stars {
+        color: #FFC107 !important;
+    }
+
+    .center-block {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .catalog {
+        margin-right: 0px;
+        margin-left: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+    }
+
+    .catalog-buttons {
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    .badge {
+        position: relative;
+    }
+
+    .title {
+        margin-bottom: 5px;
+    }
+
+    .carousel-fade .carousel-inner .item {
+        opacity: 0;
+        -webkit-transition-property: opacity;
+        -moz-transition-property: opacity;
+        -o-transition-property: opacity;
+        transition-property: opacity;
+    }
+
+    .carousel-fade .carousel-inner .active {
+        opacity: 1;
+    }
+
+    .carousel-fade .carousel-inner .active.left,
+    .carousel-fade .carousel-inner .active.right {
+        left: 0;
+        opacity: 0;
+        z-index: 1;
+    }
+
+    .carousel-fade .carousel-inner .next.left,
+    .carousel-fade .carousel-inner .prev.right {
+        opacity: 1;
+    }
+
+    .carousel-fade .carousel-control {
+        z-index: 2;
+    }
+
+    /*
+    * begin sub product CSS
+    */
+
+    .event-list {
+        list-style: none;
+        font-family: 'Lato', sans-serif;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .event-list > li {
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0px 0px 5px rgb(51, 51, 51);
+        box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
+        padding: 0px;
+        margin: 0px 0px 20px;
+    }
+
+    .event-list > li > time {
+        display: inline-block;
+        width: 100%;
+        color: rgb(255, 255, 255);
+        background-color: rgb(197, 44, 102);
+        padding: 5px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .event-list > li:nth-child(even) > time {
+        background-color: rgb(165, 82, 167);
+    }
+
+    .event-list > li > time > span {
+        display: none;
+    }
+
+    .event-list > li > time > .day {
+        display: block;
+        font-size: 56pt;
+        font-weight: 100;
+        line-height: 1;
+    }
+
+    .event-list > li time > .month {
+        display: block;
+        font-size: 24pt;
+        font-weight: 900;
+        line-height: 1;
+    }
+
+    .event-list > li > img {
+        width: 100%;
+    }
+
+    .event-list > li > .info {
+        padding-top: 5px;
+        text-align: center;
+    }
+
+    .event-list > li > .info > .title {
+        font-size: 17pt;
+        font-weight: 700;
+        margin: 0px;
+    }
+
+    .event-list > li > .info > .desc {
+        font-size: 13pt;
+        font-weight: 300;
+        margin: 0px;
+    }
+
+    .event-list > li > .info > ul,
+    .event-list > li > .social > ul {
+        display: table;
+        list-style: none;
+        margin: 10px 0px 0px;
+        padding: 0px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .event-list > li > .social > ul {
+        margin: 0px;
+    }
+
+    .event-list > li > .info > ul > li,
+    .event-list > li > .social > ul > li {
+        display: table-cell;
+        cursor: pointer;
+        color: rgb(30, 30, 30);
+        font-size: 11pt;
+        font-weight: 300;
+        padding: 3px 0px;
+    }
+
+    .event-list > li > .info > ul > li > a {
+        display: block;
+        width: 100%;
+        color: rgb(30, 30, 30);
+        text-decoration: none;
+    }
+
+    @media (min-width: 768px) {
+        .event-list > li {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 120px;
+            padding: 0px;
+        }
+
+        .event-list > li > time,
+        .event-list > li > img {
+            display: inline-block;
+        }
+
+        .event-list > li > time,
+        .event-list > li > img {
+            width: 120px;
+            float: left;
+        }
+
+        .event-list > li > .info {
+            background-color: rgb(245, 245, 245);
+            overflow: hidden;
+        }
+
+        .event-list > li > time,
+        .event-list > li > img {
+            width: 120px;
+            height: 120px;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .event-list > li > .info {
+            position: relative;
+            height: 120px;
+            text-align: left;
+            padding-right: 40px;
+        }
+
+        .event-list > li > .info > .title,
+        .event-list > li > .info > .desc {
+            padding: 0px 10px;
+        }
+
+        .event-list > li > .info > ul {
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+        }
+
+        .event-list > li > .social {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            display: block;
+            width: 40px;
+        }
+
+        .event-list > li > .social > ul {
+            border-left: 1px solid rgb(230, 230, 230);
+        }
+
+        .event-list > li > .social > ul > li {
+            display: block;
+            padding: 0px;
+        }
+
+        .event-list > li > .social > ul > li > a {
+            display: block;
+            width: 40px;
+            padding: 10px 0px 9px;
+        }
+
+        .shape {
+            border-style: solid;
+
+            float: right;
+            height: 0px;
+            width: 0px;
+            -ms-transform: rotate(360deg); /* IE 9 */
+            -o-transform: rotate(360deg); /* Opera 10.5 */
+            -webkit-transform: rotate(360deg); /* Safari and Chrome */
+            transform: rotate(360deg);
+        }
+
+        .offer {
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .offer:hover {
+            -webkit-transform: scale(1.1);
+            -moz-transform: scale(1.1);
+            -ms-transform: scale(1.1);
+            -o-transform: scale(1.1);
+            transform: rotate scale(1.1);
+            -webkit-transition: all 0.4s ease-in-out;
+            -moz-transition: all 0.4s ease-in-out;
+            -o-transition: all 0.4s ease-in-out;
+            transition: all 0.4s ease-in-out;
+        }
+
+    }
+
+    /*
+    * end sub product CSS
+    */
+
+    .shape {
+        border-style: solid;
+        border-width: 0 70px 40px 0;
+        float: right;
+        height: 0px;
+        width: 0px;
+        -ms-transform: rotate(360deg); /* IE 9 */
+        -o-transform: rotate(360deg); /* Opera 10.5 */
+        -webkit-transform: rotate(360deg); /* Safari and Chrome */
+        transform: rotate(360deg);
+    }
+
+    .offer {
+        background: #fff;
+        border: 1px solid #ddd;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        margin: 15px 0;
+        overflow: hidden;
+    }
+
+    .offer:hover {
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+        transform: rotate scale(1.1);
+        -webkit-transition: all 0.4s ease-in-out;
+        -moz-transition: all 0.4s ease-in-out;
+        -o-transition: all 0.4s ease-in-out;
+        transition: all 0.4s ease-in-out;
+    }
+
+    .shape {
+        border-color: rgba(255, 255, 255, 0) #d9534f rgba(255, 255, 255, 0) rgba(255, 255, 255, 0);
+
+    }
+
+    .offer-success {
+        border-color: #5cb85c;
+    }
+
+    .offer-success .shape {
+        border-color: transparent #5cb85c transparent transparent;
+    }
+
+    .shape-text {
+        color: #fff;
+        font-size: 12px;
+        font-weight: bold;
+        position: relative;
+        right: -15px;
+        top: 0px;
+        white-space: nowrap;
+        -ms-transform: rotate(30deg); /* IE 9 */
+        -o-transform: rotate(360deg); /* Opera 10.5 */
+        -webkit-transform: rotate(30deg); /* Safari and Chrome */
+        transform: rotate(30deg);
+    }
+
+    .offer-content {
+        padding: 0 20px 10px;
+    }
+
+    .rounded {
+        border-radius: 24px;
+    }
+
+    .btn-danger.raised {
+        box-shadow: 0 3px 0 0 #D32F2F;
+    }
+
+    .btn-danger.raised:active, .btn-primary.raised.active {
+        background: #33a6cc;
+        box-shadow: none;
+        margin-bottom: -3px;
+        margin-top: 3px;
+    }
+
+    .modal-body {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+    }
+
+    .modal-footer {
+        margin-top: 0px;
+    }
+
+    .show-hide.ng-hide-add,
+    .show-hide.ng-hide-remove {
+        transition: all linear 0.2s;
+        display: block !important;
+        position: absolute;
+    }
+
+    .show-hide.ng-hide-add.ng-hide-add-active,
+    .show-hide.ng-hide-remove {
+        top: -8px;
+        display: block !important;
+        position: absolute;
+        opacity: 0;
+    }
+
+    .show-hide.ng-hide-add,
+    .show-hide.ng-hide-remove.ng-hide-remove-active {
+        top: -14px;
+        opacity: 1;
+        display: block !important;
+        position: absolute;
+    }
+
+    .field {
+        position: relative;
+        margin-bottom: 1em;
+        padding-bottom: 0px;
+    }
+
+    .field > label {
+        position: absolute;
+        top: -14px;
+        color: #428bca;
+        font-size: 0.8em;
+    }
+
+    .field > input {
+        border: 0;
+        padding: 0.5em 0 !important;
+        box-shadow: none !important;
+        border-radius: 0;;
+        border-bottom: 1px solid #555555;
+        max-width: 400px;
+        margin-top: 15px
+    }
+
+    .ch-grid {
+        margin: 20px 0 0 0;
+        padding: 0;
+        list-style: none;
+        display: block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .ch-grid:after,
+    .ch-item:before {
+        content: '';
+        display: table;
+    }
+
+    .ch-grid:after {
+        clear: both;
+    }
+
+    .ch-grid li {
+        width: 220px;
+        height: 220px;
+        display: inline-block;
+        margin: 20px;
+    }
+
+    .ch-item {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        position: relative;
+        cursor: default;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .ch-thumb {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+        position: absolute;
+        box-shadow: inset 0 0 0 15px rgba(255, 255, 255, 0.5);
+        transform-origin: 95% 40%;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .ch-thumb:after {
+        width: 8px;
+        height: 8px;
+        position: absolute;
+        border-radius: 50%;
+        top: 40%;
+        left: 95%;
+        margin: -4px 0 0 -4px;
+        background: radial-gradient(ellipse at center, rgba(14, 14, 14, 1) 0%, rgba(125, 126, 125, 1) 100%);
+        box-shadow: 0 0 1px rgba(255, 255, 255, 0.9);
+    }
+
+    .ch-info {
+        position: absolute;
+        width: inherit;
+        height: inherit;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: inset 0 0 0 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .ch-info h3 {
+        color: #fff;
+        text-transform: uppercase;
+        position: relative;
+        letter-spacing: 2px;
+        font-size: 18px;
+        margin: 0 60px;
+        padding: 22px 0 0 0;
+        height: 85px;
+        font-family: 'Open Sans', Arial, sans-serif;
+        text-shadow: 0 0 1px #fff,
+        0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .ch-info p {
+        color: #fff;
+        padding: 10px 5px;
+        font-style: italic;
+        margin: 0 30px;
+        font-size: 12px;
+        border-top: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .ch-info p a {
+        display: block;
+        color: #333;
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        color: #fff;
+        font-style: normal;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 9px;
+        letter-spacing: 1px;
+        padding-top: 24px;
+        margin: 7px auto 0;
+        margin-top: 50px;
+        font-family: 'Open Sans', Arial, sans-serif;
+        opacity: 0;
+        transition: transform 0.3s ease-in-out 0.2s,
+        opacity 0.3s ease-in-out 0.2s,
+        background 0.2s linear 0s;
+        transform: translateX(60px) rotate(90deg);
+    }
+
+    .ch-info p a:hover {
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    .ch-item:hover .ch-thumb {
+        box-shadow: inset 0 0 0 15px rgba(255, 255, 255, 0.5), 0 1px 3px rgba(0, 0, 0, 0.2);
+        transform: rotate(-110deg);
+    }
+
+    .ch-item:hover .ch-info p a {
+        opacity: 1;
+        transform: translateX(0px) rotate(0deg);
+    }
+
+</style>
+

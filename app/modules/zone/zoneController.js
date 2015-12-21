@@ -113,7 +113,6 @@
          * @param {string} lat
          * @param {string} lon
          */
-
         $scope.whoiswhere = [];
 
         $scope.gotoLocation = function (lat, lon, range) {

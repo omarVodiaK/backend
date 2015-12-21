@@ -13,7 +13,9 @@ angular
         'truncate',
         'oi.select', // multi select dropdown
         'hSweetAlert',
-        'angularFileUpload', // file upload used in app.beacon
+        'ngWizard',
+        'ngDroplet',
+        'me-lazyload',
         'pascalprecht.translate',
         'angularBootstrapNavTree',
         'app.routes',

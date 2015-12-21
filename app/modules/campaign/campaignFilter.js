@@ -37,7 +37,7 @@
             return function (listOfBeacons, categoryValue, zones) {
 
                 if (!listOfBeacons || !listOfBeacons.length) {
-
+                    // Do Nothing
                 } else {
 
                     if (!categoryValue) {

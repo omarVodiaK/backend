@@ -45,6 +45,11 @@
             $scope.showModal = !$scope.showModal;
         };
 
+        $scope.ok = function () {
+            $scope.showModal = false;
+        };
+
+
         /**
          * remove associate row
          * @method removeAssociate

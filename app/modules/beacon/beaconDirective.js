@@ -20,7 +20,7 @@ angular
             },
             isImage: function (file) {
                 var type = '|' + file.type.slice(file.type.lastIndexOf('/') + 1) + '|';
-                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+                return '|jpg|png|jpeg|bmp'.indexOf(type) !== -1;
             }
         };
 

@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Dashboard</title>
-    <link rel="icon" type="image/png" href="assets/images/favicon.ico">
+    <!--<link rel="icon" type="image/png" href="assets/images/favicon.ico">-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- build:css assets/css/styles.css -->
 
@@ -18,8 +18,9 @@
     <link rel="stylesheet"
           href="assets/bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.css">
     <link rel="stylesheet" href="assets/bower_components/angular-bootstrap-nav-tree-js/dist/abn_tree.css">
-    <link rel="stylesheet" href="assets/css/font-icons.css" type='text/css'>
-
+    <link rel="stylesheet" href="assets/bower_components/ng-wizard/dest/ngWizard.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/Default.css"/>
+    <!--<link rel="stylesheet" href="assets/css/font-icons.css" type='text/css'>-->
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -43,13 +44,21 @@
 <!-- ASSETS -->
 <!-- load jquery before bootstrap in order to have modal -->
 
+
 <script src="assets/bower_components/jquery/dist/jquery.js"></script>
 <script src="assets/bower_components/jquery-ui/jquery-ui.js"></script>
 <script src="assets/bower_components/moment/min/moment.min.js"></script>
 <script src="assets/bower_components/bootstrap/dist/js/bootstrap.js"></script>
 <script src="assets/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 <script src="assets/bower_components/angular/angular.min.js"></script>
-<script src="assets/bower_components/angular-file-upload/dist/angular-file-upload.min.js"></script>
+
+<script type="text/javascript" src="assets/bower_components/ng-droplet/dist/ng-droplet.js"></script>
+<script type="text/javascript" src="assets/js/me-lazyload.js"></script>
+
+<script src="assets/bower_components/ng-wizard/dest/ngWizard.js"></script>
+<script src="assets/bower_components/ng-file-upload/ng-file-upload-shim.min.js"></script>
+<!-- for no html5 browsers support -->
+<script src="assets/bower_components/ng-file-upload/ng-file-upload.min.js"></script>
 <script src="assets/bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
 <script src="assets/bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.js"></script>
 <!-- always load before ngSweetAlert -->
@@ -74,9 +83,11 @@
 <script src="assets/js/angular-truncate.js"></script>
 <script src="assets/js/angular-preload-image.min.js"></script>
 
+<!--file input -->
+<script src="assets/js/bootstrap.file-input.js"></script>
 
 <!--Map-->
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3&language=&region="></script>
+<!--<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3&language=&region="></script>-->
 <!-- / -->
 
 <!--pagination-->
@@ -103,9 +114,9 @@
 <script src="modules/location/locationController.js"></script>
 <script src="modules/category/categoryController.js"></script>
 <script src="modules/zone/zoneController.js"></script>
-<script src="modules/player/playerController.js"></script>
 <script src="modules/beacon/beaconController.js"></script>
-<script src="modules/content/contentController.js"></script>
+<script src="modules/content/normal/contentController.js"></script>
+<script src="modules/content/product/productController.js"></script>
 <script src="modules/campaign/campaignController.js"></script>
 <script src="modules/notification/notificationController.js"></script>
 <!-- / -->
@@ -117,7 +128,8 @@
 <script src="modules/location/locationService.js"></script>
 <script src="modules/category/categoryService.js"></script>
 <script src="modules/beacon/beaconService.js"></script>
-<script src="modules/content/contentService.js"></script>
+<script src="modules/content/normal/contentService.js"></script>
+<script src="modules/content/product/productService.js"></script>
 <script src="modules/campaign/campaignService.js"></script>
 <script src="modules/notification/notificationService.js"></script>
 <script src="services/showFactory.js"></script>
@@ -132,7 +144,7 @@
 
 <!-- / -->
 <!-- FILTERS -->
-<script src="modules/content/contentFilter.js"></script>
+<script src="modules/content/normal/contentFilter.js"></script>
 <script src="modules/campaign/campaignFilter.js"></script>
 <!-- / -->
 

@@ -12,7 +12,6 @@
         .controller('ModalNotificationCtrl', modalController)
         .controller('ModalNotificationInstanceCtrl', modalInstanceController)
 
-
     function notificationController($scope, NotificationService) {
         NotificationService.getNotification(function (data) {
             $scope.notifications = data;
@@ -58,14 +57,14 @@
      * @param {object} $modalInstance
      * @param {object} beacon
      */
-    function modalInstanceController($scope, $modalInstance) {
+    function modalInstanceController($scope, $uibModalInstance) {
 
         /**
          * press ok in modal
          * @method ok
          */
         $scope.ok = function () {
-            $modalInstance.close();
+            $uibModalInstance.close();
         };
 
         /**
@@ -73,7 +72,7 @@
          * @method cancel
          */
         $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
     }
 })();

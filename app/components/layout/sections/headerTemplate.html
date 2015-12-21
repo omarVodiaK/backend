@@ -9,61 +9,61 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="index.html">Tractive</a>
+    <a class="navbar-brand link link--kukuri" data-letters="Tractive" href="index.html">Tractive</a>
 </div>
 
 <p class="navbar-text">Signage</p>
 <!-- Top Menu Items -->
 <ul class="nav navbar-right top-nav">
 
-    <li dropdown>
-        <a id="app-info" href="#" data-toggle="dropdown" dropdown-toggle>
+    <li uib-dropdown>
+        <a id="app-info" href="" data-toggle="dropdown" uib-dropdown-toggle>
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
             <b class="caret"></b>
         </a>
 
         <ul class="dropdown-menu alert-dropdown">
             <li>
-                <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
+                <a href="">Alert Name <span class="label label-default">Alert Badge</span></a>
             </li>
             <li>
-                <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
+                <a href="">Alert Name <span class="label label-primary">Alert Badge</span></a>
             </li>
             <li>
-                <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
+                <a href="">Alert Name <span class="label label-success">Alert Badge</span></a>
             </li>
             <li>
-                <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
+                <a href="">Alert Name <span class="label label-info">Alert Badge</span></a>
             </li>
             <li>
-                <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
+                <a href="">Alert Name <span class="label label-warning">Alert Badge</span></a>
             </li>
             <li>
-                <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
+                <a href="">Alert Name <span class="label label-danger">Alert Badge</span></a>
             </li>
             <li class="divider"></li>
             <li>
-                <a href="#">View All</a>
+                <a href="">View All</a>
             </li>
         </ul>
     </li>
-    <li dropdown>
-        <a href="#" data-toggle="dropdown" dropdown-toggle>
+    <li uib-dropdown>
+        <a href="" data-toggle="dropdown" uib-dropdown-toggle>
             <span class="glyphicon glyphicon-th-large header" aria-hidden="true"></span>
             <b class="caret"></b>
         </a>
         <ul class="dropdown-menu alert-dropdown ui popup">
             <li>
-                <a href="#">Signage <a class="btn btn-primary">GO</a></a>
+                <a href="">Signage <a class="btn btn-primary">GO</a></a>
             </li>
             <li>
-                <a href="#">Beacon <a class="btn btn-primary">GO</a></a>
+                <a href="">Beacon <a class="btn btn-primary">GO</a></a>
             </li>
         </ul>
     </li>
 
-    <li dropdown>
-        <a href="#" data-toggle="dropdown" dropdown-toggle>
+    <li uib-dropdown>
+        <a href="" data-toggle="dropdown" uib-dropdown-toggle>
             <span class="glyphicon glyphicon-user header" aria-hidden="true"></span>
             John Smith
             <b class="caret"></b>
@@ -71,15 +71,73 @@
 
         <ul class="dropdown-menu">
             <li>
-                <a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a>
+                <a href=""><span class="glyphicon glyphicon-user"></span> Profile</a>
             </li>
             <li>
-                <a href="#"><span class="glyphicon glyphicon-cog"></span> Settings</a>
+                <a href=""><span class="glyphicon glyphicon-cog"></span> Settings</a>
             </li>
             <li class="divider"></li>
             <li>
-                <a href="#"><span class="glyphicon glyphicon-off"></span> Log Out</a>
+                <a href=""><span class="glyphicon glyphicon-off"></span> Log Out</a>
             </li>
         </ul>
     </li>
 </ul>
+
+
+<style>
+    .link {
+        outline: none;
+        text-decoration: none;
+        position: relative;
+        font-size: 2em;
+        line-height: 1;
+        color: #9e9ba4;
+        display: inline-block;
+    }
+
+    .link--kukuri {
+        text-transform: uppercase;
+        font-weight: 900;
+        overflow: hidden;
+        line-height: 0.75;
+        color: #b2b0a9;
+    }
+
+    .link--kukuri:hover {
+        color: #b2b0a9;
+    }
+
+    .link--kukuri::after {
+        content: '';
+        position: absolute;
+        height: 16px;
+        width: 100%;
+        top: 50%;
+        margin-top: -8px;
+        right: 0;
+        background: #F9F9F9;
+        transform: translate3d(-100%, 0, 0);
+        transition: transform 0.4s;
+        transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+    }
+
+    .link--kukuri:hover::after {
+        transform: translate3d(100%, 0, 0);
+    }
+
+    .link--kukuri::before {
+        content: attr(data-letters);
+        position: absolute;
+        z-index: 2;
+        overflow: hidden;
+        color: #424242;
+        white-space: nowrap;
+        width: 0%;
+        transition: width 0.4s 0.3s;
+    }
+
+    .link--kukuri:hover::before {
+        width: 100%;
+    }
+</style>

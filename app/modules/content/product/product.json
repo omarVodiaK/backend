@@ -1,0 +1,230 @@
+[
+  {
+    "_id": 1,
+    "prd_title": "product 1",
+    "prd_description": "description of product 1",
+    "prd_original_price": 300,
+    "prd_new_price": 0,
+    "prd_availability": "available only weekend",
+    "prd_measure_unit": "kg",
+    "categories": [
+      {
+        "cat_id": 1
+      },
+      {
+        "cat_id": 5
+      }
+    ],
+    "images": [
+    ],
+    "fineprints": [
+      {
+        "fnp_description": "fineprint 1"
+      }
+    ],
+    "highlights": [
+      {
+        "hlt_description": "highlight 1"
+      },
+      {
+        "hlt_description": "highlight 2"
+      }
+    ],
+    "subproducts": [
+      {
+        "sbp_description": "sub product 1",
+        "sbp_discount": "20%",
+        "sbp_initial_quantity": "30",
+        "transactions": [
+          {
+            "trns_quantity": 1000
+          },
+          {
+            "trns_quantity": 5
+          }
+        ]
+      },
+      {
+        "sbp_description": "sub product 2",
+        "sbp_discount": "10%",
+        "sbp_initial_quantity": "5",
+        "transactions": [
+          {
+            "trns_quantity": 1
+          },
+          {
+            "trns_quantity": 2
+          }
+        ]
+      },
+      {
+        "sbp_description": "sub product 3",
+        "sbp_discount": "30%",
+        "sbp_initial_quantity": "10",
+        "transactions": [
+          {
+            "trns_quantity": 9
+          },
+          {
+            "trns_quantity": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": 2,
+    "prd_title": "product 2",
+    "prd_description": "description of product 2",
+    "prd_original_price": 300,
+    "prd_new_price": 250,
+    "prd_availability": "true",
+    "prd_measure_unit": "kg",
+    "categories": [
+      {
+        "cat_id": 2
+      }
+    ],
+    "rates": [
+      {
+        "rte_rate": 2
+      },
+      {
+        "rte_rate": 4
+      }
+    ],
+    "images": [
+      {
+        "img_url": "http://appendto.com/wp-content/uploads/2015/09/image00.png",
+        "img_is_cover": "true"
+      },
+      {
+        "img_url": "http://appendto.com/wp-content/uploads/2015/09/image00.png",
+        "img_is_cover": "false"
+      }
+    ],
+    "fineprints": [
+      {
+        "fnp_description": "fineprint 1"
+      },
+      {
+        "fnp_description": "fineprint 2"
+      }
+    ],
+    "highlights": [
+      {
+        "hlt_description": "highlight 1"
+      },
+      {
+        "hlt_description": "highlight 2"
+      }
+    ],
+    "subproducts": [
+      {
+        "sbp_description": "sub product 1",
+        "sbp_discount": "20%",
+        "sbp_initial_quantity": "30",
+        "transactions": [
+          {
+            "trns_quantity": 10
+          },
+          {
+            "trns_quantity": 5
+          }
+        ]
+      },
+      {
+        "sbp_description": "sub product 2",
+        "sbp_discount": "10%",
+        "sbp_initial_quantity": "5",
+        "transactions": [
+          {
+            "trns_quantity": 1
+          },
+          {
+            "trns_quantity": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": 3,
+    "prd_title": "product 3",
+    "prd_description": "description of product 3",
+    "prd_original_price": 10,
+    "prd_new_price": 8.5,
+    "prd_availability": "true",
+    "prd_measure_unit": "kg",
+    "categories": [
+      {
+        "cat_id": 3
+      },
+      {
+        "cat_id": 5
+      }
+    ],
+    "rates": [
+      {
+        "rte_rate": 1
+      },
+      {
+        "rte_rate": 1
+      }
+    ],
+    "images": [
+      {
+        "img_url": "http://appendto.com/wp-content/uploads/2015/09/image00.png",
+        "img_is_cover": "false"
+      },
+      {
+        "img_url": "http://appendto.com/wp-content/uploads/2015/09/image00.png",
+        "img_is_cover": "true"
+      }
+    ],
+    "fineprints": [
+      {
+        "fnp_description": "fineprint 1"
+      },
+      {
+        "fnp_description": "fineprint 2"
+      }
+    ],
+    "highlights": [
+      {
+        "hlt_description": "highlight 1"
+      },
+      {
+        "hlt_description": "highlight 2"
+      }
+    ],
+    "subproducts": [
+      {
+        "sbp_description": "sub product 1",
+        "sbp_discount": "20%",
+        "sbp_initial_quantity": "30",
+        "transactions": [
+          {
+            "trns_quantity": 10
+          },
+          {
+            "trns_quantity": 5
+          }
+        ]
+      },
+      {
+        "sbp_description": "sub product 2",
+        "sbp_discount": "10%",
+        "sbp_initial_quantity": "5",
+        "transactions": [
+          {
+            "trns_quantity": 1
+          },
+          {
+            "trns_quantity": 2
+          }
+        ]
+      }
+    ]
+  }
+]

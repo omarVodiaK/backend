@@ -9,6 +9,7 @@ angular
         'app.zone',
         'app.beacon',
         'app.content',
+        'app.product',
         'app.campaign',
         'app.notification'
     ]);

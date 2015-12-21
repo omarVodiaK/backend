@@ -75,7 +75,7 @@
                                                                 <div class="row">
                                                                     <div class="col-md-6 col-xs-6">
                                                                         <a ng-click="openLightboxModal($index, itemsPerPage, currentPage)">
-                                                                            <img ng-src="{{image.thumbUrl}}"
+                                                                            <img lazy-src="{{image.thumbUrl}}"
                                                                                  class="img-rounded">
                                                                         </a>
                                                                     </div>
@@ -99,13 +99,13 @@
 
                                                         </ul>
                                                         <div class="text-center">
-                                                            <pagination
+                                                            <uib-pagination
                                                                     total-items="totalItems"
                                                                     ng-model="currentPage"
                                                                     items-per-page="itemsPerPage"
                                                                     max-size="maxSize"
                                                                     class="pagination-md">
-                                                            </pagination>
+                                                            </uib-pagination>
                                                         </div>
 
                                                     </uib-tab>
@@ -169,7 +169,7 @@
                 <td>{{content.cnt_description}}</td>
                 <td>
                     <div class="wrapper size">
-                        <img class="img-circle" ng-show="content.cnt_url != ''" ng-src="{{content.cnt_url}}"/>
+                        <img class="img-circle" ng-show="content.cnt_url != ''" lazy-src="{{content.cnt_url}}"/>
                     </div>
 
                 </td>
@@ -193,11 +193,11 @@
             </tr>
             </tbody>
         </table>
-        <dir-pagination-controls
+        <dir-uib-pagination-controls
                 max-size="5"
                 direction-links="true"
                 boundary-links="true">
-        </dir-pagination-controls>
+        </dir-uib-pagination-controls>
     </div>
 </div>
 

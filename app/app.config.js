@@ -48,7 +48,8 @@ function translateConfigs($translateProvider) {
     });
 
     var userLang = navigator.language || navigator.userLanguage;
-    if (userLang == 'en-US') {
+
+    if (userLang.indexOf('en') > -1) {
         $translateProvider.preferredLanguage('en');
     } else {
         $translateProvider.preferredLanguage('fr');
