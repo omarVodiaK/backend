@@ -84,6 +84,8 @@
                 templateUrl: 'locationModalTpl',
                 controller: 'ModalLocationInstanceCtrl',
                 size: 'lg',
+                backdrop: 'static',
+                keyboard: false,
                 resolve: {
                     locations: function () {
                         return $scope.locations;
@@ -93,7 +95,6 @@
                     }
                 }
             });
-            console.log(location)
         };
 
     }

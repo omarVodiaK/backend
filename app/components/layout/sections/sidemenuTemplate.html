@@ -13,12 +13,13 @@
     </li>
 
     <li>
-        <a href="#/dashboard/campaign">
+        <a href="#/dashboard/campaign" ng-controller="CampaignBadgeCtrl">
             <b class="badge bg-info pull-right"></b>
             <span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span>
                     <span class="hide-toggled">
                         {{'CAMPAIGN_MENU'| translate}}
                         </span>
+            <span class="shake badge badge-info">{{publishRequestNumber}}</span>
         </a>
     </li>
 

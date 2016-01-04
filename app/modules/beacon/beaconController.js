@@ -9,7 +9,8 @@
      */
 
     angular
-        .module('app.beacon', ['hSweetAlert', 'app.zone', 'app.location', 'ngFileUpload'])
+        .module('app.beacon', ['app.zone', 'app.location', 'ngFileUpload'])
+
         .controller('BeaconCtrl', beaconController)
         .controller('ModalBeaconCtrl', modalController)
         .controller('ModalBeaconInstanceCtrl', modalInstanceController)
@@ -35,7 +36,7 @@
 
         ZoneService.getZone(function (data) {
             $scope.zones = data;
-        })
+        });
 
         LocationService.getLocation(function (data) {
 
@@ -67,7 +68,7 @@
                 $scope.locations = $scope.fakeLocations;
             });
 
-        })
+        });
 
         $scope.getLocationName = function (id) {
 
@@ -131,6 +132,8 @@
                 templateUrl: tpl,
                 controller: 'ModalBeaconInstanceCtrl',
                 size: size,
+                backdrop: 'static',
+                keyboard: false,
                 resolve: {
                     beacons: function () {
                         return $scope.beacons;

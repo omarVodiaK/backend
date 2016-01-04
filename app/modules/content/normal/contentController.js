@@ -81,6 +81,8 @@
                 templateUrl: tpl,
                 controller: 'ModalContentInstanceCtrl',
                 size: size,
+                backdrop: 'static',
+                keyboard: false,
                 resolve: {
                     contents: function () {
                         return $scope.contents;
@@ -126,23 +128,24 @@
         $scope.checkedItems = [];
         $scope.images = [];
 
-
         ContentService.getDSContent(function (data) {
             $scope.images = data;
             $scope.totalItems = $scope.images.length;
         });
 
-        $scope.getIndex = function (index, i, c) {
+        $scope.getIndex = function (index, itemPerPage, currentPage) {
+
             var match = false
-            if (c == 1) {
+            if (currentPage == 1) {
                 var paginationIndex = index;
 
-            } else if (c > 1) {
+            } else if (currentPage > 1) {
 
-                var paginationIndex = index + ((c - 1) * i);
+                var paginationIndex = index + ((currentPage - 1) * itemPerPage);
             }
 
             for (var i = 0; i < $scope.checkedItems.length; i++) {
+
                 if (paginationIndex == $scope.checkedItems[i]) {
 
                     match = true;
@@ -152,26 +155,26 @@
             return match;
         }
 
-        $scope.saveChecked = function (index, i, c) {
-            if (c == 1) {
+        $scope.saveChecked = function (index, itemPerPage, currentPage) {
+            if (currentPage == 1) {
                 var paginationIndex = index;
 
-            } else if (c > 1) {
+            } else if (currentPage > 1) {
 
-                var paginationIndex = index + ((c - 1) * i);
+                var paginationIndex = index + ((currentPage - 1) * itemPerPage);
             }
 
             $scope.checkedItems.push(paginationIndex);
         }
 
-        $scope.openLightboxModal = function (index, i, c) {
+        $scope.openLightboxModal = function (index, itemPerPage, currentPage) {
 
-            if (c == 1) {
+            if (currentPage == 1) {
                 var paginationIndex = index;
 
-            } else if (c > 1) {
+            } else if (currentPage > 1) {
 
-                var paginationIndex = index + ((c - 1) * i);
+                var paginationIndex = index + ((currentPage - 1) * itemPerPage);
             }
 
             Lightbox.openModal($scope.images, paginationIndex);

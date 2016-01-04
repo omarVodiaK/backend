@@ -16,9 +16,10 @@
         .controller('CategoryCtrl', categoryController)
         .controller('ProductDetailCtrl', productDetailController)
         .controller('dropletCtrl', dropletController)
+        .controller('ProductGalleryCtrl', productGalleryController)
 
     /**
-     *
+     * @description controller to get json response for product and remove a product
      * @method productController
      * @param {object} $scope
      * @param {service} ContentService
@@ -45,9 +46,8 @@
 
     }
 
-
     /**
-     * @description
+     * @description controller will handle delete and adding operations for different objects in sub-product, and listen to $broadcast($dropletSuccess)
      * @method productDetailController
      * @param {object} $scope
      * @param {service} ContentService
@@ -138,10 +138,14 @@
             $scope.product.highlights.splice($scope.product.highlights.indexOf(product), 1);
         }
 
-        $scope.deleteImage = function (product) {
-            $scope.product.images.splice($scope.product.images.indexOf(product), 1);
+        $scope.deleteImage = function (image) {
+
+            $scope.product.images.splice($scope.product.images.indexOf(image), 1);
         }
 
+        /**
+         * @description ProductDetailCtrl listening for event that will be $broadcast in ng-droplet when the image is successfully uploaded to server
+         */
         $scope.$on('$dropletSuccess', function () {
 
             if ($scope.product === undefined) {
@@ -154,8 +158,20 @@
 
     }
 
+    /**
+     * @description controller of subProduct
+     * @method subProductController
+     * @param {object} $scope
+     * */
     function subProductController($scope) {
 
+        /**
+         * @description Calculate the available quantity
+         * @method getAvailableProductQuantity
+         * @param {object} sub
+         * @param {object} product
+         * @return number
+         * */
         $scope.getAvailableProductQuantity = function (sub, product) {
 
             if (product.prd_new_price != 0) {
@@ -195,8 +211,8 @@
             });
         };
 
-        /*
-         * Check if product object have details
+        /**
+         * @description Check if product object have details
          * @method hasInformations
          * @param {Object} product
          */
@@ -232,8 +248,19 @@
         };
     }
 
+    /**
+     * @description controller for managing ratings in product module
+     * @method ratingController
+     * @param {object} $scope
+     * */
     function ratingController($scope) {
 
+        /**
+         * @description function to calculate total ratings for each product
+         * @method getTotal
+         * @param {number} id
+         * @return {number} $scope.total
+         * */
         $scope.getTotal = function (id) {
             $scope.total = 0;
             var rateOccurrence = 0;
@@ -249,7 +276,6 @@
                     } else {
                         $scope.total = 0;
                     }
-
                 }
             }
             if ($scope.total == 0) {
@@ -262,12 +288,19 @@
         }
     }
 
+    /**
+     * @description controller to handle categories for each product
+     * @method categoryController
+     * @param {object} $scope
+     * @param {object} CategoryService
+     * */
     function categoryController($scope, CategoryService) {
-
+        // retrieve all categories from api
         CategoryService.getCategories(function (data) {
             $scope.categories = data;
 
-            $scope.$watch('product.categories', function (obj) {
+            // watch changes in product.categories model
+            $scope.$watch('product.categories', function () {
 
                 if ($scope.categories !== undefined) {
                     if ($scope.product !== undefined) {
@@ -289,6 +322,12 @@
 
     }
 
+    /**
+     * @description controller to handle image upload in ng-droplet
+     * @method dropletController
+     * @param {object} $scope
+     * @param {object} $timeout
+     * */
     function dropletController($scope, $timeout) {
 
         /**
@@ -362,6 +401,55 @@
 
         });
     }
+
+
+    function productGalleryController($scope, Lightbox, ProductService) {
+
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = 5;
+        $scope.checkedItems = [];
+        $scope.images = [];
+
+        ProductService.getProduct(function (data) {
+            $scope.products = data;
+            $scope.totalItems = $scope.images.length;
+        });
+
+        $scope.getIndex = function (index, itemPerPage, currentPage) {
+
+            var match = false
+            if (currentPage == 1) {
+                var paginationIndex = index;
+
+            } else if (currentPage > 1) {
+
+                var paginationIndex = index + ((currentPage - 1) * itemPerPage);
+            }
+
+            for (var i = 0; i < $scope.checkedItems.length; i++) {
+
+                if (paginationIndex == $scope.checkedItems[i]) {
+
+                    match = true;
+                    break;
+                }
+            }
+            return match;
+        }
+
+        $scope.saveChecked = function (index, itemPerPage, currentPage) {
+            if (currentPage == 1) {
+                var paginationIndex = index;
+
+            } else if (currentPage > 1) {
+
+                var paginationIndex = index + ((currentPage - 1) * itemPerPage);
+            }
+
+            $scope.checkedItems.push(paginationIndex);
+        }
+    }
+
 
 })();
 

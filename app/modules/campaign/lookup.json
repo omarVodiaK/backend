@@ -1,0 +1,217 @@
+{
+  "content_interaction_type": [
+    {
+      "_id": 1,
+      "category": "push",
+      "names": [
+        {
+          "name": "advertisement"
+        },
+        {
+          "name": "notification"
+        },
+        {
+          "name": "media",
+          "values": [
+            {
+              "value": "audio"
+            },
+            {
+              "value": "video"
+            },
+            {
+              "value": "image"
+            }
+          ]
+        },
+        {
+          "name": "product"
+        }
+      ]
+    },
+    {
+      "_id": 2,
+      "category": "generate"
+    },
+    {
+      "_id": 3,
+      "category": "fetch"
+    }
+  ],
+  "content_trigger_type": [
+    {
+      "_id": 4,
+      "category": "entrance"
+    },
+    {
+      "_id": 5,
+      "category": "exit"
+    },
+    {
+      "_id": 6,
+      "category": "inrange"
+    },
+    {
+      "_id": 7,
+      "category": "far"
+    },
+    {
+      "_id": 8,
+      "category": "near"
+    },
+    {
+      "_id": 9,
+      "category": "immediate"
+    }
+  ],
+  "content_frequency": [
+    {
+      "_id": 10,
+      "category": "hour"
+    },
+    {
+      "_id": 11,
+      "category": "day"
+    },
+    {
+      "_id": 12,
+      "category": "week"
+    },
+    {
+      "_id": 12,
+      "category": "month"
+    },
+    {
+      "_id": 13,
+      "category": "year"
+    },
+    {
+      "_id": 14,
+      "category": "none"
+    }
+  ],
+  "content_type": [
+    {
+      "_id": 15,
+      "category": "ds",
+      "names": [
+        {
+          "name": "content",
+          "values": [
+            {
+              "value": "text"
+            },
+            {
+              "value": "notification"
+            }
+          ]
+        },
+        {
+          "name": "media",
+          "values": [
+            {
+              "value": "audio"
+            },
+            {
+              "value": "video"
+            },
+            {
+              "value": "image"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_id": 16,
+      "category": "internal",
+      "names": [
+        {
+          "name": "content",
+          "values": [
+            {
+              "value": "text"
+            },
+            {
+              "value": "notification"
+            }
+          ]
+        },
+        {
+          "name": "media",
+          "values": [
+            {
+              "value": "audio"
+            },
+            {
+              "value": "video"
+            },
+            {
+              "value": "image"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "voucher_state": [
+    {
+      "_id": 17,
+      "category": "active"
+    },
+    {
+      "_id": 18,
+      "category": "redeem"
+    },
+    {
+      "_id": 19,
+      "category": "expired"
+    }
+  ],
+  "content_interact_with": [
+    {
+      "_id": 20,
+      "category": "race",
+      "names": [
+        {
+          "name": "malay"
+        },
+        {
+          "name": "chinese"
+        },
+        {
+          "name": "indian"
+        },
+        {
+          "name": "expatriate"
+        }
+      ]
+    },
+    {
+      "_id": 21,
+      "category": "gender",
+      "names": [
+        {
+          "name": "male"
+        },
+        {
+          "name": "female"
+        }
+      ]
+    }
+  ],
+  "beacon_interaction_type": [
+    {
+      "_id": 22,
+      "category": "push"
+    },
+    {
+      "_id": 23,
+      "category": "generate"
+    },
+    {
+      "_id": 24,
+      "category": "fetch"
+    }
+  ]
+}

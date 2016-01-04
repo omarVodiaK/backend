@@ -39,6 +39,8 @@
                 templateUrl: tpl,
                 controller: 'ModalNotificationInstanceCtrl',
                 size: size,
+                backdrop: 'static',
+                keyboard: false,
                 resolve: {
                     notifications: function () {
                         return $scope.notifications;

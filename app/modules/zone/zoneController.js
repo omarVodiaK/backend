@@ -68,6 +68,8 @@
                 templateUrl: tpl,
                 controller: 'ModalInstanceCtrl',
                 size: size,
+                backdrop: 'static',
+                keyboard: false,
                 resolve: {
                     zones: function () {
                         return $scope.zones;

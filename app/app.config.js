@@ -3,6 +3,14 @@ angular
     .module('app.config', ['pascalprecht.translate', 'ngSanitize'])
     .config(configs)
     .config(translateConfigs)
+    .config(function (toastrConfig) {
+        // Display toastr in the bottom right corner
+        angular.extend(toastrConfig, {
+
+            positionClass: 'toast-bottom-right'
+
+        });
+    })
     .run(runs);
 
 function configs($httpProvider) {
@@ -29,6 +37,7 @@ function configs($httpProvider) {
     };
     $httpProvider.interceptors.push(interceptor);
 }
+
 
 function runs($rootScope, PageValues) {
     $rootScope.$on('$routeChangeStart', function () {

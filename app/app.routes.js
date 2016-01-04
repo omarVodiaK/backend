@@ -58,8 +58,8 @@ function config($stateProvider, $urlRouterProvider, $locationProvider) {
         })
         .state('dashboard.new-campaign', {
             url: '/new-campaign',
-            templateUrl: 'modules/campaign/newCampaign.html',
-            controller: 'CampaignCtrl'
+            templateUrl: 'modules/campaign/createCampaign.html',
+            controller: 'UpdateCampaignCtrl'
         })
         .state('dashboard.notification', {
             url: '/notification',

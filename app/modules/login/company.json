@@ -16,6 +16,12 @@
     "name": "Big Tree",
     "email": "c3@c.com",
     "password": "123456"
+  },
+  {
+    "_id": 4,
+    "name": "ShopWave",
+    "email": "c4@c.com",
+    "password": "123456"
   }
 
 ]

@@ -1,7 +1,7 @@
 {
   "name": "dashboard-core",
   "description": "SANTA",
-  "version": "0.0.1",
+  "version": "1.0",
   "private": true,
   "dependencies": {
     "angular": "1.4.x",
@@ -27,7 +27,6 @@
     "angular-sanitize": "~1.4.7",
     "angular-translate": "~2.8.1",
     "angular-translate-loader-static-files": "~2.8.1",
-    "angular-bootstrap-nav-tree-js": "0.1.1",
     "ng-wizard": "*",
     "ng-droplet": "~0.5.9",
     "ng-file-upload": "~10.1.9",

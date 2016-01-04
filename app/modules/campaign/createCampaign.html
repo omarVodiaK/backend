@@ -1,0 +1,1149 @@
+<div class="page-header">
+    <h1>Campaign</h1>
+
+</div>
+
+
+<uib-accordion close-others="true">
+
+    <uib-accordion-group panel-class="panel-info" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+        <uib-accordion-heading>
+            General Informations
+        </uib-accordion-heading>
+        <form>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" value="{{campaign.camp_name}}" class="form-control" placeholder="Your title go here">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea class="form-control" rows="3" placeholder="Your description go here">{{campaign.camp_description}}</textarea>
+            </div>
+        </form>
+    </uib-accordion-group>
+
+    <uib-accordion-group panel-class="panel-primary">
+
+        <uib-accordion-heading>
+            Schedule
+        </uib-accordion-heading>
+
+        <div class="col-md-12" style="min-height: 390px;">
+
+            <div class="form-group" ng-controller="DatePickerCtrl">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Start from</label>
+
+                        <div class='input-group'>
+                            <input type='text' class="form-control" uib-datepicker-popup="{{format}}" ng-model="dtStart"
+                                   is-open="statusStart.opened" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="Done"/>
+
+                   <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="openStart($event)"><i
+                        class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>End at</label>
+
+                        <div class='input-group'>
+                            <input type='text' class="form-control" uib-datepicker-popup="{{format}}" ng-model="dtEnd"
+                                   is-open="statusEnd.opened" datepicker-options="dateOptions" ng-required="true"
+                                   close-text="Done"/>
+                    <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="openEnd($event)"><i
+                        class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group" ng-controller="TimePickerCtrl">
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <uib-timepicker ng-model="timeBegin" hour-step="hstep" minute-step="mstep"
+                                        show-meridian="ismeridian"></uib-timepicker>
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <uib-timepicker ng-model="timeEnd" hour-step="hstep" minute-step="mstep"
+                                        show-meridian="ismeridian"></uib-timepicker>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Days : </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="monday"> monday
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="tuesday"> tuesday
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="wednesday"> wednesday
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="thursday"> thursday
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="friday"> friday
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="saturday"> saturday
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="sunday"> sunday
+                </label>
+            </div>
+
+        </div>
+
+    </uib-accordion-group>
+
+    <uib-accordion-group panel-class="panel-warning">
+
+        <uib-accordion-heading>
+            Assign Beacons
+        </uib-accordion-heading>
+
+        <form class="form-vertical" ng-controller="CampaignStepCtrl">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <label class="control-label col-xs-3">Filter by Zone:</label>
+
+                    <div class="col-xs-9">
+                        <oi-select
+                                oi-options="zone.zone_name for zone in zones track by zone._id"
+                                ng-model="zoneValue"
+                                choseList
+                                multiple>
+                        </oi-select>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label class="control-label col-xs-3">Type:</label>
+
+                    <div class="col-xs-9">
+                        <select class="form-control" ng-model="typeValue">
+                            <option value="">All</option>
+                            <option value="internal">Internal</option>
+                            <option value="external">External</option>
+                        </select>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="pull-right" ng-controller="ModalBeaconCtrl">
+
+                    <button type="button" ng-click="open('lg','beaconModalTpl')" class="btn btn-primary"
+                            style="margin-top: 20px; margin-right: 20px;">
+                        <i class="glyphicon glyphicon-plus-sign visible-xs-inline-block"></i>
+                        <span class="hidden-xs">Add  Beacon</span>
+                    </button>
+
+
+                </div>
+
+                <!-- angular ui modal -->
+                <script type="text/ng-template" id="beaconModalTpl">
+                    <div class="modal-header">
+                        <h3 class="modal-title">New Beacon</h3>
+                    </div>
+                    <div class="modal-body" ng-controller="BeaconCtrl">
+                        <form class="form-horizontal" name="myForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3" style="text-align: left;">Name:</label>
+
+                                        <div class="col-xs-9">
+                                            <input value="{{beacon.bcn_name}}" type="text" class="form-control"
+                                                   placeholder="Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3" style="text-align: left;">UUID:</label>
+
+                                        <div class="col-xs-9">
+                                            <input type="text" value="{{beacon.bcn_uuid}}" class="form-control"
+                                                   placeholder="UUID">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3" style="text-align: left;">Zone:</label>
+                                        <!-- Single button -->
+                                        <div class="col-xs-9">
+
+                                            <select class="btn btn-defautl">
+
+                                                <option ng-repeat="zone in zones"
+                                                        ng-selected="{false: '', true: 'selected'} [beacon.bcn_zone_id == zone._id]">
+                                                    {{zone.zone_name}}
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3"
+                                                       style="text-align: left;">Major:</label>
+
+                                                <div class="col-xs-9">
+                                                    <input value="{{beacon.bcn_major}}" type="text" class="form-control"
+                                                           placeholder="5">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3"
+                                                       style="text-align: left;">Minor:</label>
+
+                                                <div class="col-xs-9">
+                                                    <input value="{{beacon.bcn_minor}}" type="text" class="form-control"
+                                                           placeholder="1">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3"
+                                                       style="text-align: left;">Details:</label>
+
+                                                <div class="col-xs-9">
+                                    <textarea type="text" class="form-control" rows="2"
+                                              placeholder="Details">{{beacon.bcn_general_information}}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3"
+                                                       style="text-align: left;">Location:</label>
+
+                                                <div class="col-xs-9">
+                                                    <select class="btn btn-defautl">
+
+                                                        <option ng-repeat="location in locations"
+                                                                ng-selected="{false: '', true: 'selected'} [beacon.bcn_loc_id == location._id]">
+                                                            {{location.label}}
+                                                        </option>
+
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12" ng-controller="UploadCtrl">
+
+                                    <div class="col-md-6">
+
+                                        <input class="btn btn-primary" type="file" ngf-select ng-model="picFile"
+                                               name="file"
+
+                                               accept="image/*" ngf-max-size="2MB" required>
+
+
+                                        <span class="control-label" ng-show="picFile.result">Upload Successful</span>
+                                        <span class="control-label" ng-show="errorMsg">{{errorMsg}}</span>
+
+                                        <div class="progress" ng-show="picFile.progress >= 0">
+                                            <div class="progress-bar progress-bar-success progress-bar-striped active"
+                                                 role="progressbar" ng-bind="picFile.progress + '%'"
+                                                 aria-valuenow="{{picFile.progress}}%" aria-valuemin="0"
+                                                 aria-valuemax="100"
+                                                 style="width: 100%">
+                                            </div>
+                                        </div>
+                                        <i ng-show="myForm.file.$error.maxSize">File too large
+                                            {{picFile.size / 1000000|number:1}}MB: max 2M</i>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <img class="img-responsive" lazy-src="{{beacon.bcn_thumbnail}}"
+                                             ng-show="!picFile">
+                                        <img class="img-responsive"
+                                             ngf-thumbnail="picFile"
+                                             ng-model="beacon.bcn_thumbnail" ng-show="picFile">
+
+                                        <button class="btn btn-danger" ng-click="picFile = null" ng-show="picFile">
+                                            Remove
+                                        </button>
+
+                                        <button class="btn btn-primary text-right" ng-disabled="!myForm.$valid"
+                                                ng-click="uploadPic(picFile)">Submit
+                                        </button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group">
+                            <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+                            <button class="btn btn-primary" type="button" ng-click="ok()">Save</button>
+                        </div>
+                    </div>
+                </script>
+                <!-- / -->
+
+            </div>
+
+            <div class="form-group">
+                <div class="table-responsive">
+
+                    <table class="table table-striped table-hover" ng-if="campaign !== undefined">
+
+                        <thead>
+
+                        <tr>
+
+                            <th></th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Used</th>
+                            <th>Shared</th>
+                            <th></th>
+
+                        </tr>
+
+                        </thead>
+
+                        <tbody ng-repeat="beacon in newArray | ZoneFilter : zoneValue : typeValue">
+
+                        <tr>
+                            <td>
+
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <i></i>
+                                </label>
+                            </td>
+                            <td>{{beacon.bcn_name}}</td>
+                            <td>{{beacon.chb_type}}</td>
+
+                            <td>
+
+                                <span class="glyphicon glyphicon-ok" style="color:forestgreen;"
+                                      aria-hidden="true" ng-if="beacon.bcn_used == 'true'"></span>
+
+                                <span class="glyphicon glyphicon-remove" style="color:red;"
+                                      aria-hidden="true" ng-if="beacon.bcn_used == 'false'"></span>
+
+                                <span class="glyphicon glyphicon-remove" style="color:red;"
+                                      aria-hidden="true" ng-if="!beacon.bcn_used"></span>
+
+                            </td>
+
+                            <td>
+                                <span class="glyphicon glyphicon-ok" style="color:forestgreen;"
+                                      ng-model="beacon.bcn_share" ng-if="beacon.bcn_share == 'true'"
+                                      aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-remove" style="color:red;" ng-model="beacon.bcn_share"
+                                      ng-if="beacon.bcn_share == 'false'" aria-hidden="true"></span>
+                            </td>
+
+
+                            <td class="text-right" ng-controller="ModalCampaignCtrl">
+                                <div class="btn-group checkbox" role="group">
+                                    <!-- Button trigger modal -->
+                                    <button class="btn btn-info"
+                                            ng-click="open('lg','campaignModalTpl', beacon)"><i
+                                            class="glyphicon glyphicon-plus-sign visible-xs-inline-block"></i>
+                                        <span class="hidden-xs">Configure</span></button>
+
+                                    <button class="btn btn-primary" ng-if="beacon.bcn_interaction_type == 'push' "
+                                            ng-click="open('lg','assignContentModalTpl', beacon)"><i
+                                            class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
+                                        <span class="hidden-xs">Assign Content</span>
+                                        <span class="badge">{{beacon.contents.length}}</span>
+                                    </button>
+
+                                    <button class="btn btn-primary" ng-if="beacon.bcn_interaction_type == 'generate' "
+                                            ng-click="open('lg','redeemFromModalTpl', beacon)"><i
+                                            class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
+                                        <span class="hidden-xs">Redeem from</span>
+                                    </button>
+                                </div>
+                            </td>
+
+                        </tr>
+
+
+                        </tbody>
+
+                    </table>
+
+                    <table class="table table-striped table-hover" ng-if="campaign === undefined">
+
+                        <thead>
+
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Used</th>
+                            <th>Shared</th>
+                            <th></th>
+                        </tr>
+
+                        </thead>
+
+                        <tbody ng-repeat="beacon in beacons | ZoneFilter : zoneValue : typeValue">
+
+                        <tr>
+                            <td>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <i></i>
+                                </label>
+                            </td>
+                            <td>{{beacon.bcn_name}}</td>
+                            <td>
+                            <span class="glyphicon glyphicon-remove" style="color:red;"
+                                  aria-hidden="true"></span></td>
+                            <td>
+                                <span class="glyphicon glyphicon-ok" style="color:forestgreen;"
+                                      ng-model="beacon.bcn_share" ng-if="beacon.bcn_share == 'true'"
+                                      aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-remove" style="color:red;" ng-model="beacon.bcn_share"
+                                      ng-if="beacon.bcn_share == 'false'" aria-hidden="true"></span>
+                            </td>
+
+                            <td class="text-right" ng-controller="ModalCampaignCtrl">
+                                <div class="btn-group checkbox" role="group">
+                                    <!-- Button trigger modal -->
+                                    <button class="btn btn-info"
+                                            ng-click="open('lg','campaignModalTpl', beacon)"><i
+                                            class="glyphicon glyphicon-plus-sign visible-xs-inline-block"></i>
+                                        <span class="hidden-xs">Configure</span></button>
+
+                                    <button class="btn btn-primary" ng-if="beacon.bcn_interaction_type == 'push' "
+                                            ng-click="open('lg','assignContentModalTpl')"><i
+                                            class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
+                                        <span class="hidden-xs">Assign Content</span>
+                                        <span class="badge">{{beacon.contents.length}}</span>
+                                    </button>
+
+                                    <button class="btn btn-primary" ng-if="beacon.bcn_interaction_type == 'generate' "
+                                            ng-click="open('lg','redeemFromModalTpl')"><i
+                                            class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
+                                        <span class="hidden-xs">Redeem from</span>
+                                    </button>
+                                </div>
+
+                            </td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </form>
+
+        <!-- angular ui modal redeem from -->
+        <script type="text/ng-template" id="redeemFromModalTpl">
+            <div class="modal-header">
+                <h3 class="modal-title">Redeem From</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="panelr">
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Thumbnail</th>
+                                        <th>Shared</th>
+                                        <th></th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody ng-controller="RedeemCtrl">
+
+                                    <tr ng-repeat="b in redeemers">
+
+                                        <td>
+                                            <label class="switch">
+                                                <input type="checkbox" checked>
+                                                <i></i>
+                                            </label>
+                                        </td>
+
+                                        <td>{{b.bcn_interaction_type}}</td>
+
+                                        <td style="width: 35%; height: 20%;">
+                                            <img lazy-src="{{b.bcn_thumbnail}}" class="img-rounded"
+                                                 style="width: 35%; height: 20%;">
+                                        </td>
+
+                                        <td>
+
+                                            <span class="glyphicon glyphicon-ok"
+                                                  style="color:forestgreen;"
+                                                  ng-model="beacon.bcn_share"
+                                                  ng-if="beacon.bcn_share == 'true'"
+                                                  aria-hidden="true">
+                                            </span>
+                                            <span class="glyphicon glyphicon-remove"
+                                                  style="color:red;" ng-model="beacon.bcn_share"
+                                                  ng-if="beacon.bcn_share == 'false'"
+                                                  aria-hidden="true">
+                                            </span>
+
+                                        </td>
+                                        <td></td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button class="btn btn-danger" ng-click="cancel()">
+                        Cancel
+                    </button>
+                    <button class="btn btn-primary" ng-click="ok()">Save
+                    </button>
+                </div>
+            </div>
+        </script>
+        <!-- / -->
+
+        <!-- angular ui modal assign Content -->
+        <script type="text/ng-template" id="assignContentModalTpl">
+            <form class="form-vertical" ng-controller="CampaignStepCtrl"
+                  novalidate>
+                <fieldset ng-show="step == 1">
+                    <div class="modal-header">
+                        <h1>Complete Informations</h1>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-xs-3"
+                                           style="text-align: left;">Beacon
+                                        Type:</label>
+
+                                    <div class="col-xs-9">
+                                        <select class="btn btn-default"
+                                                data-style="btn-inverse" ng-model="beacon.bcn_trigger_type">
+                                            <option value="entrance">entrance</option>
+                                            <option value="exit">exit</option>
+                                            <option value="immediate">immediate</option>
+                                            <option value="near">near</option>
+                                            <option value="inrange">in range</option>
+                                            <option value="far">far</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-controller="GenderMultiSelectCtrl">
+                                    <label class="control-label col-xs-3"
+                                           style="text-align: left;">Gender:</label>
+
+                                    <div class="col-xs-9">
+                                        <oi-select
+                                                oi-options="item.name for item in arrGender track by item.id"
+                                                ng-model="beacon.genders"
+                                                choseList
+                                                multiple>
+                                        </oi-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group"
+                                     ng-controller="GenderMultiSelectCtrl">
+                                    <label class="control-label col-xs-3"
+                                           style="text-align: left;">Interact
+                                        With:</label>
+
+                                    <div class="col-xs-9">
+                                        <oi-select
+                                                oi-options="item.name for item in arrInteractWith track by item.id"
+                                                ng-model="beacon.interact_with"
+                                                choseList
+                                                multiple>
+                                        </oi-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="control-label col-xs-3"
+                                               style="text-align: left;">Age from:</label>
+
+                                        <div class="col-xs-9">
+                                            <input type="number"
+                                                   class="form-control"
+                                                   max="99"
+                                                   min="16"
+                                                   ng-model="beacon.chb_start_age">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="control-label col-xs-3"
+                                               style="text-align: left;">Age to:</label>
+
+                                        <div class="col-md-9">
+                                            <input type="number"
+                                                   class="form-control"
+                                                   min="16"
+                                                   max="99"
+                                                   ng-model="beacon.chb_end_age">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-6"
+                                 ng-controller="PopulateFrequencyCtrl">
+
+                                <label class="control-label col-xs-3">Frequency:</label>
+
+                                <div class="form-group col-xs-9">
+                                    <div class="col-md-6">
+                                        <input class="form-control"
+                                               type="number"
+                                               min="{{min}}"
+                                               max="{{max}}"
+                                               ng-model="beacon.frequency.value">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select class="form-control"
+                                                ng-model="beacon.frequency.name">
+                                            <option ng-repeat="item in frequecyItems" value="{{item.name}}">
+                                                {{item.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group">
+                            <button class="btn btn-danger" type="button"
+                                    ng-click="cancel()">
+                                Cancel
+                            </button>
+                            <button class="btn btn-primary" ng-click="nextStep()">Next step
+                            </button>
+                        </div>
+                    </div>
+
+                </fieldset>
+                <fieldset ng-show="step == 2">
+                    <h2>Choose Content</h2>
+
+                    <div class="form-group">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div>
+                                        <uib-tabset justified="true">
+                                            <uib-tab heading="DS Content">
+                                                <div ng-controller="GalleryCtrl">
+                                                    <ul class="list-unstyled panel"
+                                                        style="margin-top: 10%;">
+
+                                                        <li ng-repeat="image in images | contentPagesFilter: currentPage : itemsPerPage">
+
+                                                            <div class="row">
+
+                                                                <div class="col-md-6 col-xs-6">
+
+                                                                    <a ng-click="openLightboxModal($index, itemsPerPage, currentPage)">
+                                                                        <img lazy-src="{{image.thumbUrl}}"
+                                                                             class="img-rounded">
+                                                                    </a>
+
+                                                                </div>
+
+                                                                <div class="col-md-6 col-xs-6 text-right  v-center"
+                                                                     style="display:table; height:100px;">
+
+                                                                    <div style="display:table-cell; vertical-align:middle; text-align:center;">
+                                                                        <label class="switch">
+                                                                            <input type="checkbox"
+                                                                                   ng-model="image"
+                                                                                   ng-change="saveChecked($index, itemsPerPage, currentPage)"
+                                                                                   ng-checked="{false: '', true: 'checked'} [content.cnt_url == image.thumbUrl] || true == getIndex($index, itemsPerPage, currentPage)">
+                                                                            <i></i>
+                                                                        </label>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="text-center">
+                                                        <uib-pagination
+                                                                total-items="totalItems"
+                                                                ng-model="currentPage"
+                                                                items-per-page="itemsPerPage"
+                                                                max-size="maxSize"
+                                                                class="pagination-md">
+                                                        </uib-pagination>
+                                                    </div>
+                                                </div>
+
+
+                                            </uib-tab>
+
+                                            <uib-tab heading="Product">
+                                                <ul class="list-unstyled panel"
+                                                    style="margin-top: 10%;" ng-controller="ProductGalleryCtrl">
+
+                                                    <li ng-repeat="p in products | contentPagesFilter: currentPage : itemsPerPage">
+
+                                                        <div class="row">
+
+                                                            <div class="col-md-6 col-xs-6">
+                                                                <label class="col-md-3 text-center">{{p.prd_title}}</label>
+
+                                                                <div class="col-md-9" ng-repeat="image in p.images"
+                                                                     ng-if="p.images && p.images.length > 0">
+
+                                                                    <img lazy-src="{{image.img_url}}"
+                                                                         class="img-rounded"
+                                                                         ng-if="image.img_is_cover == 'true'"
+                                                                         style="width: 30%; height: 30%;">
+
+                                                                </div>
+
+                                                                <img style="width: 35%; height: 35%;"
+                                                                     lazy-src="assets/images/no-image.png"
+                                                                     class="img-rounded col-md-9"
+                                                                     ng-if="!p.images || p.images.length == 0"/>
+                                                            </div>
+
+                                                            <div class="col-md-6 col-xs-6 text-right  v-center"
+                                                                 style="display:table; height:100px;">
+
+                                                                <div style="display:table-cell; vertical-align:middle; text-align:center;">
+                                                                    <label class="switch">
+                                                                        <input type="checkbox"
+                                                                               ng-model="image"
+                                                                               ng-change="saveChecked($index, itemsPerPage, currentPage)"
+                                                                               ng-checked="{false: '', true: 'checked'} [content.cnt_url == image.thumbUrl] || true == getIndex($index, itemsPerPage, currentPage)">
+                                                                        <i></i>
+                                                                    </label>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </uib-tab>
+
+                                            <uib-tab heading="URL">
+
+                                                <div class="input-group"
+                                                     style="margin-top: 10%;">
+                                                                            <span class="input-group-addon"
+                                                                                  id="basic-addon3">https://example.com/</span>
+                                                    <input type="text" class="form-control"
+                                                           id="basic-url"
+                                                           aria-describedby="basic-addon3"
+                                                           value="{{content.cnt_url}}">
+                                                </div>
+
+                                            </uib-tab>
+
+
+                                        </uib-tabset>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group">
+                            <button class="btn btn-danger" type="button"
+                                    ng-click="cancel()">
+                                Cancel
+                            </button>
+                            <button class="btn btn-default" ng-click="prevStep()">Previous
+                                step
+                            </button>
+                            <button class="btn btn-primary" type="button" ng-click="ok()">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+            </form>
+
+        </script>
+        <!-- / -->
+
+        <!-- angular ui modal complete informations -->
+        <script type="text/ng-template" id="campaignModalTpl">
+            <div class="modal-header">
+                <h3 class="modal-title">Complete Beacon</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="panelr">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-xs-3"
+                                           style="text-align: left;">Name:</label>
+
+                                    <div class="col-xs-9">
+                                        <input value="{{beacon.bcn_name}}" type="text"
+                                               class="form-control"
+                                               placeholder="Name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-xs-3"
+                                           style="text-align: left;">UUID:</label>
+
+                                    <div class="col-xs-9">
+                                        <input type="text" value="{{beacon.bcn_uuid}}"
+                                               class="form-control"
+                                               placeholder="UUID">
+                                    </div>
+                                </div>
+
+                                <div class="form-group" ng-controller="BeaconCtrl">
+                                    <label class="control-label col-xs-3"
+                                           style="text-align: left;">Zone:</label>
+                                    <!-- Single button -->
+                                    <div class="col-xs-9">
+
+                                        <select class="btn btn-defautl"
+                                                data-style="btn-inverse"
+                                                disabled>
+
+                                            <option ng-repeat="zone in zones"
+                                                    ng-selected="{false: '', true: 'selected'} [beacon.bcn_zone_id == zone._id]">
+                                                {{zone.zone_name}}
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3"
+                                                   style="text-align: left;">Major:</label>
+
+                                            <div class="col-xs-9">
+                                                <input value="{{beacon.bcn_major}}"
+                                                       type="text"
+                                                       class="form-control"
+                                                       placeholder="5">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3"
+                                                   style="text-align: left;">Minor:</label>
+
+                                            <div class="col-xs-9">
+                                                <input value="{{beacon.bcn_minor}}"
+                                                       type="text"
+                                                       class="form-control"
+                                                       placeholder="1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-12">
+
+                                        <div class="form-group">
+
+                                            <label class="control-label col-xs-3"
+                                                   style="text-align: left;">Details:</label>
+
+                                            <div class="col-xs-9">
+                                                <textarea type="text" class="form-control" rows="5"
+                                                          placeholder="Details">{{beacon.bcn_general_information}}</textarea>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3"
+                                                   style="text-align: left;">Limit:</label>
+
+                                            <div class="col-xs-9">
+                                                <input class="form-control" type="number"
+                                                       min="0" value="{{beacon.chb_limit}}">
+                                                <b>* 0 to set no limit</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-3"
+                                                   style="text-align: left;">Interaction
+                                                type:</label>
+
+                                            <div class="col-xs-6">
+                                                <select ng-model="beacon.bcn_interaction_type"
+                                                        class="form-control">
+                                                    <option ng-option value="push">push</option>
+                                                    <option ng-option value="generate">
+                                                        generate
+                                                    </option>
+                                                    <option ng-option value="fetch">fetch
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default"
+                         ng-if="beacon.bcn_interaction_type == 'generate' ">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Campaign related informations</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3"
+                                               style="text-align: left;">Beacon Trigger Type:</label>
+
+                                        <div class="col-xs-9">
+                                            <select class="btn btn-default"
+                                                    data-style="btn-inverse" ng-model="beacon.bcn_trigger_type">
+                                                <option value="entrance">entrance</option>
+                                                <option value="exit">exit</option>
+                                                <option value="immediate">immediate</option>
+                                                <option value="near">near</option>
+                                                <option value="inrange">in range</option>
+                                                <option value="far">far</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group"
+                                         ng-controller="GenderMultiSelectCtrl">
+                                        <label class="control-label col-xs-3"
+                                               style="text-align: left;">Gender:</label>
+
+                                        <div class="col-xs-9">
+                                            <oi-select
+                                                    oi-options="item.name for item in arrGender track by item.id"
+                                                    ng-model="beacon.genders"
+                                                    choseList
+                                                    multiple>
+                                            </oi-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group"
+                                         ng-controller="GenderMultiSelectCtrl">
+                                        <label class="control-label col-xs-3"
+                                               style="text-align: left;">Interact
+                                            With:</label>
+
+                                        <div class="col-xs-9">
+                                            <oi-select
+                                                    oi-options="item.name for item in arrInteractWith track by item.id"
+                                                    ng-model="beacon.interact_with"
+                                                    choseList
+                                                    multiple>
+                                            </oi-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3"
+                                               style="text-align: left;">Age:</label>
+
+                                        <div class="col-xs-9">
+                                            <div class="form-group">
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-3"
+                                                               style="text-align: left;">From: </label>
+
+                                                        <div class="col-xs-9">
+                                                            <input type="number"
+                                                                   class="form-control"
+                                                                   max="99"
+                                                                   min="16"
+                                                                   ng-model="beacon.chb_start_age">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-3"
+                                                               style="text-align: left;">To:</label>
+
+                                                        <div class="col-xs-9">
+                                                            <input type="number"
+                                                                   class="form-control"
+                                                                   min="16"
+                                                                   max="99"
+                                                                   ng-model="beacon.chb_end_age">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-6" ng-controller="PopulateFrequencyCtrl">
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-3">Frequency:</label>
+
+                                        <div class="col-xs-9">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3">every: </label>
+
+                                                <div class="col-xs-9">
+                                                    <div class="form-group">
+                                                        <div class="col-xs-5">
+                                                            <input class="form-control"
+                                                                   type="number"
+                                                                   min="{{min}}"
+                                                                   max="{{max}}"
+                                                                   ng-model="beacon.frequency.value">
+                                                        </div>
+                                                        <div class="col-xs-7">
+                                                            <select class="form-control"
+                                                                    ng-model="beacon.frequency.name">
+                                                                <option ng-repeat="item in frequecyItems"
+                                                                        value="{{item.name}}">
+                                                                    {{item.name}}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button class="btn btn-danger" type="button" ng-click="cancel()">
+                        Cancel
+                    </button>
+                    <button class="btn btn-primary" type="button" ng-click="ok()">Save
+                    </button>
+                </div>
+            </div>
+        </script>
+        <!-- / -->
+
+        <div class="pull-right">
+            <button class="btn btn-success">
+                <i class="glyphicon glyphicon-save visible-xs-inline-block"></i>
+                <span class="hidden-xs">Save</span>
+            </button>
+        </div>
+
+
+    </uib-accordion-group>
+
+</uib-accordion>
+
+<link rel="stylesheet" href="assets/css/toggle.css">

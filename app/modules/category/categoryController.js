@@ -11,11 +11,8 @@
 
     angular
         .module('app.category', ['angularUtils.directives.dirPagination', 'ui.bootstrap', 'app.zone'])
-
         .controller('CategoryCtrl', categoryController)
-
         .controller('ModalCategoryCtrl', modalController)
-
         .controller('CategoryModalInstanceCtrl', modalInstanceController);
 
     /**
@@ -104,6 +101,8 @@
                 templateUrl: tpl,
                 controller: 'CategoryModalInstanceCtrl',
                 size: size,
+                backdrop: 'static',
+                keyboard: false,
                 resolve: {
                     zones: function () {
                         return $scope.zones;

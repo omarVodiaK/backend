@@ -17,9 +17,9 @@
                 template: '',
                 replace: true,
                 scope: {
-                    campaign: '=data'
+                    campaign: '=data' // pass campaign model as attribute to directive
                 },
-                restrict: 'E',
+                restrict: 'E', // restrict to element
                 controller: function ($scope, $element) {
                     if ($scope.campaign.camp_state == "draft") {
                         $element.replaceWith('<span class="glyphicon glyphicon-file" aria-hidden="true"></span> <span class="glyphicon-class">Draft</span>')
@@ -36,23 +36,62 @@
         })
     /**
      * @description replace html element with corresponding html depending in the data retrieved
-     * @directive prioritydirective
+     * @directive sharedirective
      */
-        .directive('prioritydirective', function () {
+        .directive('sharedirective', function () {
             return {
                 template: '',
                 replace: true,
                 scope: {
-                    campaign: '=data'
+                    campaign: '=campaign', // pass campaign model as attribute to directive
+                    company: '=company' // pass company model as attribute to directive
                 },
-                restrict: 'E',
+                restrict: 'E', // restrict to element
                 controller: function ($scope, $element) {
-                    if ($scope.campaign.camp_priority == "high") {
-                        $element.replaceWith('<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>');
-                    } else if ($scope.campaign.camp_priority == "medium") {
-                        $element.replaceWith('<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>');
-                    } else if ($scope.campaign.camp_priority == "low") {
-                        $element.replaceWith('<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>');
+
+                    var template = 'no';
+
+                    for (var i = 0; i < $scope.campaign.published_to.length; i++) {
+
+                        if ($scope.company._id == $scope.campaign.published_to[i].cmp_id) {
+
+                            if ($scope.campaign.published_to[i].cmp_state === "pending") {
+
+                                template = 'pending';
+
+                            } else if ($scope.campaign.published_to[i].cmp_state === "accepted") {
+
+                                template = 'accepted'
+
+                            }
+                        }
+                    }
+
+                    if (template == 'no') {
+                        $element.replaceWith('<section class="btn-click"><button class="btns btn-7 btn-7a icon-truck">Publish</button></section>');
+                    } else if (template == 'pending') {
+                        $element.replaceWith('<section class="btn-click"><button class="btns btn-7-reverse btn-7a icon-truck">Suppress(Pending)</button></section>');
+                    } else {
+                        $element.replaceWith('<section class="btn-click"><button class="btns btn-7-reverse btn-7a icon-truck">Suppress</button></section>');
+                    }
+
+
+                    var buttons7Click = Array.prototype.slice.call(document.querySelectorAll('.btns'));
+
+
+                    buttons7Click.forEach(function (el, i) {
+                        el.addEventListener('click', activate, false);
+                    });
+
+                    function activate() {
+                        var self = this, activatedClass = 'btn-activated';
+
+                        if (!classie.has(this, activatedClass)) {
+                            classie.add(this, activatedClass);
+                            setTimeout(function () {
+                                classie.remove(self, activatedClass)
+                            }, 1000);
+                        }
                     }
                 }
             }

@@ -10,6 +10,11 @@
         .factory('BeaconService', getBeaconService)
 
     function getBeaconService($http) {
+
+        var getListOfBeacons = function () {
+            return $http.get("./modules/beacon/beacon.json");
+        };
+
         return {
             /**
              * http call for beacon list
@@ -21,7 +26,8 @@
                     // prepare data here
                     callback(data);
                 });
-            }
+            },
+            getListOfBeacons: getListOfBeacons
         };
     }
 

@@ -1,4 +1,3 @@
-
 (function () {
     'use strict';
     /**
@@ -16,7 +15,12 @@
      * @param {object} $http
      * @return ObjectExpression
      */
-    function loginService($q, $http){
+    function loginService($q, $http) {
+
+        var getListOfUsers = function () {
+            return $http.get("./modules/login/company.json");
+        };
+
         return {
             /**
              * @method loginUser
@@ -65,14 +69,17 @@
              * @description get data from json file
              * @param {} callback
              */
-            getUsers:function(callback){
+            getUsers: function (callback) {
 
-                $http.get("./modules/login/company.json").success(function(data) {
+                $http.get("./modules/login/company.json").success(function (data) {
                     // prepare data here
                     callback(data);
                 });
 
-            }
+            },
+            getListOfUsers: getListOfUsers
         }
+
+
     }
 })();
