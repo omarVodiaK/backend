@@ -74,11 +74,19 @@ gulp.task('clean', ['usemin'], function () {
         .pipe(clean());
 });
 
+
 //Start a web server on port 8282 to server the app webapp
 gulp.task('connect-dev', function() {
     connect.server({
         root: 'app/',
-        port: 8282
+        port: 8282,
+        middleware: function (connect, opt) {
+            return [
+                modRewrite([
+                    '^/api/(.*)$ http://localhost:3002/api/$1 [P]'
+                ])
+            ]
+        }
     });
 });
 
