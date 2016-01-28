@@ -24,4 +24,3 @@ angular
         'app.config'
     ]);
 
-
