@@ -43,27 +43,41 @@
             <tbody dir-paginate="campaign in campaigns | filter:search | itemsPerPage:5">
             <tr>
                 <td></td>
-                <td>{{campaign.camp_name}}</td>
-                <td ng-repeat="sch in campaign.schedule">{{sch.sch_start}}</td>
-                <td ng-repeat="sch in campaign.schedule">{{sch.sch_end}}</td>
+                <td>{{campaign.owner.camp_name}}</td>
+                <td>{{formatDate(campaign.sch_date_start)}}</td>
+                <td>{{formatDate(campaign.sch_date_end)}}</td>
                 <td>
                     <statedirective data="campaign"></statedirective>
                 </td>
                 <td>
-                    {{campaign.camp_priority}}
+                    {{campaign.owner.camp_priority}}
 
                 </td>
                 <td class="text-right">
 
                     <div class="btn-group" role="group">
 
-                        <button ng-click="confirmCancel(campaign.camp_state)"
-                                ng-class="{false: 'btn btn-success', true: 'btn btn-default'} [campaign.camp_state == 'activated']">
+                        <button ng-click="confirmCancel(campaign)"
+                                ng-if="campaign.owner.camp_state == 'active'"
+                                class="btn btn-default">
                             <i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i>
-                            <span class="hidden-xs hidden-md">{{campaign.camp_state == "activated" ? 'Deactivate' : 'Activate'}}</span>
+                            <span class="hidden-xs hidden-md">Deactivate</span>
+                        </button>
+                        <button ng-click="confirmCancel(campaign)"
+                                ng-if="campaign.owner.camp_state == 'inactive'"
+                                class="btn btn-success">
+                            <i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i>
+                            <span class="hidden-xs hidden-md">activate</span>
                         </button>
 
-                        <button class="btn btn-danger" ng-click="removeCampaignRow(campaign._id)">
+                        <button ng-click="confirmCancel(campaign)"
+                                ng-if="campaign.owner.camp_state == 'expired'"
+                                class="btn btn-success">
+                            <i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i>
+                            <span class="hidden-xs hidden-md">Reactivate</span>
+                        </button>
+
+                        <button class="btn btn-danger" ng-click="removeCampaignRow(campaign.owner.camp_cd)">
                             <i class="glyphicon glyphicon-remove visible-xs-inline-block"></i>
                             <span class="hidden-xs  hidden-md">Remove</span>
                         </button>
@@ -100,16 +114,17 @@
                                         <tr dir-paginate="associate in associates |itemsPerPage:5">
 
                                             <td>
-                                                {{associate.name}}
+                                                {{associate.cmp_name}}
                                             </td>
 
                                             <td>
-                                                {{associate.email}}
+                                                {{associate.cmp_email}}
                                             </td>
 
                                             <td class="text-right">
-                                                <sharedirective company="associate"
-                                                                campaign="campaign"></sharedirective>
+                                                <sharedirective
+                                                        associate="associate"
+                                                        campaign="campaign"></sharedirective>
                                             </td>
 
                                         </tr>
@@ -129,7 +144,13 @@
                             </div>
                         </script>
 
-                        <button class="btn btn-default"
+                        <button class="btn btn-default" ng-if="campaign.trueOwner != ''"
+                                ng-click="openModal('lg', 'publishModalContent.html', associates, campaign)">
+                            <i class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
+                            <span class="hidden-xs  hidden-md">Publish</span>
+                        </button>
+
+                        <button disabled class="btn btn-default" ng-if="campaign.trueOwner == ''"
                                 ng-click="openModal('lg', 'publishModalContent.html', associates, campaign)">
                             <i class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
                             <span class="hidden-xs  hidden-md">Publish</span>

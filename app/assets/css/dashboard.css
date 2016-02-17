@@ -586,57 +586,57 @@ span.glyphicon.header {
     cursor: pointer;
 }
 
-.form-group {
-    /*styles for the form-group itself*/
-    position: relative;
-    width: 100%;
-    margin-bottom: 23px;
-}
+/*.form-group {*/
+/*styles for the form-group itself*/
+/*position: relative;*/
+/*width: 100%;*/
+/*margin-bottom: 23px;*/
+/*}*/
 
-.form-group input[type='text'], .form-group input[type='email'], .form-group input[type="password"] {
-    /*Default styles for field*/
-    position: relative;
-    width: 100%;
-    background: 0 0;
-    padding: 26px 0 12px;
-    font-size: 15px;
-    line-height: 1.4;
-    font-weight: 500;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-width: 0 0 1px;
-    box-shadow: none;
-    z-index: 1;
-}
+/*.form-group input[type='text'], .form-group input[type='email'], .form-group input[type="password"] {*/
+/*Default styles for field*/
+/*position: relative;*/
+/*width: 100%;*/
+/*background: 0 0;*/
+/*padding: 26px 0 12px;*/
+/*font-size: 15px;*/
+/*line-height: 1.4;*/
+/*font-weight: 500;*/
+/*border: 1px solid rgba(0, 0, 0, 0.08);*/
+/*border-width: 0 0 1px;*/
+/*box-shadow: none;*/
+/*z-index: 1;*/
+/*}*/
 
-.form-group input[type='text']:focus, .form-group input[type='email']:focus, .form-group input[type="password"]:focus {
-    outline: 0;
-}
+/*.form-group input[type='text']:focus, .form-group input[type='email']:focus, .form-group input[type="password"]:focus {*/
+/*outline: 0;*/
+/*}*/
 
-.form-group label {
-    /*Default styles for label*/
-    display: inline-block;
-    position: absolute;
-    margin-bottom: 6px;
-    top: 0;
-    font-size: 12px;
-    font-weight: 300;
-    color: rgba(0, 0, 0, 0.4);
-    padding: 0;
-    transition: all .3s ease;
-}
+/*.form-group label {*/
+/*Default styles for label*/
+/*display: inline-block;*/
+/*position: absolute;*/
+/*margin-bottom: 6px;*/
+/*top: 0;*/
+/*font-size: 12px;*/
+/*font-weight: 300;*/
+/*color: rgba(0, 0, 0, 0.4);*/
+/*padding: 0;*/
+/*transition: all .3s ease;*/
+/*}*/
 
-.form-group::after {
-    /*Default styles for 'after' pseudo selector for form-group*/
-    content: "";
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 0;
-    left: 50%;
-    z-index: 1000;
-    background: rgba(0, 0, 0, 0.08);
-    transition: all .3s ease;
-}
+/*.form-group::after {*/
+/*Default styles for 'after' pseudo selector for form-group*/
+/*content: "";*/
+/*position: absolute;*/
+/*width: 0;*/
+/*height: 2px;*/
+/*bottom: 0;*/
+/*left: 50%;*/
+/*z-index: 1000;*/
+/*background: rgba(0, 0, 0, 0.08);*/
+/*transition: all .3s ease;*/
+/*}*/
 
 .form-group .error-block {
     /*Default Styles for Help-block*/
@@ -713,17 +713,17 @@ span.glyphicon.header {
     top: 17px;
 }
 
-.form-group select {
-    /*Default styles for field*/
-    position: relative;
-    width: 100%;
-    background: 0 0;
-    padding: 13px 0 4px;
-    font-size: 15px;
-    line-height: 1.4;
-    font-weight: 500;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-width: 0 0 1px;
-    box-shadow: none;
-    z-index: 1;
-}
+/*.form-group select {*/
+/*Default styles for field*/
+/*position: relative;*/
+/*width: 100%;*/
+/*background: 0 0;*/
+/*padding: 13px 0 4px;*/
+/*font-size: 15px;*/
+/*line-height: 1.4;*/
+/*font-weight: 500;*/
+/*border: 1px solid rgba(0, 0, 0, 0.08);*/
+/*border-width: 0 0 1px;*/
+/*box-shadow: none;*/
+/*z-index: 1;*/
+/*}*/

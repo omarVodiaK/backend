@@ -11,6 +11,8 @@
                  * @param {} callback
                  */
                 getAssociate: function (callback) {
+
+
                     $http.get("./modules/associates/associate.json").success(function (data) {
                         // prepare data here
                         callback(data);

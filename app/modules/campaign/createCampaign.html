@@ -4,20 +4,30 @@
 </div>
 
 
-<uib-accordion close-others="true">
+<uib-accordion close-others="true" ng-controller="CampaignStepCtrl">
 
     <uib-accordion-group panel-class="panel-info" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
         <uib-accordion-heading>
-            General Informations
+            General Information
         </uib-accordion-heading>
         <form>
             <div class="form-group">
                 <label>Name</label>
-                <input type="text" value="{{campaign.camp_name}}" class="form-control" placeholder="Your title go here">
+                <input id="campaign_name" type="text" ng-model="campaign.owner.camp_name"
+                       value="{{campaign.owner.camp_name}}"
+                       class="form-control" placeholder="Your title go here">
             </div>
             <div class="form-group">
                 <label>Description</label>
-                <textarea class="form-control" rows="3" placeholder="Your description go here">{{campaign.camp_description}}</textarea>
+                <textarea id="campaign_description" class="form-control" ng-model="campaign.owner.camp_description"
+                          rows="3"
+                          placeholder="Your description go here">{{campaign.owner.camp_description}}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Priority</label>
+                <input id="campaign_priority" type="number" ng-model="campaign.owner.camp_priority"
+                       value="{{campaign.owner.camp_priority}}" class="form-control" placeholder="priro">
             </div>
         </form>
     </uib-accordion-group>
@@ -30,13 +40,14 @@
 
         <div class="col-md-12" style="min-height: 390px;">
 
-            <div class="form-group" ng-controller="DatePickerCtrl">
+            <div class="form-group">
                 <div class="row">
                     <div class="col-md-6">
-                        <label>Start from</label>
+                        <label>Start from :</label>
 
                         <div class='input-group'>
-                            <input type='text' class="form-control" uib-datepicker-popup="{{format}}" ng-model="dtStart"
+                            <input id="schedule_start_date" type='text' class="form-control"
+                                   uib-datepicker-popup="{{format}}" ng-model="dtStart"
                                    is-open="statusStart.opened" datepicker-options="dateOptions" ng-required="true"
                                    close-text="Done"/>
 
@@ -50,7 +61,8 @@
                         <label>End at</label>
 
                         <div class='input-group'>
-                            <input type='text' class="form-control" uib-datepicker-popup="{{format}}" ng-model="dtEnd"
+                            <input id="schedule_end_date" type='text' class="form-control"
+                                   uib-datepicker-popup="{{format}}" ng-model="dtEnd"
                                    is-open="statusEnd.opened" datepicker-options="dateOptions" ng-required="true"
                                    close-text="Done"/>
                     <span class="input-group-btn">
@@ -63,46 +75,57 @@
 
             </div>
 
-            <div class="form-group" ng-controller="TimePickerCtrl">
+            <div class="form-group">
                 <div class="row">
+
                     <div class="col-md-6">
 
-                        <uib-timepicker ng-model="timeBegin" hour-step="hstep" minute-step="mstep"
+                        <uib-timepicker ng-change="timeBeginChanged(timeBegin)" ng-model="timeBegin" hour-step="hstep"
+                                        minute-step="mstep"
                                         show-meridian="ismeridian"></uib-timepicker>
                     </div>
 
                     <div class="col-md-6">
 
-                        <uib-timepicker ng-model="timeEnd" hour-step="hstep" minute-step="mstep"
+                        <uib-timepicker ng-change="timeEndChanged(timeEnd)" ng-model="timeEnd" hour-step="hstep"
+                                        minute-step="mstep"
                                         show-meridian="ismeridian"></uib-timepicker>
                     </div>
                 </div>
             </div>
-
             <div class="form-group">
                 <label>Days : </label>
+
                 <label class="checkbox-inline">
-                    <input type="checkbox" value="monday"> monday
+                    <input ng-click="selectedDay('day_1')" checklist-model="days.day" value="day_1" type="checkbox">
+                    monday
                 </label>
                 <label class="checkbox-inline">
-                    <input type="checkbox" value="tuesday"> tuesday
+                    <input ng-click="selectedDay('day_2')" checklist-model="days.day" value="day_2" type="checkbox">
+                    tuesday
                 </label>
                 <label class="checkbox-inline">
-                    <input type="checkbox" value="wednesday"> wednesday
+                    <input ng-click="selectedDay('day_3')" checklist-model="days.day" value="day_3" type="checkbox">
+                    wednesday
                 </label>
                 <label class="checkbox-inline">
-                    <input type="checkbox" value="thursday"> thursday
+                    <input ng-click="selectedDay('day_4')" checklist-model="days.day" value="day_4" type="checkbox">
+                    thursday
                 </label>
                 <label class="checkbox-inline">
-                    <input type="checkbox" value="friday"> friday
+                    <input ng-click="selectedDay('day_5')" checklist-model="days.day" value="day_5" type="checkbox">
+                    friday
                 </label>
                 <label class="checkbox-inline">
-                    <input type="checkbox" value="saturday"> saturday
+                    <input ng-click="selectedDay('day_6')" checklist-model="days.day" value="day_6" type="checkbox">
+                    saturday
                 </label>
                 <label class="checkbox-inline">
-                    <input type="checkbox" value="sunday"> sunday
+                    <input ng-click="selectedDay('day_7')" checklist-model="days.day" value="day_7" type="checkbox">
+                    sunday
                 </label>
             </div>
+
 
         </div>
 
@@ -114,7 +137,7 @@
             Assign Beacons
         </uib-accordion-heading>
 
-        <form class="form-vertical" ng-controller="CampaignStepCtrl">
+        <form class="form-vertical">
 
             <div class="row">
 
@@ -124,7 +147,7 @@
 
                     <div class="col-xs-9">
                         <oi-select
-                                oi-options="zone.zone_name for zone in zones track by zone._id"
+                                oi-options="zone.zone_name for zone in zones track by zone.zone_cd"
                                 ng-model="zoneValue"
                                 choseList
                                 multiple>
@@ -133,19 +156,6 @@
 
                 </div>
 
-                <div class="col-md-6">
-
-                    <label class="control-label col-xs-3">Type:</label>
-
-                    <div class="col-xs-9">
-                        <select class="form-control" ng-model="typeValue">
-                            <option value="">All</option>
-                            <option value="internal">Internal</option>
-                            <option value="external">External</option>
-                        </select>
-                    </div>
-
-                </div>
 
             </div>
 
@@ -196,7 +206,7 @@
                                             <select class="btn btn-defautl">
 
                                                 <option ng-repeat="zone in zones"
-                                                        ng-selected="{false: '', true: 'selected'} [beacon.bcn_zone_id == zone._id]">
+                                                        ng-selected="{false: '', true: 'selected'} [beacon.bcn_zone_cd == zone.zone_cd]">
                                                     {{zone.zone_name}}
                                                 </option>
 
@@ -238,7 +248,7 @@
 
                                                 <div class="col-xs-9">
                                     <textarea type="text" class="form-control" rows="2"
-                                              placeholder="Details">{{beacon.bcn_general_information}}</textarea>
+                                              placeholder="Details">{{beacon.bcn_general_info}}</textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -253,7 +263,7 @@
                                                     <select class="btn btn-defautl">
 
                                                         <option ng-repeat="location in locations"
-                                                                ng-selected="{false: '', true: 'selected'} [beacon.bcn_loc_id == location._id]">
+                                                                ng-selected="{false: '', true: 'selected'} [beacon.location == location.loc_cd]">
                                                             {{location.label}}
                                                         </option>
 
@@ -337,9 +347,7 @@
 
                         <tr>
 
-                            <th></th>
                             <th>Name</th>
-                            <th>Type</th>
                             <th>Used</th>
                             <th>Shared</th>
                             <th></th>
@@ -348,38 +356,30 @@
 
                         </thead>
 
-                        <tbody ng-repeat="beacon in newArray | ZoneFilter : zoneValue : typeValue">
+                        <tbody ng-repeat="beacon in campaign.beacons | ZoneFilter : zoneValue : typeValue">
 
                         <tr>
-                            <td>
 
-                                <label class="switch">
-                                    <input type="checkbox">
-                                    <i></i>
-                                </label>
-                            </td>
-                            <td>{{beacon.bcn_name}}</td>
-                            <td>{{beacon.chb_type}}</td>
+                            <td>{{beacon.beacon.bcn_name}}</td>
 
                             <td>
 
                                 <span class="glyphicon glyphicon-ok" style="color:forestgreen;"
-                                      aria-hidden="true" ng-if="beacon.bcn_used == 'true'"></span>
+                                      aria-hidden="true" ng-if="beacon.bcn_used == true"></span>
 
                                 <span class="glyphicon glyphicon-remove" style="color:red;"
-                                      aria-hidden="true" ng-if="beacon.bcn_used == 'false'"></span>
+                                      aria-hidden="true" ng-if="beacon.bcn_used == false"></span>
 
-                                <span class="glyphicon glyphicon-remove" style="color:red;"
-                                      aria-hidden="true" ng-if="!beacon.bcn_used"></span>
 
                             </td>
 
                             <td>
                                 <span class="glyphicon glyphicon-ok" style="color:forestgreen;"
-                                      ng-model="beacon.bcn_share" ng-if="beacon.bcn_share == 'true'"
+                                      ng-model="beacon.beacon.bcn_shared" ng-if="beacon.beacon.bcn_shared== true"
                                       aria-hidden="true"></span>
-                                <span class="glyphicon glyphicon-remove" style="color:red;" ng-model="beacon.bcn_share"
-                                      ng-if="beacon.bcn_share == 'false'" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-remove" style="color:red;"
+                                      ng-model="beacon.beacon.bcn_shared"
+                                      ng-if="beacon.beacon.bcn_shared == false" aria-hidden="true"></span>
                             </td>
 
 
@@ -391,18 +391,22 @@
                                             class="glyphicon glyphicon-plus-sign visible-xs-inline-block"></i>
                                         <span class="hidden-xs">Configure</span></button>
 
-                                    <button class="btn btn-primary" ng-if="beacon.bcn_interaction_type == 'push' "
+
+                                    <button class="btn btn-primary"
+                                            ng-if="beacon.config.interaction_type.lkp_name == 'push' "
                                             ng-click="open('lg','assignContentModalTpl', beacon)"><i
                                             class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
                                         <span class="hidden-xs">Assign Content</span>
                                         <span class="badge">{{beacon.contents.length}}</span>
                                     </button>
 
-                                    <button class="btn btn-primary" ng-if="beacon.bcn_interaction_type == 'generate' "
+                                    <button class="btn btn-primary"
+                                            ng-if="beacon.config.interaction_type.lkp_name == 'generate' "
                                             ng-click="open('lg','redeemFromModalTpl', beacon)"><i
                                             class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
                                         <span class="hidden-xs">Redeem from</span>
                                     </button>
+
                                 </div>
                             </td>
 
@@ -482,9 +486,10 @@
         </form>
 
         <!-- angular ui modal redeem from -->
-        <script type="text/ng-template" id="redeemFromModalTpl">
+        <script type="text/ng-template" id="redeemFromModalTpl" ng-controller="RedeemCtrl">
             <div class="modal-header">
                 <h3 class="modal-title">Redeem From</h3>
+
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
@@ -502,9 +507,10 @@
 
                                     </tr>
                                     </thead>
-                                    <tbody ng-controller="RedeemCtrl">
+                                    <tbody>
 
-                                    <tr ng-repeat="b in redeemers">
+                                    <tr ng-repeat="redeemer in campaign.beacons"
+                                        ng-if="redeemer.config.interaction_type.lkp_name == 'fetch'">
 
                                         <td>
                                             <label class="switch">
@@ -513,10 +519,10 @@
                                             </label>
                                         </td>
 
-                                        <td>{{b.bcn_interaction_type}}</td>
+                                        <td>{{redeemer.beacon.bcn_name}}</td>
 
                                         <td style="width: 35%; height: 20%;">
-                                            <img lazy-src="{{b.bcn_thumbnail}}" class="img-rounded"
+                                            <img lazy-src="{{redeemer.beacon.bcn_thumbnail}}" class="img-rounded"
                                                  style="width: 35%; height: 20%;">
                                         </td>
 
@@ -524,13 +530,13 @@
 
                                             <span class="glyphicon glyphicon-ok"
                                                   style="color:forestgreen;"
-                                                  ng-model="beacon.bcn_share"
-                                                  ng-if="beacon.bcn_share == 'true'"
+                                                  ng-model="redeemer.beacon.bcn_shared"
+                                                  ng-if="redeemer.beacon.bcn_shared == true"
                                                   aria-hidden="true">
                                             </span>
                                             <span class="glyphicon glyphicon-remove"
-                                                  style="color:red;" ng-model="beacon.bcn_share"
-                                                  ng-if="beacon.bcn_share == 'false'"
+                                                  style="color:red;" ng-model="redeemer.beacon.bcn_shared"
+                                                  ng-if="redeemer.beacon.bcn_shared == false"
                                                   aria-hidden="true">
                                             </span>
 
@@ -574,29 +580,29 @@
                                            style="text-align: left;">Beacon
                                         Type:</label>
 
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-9" ng-controller="PopulateFrequencyCtrl">
+
                                         <select class="btn btn-default"
-                                                data-style="btn-inverse" ng-model="beacon.bcn_trigger_type">
-                                            <option value="entrance">entrance</option>
-                                            <option value="exit">exit</option>
-                                            <option value="immediate">immediate</option>
-                                            <option value="near">near</option>
-                                            <option value="inrange">in range</option>
-                                            <option value="far">far</option>
+                                                data-style="btn-inverse">
+                                            <option ng-repeat="triggerType in beaconTriggerType"
+                                                    ng-model="beacon.config.trigger_type"
+                                                    ng-selected="{false: '', true: 'selected'} [beacon.contents[0].config.trigger_type.lkp_cd == triggerType.lkp_cd]">
+                                                {{triggerType.lkp_name}}
+                                            </option>
                                         </select>
+
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group"
-                                     ng-controller="GenderMultiSelectCtrl">
+                                <div class="form-group">
                                     <label class="control-label col-xs-3"
                                            style="text-align: left;">Gender:</label>
 
                                     <div class="col-xs-9">
                                         <oi-select
-                                                oi-options="item.name for item in arrGender track by item.id"
-                                                ng-model="beacon.genders"
+                                                oi-options="item.lkp_value for item in beaconInteractWithGender track by item.lkp_cd"
+                                                ng-model="beacon.contents[0].config.interaction_with_gender"
                                                 choseList
                                                 multiple>
                                         </oi-select>
@@ -606,16 +612,15 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group"
-                                     ng-controller="GenderMultiSelectCtrl">
+                                <div class="form-group">
                                     <label class="control-label col-xs-3"
                                            style="text-align: left;">Interact
                                         With:</label>
 
                                     <div class="col-xs-9">
                                         <oi-select
-                                                oi-options="item.name for item in arrInteractWith track by item.id"
-                                                ng-model="beacon.interact_with"
+                                                oi-options="item.lkp_value for item in beaconInteractWithRace track by item.lkp_cd"
+                                                ng-model="beacon.contents[0].config.interaction_with_race"
                                                 choseList
                                                 multiple>
                                         </oi-select>
@@ -633,7 +638,7 @@
                                                    class="form-control"
                                                    max="99"
                                                    min="16"
-                                                   ng-model="beacon.chb_start_age">
+                                                   ng-model="beacon.contents[0].camp_bcn_cnt_start_age">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -645,7 +650,7 @@
                                                    class="form-control"
                                                    min="16"
                                                    max="99"
-                                                   ng-model="beacon.chb_end_age">
+                                                   ng-model="beacon.contents[0].camp_bcn_cnt_end_age">
                                         </div>
                                     </div>
 
@@ -668,11 +673,12 @@
                                                ng-model="beacon.frequency.value">
                                     </div>
                                     <div class="col-md-6">
-                                        <select class="form-control"
-                                                ng-model="beacon.frequency.name">
-                                            <option ng-repeat="item in frequecyItems" value="{{item.name}}">
-                                                {{item.name}}
-                                            </option>
+                                        <select class="btn btn-default"
+                                                data-style="btn-inverse"
+                                                ng-model="beacon.contents[0].config.frequency"
+                                                ng-options="item.lkp_name for item in frequencies track by item.lkp_name"
+                                                ng-change="makeChanged()">
+
                                         </select>
                                     </div>
                                 </div>
@@ -858,7 +864,7 @@
                                            style="text-align: left;">Name:</label>
 
                                     <div class="col-xs-9">
-                                        <input value="{{beacon.bcn_name}}" type="text"
+                                        <input value="{{beacon.beacon.bcn_name}}" type="text"
                                                class="form-control"
                                                placeholder="Name">
                                     </div>
@@ -868,7 +874,7 @@
                                            style="text-align: left;">UUID:</label>
 
                                     <div class="col-xs-9">
-                                        <input type="text" value="{{beacon.bcn_uuid}}"
+                                        <input type="text" value="{{beacon.beacon.bcn_uuid}}"
                                                class="form-control"
                                                placeholder="UUID">
                                     </div>
@@ -885,7 +891,7 @@
                                                 disabled>
 
                                             <option ng-repeat="zone in zones"
-                                                    ng-selected="{false: '', true: 'selected'} [beacon.bcn_zone_id == zone._id]">
+                                                    ng-selected="{false: '', true: 'selected'} [beacon.beacon.zone == zone.zone_cd]">
                                                 {{zone.zone_name}}
                                             </option>
 
@@ -902,7 +908,7 @@
                                                    style="text-align: left;">Major:</label>
 
                                             <div class="col-xs-9">
-                                                <input value="{{beacon.bcn_major}}"
+                                                <input value="{{beacon.beacon.bcn_major}}"
                                                        type="text"
                                                        class="form-control"
                                                        placeholder="5">
@@ -915,7 +921,7 @@
                                                    style="text-align: left;">Minor:</label>
 
                                             <div class="col-xs-9">
-                                                <input value="{{beacon.bcn_minor}}"
+                                                <input value="{{beacon.beacon.bcn_minor}}"
                                                        type="text"
                                                        class="form-control"
                                                        placeholder="1">
@@ -935,7 +941,7 @@
 
                                             <div class="col-xs-9">
                                                 <textarea type="text" class="form-control" rows="5"
-                                                          placeholder="Details">{{beacon.bcn_general_information}}</textarea>
+                                                          placeholder="Details">{{beacon.beacon.bcn_general_info}}</textarea>
                                             </div>
 
                                         </div>
@@ -954,7 +960,8 @@
 
                                             <div class="col-xs-9">
                                                 <input class="form-control" type="number"
-                                                       min="0" value="{{beacon.chb_limit}}">
+                                                       ng-model="beacon.camp_bcn_limit"
+                                                       min="0" value="{{beacon.camp_bcn_limit}}">
                                                 <b>* 0 to set no limit</b>
                                             </div>
                                         </div>
@@ -965,16 +972,169 @@
                                                    style="text-align: left;">Interaction
                                                 type:</label>
 
-                                            <div class="col-xs-6">
-                                                <select ng-model="beacon.bcn_interaction_type"
-                                                        class="form-control">
-                                                    <option ng-option value="push">push</option>
-                                                    <option ng-option value="generate">
-                                                        generate
-                                                    </option>
-                                                    <option ng-option value="fetch">fetch
-                                                    </option>
+                                            <div class="col-xs-6" ng-controller="PopulateFrequencyCtrl">
+
+                                                <select class="btn btn-default"
+                                                        data-style="btn-inverse"
+                                                        ng-model="beacon.config.interaction_type"
+                                                        ng-options="interactionType.lkp_name for interactionType in beaconInteractionType track by interactionType.lkp_cd">
+                                                    <option value="">--select type--</option>
                                                 </select>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="panel panel-default"
+                                     ng-if="beacon.config.interaction_type.lkp_name == 'generate'"
+                                     ng-controller="PopulateFrequencyCtrl">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Campaign related informations</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3"
+                                                           style="text-align: left;">Beacon Trigger Type:</label>
+
+                                                    <div class="col-xs-9">
+
+
+                                                        <!--<select class="btn btn-default"-->
+                                                        <!--data-style="btn-inverse">-->
+                                                        <!--<option ng-repeat="triggerType in beaconTriggerType"-->
+                                                        <!--ng-model="beacon.config.trigger_type"-->
+                                                        <!--ng-selected="{false: '', true: 'selected'} [beacon.config.trigger_type.lkp_cd == triggerType.lkp_cd]">-->
+                                                        <!--{{triggerType.lkp_name}}-->
+                                                        <!--</option>-->
+                                                        <!--</select>-->
+
+                                                        <select class="btn btn-default"
+                                                                data-style="btn-inverse"
+                                                                ng-model="beacon.config.trigger_type"
+                                                                ng-options="triggerType.lkp_name for triggerType in beaconTriggerType track by triggerType.lkp_name">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3"
+                                                           style="text-align: left;">Gender:</label>
+
+                                                    <div class="col-xs-9">
+                                                        <oi-select
+                                                                oi-options="item.lkp_value for item in beaconInteractWithGender track by item.lkp_cd"
+                                                                ng-model="beacon.config.interaction_with_gender"
+                                                                choseList
+                                                                multiple>
+                                                        </oi-select>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3"
+                                                           style="text-align: left;">Interact
+                                                        With:</label>
+
+                                                    <div class="col-xs-9">
+                                                        <oi-select
+                                                                oi-options="item.lkp_value for item in beaconInteractWithRace track by item.lkp_cd"
+                                                                ng-model="beacon.config.interaction_with_race"
+                                                                choseList
+                                                                multiple>
+                                                        </oi-select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3"
+                                                           style="text-align: left;">Age:</label>
+
+                                                    <div class="col-xs-9">
+                                                        <div class="form-group">
+                                                            <div class="col-xs-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-xs-3"
+                                                                           style="text-align: left;">From: </label>
+
+                                                                    <div class="col-xs-9">
+                                                                        <input type="number"
+                                                                               class="form-control"
+                                                                               max="99"
+                                                                               min="16"
+                                                                               ng-model="beacon.camp_bcn_start_age">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <div class="form-group">
+                                                                    <label class="control-label col-xs-3"
+                                                                           style="text-align: left;">To:</label>
+
+                                                                    <div class="col-xs-9">
+                                                                        <input type="number"
+                                                                               class="form-control"
+                                                                               min="16"
+                                                                               max="99"
+                                                                               ng-model="beacon.camp_bcn_end_age">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3">Frequency:</label>
+
+                                                    <div class="col-xs-9">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-xs-3">every: </label>
+
+                                                            <div class="col-xs-9">
+                                                                <div class="form-group">
+                                                                    <div class="col-xs-5">
+                                                                        <input class="form-control"
+                                                                               type="number"
+                                                                               min="{{min}}"
+                                                                               max="{{max}}"
+                                                                               ng-model="beacon.config.frequency.value">
+                                                                    </div>
+                                                                    <div class="col-xs-7">
+
+                                                                        <select class="btn btn-default"
+                                                                                data-style="btn-inverse"
+                                                                                ng-model="beacon.config.frequency"
+                                                                                ng-options="item.lkp_name for item in frequencies track by item.lkp_name"
+                                                                                ng-change="makeChanged()">
+
+                                                                        </select>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -982,144 +1142,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default"
-                         ng-if="beacon.bcn_interaction_type == 'generate' ">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Campaign related informations</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label col-xs-3"
-                                               style="text-align: left;">Beacon Trigger Type:</label>
 
-                                        <div class="col-xs-9">
-                                            <select class="btn btn-default"
-                                                    data-style="btn-inverse" ng-model="beacon.bcn_trigger_type">
-                                                <option value="entrance">entrance</option>
-                                                <option value="exit">exit</option>
-                                                <option value="immediate">immediate</option>
-                                                <option value="near">near</option>
-                                                <option value="inrange">in range</option>
-                                                <option value="far">far</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group"
-                                         ng-controller="GenderMultiSelectCtrl">
-                                        <label class="control-label col-xs-3"
-                                               style="text-align: left;">Gender:</label>
-
-                                        <div class="col-xs-9">
-                                            <oi-select
-                                                    oi-options="item.name for item in arrGender track by item.id"
-                                                    ng-model="beacon.genders"
-                                                    choseList
-                                                    multiple>
-                                            </oi-select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group"
-                                         ng-controller="GenderMultiSelectCtrl">
-                                        <label class="control-label col-xs-3"
-                                               style="text-align: left;">Interact
-                                            With:</label>
-
-                                        <div class="col-xs-9">
-                                            <oi-select
-                                                    oi-options="item.name for item in arrInteractWith track by item.id"
-                                                    ng-model="beacon.interact_with"
-                                                    choseList
-                                                    multiple>
-                                            </oi-select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label col-xs-3"
-                                               style="text-align: left;">Age:</label>
-
-                                        <div class="col-xs-9">
-                                            <div class="form-group">
-                                                <div class="col-xs-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-xs-3"
-                                                               style="text-align: left;">From: </label>
-
-                                                        <div class="col-xs-9">
-                                                            <input type="number"
-                                                                   class="form-control"
-                                                                   max="99"
-                                                                   min="16"
-                                                                   ng-model="beacon.chb_start_age">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-xs-3"
-                                                               style="text-align: left;">To:</label>
-
-                                                        <div class="col-xs-9">
-                                                            <input type="number"
-                                                                   class="form-control"
-                                                                   min="16"
-                                                                   max="99"
-                                                                   ng-model="beacon.chb_end_age">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-
-                                <div class="col-md-6" ng-controller="PopulateFrequencyCtrl">
-                                    <div class="form-group">
-                                        <label class="control-label col-xs-3">Frequency:</label>
-
-                                        <div class="col-xs-9">
-                                            <div class="form-group">
-                                                <label class="control-label col-xs-3">every: </label>
-
-                                                <div class="col-xs-9">
-                                                    <div class="form-group">
-                                                        <div class="col-xs-5">
-                                                            <input class="form-control"
-                                                                   type="number"
-                                                                   min="{{min}}"
-                                                                   max="{{max}}"
-                                                                   ng-model="beacon.frequency.value">
-                                                        </div>
-                                                        <div class="col-xs-7">
-                                                            <select class="form-control"
-                                                                    ng-model="beacon.frequency.name">
-                                                                <option ng-repeat="item in frequecyItems"
-                                                                        value="{{item.name}}">
-                                                                    {{item.name}}
-                                                                </option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -1127,7 +1150,7 @@
                     <button class="btn btn-danger" type="button" ng-click="cancel()">
                         Cancel
                     </button>
-                    <button class="btn btn-primary" type="button" ng-click="ok()">Save
+                    <button class="btn btn-primary" type="button" ng-click="saveBeaconConfig()">Save Configuration
                     </button>
                 </div>
             </div>
@@ -1135,9 +1158,9 @@
         <!-- / -->
 
         <div class="pull-right">
-            <button class="btn btn-success">
+            <button class="btn btn-success" ng-click="save()">
                 <i class="glyphicon glyphicon-save visible-xs-inline-block"></i>
-                <span class="hidden-xs">Save</span>
+                <span class="hidden-xs">Save Campaign</span>
             </button>
         </div>
 

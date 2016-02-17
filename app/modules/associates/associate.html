@@ -44,15 +44,16 @@
                                             <tr dir-paginate="user in users |filter:search|itemsPerPage:5">
                                                 <td>
                                                     <label class="switch">
-                                                        <input type="checkbox">
+                                                        <input ng-model="user.val" value="{{user.cmp_cd}}"
+                                                               type="checkbox">
                                                         <i></i>
                                                     </label>
                                                 </td>
                                                 <td>
-                                                    {{user.name}}
+                                                    {{user.cmp_name}}
                                                 </td>
                                                 <td>
-                                                    {{user.email}}
+                                                    {{user.cmp_email}}
                                                 </td>
                                             </tr>
                                             </tbody>
@@ -61,7 +62,8 @@
                                 </div>
                             </div>
                             <div class="pull-right">
-                                <button type="submit" class="btn btn-primary" ng-click="ok()">Send Request</button>
+                                <button type="submit" class="btn btn-primary" ng-click="sendRequest()">Send Request
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -83,19 +85,21 @@
         </thead>
         <tbody>
         <tr dir-paginate="associate in associates |filter:search|itemsPerPage:5">
-            <td>{{getAssociateName(associate.cmp_id)}}</td>
-            <td>{{associate.state}}</td>
+            <td>{{getAssociateName(associate)}}</td>
+            <td>{{associate.asc_state}}</td>
             <td class="text-right">
                 <div class="btn-group">
 
                     <button class="btn btn-danger"
-                            ng-click="removeAssociateRow(associate.id)"><i
+                            ng-click="removeAssociateRow(associate.asc_cd)"><i
                             class="glyphicon glyphicon-remove visible-xs-inline-block"></i>
                         <span class="hidden-xs">Remove</span></button>
 
-                    <button ng-class="{false: 'btn btn-success', true: 'btn btn-default'} [associate.state == 'accept'] ">
+                    <button ng-class="{false: 'btn btn-success', true: 'btn btn-default disabled'} [associate.asc_state == 'accepted'] "
+                            ng-click="accept(associate.asc_cd)">
                         <i class="glyphicon glyphicon-ok visible-xs-inline-block"></i>
-                        <span class="hidden-xs">{{associate.state == "accept" ? 'Accepted' : 'Accept'}}</span></button>
+                        <span class="hidden-xs">{{associate.asc_state == "accepted" ? 'Accepted' : 'Accept'}}</span>
+                    </button>
                 </div>
             </td>
         </tr>

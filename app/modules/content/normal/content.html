@@ -30,7 +30,8 @@
                                         <label class="control-label col-xs-3" style="text-align: left;">Title:</label>
 
                                         <div class="col-xs-9">
-                                            <input value="{{content.cnt_title}}" type="text" class="form-control"
+                                            <input id="content_title" value="{{content.cnt_title}}" type="text"
+                                                   class="form-control"
                                                    placeholder="Title">
                                         </div>
                                     </div>
@@ -40,8 +41,8 @@
                                                style="text-align: left;">Description:</label>
 
                                         <div class="col-xs-9">
-                                    <textarea type="text" class="form-control" rows="2"
-                                              placeholder="Details">{{content.cnt_description}}</textarea>
+                                    <textarea id="content_content" type="text" class="form-control" rows="2"
+                                              placeholder="Details">{{content.cnt_content}}</textarea>
                                         </div>
                                     </div>
 
@@ -51,10 +52,11 @@
                                             Type:</label>
                                         <!-- Single button -->
                                         <div class="col-xs-9">
-                                            <select class="btn btn-defautl">
+                                            <select id="content_type" class="btn btn-defautl">
                                                 <option ng-repeat="contentType in contentTypes"
-                                                        ng-selected="{false: '', true: 'selected'} [content.cnt_type_id == contentType._id]">
-                                                    {{contentType.cht_value}}
+                                                        value="{{contentType.lkp_cd}}"
+                                                        ng-selected="{false: '', true: 'selected'} [content.cnt_type.lkp_cd == contentType.lkp_cd]">
+                                                    {{contentType.lkp_value}}
                                                 </option>
                                             </select>
                                         </div>
@@ -70,7 +72,7 @@
                                                         <ul class="thumbnails recipes list-unstyled panel"
                                                             style="margin-top: 10%;">
 
-                                                            <li ng-repeat="image in images |  contentPagesFilter: currentPage : itemsPerPage">
+                                                            <li ng-repeat="image in images | contentPagesFilter: currentPage : itemsPerPage">
 
                                                                 <div class="row">
                                                                     <div class="col-md-6 col-xs-6">
@@ -84,7 +86,8 @@
 
                                                                         <div style="display:table-cell; vertical-align:middle; text-align:center;">
                                                                             <label class="switch">
-                                                                                <input type="checkbox"
+                                                                                <input class="ds_content"
+                                                                                       type="checkbox"
                                                                                        ng-model="image"
                                                                                        ng-change="saveChecked($index, itemsPerPage, currentPage)"
                                                                                        ng-checked="{false: '', true: 'checked'} [content.cnt_url == image.thumbUrl] || true == getIndex($index, itemsPerPage, currentPage)">
@@ -113,7 +116,7 @@
 
                                                         <div class="input-group" style="margin-top: 10%;">
                                                             <span class="input-group-addon" id="basic-addon3">https://example.com/</span>
-                                                            <input type="text" class="form-control" id="basic-url"
+                                                            <input id="content_url" type="text" class="form-control"
                                                                    aria-describedby="basic-addon3"
                                                                    value="{{content.cnt_url}}">
                                                         </div>
@@ -162,23 +165,24 @@
 
             </tr>
             </thead>
-            <tbody dir-paginate="content in contents |filter:search|itemsPerPage:5">
+            <tbody dir-paginate="content in contents | filter:search | itemsPerPage:5">
             <tr>
                 <td></td>
                 <td>{{content.cnt_title}}</td>
-                <td>{{content.cnt_description}}</td>
+                <td>{{content.cnt_content}}</td>
                 <td>
                     <div class="wrapper size">
                         <img class="img-circle" ng-show="content.cnt_url != ''" lazy-src="{{content.cnt_url}}"/>
                     </div>
 
                 </td>
-                <td>{{getContentTypeName(content.cnt_type_id)}}</td>
+                <td ng-if="content.is_ds_content == true">External Content</td>
+                <td ng-if="content.is_ds_content == false">Internal Content</td>
                 <td></td>
                 <td class="text-right">
                     <div class="btn-group checkbox" role="group" ng-controller="ModalContentCtrl">
 
-                        <button class="btn btn-danger" ng-click="removeContentRow(content._id)"><i
+                        <button class="btn btn-danger" ng-click="removeContentRow(content.cnt_cd)"><i
                                 class="glyphicon glyphicon-remove visible-xs-inline-block"></i>
                             <span class="hidden-xs">Remove</span></button>
 
@@ -193,11 +197,11 @@
             </tr>
             </tbody>
         </table>
-        <dir-uib-pagination-controls
+        <dir-pagination-controls
                 max-size="5"
                 direction-links="true"
                 boundary-links="true">
-        </dir-uib-pagination-controls>
+        </dir-pagination-controls>
     </div>
 </div>
 

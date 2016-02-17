@@ -20,40 +20,66 @@
      * @param {object} $scope
      * @param {service} ContentService
      */
-    function contentController($scope, ContentService) {
+    function contentController($scope, RequestService, $rootScope) {
+        $scope.contents = [];
+        var params = {
+            "cmp_cd": $rootScope.company
+        };
 
         $scope.contentTypes = [];
 
-        ContentService.getContent(function (data) {
-            $scope.contents = data;
+
+        RequestService.postJsonRequest('content/findContentByCompanyId', params).then(function (data) {
+
+            if (data.result == "this model doesn't exist") {
+
+            } else if (data.result == undefined) {
+                data.forEach(function (content) {
+
+                    if (content.cnt_type.lkp_value != 'voucher') {
+                        $scope.contents.push(content);
+                    }
+                })
+            }
+
+
+
         });
 
-        ContentService.getContentTypes(function (data) {
+        RequestService.postJsonRequest('content/getContentType', {"lkp_category": "content_type"}).then(function (data) {
             $scope.contentTypes = data;
         });
 
-        $scope.removeContentRow = function (id) {
-            var index = -1;
-            for (var i = 0; i < $scope.contents.length; i++) {
-                if ($scope.contents[i]._id === id) {
-                    index = i;
-                    break;
-                }
-            }
-            if (index === -1) {
-                alert("Something gone wrong");
-            }
-            $scope.contents.splice(index, 1);
-        };
 
-        $scope.getContentTypeName = function (id) {
-            var data = $scope.contentTypes;
-            for (var i = 0; i < data.length; i++) {
-                if (data[i]._id == id) {
-                    var result = data[i].cht_category + " " + data[i].cht_name + " " + data[i].cht_value;
-                    return result;
+        $scope.removeContentRow = function (id) {
+
+            var identifier = {
+                "cnt_cd": id
+            };
+
+            RequestService.postJsonRequest('content/deleteContent', identifier).then(function (data) {
+
+                if (data.result == "deleted successfully") {
+                    var index = -1;
+                    for (var i = 0; i < $scope.contents.length; i++) {
+                        if ($scope.contents[i].cnt_cd === id) {
+                            index = i;
+                            break;
+                        }
+                    }
+                    if (index === -1) {
+                        alert("Something gone wrong");
+                    }
+                    $scope.contents.splice(index, 1);
+                } else {
+
+                    alert("Something gone wrong");
+
                 }
-            }
+
+            });
+
+
         };
 
     }
@@ -100,16 +126,104 @@
      * @param {object} $scope
      * @param {object} $modalInstance
      */
-    function modalInstanceController($scope, $uibModalInstance, content) {
+    function modalInstanceController($scope, $uibModalInstance, content, $rootScope, RequestService, contents) {
 
         $scope.content = content;
+
+        $scope.contents = contents;
+        var is_ds_content;
+        var content_url;
 
         /**
          * press ok in modal
          * @method ok
          */
         $scope.ok = function () {
-            $uibModalInstance.close();
+
+            if (content == undefined) {
+                if (angular.element('#content_title').val() == '' || angular.element('#content_content').val() == '') {
+                    alert('some information are required');
+                } else {
+
+                    if ($rootScope.checkedItems == undefined) {
+                        is_ds_content = false;
+                        content_url = angular.element('#content_url').val();
+                    } else {
+                        if ($rootScope.checkedItems != -1) {
+
+                            is_ds_content = true;
+
+                            content_url = $rootScope.images[$rootScope.checkedItems].url;
+                        } else {
+                            is_ds_content = false;
+                            content_url = angular.element('#content_url').val();
+                        }
+                    }
+
+                    var params = {
+                        'lkp_cd': angular.element('#content_type').val(),
+                        'cnt_title': angular.element('#content_title').val(),
+                        'cnt_content': angular.element('#content_content').val(),
+                        'cnt_url': content_url,
+                        'cnt_type': angular.element('#content_type').val(),
+                        'is_ds_content': is_ds_content,
+                        'cmp_cd': $rootScope.company
+                    };
+
+                    RequestService.postJsonRequest('content/createContent', params).then(function (content) {
+                        $scope.contents.push(content);
+                    });
+
+                    $uibModalInstance.close();
+                }
+            } else {
+
+                if ($rootScope.checkedItems == undefined) {
+
+                    is_ds_content = false;
+                    content_url = angular.element('#content_url').val();
+
+                } else {
+
+                    if ($rootScope.checkedItems != -1) {
+
+                        is_ds_content = true;
+
+                        content_url = $rootScope.images[$rootScope.checkedItems].url;
+
+                    } else {
+
+                        is_ds_content = false;
+                        content_url = angular.element('#content_url').val();
+
+                    }
+                }
+
+                var params = {
+                    'lkp_cd': angular.element('#content_type').val(),
+                    'cnt_title': angular.element('#content_title').val(),
+                    'cnt_content': angular.element('#content_content').val(),
+                    'cnt_url': content_url,
+                    'cnt_type': angular.element('#content_type').val(),
+                    'is_ds_content': is_ds_content,
+                    'cmp_cd': $rootScope.company,
+                    'cnt_cd': $scope.content.cnt_cd
+                };
+
+                RequestService.postJsonRequest('content/updateContent', params).then(function (result) {
+
+                    for (var i = 0; i < $scope.contents.length; i++) {
+                        if ($scope.contents[i].cnt_cd == result[0].cnt_cd) {
+                            $scope.contents[i] = result[0];
+                        }
+                    }
+
+                });
+
+                $uibModalInstance.close();
+            }
+
+
         };
 
         /**
@@ -121,16 +235,19 @@
         };
     }
 
-    function galleryController($scope, Lightbox, ContentService) {
+    function galleryController($scope, Lightbox, ContentService, $rootScope) {
 
         $scope.currentPage = 1;
         $scope.itemsPerPage = 5;
         $scope.checkedItems = [];
         $scope.images = [];
+        $scope.checkedValue = -1;
 
         ContentService.getDSContent(function (data) {
             $scope.images = data;
             $scope.totalItems = $scope.images.length;
+            $rootScope.images = $scope.images;
+
         });
 
         $scope.getIndex = function (index, itemPerPage, currentPage) {
@@ -156,15 +273,57 @@
         }
 
         $scope.saveChecked = function (index, itemPerPage, currentPage) {
+            var paginationIndex;
+
+
             if (currentPage == 1) {
-                var paginationIndex = index;
+                paginationIndex = index;
 
             } else if (currentPage > 1) {
 
-                var paginationIndex = index + ((currentPage - 1) * itemPerPage);
+                paginationIndex = index + ((currentPage - 1) * itemPerPage);
+
             }
 
-            $scope.checkedItems.push(paginationIndex);
+            if ($scope.checkedValue != -1) {
+
+                if (paginationIndex == $scope.checkedValue) {
+                    $scope.checkedValue = -1;
+                } else {
+
+                    if (currentPage == 1) {
+                        paginationIndex = index;
+                        $scope.checkedValue = paginationIndex;
+                        $scope.checkedItems = paginationIndex;
+
+                    } else if (currentPage > 1) {
+
+                        paginationIndex = index + ((currentPage - 1) * itemPerPage);
+                        $scope.checkedValue = paginationIndex;
+                        $scope.checkedItems = paginationIndex;
+
+                    }
+
+                }
+
+            } else {
+                if (currentPage == 1) {
+                    paginationIndex = index;
+                    $scope.checkedValue = paginationIndex;
+                    $scope.checkedItems = paginationIndex;
+
+                } else if (currentPage > 1) {
+
+                    paginationIndex = index + ((currentPage - 1) * itemPerPage);
+                    $scope.checkedValue = paginationIndex;
+                    $scope.checkedItems = paginationIndex;
+
+                }
+
+            }
+
+
+            $rootScope.checkedItems = $scope.checkedValue;
         }
 
         $scope.openLightboxModal = function (index, itemPerPage, currentPage) {

@@ -1,113 +1,113 @@
 <div class="page-header">
     <h1>Locations</h1>
+
 </div>
 
-<div class="container-fluid">
-    <div class="row" style="margin-top:20px;">
-        <div class="col-md-6">
-        </div>
-        <div class="col-md-6">
-            <div class="pull-right" ng-controller="ModalLocationCtrl">
-                <!-- angular ui modal -->
-                <script type="text/ng-template" id="locationModalTpl">
-                    <form class="form-horizontal" name="locationForm" novalidate>
-                        <div class="modal-header">
-                            <h3 class="modal-title">Location</h3>
-                        </div>
-                        <div class="modal-body">
 
-                            <div class="form-group">
-                                <label class="control-label col-xs-2">Name:</label>
-
-                                <div class="col-xs-10">
-                                    <input type="text" name="name" class="form-control"
-                                           placeholder="Name"
-                                           value="{{location.label}}" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-xs-2">Description</label>
-
-                                <div class="col-xs-10">
-                                    <textarea type="text" class="form-control" rows="2"
-                                              placeholder="Description">{{location.description}}</textarea>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-xs-2">Parent</label>
-
-                                <div class="col-xs-10" ng-controller="LocationCtrl">
-                                    <select class="btn btn-default">
-                                        <option value="0">No Parent</option>
-                                        <option ng-repeat="l in fakeLocations" value="l._id"
-                                                ng-selected="{false: '', true: 'selected'} [l._id == location._id]">
-
-                                            {{l.label}}
-                                        </option>
-
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
-                            <button class="btn btn-primary"
-                                    type="submit" ng-click="ok()">
-                                Save
-                            </button>
-                        </div>
-                    </form>
-                </script>
-                <!-- / -->
-                <!-- Button trigger modal -->
-                <button type="button" ng-click="open('lg','locationModalTpl')" class="btn btn-primary">Add
-                    Location
-                </button>
+<div ng-controller="ModalLocationCtrl">
+    <div class="container-fluid">
+        <div class="row" style="margin-top:20px;">
+            <div class="col-md-6">
             </div>
+            <div class="col-md-6">
+                <div class="pull-right">
+                    <!-- angular ui modal -->
+                    <script type="text/ng-template" id="locationModalTpl">
+                        <form class="form-horizontal" name="locationForm" novalidate>
+                            <div class="modal-header">
+                                <h3 class="modal-title">Location</h3>
+                            </div>
+                            <div class="modal-body">
 
+                                <div class="form-group">
+                                    <label class="control-label col-xs-2">Name:</label>
+
+                                    <div class="col-xs-10">
+                                        <input id="location_label" type="text" name="name" class="form-control"
+                                               placeholder="Name"
+                                               ng-model="location.label"
+                                               value="{{location.label}}" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-xs-2">Description</label>
+
+                                    <div class="col-xs-10">
+                                    <textarea id="location_description" type="text" ng-model="location.description"
+                                              class="form-control" rows="2"
+                                              placeholder="Description">{{location.description}}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-xs-2">Parent</label>
+
+                                    <div class="col-xs-10" ng-controller="LocationCtrl">
+                                        <select id="location_parent" class="btn btn-default">
+
+                                            <option value="0">No Parent</option>
+                                            <option ng-repeat="l in fakeLocations" value="{{l.loc_cd}}"
+                                                    ng-selected="{false: '', true: 'selected'} [l.loc_cd == location.loc_parent]">
+
+                                                {{l.label}}
+                                            </option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+                                <button class="btn btn-primary"
+                                        type="submit" ng-click="ok()">
+                                    Save
+                                </button>
+                            </div>
+                        </form>
+                    </script>
+                    <!-- / -->
+                    <!-- Button trigger modal -->
+                    <button type="button" ng-click="open('lg','locationModalTpl')" class="btn btn-primary">Add
+                        Location
+                    </button>
+                </div>
+
+            </div>
         </div>
     </div>
-</div>
 
-<div class="bs-component" style="margin-top:20px;">
+    <div class="bs-component" style="margin-top:20px;">
 
-    <div class="clearfix visible-sm"></div>
+        <div class="clearfix visible-sm"></div>
 
-    <div class="row">
+        <div class="row">
 
-        <div class="col-md-6" style="background:whitesmoke;">
-            <!-- Tree View -->
-            <abn-tree tree-data="locations" tree-control="my_tree"></abn-tree>
+            <div class="col-md-6" style="background:whitesmoke;">
+                <!-- Tree View -->
+                <abn-tree tree-data="locations" tree-control="my_tree"></abn-tree>
 
-        </div>
-        <div class="col-md-6" ng-if="output.label != undefined">
+            </div>
+            <div class="col-md-6" ng-if="output.label != undefined">
 
 
-            <div class="row stylish-panel">
-                <div class="col-md-12">
-                    <div>
-                        <!-- TODO Fix image now showing-->
-                        <img lazy-src="assets/images/logo.png"
-                             class="img-circle img-thumbnail">
+                <div class="row stylish-panel">
+                    <div class="col-md-12">
+                        <div>
+                            <!-- TODO Fix image now showing-->
+                            <img lazy-src="assets/images/logo.png"
+                                 class="img-circle img-thumbnail">
 
-                        <h2>{{output.label}}</h2>
+                            <h2>{{output.label}}</h2>
 
-                        <p>{{output.description}} </p>
+                            <p>{{output.description}} </p>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
-
     </div>
-
-    <dir-pagination-controls
-            max-size="5"
-            direction-links="true"
-            boundary-links="true">
-    </dir-pagination-controls>
 </div>
-
 <style>
 
     .stylish-panel {

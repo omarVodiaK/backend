@@ -1,0 +1,16 @@
+[
+  {
+    "_id": 1,
+    "cnt_title": "Screen's Promotions",
+    "cnt_description": "Get 20% off if you buy now",
+    "cnt_url": "",
+    "cnt_type_id": 1
+  },
+  {
+    "_id": 2,
+    "cnt_title": "Flight Promotion",
+    "cnt_description": "Book your ticket to Penang",
+    "cnt_url": "https://farm9.staticflickr.com/8033/8010849891_3f029d68b3_s.jpg",
+    "cnt_type_id": 3
+  }
+]

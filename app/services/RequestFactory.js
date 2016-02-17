@@ -9,8 +9,9 @@ angular
 
 function dataService($http, DEFAULT_BACKEND_CONFIG, $log) {
     var data = {
-        "postJsonRequest" : makeJsonPostRequest
+        "postJsonRequest": makeJsonPostRequest
     };
+
     function makeJsonPostRequest(url, params) {
         var port = "";
         var postfix = "";
@@ -18,7 +19,7 @@ function dataService($http, DEFAULT_BACKEND_CONFIG, $log) {
             port = port + ":" + DEFAULT_BACKEND_CONFIG.PORT;
         if (DEFAULT_BACKEND_CONFIG.POSTFIX !== '')
             postfix = postfix + "/" + DEFAULT_BACKEND_CONFIG.POSTFIX;
-        var requestUrl = 'http://' + DEFAULT_BACKEND_CONFIG.HOST+ port + postfix + '/' + url;
+        var requestUrl = 'http://' + DEFAULT_BACKEND_CONFIG.HOST + port + postfix + '/' + url;
         var data = params;
         return $http({
             'url': requestUrl,
@@ -28,7 +29,7 @@ function dataService($http, DEFAULT_BACKEND_CONFIG, $log) {
                 'Content-Type': 'application/json'
             },
             'cache': true
-        }).then(function(response){
+        }).then(function (response) {
             return response.data;
         }).catch(dataServiceError);
     }

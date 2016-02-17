@@ -5,11 +5,17 @@
 
     module
         .directive('abnTree', [
-            '$timeout', function ($timeout) {
+            '$timeout', 'RequestService', function ($timeout, RequestService) {
                 return {
                     restrict: 'E',
+                    scope: {
+                        treeData: '=', // two way binding
+                        onSelect: '&',
+                        initialSelection: '@',
+                        treeControl: '='
+                    },
                     template: "<ul class='nav nav-list nav-pills nav-stacked abn-tree'>" +
-                    "<li ng-repeat='row in tree_rows | filter:{visible:true} track by row.branch.uid' ng-animate='abn-tree-animate' ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"abn-tree-row\">" +
+                    "<li ng-model='treeData' ng-repeat='row in tree_rows | filter:{visible:true} track by row.branch.uid' ng-animate='abn-tree-animate' ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"abn-tree-row\">" +
                     "<div class='row'>" +
                     "<div class='col-md-6'>" +
                     "<a><i ng-class='row.tree_icon' ng-click='row.branch.expanded = !row.branch.expanded' class='indented tree-icon'></i>" +
@@ -28,15 +34,25 @@
                     "</div>" +
                     "</li>" +
                     "</ul>",
-                    replace: true,
-                    scope: {
-                        treeData: '=',
-                        onSelect: '&',
-                        initialSelection: '@',
-                        treeControl: '='
-                    },
                     controller: 'ModalLocationCtrl',
+
                     link: function (scope, element, attrs) {
+
+                        // Wait for location_updated event to fire from Controller side
+                        scope.$on("location_updated", function (event, args) {
+
+                            scope.treeData = args.locations;
+
+                        });
+
+                        // Wait for location_created event to fire from Controller side
+                        scope.$on("location_created", function (event, args) {
+
+                            scope.treeData = args.locations;
+
+                        });
+
+
                         var error, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, n, on_treeData_change, select_branch, selected_branch, tree;
                         error = function (s) {
                             console.log('ERROR:' + s);
@@ -69,6 +85,7 @@
                             }
                         }
                         for_each_branch = function (f) {
+
 
                             var do_f, root_branch, _i, _len, _ref, _results;
                             do_f = function (branch, level) {
@@ -123,6 +140,7 @@
                                 }
                             }
                         };
+
                         scope.user_clicks_branch = function (branch) {
                             if (branch !== selected_branch) {
                                 return select_branch(branch);
@@ -133,15 +151,24 @@
                             if (branch.children.length > 0) {
                                 alert('Delete Children first!');
                             } else {
+
                                 recursiveGetProperty(scope.treeData, branch.uid);
                             }
                         };
 
                         function recursiveGetProperty(obj, lookup, callback) {
 
+
                             for (var x = 0; x < obj.length; x++) {
                                 if (obj[x] != undefined) {
                                     if (lookup == obj[x].uid) {
+                                        var params = {
+                                            loc_cd: obj[x].loc_cd
+                                        };
+
+                                        RequestService.postJsonRequest('location/deleteLocation', params).then(function (data) {
+                                            //console.log(data)
+                                        })
                                         obj.splice(x, 1);
                                     }
                                 }
@@ -183,9 +210,13 @@
                                 return b.expanded = true;
                             });
                         };
+
                         scope.tree_rows = [];
+
                         on_treeData_change = function () {
+
                             var add_branch_to_list, root_branch, _i, _len, _ref, _results;
+
                             for_each_branch(function (b, level) {
                                 if (!b.uid) {
                                     return b.uid = "" + Math.random();
@@ -193,7 +224,9 @@
                             });
 
                             for_each_branch(function (b) {
+                                //console.log(b)
                                 var child, _i, _len, _ref, _results;
+
                                 if (angular.isArray(b.children)) {
                                     _ref = b.children;
                                     _results = [];
@@ -204,7 +237,9 @@
                                     return _results;
                                 }
                             });
+
                             scope.tree_rows = [];
+
                             for_each_branch(function (branch) {
                                 var child, f;
                                 if (branch.children) {
@@ -234,6 +269,7 @@
                                     return branch.children = [];
                                 }
                             });
+
                             add_branch_to_list = function (level, branch, visible) {
                                 var child, child_visible, tree_icon, _i, _len, _ref, _results;
                                 if (branch.expanded == null) {
@@ -266,6 +302,7 @@
                                     return _results;
                                 }
                             };
+
                             _ref = scope.treeData;
                             _results = [];
                             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -274,7 +311,9 @@
                             }
                             return _results;
                         };
+
                         scope.$watch('treeData', on_treeData_change, true);
+
                         if (attrs.initialSelection != null) {
                             for_each_branch(function (b) {
                                 if (b.label === attrs.initialSelection) {
@@ -284,15 +323,19 @@
                                 }
                             });
                         }
+
                         n = scope.treeData.length;
 
                         for_each_branch(function (b, level) {
                             b.level = level;
                             return b.expanded = b.level < expand_level;
                         });
+
                         if (scope.treeControl != null) {
+
                             if (angular.isObject(scope.treeControl)) {
                                 tree = scope.treeControl;
+
                                 tree.expand_all = function () {
                                     return for_each_branch(function (b, level) {
                                         return b.expanded = true;
@@ -537,7 +580,9 @@
                                 };
                             }
                         }
+
                     }
+
                 };
             }
         ])

@@ -20,80 +20,119 @@
                     campaign: '=data' // pass campaign model as attribute to directive
                 },
                 restrict: 'E', // restrict to element
-                controller: function ($scope, $element) {
-                    if ($scope.campaign.camp_state == "draft") {
-                        $element.replaceWith('<span class="glyphicon glyphicon-file" aria-hidden="true"></span> <span class="glyphicon-class">Draft</span>')
-                    } else if ($scope.campaign.camp_state == "activated") {
-                        $element.replaceWith('<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <span class="glyphicon-class">Activated</span>')
-                    } else if ($scope.campaign.camp_state == "coming") {
-                        $element.replaceWith('<span class="glyphicon glyphicon-time" aria-hidden="true"></span> <span class="glyphicon-class">Coming Soon</span>')
-                    } else {
-                        $element.replaceWith('<span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <span class="glyphicon-class">Finished</span>')
-                    }
+                link: function (scope, element, attrs) {
+                    scope.$watch("campaign.owner.camp_state", function (newValue, oldValue) {
+                        console.log('old ' + oldValue)
+                        console.log('new ' + newValue)
 
+                        scope.campaign.owner.camp_state = newValue;
+
+
+                        if (scope.campaign.owner.camp_state == "inactive") {
+                            console.log('its inactive')
+
+                            var replacementElement = angular.element('<div><span class="glyphicon glyphicon-file" aria-hidden="true"></span> <span class="glyphicon-class">Inactive</span></div>')
+                            element.html('');
+                            element.append(replacementElement)
+
+
+                        } else if (scope.campaign.owner.camp_state == "active") {
+                            console.log('its active')
+
+                            var replacementElement = angular.element('<div><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <span class="glyphicon-class">Activated</span></div>')
+                            element.html('');
+                            element.append(replacementElement)
+
+                        } else {
+                            console.log('its expired')
+
+                            var replacementElement = angular.element('<div><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <span class="glyphicon-class">Expired</span></div>')
+                            element.html('');
+                            element.append(replacementElement)
+
+
+                        }
+                    }, true);
                 }
             }
         })
+
     /**
      * @description replace html element with corresponding html depending in the data retrieved
      * @directive sharedirective
      */
         .directive('sharedirective', function () {
             return {
-                template: '',
+                template: '<section class="btn-click"><button class="btn btn-default" ng-click="myFn(associate, campaign)">{{value}}</button></section>',
                 replace: true,
                 scope: {
                     campaign: '=campaign', // pass campaign model as attribute to directive
-                    company: '=company' // pass company model as attribute to directive
+                    associate: '=associate'
                 },
                 restrict: 'E', // restrict to element
-                controller: function ($scope, $element) {
+                controller: function ($scope, $element, RequestService) {
 
-                    var template = 'no';
+                    $scope.value = 'Publish';
+                    $scope.campaignOwnerIdentifier = '';
 
-                    for (var i = 0; i < $scope.campaign.published_to.length; i++) {
+                    $scope.myFn = function (associate, campaign) {
+                        if ($scope.value == 'Publish') {
 
-                        if ($scope.company._id == $scope.campaign.published_to[i].cmp_id) {
+                            RequestService.postJsonRequest('companyCampaign/createCampaignOwner', {
+                                cmp_cd: associate.cmp_cd,
+                                camp_cd: campaign.owner.camp_cd,
+                                camp_state: 'pending',
+                                cmp_camp_owner: false
+                            }).then(function (publishedCampaign) {
 
-                            if ($scope.campaign.published_to[i].cmp_state === "pending") {
+                            })
 
-                                template = 'pending';
+                        } else if ($scope.value == 'Suppress(Pending)' || $scope.value == 'Suppress') {
 
-                            } else if ($scope.campaign.published_to[i].cmp_state === "accepted") {
+                            RequestService.postJsonRequest('companyCampaign/deleteCampaignOwner', {
+                                cmp_camp_cd: $scope.campaignOwnerIdentifier
+                            }).then(function (publishedCampaign) {
+                                if (publishedCampaign.result == 'deleted successfully') {
+                                    alert('publication suppressed')
+                                }
+                            })
 
-                                template = 'accepted'
+                        }
+
+                    };
+
+                    RequestService.postJsonRequest('companyCampaign/findCampaignOwners', {camp_cd: $scope.campaign.owner.camp_cd}).then(function (campaignOwners) {
+
+
+                        campaignOwners.forEach(function (owner) {
+
+                            if (owner.cmp_cd.cmp_cd == $scope.associate.cmp_cd && owner.camp_state == "accepted") {
+                                $scope.value = 'Suppress';
+                                $scope.campaignOwnerIdentifier = owner.cmp_camp_cd;
+
+                                return false;
+
+                            } else if (owner.cmp_cd.cmp_cd == $scope.associate.cmp_cd && owner.camp_state == "pending") {
+                                $scope.value = 'Suppress(Pending)';
+                                $scope.campaignOwnerIdentifier = owner.cmp_camp_cd;
+
+                                return false;
+
+                            } else if (owner.cmp_cd.cmp_cd == $scope.associate.cmp_cd && owner.camp_state == "rejected") {
+                                $scope.value = 'Publish';
+
+                                return false;
 
                             }
-                        }
-                    }
 
-                    if (template == 'no') {
-                        $element.replaceWith('<section class="btn-click"><button class="btns btn-7 btn-7a icon-truck">Publish</button></section>');
-                    } else if (template == 'pending') {
-                        $element.replaceWith('<section class="btn-click"><button class="btns btn-7-reverse btn-7a icon-truck">Suppress(Pending)</button></section>');
-                    } else {
-                        $element.replaceWith('<section class="btn-click"><button class="btns btn-7-reverse btn-7a icon-truck">Suppress</button></section>');
-                    }
+                        })
 
 
-                    var buttons7Click = Array.prototype.slice.call(document.querySelectorAll('.btns'));
+                    })
 
 
-                    buttons7Click.forEach(function (el, i) {
-                        el.addEventListener('click', activate, false);
-                    });
-
-                    function activate() {
-                        var self = this, activatedClass = 'btn-activated';
-
-                        if (!classie.has(this, activatedClass)) {
-                            classie.add(this, activatedClass);
-                            setTimeout(function () {
-                                classie.remove(self, activatedClass)
-                            }, 1000);
-                        }
-                    }
                 }
+
             }
         })
 

@@ -1,4 +1,6 @@
 (function () {
+
+
     'use strict';
     /**
      * @module app.zone
@@ -18,11 +20,24 @@
      * @param {object} $scope
      * @param {service} ZoneService
      */
-    function zoneController($scope, ZoneService) {
+    function zoneController($scope, RequestService, $rootScope) {
 
-        ZoneService.getZone(function (data) {
-            $scope.zones = data;
+
+        var params = {
+            "cmp_cd": $rootScope.company
+        }
+
+        // Load zones into $scope
+        RequestService.postJsonRequest('zone/findZoneByCompanyId', params).then(function (data) {
+            if (data.result == "this model doesn't exist") {
+
+            } else {
+                $scope.zones = data;
+            }
+
+
         })
+
 
         /**
          * @description delete row from zone table
@@ -30,18 +45,37 @@
          * @param {int} id
          */
         $scope.removeZoneRow = function (id) {
-            var index = -1;
-            for (var i = 0; i < $scope.zones.length; i++) {
-                if ($scope.zones[i]._id === id) {
-                    index = i;
-                    break;
-                }
-            }
-            if (index === -1) {
-                alert("Something gone wrong");
-            }
 
-            $scope.zones.splice(index, 1);
+            params = {
+                "zone_cd": id
+            };
+
+            RequestService.postJsonRequest('zone/deleteZone', params).then(function (data) {
+
+                if (data.result == "deleted successfully") {
+
+                    var index = -1;
+                    for (var i = 0; i < $scope.zones.length; i++) {
+
+                        if ($scope.zones[i].zone_cd === id) {
+                            index = i;
+                            break;
+                        }
+                    }
+                    if (index === -1) {
+                        alert("Something gone wrong");
+                    }
+
+                    $scope.zones.splice(index, 1);
+
+                } else {
+
+                    alert("Something gone wrong");
+
+                }
+
+            });
+
         };
 
     }
@@ -89,16 +123,55 @@
      * @param {object} $scope
      * @param {object} $modalInstance
      */
-    function modalInstanceController($scope, $modalInstance, zone) {
+    function modalInstanceController($scope, $uibModalInstance, zone, RequestService, zones) {
 
+        $scope.zones = zones;
         $scope.zone = zone;
 
         $scope.ok = function () {
-            $modalInstance.close();
+
+
+            if (zone == undefined) {
+
+                if (angular.element('#zone_name').val() == "" || angular.element('#zone_address').val() == "" || angular.element('#zone_range').val() == "" || angular.element('#zone_latitude').val() == "" || angular.element('#zone_longitude').val() == "") {
+                    alert('all information are required');
+                } else {
+
+                    var params = {
+                        "zone_name": angular.element('#zone_name').val(),
+                        "zone_address": angular.element('#zone_address').val(),
+                        "zone_range": angular.element('#zone_range').val(),
+                        "zone_latitude": angular.element('#zone_latitude').val(),
+                        "zone_longitude": angular.element('#zone_longitude').val(),
+                        "cmp_cd": $rootScope.company
+                    }
+
+                    RequestService.postJsonRequest('zone/createZone', params).then(function (data) {
+
+                        $scope.zones.push(data);
+
+                    });
+
+                    $uibModalInstance.close();
+                }
+
+
+            } else {
+
+                var params = $scope.zone;
+                params.cmp_cd = params.company
+
+                RequestService.postJsonRequest('zone/updateZone', params).then(function (data) {
+                });
+
+                $uibModalInstance.close();
+            }
+
+
         };
 
         $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
     }
 

@@ -81,7 +81,7 @@ gulp.task('connect-dev', function() {
     connect.server({
         root: 'app/',
         port: 8283,
-        middleware: function(connect, opt) {
+        middleware: function (connect, opt) {
             return [
                 modRewrite([
                     '^/api/(.*)$ http://localhost:3002/api/$1 [P]'

@@ -1,7 +1,7 @@
 'use strict';
 angular
     .module('user')
-    .controller('LoginController', function($scope, PageValues, RequestService) {
+    .controller('LoginController', function ($scope, PageValues, RequestService) {
         //Set page title and description
         PageValues.title = "Login";
         PageValues.description = "";
@@ -11,11 +11,11 @@ angular
         vm.description = "";
         $scope.text = 'hello';
         $scope.formData = {};
-        $scope.submit = function() {
+        $scope.submit = function () {
             RequestService.postJsonRequest("users/login", {
-                "email" : $scope.formData.email,
-                "password" : $scope.formData.password
-            }).then(function(result){
+                "email": $scope.formData.email,
+                "password": $scope.formData.password
+            }).then(function (result) {
                 console.log(result);
             });
         };
