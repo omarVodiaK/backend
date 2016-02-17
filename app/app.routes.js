@@ -8,9 +8,24 @@ function config($stateProvider, $urlRouterProvider, $locationProvider) {
 
 
     $urlRouterProvider.
-        when('/', "/home")
+        when('/', "/dashboard/associate")
         .otherwise("/dashboard/associate");
     $stateProvider
+        .state('auth', {
+            abstract: true,
+            url: '/auth',
+            templateUrl: 'components/layout/auth.html'
+        })
+        .state('auth.login', {
+            url: '^/login',
+            templateUrl: 'modules/user/loginTemplate.html',
+            controller: 'LoginController as login'
+        })
+        .state('auth.register', {
+            url: '^/register',
+            templateUrl: 'modules/user/registerTemplate.html',
+            controller: 'RegisterController as register'
+        })
         .state('dashboard', {
             abstract: true,
             url: '/dashboard',

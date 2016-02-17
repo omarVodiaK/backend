@@ -40,7 +40,7 @@ function dataService($http, API_KEY, BASE_URL, $log) {
     return data;
 
     function dataServiceError(errorResponse) {
-        $log.error('XHR Failed for ShowService');
+        $log.error('XHR Failed for RequestService');
         $log.error(errorResponse);
         return errorResponse;
     }

@@ -15,7 +15,7 @@
     "angular-loader": "~1.4.0",
     "html5-boilerplate": "~5.2.0",
     "angular-ui-router": "~0.2.11",
-    "angular-ui-bootstrap-bower": "0.14.3",
+    "angular-ui-bootstrap-bower": "~1.1.2",
     "angular-sweetalert": "angular-h-sweetalert#~1.4.6",
     "angular-bootstrap-lightbox": "~0.9.0",
     "eonasdan-bootstrap-datetimepicker": "~4.17.37",
@@ -30,6 +30,8 @@
     "ng-wizard": "*",
     "ng-droplet": "~0.5.9",
     "ng-file-upload": "~10.1.9",
-    "ng-directive-lazy-image": "afkl-lazy-image#~0.2.3"
+    "ng-directive-lazy-image": "afkl-lazy-image#~0.2.3",
+    "angular-messages": "~1.4.8",
+    "checklist-model": "~0.9.0"
   }
 }

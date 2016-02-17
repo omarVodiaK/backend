@@ -28,6 +28,7 @@
     <!-- Custom styles for this template -->
     <link href="assets/css/dashboard.css" rel="stylesheet">
     <link href="assets/css/wrap-around.css" rel="stylesheet">
+    <link href="assets/css/auth.css" rel="stylesheet">
     <!-- endbuild -->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -52,6 +53,8 @@
 <script src="assets/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 <script src="assets/bower_components/angular/angular.min.js"></script>
 
+<script src="assets/bower_components/angular-messages/angular-messages.js"></script>
+
 <script type="text/javascript" src="assets/bower_components/ng-droplet/dist/ng-droplet.js"></script>
 <script type="text/javascript" src="assets/js/me-lazyload.js"></script>
 
@@ -71,11 +74,13 @@
 <script src="assets/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
 <script src="assets/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
 <!-- TODO fix ui-bootstrap bower problem -->
-<script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
+<script src="assets/bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js"></script>
+<!--<script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>-->
 <script src="assets/bower_components/angular-animate/angular-animate.min.js"></script>
 <script src="assets/bower_components/angular-route/angular-route.min.js"></script>
 <script src="assets/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="directives/angular-bootstrap-nav-tree-js/dist/abn_tree_directive.js"></script>
+<script src="assets/bower_components/checklist-model/checklist-model.js"></script>
 
 <script src="assets/js/angular-touch.min.js"></script>
 <script src="assets/js/moment.min.js"></script>
@@ -108,7 +113,7 @@
 <!-- / -->
 
 <!-- CONTROLLERS -->
-<script src="modules/home/homeController.js"></script>
+<script src="modules/user/userModule.js"></script>
 <script src="modules/associates/associateController.js"></script>
 <script src="modules/login/loginController.js"></script>
 <script src="modules/location/locationController.js"></script>
@@ -119,6 +124,8 @@
 <script src="modules/content/product/productController.js"></script>
 <script src="modules/campaign/campaignController.js"></script>
 <script src="modules/notification/notificationController.js"></script>
+<script src="modules/user/loginController.js"></script>
+<script src="modules/user/registerController.js"></script>
 <!-- / -->
 
 <!-- SERVICES -->
@@ -132,7 +139,8 @@
 <script src="modules/content/product/productService.js"></script>
 <script src="modules/campaign/campaignService.js"></script>
 <script src="modules/notification/notificationService.js"></script>
-<script src="services/showFactory.js"></script>
+<script src="services/RequestFactory.js"></script>
+<script src="services/ShowFactory.js"></script>
 <script src="services/pageValue.js"></script>
 <!-- / -->
 
@@ -147,7 +155,6 @@
 <script src="modules/content/normal/contentFilter.js"></script>
 <script src="modules/campaign/campaignFilter.js"></script>
 <!-- / -->
-
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
@@ -302,5 +309,6 @@
 <!-- inject:js -->
 <!-- endinject -->
 <!-- endbuild -->
+
 </body>
 </html>

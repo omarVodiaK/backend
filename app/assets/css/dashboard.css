@@ -5,25 +5,30 @@ body {
     background: #D1D1D1 url('../images/mochaGrunge.png');
     margin-top: 100px;
 }
+
 #main {
     min-height: 600px;
     margin-bottom: 20px;
 }
+
 h1, h2, h3, h4 {
     font-family: 'Lato', sans-serif;
     font-weight: 300;
     margin: 0;
 }
+
 a {
     color: #3bb9bb;
     -o-transition: color .2s linear;
     -moz-transition: color .2s linear;
     -webkit-transition: color .2s linear;
 }
+
 a:hover {
     color: #32a0a2;
     text-decoration: none;
 }
+
 #site-header {
     background-color: #222;
     border-color: #222;
@@ -31,22 +36,27 @@ a:hover {
     color: #CCC;
     font-weight: 300;
 }
+
 #site-header .logo {
     line-height: 60px;
     width: 170px;
 }
+
 #site-header .logo .alt {
     color: #3bb9bb;
 }
+
 #site-header .menu {
     list-style: none;
     margin: 0;
     padding: 0;
 }
+
 #site-header .menu li {
     display: inline-block;
     padding: 0 10px;
 }
+
 #site-header .menu li a {
     line-height: 60px;
     color: #CCC;
@@ -55,16 +65,19 @@ a:hover {
     -moz-transition: color .2s linear;
     -webkit-transition: color .2s linear;
 }
+
 #site-header .menu li a:hover {
     line-height: 60px;
     color: #3bb9bb;
     text-decoration: none;
 }
+
 #site-bar {
     height: 40px;
     background: #4d4d4d;
     line-height: 40px;
 }
+
 #site-bar h1 {
     margin: 0;
     padding: 0;
@@ -73,6 +86,7 @@ a:hover {
     display: inline-block;
     color: #bbbbbb;
 }
+
 #site-bar p {
     margin: 0 0 0 4px;
     padding: 0 0 0 5px;
@@ -91,6 +105,7 @@ a:hover {
     line-height: 100px;
     margin: 0;
 }
+
 .page-loader {
     position: absolute;
     z-index: 500;
@@ -101,6 +116,7 @@ a:hover {
     padding: 200px 0 0 0;
     background-color: rgba(0, 0, 0, 0.80);
 }
+
 .btn {
     display: inline-block;
     margin-bottom: 0;
@@ -127,54 +143,66 @@ a:hover {
     font-weight: bold;
     text-transform: uppercase;
 }
+
 .btn-default {
     color: #555555;
     background-color: #eeeeee;
     border-color: #e2e2e2;
 }
+
 .btn-default:hover, .btn-default:focus, .btn-group.open .dropdown-toggle.btn-default {
     background-color: #eeeeee;
     border-color: #e2e2e2;
 }
+
 .btn-primary {
     color: #ffffff;
     background-color: #158cba;
     border-color: #127ba3;
 }
+
 .btn-primary:hover, .btn-primary:focus, .btn-group.open .dropdown-toggle.btn-primary {
     background-color: #158cba;
     border-color: #127ba3;
 }
+
 .btn-success {
     color: #ffffff;
     background-color: #28b62c;
     border-color: #23a127;
 }
+
 .btn-success:hover, .btn-success:focus, .btn-group.open .dropdown-toggle.btn-success {
     background-color: #28b62c;
     border-color: #23a127;
 }
+
 .btn:hover {
     margin-top: 1px;
     border-bottom-width: 3px;
 }
+
 .btn-info {
     color: #ffffff;
     background-color: #75caeb;
     border-color: #5fc1e8;
 }
+
 .btn-info:hover, .btn-info:focus, .btn-group.open .dropdown-toggle.btn-info {
     background-color: #75caeb;
     border-color: #5fc1e8;
 }
+
 .btn-info.disabled, .btn-info[disabled], fieldset[disabled] .btn-info, .btn-info.disabled:hover, .btn-info[disabled]:hover, fieldset[disabled] .btn-info:hover, .btn-info.disabled:focus, .btn-info[disabled]:focus, fieldset[disabled] .btn-info:focus, .btn-info.disabled.focus, .btn-info[disabled].focus, fieldset[disabled] .btn-info.focus, .btn-info.disabled:active, .btn-info[disabled]:active, fieldset[disabled] .btn-info:active, .btn-info.disabled.active, .btn-info[disabled].active, fieldset[disabled] .btn-info.active {
     background-color: #75caeb;
     border-color: #5fc1e8;
 }
+
 .btn-lg, .btn-group-lg > .btn {
     padding: 15px 16px 13px;
     line-height: 15px;
 }
+
 .label {
     display: inline;
     padding: .2em .6em .3em;
@@ -187,17 +215,20 @@ a:hover {
     vertical-align: baseline;
     border-radius: .25em;
 }
+
 .label-info {
     background-color: #75caeb;
 }
+
 .label-default {
     background-color: #999999;
 }
+
 .label-dark {
     background-color: #333;
 }
 
-@media(min-width:768px) {
+@media (min-width: 768px) {
     body {
         margin-top: 50px;
     }
@@ -218,7 +249,7 @@ a:hover {
     line-height: normal;
 }
 
-@media(min-width:768px) {
+@media (min-width: 768px) {
     #app {
         padding-left: 225px;
     }
@@ -234,40 +265,40 @@ a:hover {
     padding: 0 15px;
 }
 
-.top-nav>li {
+.top-nav > li {
     display: inline-block;
     float: left;
 }
 
-.top-nav>li>a {
+.top-nav > li > a {
     padding-top: 15px;
     padding-bottom: 15px;
     line-height: 20px;
     color: #999;
 }
 
-.top-nav>li>a:hover,
-.top-nav>li>a:focus,
-.top-nav>.open>a,
-.top-nav>.open>a:hover,
-.top-nav>.open>a:focus {
+.top-nav > li > a:hover,
+.top-nav > li > a:focus,
+.top-nav > .open > a,
+.top-nav > .open > a:hover,
+.top-nav > .open > a:focus {
     color: #fff;
     background-color: #000;
 }
 
-.top-nav>.open>.dropdown-menu {
+.top-nav > .open > .dropdown-menu {
     float: left;
     position: absolute;
     margin-top: 0;
-    border: 1px solid rgba(0,0,0,.15);
+    border: 1px solid rgba(0, 0, 0, .15);
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     background-color: #fff;
-    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 }
 
-.top-nav>.open>.dropdown-menu>li>a {
+.top-nav > .open > .dropdown-menu > li > a {
     white-space: normal;
 }
 
@@ -280,14 +311,13 @@ ul.message-dropdown {
 
 li.message-preview {
     width: 275px;
-    border-bottom: 1px solid rgba(0,0,0,.15);
+    border-bottom: 1px solid rgba(0, 0, 0, .15);
 }
 
-li.message-preview>a {
+li.message-preview > a {
     padding-top: 15px;
     padding-bottom: 15px;
 }
-
 
 ul.alert-dropdown {
     width: 200px;
@@ -295,7 +325,7 @@ ul.alert-dropdown {
 
 /* Side Navigation */
 
-@media(min-width:768px) {
+@media (min-width: 768px) {
     .side-nav {
         position: fixed;
         top: 51px;
@@ -311,7 +341,7 @@ ul.alert-dropdown {
         padding-bottom: 40px;
     }
 
-    .side-nav>li>a {
+    .side-nav > li > a {
         width: 225px;
     }
 
@@ -322,18 +352,18 @@ ul.alert-dropdown {
     }
 }
 
-.side-nav>li>ul {
+.side-nav > li > ul {
     padding: 0;
 }
 
-.side-nav>li>ul>li>a {
+.side-nav > li > ul > li > a {
     display: block;
     padding: 10px 15px 10px 38px;
     text-decoration: none;
     color: #999;
 }
 
-.side-nav>li>ul>li>a:hover {
+.side-nav > li > ul > li > a:hover {
     color: #fff;
 }
 
@@ -428,6 +458,7 @@ span.glyphicon.header {
     box-shadow: 0 2px 4px 0 rgba(34, 36, 38, .12), 0 2px 10px 0 rgba(34, 36, 38, .08);
     top: 58px;
 }
+
 .ui.popup:before {
     position: absolute;
     top: -.325em;
@@ -446,7 +477,6 @@ span.glyphicon.header {
     transform: rotate(45deg);
     z-index: 2;
 }
-
 
 .badge {
     font-weight: bold;
@@ -468,19 +498,23 @@ span.glyphicon.header {
         float: none !important;
         display: none !important;
     }
+
     .side-bar-toggled .side-nav span.glyphicon {
         font-size: 1.4em;
     }
-    .side-bar-toggled .side-nav>li{
-        width: 77px;
-    }
-    .side-bar-toggled .side-nav{
+
+    .side-bar-toggled .side-nav > li {
         width: 77px;
     }
 
-    .side-bar-toggled .side-nav>li>a {
+    .side-bar-toggled .side-nav {
         width: 77px;
     }
+
+    .side-bar-toggled .side-nav > li > a {
+        width: 77px;
+    }
+
     .side-bar-toggled {
         padding-left: 77px !important;
     }
@@ -548,4 +582,148 @@ span.glyphicon.header {
     color: rgba(255, 255, 255, 0.75);
 }
 
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.nav, .pagination, .carousel, .panel-title a {
+    cursor: pointer;
+}
+
+.form-group {
+    /*styles for the form-group itself*/
+    position: relative;
+    width: 100%;
+    margin-bottom: 23px;
+}
+
+.form-group input[type='text'], .form-group input[type='email'], .form-group input[type="password"] {
+    /*Default styles for field*/
+    position: relative;
+    width: 100%;
+    background: 0 0;
+    padding: 26px 0 12px;
+    font-size: 15px;
+    line-height: 1.4;
+    font-weight: 500;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-width: 0 0 1px;
+    box-shadow: none;
+    z-index: 1;
+}
+
+.form-group input[type='text']:focus, .form-group input[type='email']:focus, .form-group input[type="password"]:focus {
+    outline: 0;
+}
+
+.form-group label {
+    /*Default styles for label*/
+    display: inline-block;
+    position: absolute;
+    margin-bottom: 6px;
+    top: 0;
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.4);
+    padding: 0;
+    transition: all .3s ease;
+}
+
+.form-group::after {
+    /*Default styles for 'after' pseudo selector for form-group*/
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.08);
+    transition: all .3s ease;
+}
+
+.form-group .error-block {
+    /*Default Styles for Help-block*/
+    position: absolute;
+    line-height: 0;
+    font-weight: 300;
+    font-size: 12px;
+    color: red;
+    line-height: 24px;
+    transition: all 0.5s ease;
+    margin: 0;
+}
+
+.form-group .error-block.ng-hide {
+    display: block !important;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.form-group.has-focus {
+    /*When field has focus*/
+}
+
+.form-group.has-focus label {
+    color: #039BE5;
+}
+
+.form-group.has-focus::after {
+    left: 0;
+    background: #039BE5;
+    width: 100%;
+    /*We are changing the width of the pseudo element from 0 to 100%. As there is already transition added to it, the change in width will 'animate'. As we have strategically positioned this pseudo element just below the input with a 2px height, it will 'appear' as bottom-border for the input (which it is actually not)*/
+}
+
+.form-group.has-error {
+    /*When field has error*/
+}
+
+.form-group.has-error label {
+    color: red;
+}
+
+.form-group.has-error::after {
+    left: 0;
+    background: red;
+    width: 100%;
+}
+
+.form-group.has-error .help-block:not(.ng-hide) {
+    position: absolute;
+    color: red;
+    opacity: 1;
+    visibility: visible;
+    top: 100%;
+}
+
+.form-group.has-success.has-focus {
+    /*When field has success*/
+}
+
+.form-group.has-success.has-focus label {
+    color: forestgreen;
+}
+
+.form-group.has-success.has-focus.has-focus::after {
+    left: 0;
+    background: forestgreen;
+    width: 100%;
+}
+
+.form-group.is-empty:not(.has-focus) label {
+    font-weight: 400;
+    font-size: 14px;
+    top: 17px;
+}
+
+.form-group select {
+    /*Default styles for field*/
+    position: relative;
+    width: 100%;
+    background: 0 0;
+    padding: 13px 0 4px;
+    font-size: 15px;
+    line-height: 1.4;
+    font-weight: 500;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-width: 0 0 1px;
+    box-shadow: none;
+    z-index: 1;
+}

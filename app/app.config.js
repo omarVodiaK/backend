@@ -11,7 +11,13 @@ angular
 
         });
     })
-    .run(runs);
+    .constant("DEFAULT_BACKEND_CONFIG", {"HOST": "localhost", "PORT": "8283", "POSTFIX": "api", "API_KEY": ""})
+    .constant("APP_VERSION", "1.0.0")
+    .constant("PROJECT_NAME", "BACKEND CORE")
+    .run(function ($rootScope) {
+        $rootScope.company = 'cmp_1';
+        runs;
+    });
 
 function configs($httpProvider) {
     var interceptor = function ($location, $log, $q) {
@@ -41,6 +47,7 @@ function configs($httpProvider) {
 
 function runs($rootScope, PageValues) {
     $rootScope.$on('$routeChangeStart', function () {
+
         PageValues.loading = true;
     });
     $rootScope.$on('$routeChangeSuccess', function () {

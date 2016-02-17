@@ -11,6 +11,7 @@ angular
         'app.content',
         'app.product',
         'app.campaign',
-        'app.notification'
+        'app.notification',
+        'user'
     ]);
 
