@@ -11,6 +11,7 @@
 
         .controller('CampaignCtrl', campaignController)
         .controller('PublishCampaignModal', publishModalController)
+        .controller('PublishCampaignInstanceCtrl', publishCampaignModalController)
         .controller('ModalCampaignCtrl', modalController)
         .controller('ModalCampaignInstanceCtrl', modalInstanceController)
         .controller('CampaignStepCtrl', campaignStepController)
@@ -19,28 +20,52 @@
         .controller('CampaignBadgeCtrl', campaignBadgeController)
         .controller('UpdateCampaignCtrl', updateCampaignController)
         .controller('RedeemCtrl', redeemController)
-        .controller('trueOwnerCtrl', ownerController)
+        .controller('CampaignBadgeCtrl', campaignBadgeController)
+        .controller('beaconContentCtrl', beaconContentController)
+
+    function campaignController($scope, ShareData, DetailedCampaign, RequestService, RefreshCampaign, notify) {
 
 
-    function ownerController($scope, $rootScope, RequestService) {
+        //if (RefreshCampaign.getChanges()) {
 
-    }
-
-
-    function campaignController($scope, RequestService, ShareData, $rootScope) {
-
-
-        RequestService.postJsonRequest('campaign/findCampaignByCompanyId', {'cmp_cd': $rootScope.company}).then(function (result) {
-
+        RefreshCampaign.refreshCampaign().then(function (result) {
             if (result.result == "this model doesn't exist" || result.result == 'error') {
 
-            }
-            else if (result.result == undefined) {
+                notify({
+                    message: "You have 0 campaign!",
+                    classes: 'alert-info',
+                    position: 'center',
+                    duration: 2000
+                });
+            } else if (result.result == undefined) {
+                console.log(result)
                 $scope.campaigns = result;
-                console.log($scope.campaigns)
+
 
             }
         });
+
+        //}
+        //else {
+        //
+        //    DetailedCampaign.getCampaignByCompanyId().then(function (result) {
+        //        if (result.result == "this model doesn't exist" || result.result == 'error') {
+        //            notify({
+        //                message: "You have 0 campaign!",
+        //                classes: 'alert-info',
+        //                position: 'center',
+        //                duration: 2000
+        //            });
+        //            $scope.campaigns = [];
+        //        }
+        //        else if (result.result == undefined) {
+        //            $scope.campaigns = result;
+        //            console.log($scope.campaigns)
+        //
+        //
+        //        }
+        //    })
+        //}
 
         $scope.formatDate = function (date) {
             var d = new Date(date),
@@ -54,28 +79,144 @@
             return [year, month, day].join('-');
         }
 
-        $scope.removeCampaignRow = function (id) {
+        $scope.removeCampaignRow = function (campaign) {
 
-            var index = -1;
-            var arrCampaigns = $scope.campaigns;
-            for (var i = 0; i < arrCampaigns.length; i++) {
-                if (arrCampaigns[i]._id === id) {
-                    index = i;
-                    break;
+            if (campaign.trueOwner.cmp_camp_owner == true) {
+                if (campaign.beacons != undefined) {
+                    campaign.beacons.forEach(function (beacon) {
+                        if (beacon.bcn_used == true) {
+                            if (beacon.config.interaction_type.lkp_name == 'generate') {
+                                RequestService.postJsonRequest('campaignLookup/deleteAllBeaconConfiguration', {camp_bcn_cd: beacon.camp_bcn_cd}).then(function (deleteBeaconConfigResult) {
+                                    if (deleteBeaconConfigResult.result == 'deleted successfully') {
+                                        RequestService.postJsonRequest('campaignBeacon/deleteBeaconFromCampaign', {camp_bcn_cd: beacon.camp_bcn_cd}).then(function (deleteBeaconResult) {
+                                            if (deleteBeaconResult.result == 'deleted successfully') {
+
+                                            }
+                                        })
+                                    }
+                                })
+                            } else if (beacon.config.interaction_type.lkp_name == 'fetch') {
+                                RequestService.postJsonRequest('campaignLookup/deleteAllBeaconConfiguration', {camp_bcn_cd: beacon.camp_bcn_cd}).then(function (deleteBeaconConfigResult) {
+                                    if (deleteBeaconConfigResult.result == 'deleted successfully') {
+                                        RequestService.postJsonRequest('campaignBeacon/deleteBeaconFromCampaign', {camp_bcn_cd: beacon.camp_bcn_cd}).then(function (deleteBeaconResult) {
+                                            if (deleteBeaconResult.result == 'deleted successfully') {
+
+                                            }
+                                        })
+                                    }
+                                })
+                            } else if (beacon.config.interaction_type.lkp_name == 'push') {
+                                if (beacon.contents.length > 0) {
+                                    beacon.contents.forEach(function (content) {
+                                        if (content.camp_bcn_cnt_cd != undefined) {
+                                            RequestService.postJsonRequest('campaignContentLookup/deleteAllConfiguration', {camp_bcn_cnt_cd: content.camp_bcn_cnt_cd}).then(function (deleteConfigResult) {
+                                                if (deleteConfigResult.result == "deleted successfully") {
+
+                                                    RequestService.postJsonRequest('campaignContent/deleteBeaconFromCampaign', {camp_bcn_cnt_cd: content.camp_bcn_cnt_cd}).then(function (deleteContentResult) {
+                                                        if (deleteContentResult.result == "deleted successfully") {
+                                                            $scope.content = '';
+                                                        }
+                                                    })
+                                                }
+                                            })
+                                        }
+                                    })
+
+
+                                }
+                            }
+
+                            RequestService.postJsonRequest('campaignLookup/deleteAllBeaconConfiguration', {camp_bcn_cd: beacon.camp_bcn_cd}).then(function (deleteBeaconConfigResult) {
+                                if (deleteBeaconConfigResult.result == 'deleted successfully') {
+
+                                    RequestService.postJsonRequest('campaignBeacon/deleteBeaconFromCampaign', {camp_bcn_cd: beacon.camp_bcn_cd}).then(function (deleteBeaconResult) {
+                                        if (deleteBeaconResult.result == 'deleted successfully') {
+
+                                            RequestService.postJsonRequest('companyCampaign/deleteAllCompaniesCampaign', {camp_cd: campaign.owner.camp_cd}).then(function (deleteCompaniesCampaign) {
+                                                if (deleteCompaniesCampaign.result == 'deleted successfully') {
+
+                                                    RequestService.postJsonRequest('scheduleDay/deleteAllScheduleDay', {sch_cd: campaign.sch_cd}).then(function (deleteScheduleDays) {
+                                                        if (deleteScheduleDays.result == 'deleted successfully') {
+
+                                                            RequestService.postJsonRequest('schedule/deleteSchedule', {sch_cd: campaign.sch_cd}).then(function (deleteSchedule) {
+                                                                if (deleteSchedule.result == 'deleted successfully') {
+
+                                                                    RequestService.postJsonRequest('campaign/deleteCampaign', {camp_cd: campaign.owner.camp_cd}).then(function (deleteCampaign) {
+                                                                        if (deleteCampaign.result == 'deleted successfully') {
+                                                                            notify({
+                                                                                message: "Deleted Successfully!",
+                                                                                classes: 'alert-success',
+                                                                                position: 'center',
+                                                                                duration: 2000
+                                                                            });
+                                                                            removeRow($scope.campaigns, campaign, $scope);
+                                                                        }
+                                                                    })
+                                                                }
+                                                            })
+                                                        }
+                                                    })
+                                                }
+                                            })
+                                        }
+                                    })
+                                }
+                            })
+
+                        }
+                    })
+                } else {
+                    RequestService.postJsonRequest('companyCampaign/deleteAllCompaniesCampaign', {camp_cd: campaign.owner.camp_cd}).then(function (deleteCompaniesCampaign) {
+                        if (deleteCompaniesCampaign.result == 'deleted successfully') {
+
+                            RequestService.postJsonRequest('scheduleDay/deleteAllScheduleDay', {sch_cd: campaign.sch_cd}).then(function (deleteScheduleDays) {
+                                if (deleteScheduleDays.result == 'deleted successfully') {
+
+                                    RequestService.postJsonRequest('schedule/deleteSchedule', {sch_cd: campaign.sch_cd}).then(function (deleteSchedule) {
+                                        if (deleteSchedule.result == 'deleted successfully') {
+
+                                            RequestService.postJsonRequest('campaign/deleteCampaign', {camp_cd: campaign.owner.camp_cd}).then(function (deleteCampaign) {
+                                                if (deleteCampaign.result == 'deleted successfully') {
+                                                    notify({
+                                                        message: "Deleted Successfully!",
+                                                        classes: 'alert-success',
+                                                        position: 'center',
+                                                        duration: 2000
+                                                    });
+
+                                                    removeRow($scope.campaigns, campaign, $scope);
+                                                }
+                                            })
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
                 }
-            }
-            /**
-             *  === is to check if the value and the type are equal
-             */
-            if (index === -1) {
-                alert("Something gone wrong");
+
+
+            } else {
+                RequestService.postJsonRequest('companyCampaign/deleteCampaignOwner', {cmp_camp_cd: campaign.trueOwner.cmp_camp_cd}).then(function (deleteCampaignOwner) {
+                    if (deleteCampaignOwner.result == 'deleted successfully') {
+                        notify({
+                            message: "Deleted Successfully!",
+                            classes: 'alert-success',
+                            position: 'center',
+                            duration: 2000
+                        });
+
+                        removeRow($scope.campaigns, campaign, $scope);
+                    } else {
+                        notify({message: 'Something gone wrong!', classes: 'alert-danger', position: 'center'});
+                    }
+                })
             }
 
-            $scope.campaigns.splice(index, 1);
         };
 
-        $scope.updateCampaign = function (campaign) {
-
+        $scope.updateCampaign = function (campaign, update) {
+            campaign.update = update;
             // save
             ShareData.addData(campaign);
 
@@ -84,8 +225,73 @@
 
     }
 
-    function updateCampaignController($scope, ShareData, RequestService, $rootScope) {
+    function removeRow(campaigns, campaign, $scope, notify) {
+        var index = -1;
+        var arrCampaigns = campaigns;
+        for (var i = 0; i < arrCampaigns.length; i++) {
+            if (arrCampaigns[i].id === campaign.id) {
+                index = i;
+                break;
+            }
+        }
 
+
+        $scope.campaigns.splice(index, 1);
+    }
+
+    function beaconContentController($scope, RequestService, notify) {
+        $scope.content = '';
+        $scope.contents = [];
+
+
+        $scope.checkContent = function (content) {
+
+            if ($scope.contents.indexOf(content) == -1) {
+                content.content = content;
+                $scope.contents.push(content);
+            } else {
+                $scope.contents.splice($scope.contents.indexOf(content));
+            }
+
+        };
+
+        $scope.openConfig = function (content) {
+            //console.log(content)
+            $scope.content = content
+
+        };
+
+        $scope.deleteConfig = function (beacon, campaign, content) {
+            $scope.content = content;
+            if (content != undefined && campaign != undefined && beacon != undefined) {
+
+                if (content.camp_bcn_cnt_cd != undefined) {
+
+                    RequestService.postJsonRequest('campaignContentLookup/deleteAllConfiguration', {camp_bcn_cnt_cd: content.camp_bcn_cnt_cd}).then(function (deleteConfigResult) {
+                        if (deleteConfigResult.result == "deleted successfully") {
+
+                            RequestService.postJsonRequest('campaignContent/deleteBeaconFromCampaign', {camp_bcn_cnt_cd: content.camp_bcn_cnt_cd}).then(function (deleteContentResult) {
+                                if (deleteContentResult.result == "deleted successfully") {
+                                    notify({
+                                        message: 'Deleted Successfully!',
+                                        classes: 'alert-success',
+                                        position: 'center'
+                                    });
+                                    $scope.content = '';
+                                }
+                            })
+                        }
+                    })
+                }
+
+            }
+
+        }
+
+
+    }
+
+    function updateCampaignController($scope, ShareData, RequestService, session, RefreshCampaign, notify) {
 
         /**
          * getBeacons is a service in app.beacon module
@@ -93,17 +299,59 @@
         var campaign = ShareData.getData();
 
         if (campaign[0] !== undefined) {
+
             $scope.campaign = campaign[0];
+
+
         } else {
-            RequestService.postJsonRequest('campaign/findCampaignBeacons', {'cmp_cd': $rootScope.company}).then(function (beacons) {
+
+            $scope.contents = [];
+
+            $scope.contentTypes = [];
+            RequestService.postJsonRequest('campaign/findCampaignBeacons', {'cmp_cd': session.getUser().user.cmp_cd}).then(function (beacons) {
+
                 $scope.campaign = {};
                 $scope.campaign.beacons = beacons;
                 $scope.campaign.beacons = cleanup($scope.campaign.beacons, 'beacon');
+
+
+                RequestService.postJsonRequest('content/findContentByCompanyId', {"cmp_cd": session.getUser().user.cmp_cd}).then(function (data) {
+
+                    if (data.result == "this model doesn't exist") {
+
+                    } else if (data.result == undefined) {
+                        data.forEach(function (content) {
+
+                            if (content.cnt_type.lkp_value != 'voucher') {
+                                $scope.contents.push(content);
+                            }
+                        })
+
+                        $scope.campaign.beacons.forEach(function (beacon) {
+                            beacon.contents = $scope.contents;
+                        })
+                    }
+
+
+                });
+
+
             })
         }
 
         ShareData.clearData();
 
+        if ($scope.campaign == undefined) {
+            $scope.title = 'new Campaign'
+
+        } else {
+            if ($scope.campaign.update == true) {
+                $scope.title = 'update Campaign'
+
+            } else {
+                $scope.title = 'Campaign Details'
+            }
+        }
 
         $scope.day = [];
         $scope.selectedDays = [];
@@ -113,14 +361,14 @@
             $scope.selectedDays.forEach(function (day) {
                 if (day == id) {
                     selected = true;
-                    console.log('here')
+
                     $scope.selectedDays.splice($scope.selectedDays.indexOf(day), 1);
-                    console.log($scope.selectedDays);
+
                 }
             })
             if (selected == false) {
                 $scope.selectedDays.push(id);
-                console.log($scope.selectedDays);
+
             }
 
         }
@@ -135,42 +383,67 @@
             $scope.timeEnd = value;
         };
 
-
         ////////////////// begin timerpicker controller ///////////////////////////////
+
+        // AM, PM choice the format is 12, by setting to false the format will be 24
+        $scope.ismeridian = true;
+        // set hour steps
+        $scope.hstep = 1;
+        // set minute steps
+        $scope.mstep = 1;
 
         if ($scope.campaign == undefined) {
 
             //set default values for uib-timepicker(current time)
             $scope.timeBegin = new Date();
             $scope.timeEnd = new Date();
+
         } else {
 
             var timeBegin = new Date($scope.campaign.sch_date_start);
-            timeBegin.setHours($scope.campaign.sch_time_start.slice(0, 2));
-            timeBegin.setMinutes($scope.campaign.sch_time_start.slice(3));
-
             var timeEnd = new Date($scope.campaign.sch_date_end);
-            timeEnd.setHours($scope.campaign.sch_time_end.slice(0, 2));
-            timeEnd.setMinutes($scope.campaign.sch_time_end.slice(3));
+
+
+            if ($scope.campaign.sch_time_end.slice(0, 2).indexOf(':') != -1) {
+                var hours = '0' + $scope.campaign.sch_time_end.slice(0, 1);
+
+                timeEnd.setHours(hours);
+                timeEnd.setMinutes($scope.campaign.sch_time_end.slice(3));
+                $scope.timeEnd = timeEnd;
+
+            } else {
+
+                timeEnd.setHours($scope.campaign.sch_time_end.slice(0, 2));
+                timeEnd.setMinutes($scope.campaign.sch_time_end.slice(3));
+
+                $scope.timeEnd = timeEnd;
+
+            }
+
+            if ($scope.campaign.sch_time_start.slice(0, 2).indexOf(':') != -1) {
+                var hours = '0' + $scope.campaign.sch_time_start.slice(0, 1);
+
+                timeBegin.setHours(hours);
+                timeBegin.setMinutes($scope.campaign.sch_time_start.slice(3));
+                $scope.timeBegin = timeBegin;
+            } else {
+                timeBegin.setHours($scope.campaign.sch_time_start.slice(0, 2));
+                timeBegin.setMinutes($scope.campaign.sch_time_start.slice(3));
+                $scope.timeBegin = timeBegin;
+            }
+
 
             $scope.timeBegin = timeBegin;
             $scope.timeEnd = timeEnd;
         }
 
-        // set hour steps
-        $scope.hstep = 1;
-        // set minute steps
-        $scope.mstep = 1;
-
-        // AM, PM choice the format is 12, by setting to false the format will be 24
-        $scope.ismeridian = true;
         //////////////////  end timerpicker controller ////////////////////////////////
 
         $scope.save = function () {
 
             if ($scope.campaign.owner == undefined || $scope.campaign.owner.camp_cd == undefined) {
 
-                if (angular.element('#campaign_name').val() != '' && angular.element('#campaign_description').val() && angular.element('#campaign_priority').val()) {
+                if (angular.element('#campaign_name').val() != '' && angular.element('#campaign_description').val() != '' && angular.element('#campaign_priority').val() != '') {
 
                     var campaignParams = {
                         camp_name: angular.element('#campaign_name').val(),
@@ -178,18 +451,18 @@
                         camp_priority: angular.element('#campaign_priority').val(),
                         camp_state: 'inactive'
 
-                    }
+                    };
 
 
                     RequestService.postJsonRequest('campaign/createCampaign', campaignParams).then(function (createdCampaign) {
-                        console.log(createdCampaign);
+
 
                         var companyCampaignParams = {
-                            cmp_cd: $rootScope.company,
+                            cmp_cd: session.getUser().user.cmp_cd,
                             camp_cd: createdCampaign.camp_cd,
                             camp_state: 'accepted',
                             cmp_camp_owner: true
-                        }
+                        };
 
                         RequestService.postJsonRequest('companyCampaign/createCampaignOwner', companyCampaignParams).then(function (result) {
 
@@ -199,10 +472,9 @@
                                 sch_time_start: $scope.timeBegin.getHours() + ':' + $scope.timeBegin.getMinutes(),
                                 sch_time_end: $scope.timeEnd.getHours() + ':' + $scope.timeEnd.getMinutes(),
                                 camp_cd: createdCampaign.camp_cd
-                            }
+                            };
 
                             RequestService.postJsonRequest('schedule/createSchedule', scheduleParams).then(function (schedule) {
-                                console.log(schedule)
 
                                 var campaignNewParams = {
                                     camp_cd: createdCampaign.camp_cd,
@@ -212,7 +484,7 @@
                                     camp_state: 'inactive',
                                     sch_cd: schedule.sch_cd
 
-                                }
+                                };
 
                                 $scope.selectedDays.forEach(function (day) {
 
@@ -220,24 +492,80 @@
                                         day_cd: day,
                                         sch_cd: schedule.sch_cd
                                     }).then(function (res) {
-                                        console.log(res)
-                                    })
-                                })
+
+                                    });
+
+                                });
 
                                 RequestService.postJsonRequest('campaign/updateCampaign', campaignNewParams).then(function (updatedCampaign) {
-                                    console.log(updatedCampaign)
-                                })
+                                    notify({
+                                        message: 'Campaign Created Successfully!',
+                                        classes: 'alert-success',
+                                        position: 'center'
+                                    });
+
+                                    RefreshCampaign.refreshCampaign().then(function (result) {
+                                        if (result.result == "this model doesn't exist" || result.result == 'error') {
+
+                                            notify({
+                                                message: "You have 0 campaign!",
+                                                classes: 'alert-info',
+                                                position: 'center',
+                                                duration: 2000
+                                            });
+                                        } else if (result.result == undefined) {
 
 
-                            })
-                        })
+                                            result.forEach(function (camp) {
+                                                if (camp.owner.camp_cd == createdCampaign.camp_cd) {
+
+                                                    $scope.campaign = camp
+                                                    if ($scope.campaign) {
+
+                                                        RequestService.postJsonRequest('campaign/findCampaignBeacons', {'cmp_cd': session.getUser().user.cmp_cd}).then(function (beacons) {
+
+                                                            if ($scope.campaign.beacons) {
+                                                                $scope.campaign.beacons.forEach(function (campBeacon) {
+
+                                                                    beacons.forEach(function (beacon) {
+                                                                        $scope.campaign.beacons.push(beacon)
+                                                                    })
+
+                                                                });
+                                                                console.log('first')
+                                                                $scope.campaign.beacons = cleanup($scope.campaign.beacons, 'beacon');
+                                                            } else {
+
+                                                                $scope.campaign.beacons = beacons;
+                                                                $scope.campaign.beacons = cleanup($scope.campaign.beacons, 'beacon');
+                                                            }
+
+                                                        });
+
+                                                    }
+
+                                                }
+                                            })
 
 
-                    })
+                                        }
+                                    });
+                                });
+
+                            });
+                        });
+                    });
 
 
                 } else {
-                    alert('all information are required');
+
+                    notify({
+                        message: "All information are required!",
+                        classes: 'alert-info',
+                        position: 'center',
+                        duration: 2000
+                    });
+
                 }
 
 
@@ -254,9 +582,8 @@
                 }
 
                 RequestService.postJsonRequest('campaign/updateCampaign', campaignParams).then(function (updatedCampaign) {
+
                     if (!updatedCampaign.result) {
-                        console.log($scope.timeBegin.getHours() + ':' + $scope.timeBegin.getMinutes());
-                        console.log($scope.timeEnd.getHours() + ':' + $scope.timeEnd.getMinutes());
                         var scheduleParams = {
                             sch_cd: $scope.campaign.sch_cd,
                             sch_date_start: $scope.dtStart,
@@ -265,47 +592,79 @@
                             sch_time_end: $scope.timeEnd.getHours() + ':' + $scope.timeEnd.getMinutes(),
                             camp_cd: $scope.campaign.owner.camp_cd
 
-                        }
+                        };
 
                         RequestService.postJsonRequest('schedule/updateSchedule', scheduleParams).then(function (updatedSchedule) {
+
                             if (!updatedSchedule.result) {
-                                //console.log(updatedSchedule)
 
-                                updatedSchedule[0].days.forEach(function (updatedSchedule) {
-                                    RequestService.postJsonRequest('scheduleDay/deleteScheduleDay', {sch_day_cd: updatedSchedule.sch_day_cd}).then(function (deleteSchedule) {
+                                RequestService.postJsonRequest('scheduleDay/deleteAllScheduleDay', {sch_cd: updatedSchedule[0].sch_cd}).then(function (deleteSchedule) {
 
-                                    })
+                                    if (deleteSchedule.result == 'deleted successfully') {
 
+                                        $scope.selectedDays.forEach(function (day) {
+
+                                            RequestService.postJsonRequest('scheduleDay/createScheduleDay', {
+                                                day_cd: day,
+                                                sch_cd: updatedSchedule[0].sch_cd
+                                            }).then(function (res) {
+                                                if (res.result == undefined) {
+                                                    notify({
+                                                        message: "Updated Successfully!",
+                                                        classes: 'alert-success',
+                                                        position: 'center',
+                                                        duration: 2000
+                                                    });
+                                                }
+                                            });
+                                        });
+
+                                    } else {
+
+
+                                        $scope.selectedDays.forEach(function (day) {
+
+                                            RequestService.postJsonRequest('scheduleDay/createScheduleDay', {
+                                                day_cd: day,
+                                                sch_cd: updatedSchedule[0].sch_cd
+                                            }).then(function (res) {
+                                                notify({
+                                                    message: "Updated Successfully!",
+                                                    classes: 'alert-success',
+                                                    position: 'center',
+                                                    duration: 2000
+                                                });
+                                            });
+                                        });
+                                    }
 
                                 })
-                                $scope.selectedDays.forEach(function (day) {
 
-                                    RequestService.postJsonRequest('scheduleDay/createScheduleDay', {
-                                        day_cd: day,
-                                        sch_cd: updatedSchedule[0].sch_cd
-                                    }).then(function (res) {
-                                        //console.log(res)
-                                    })
-                                })
+                            } else {
+
+                                notify({
+                                    message: 'Could not update schedule!',
+                                    classes: 'alert-danger',
+                                    position: 'center'
+                                });
 
                             }
-                        })
+                        });
 
                     } else {
-                        alert("This campaign doesn't exist");
+
+                        notify({
+                            message: 'Something gone wrong!',
+                            classes: 'alert-danger',
+                            position: 'center'
+                        });
                     }
-                })
-
-                console.log('update campaign')
-                console.log($scope.campaign)
-
+                });
             }
 
-
-        }
+        };
 
         $scope.newArray = [];
-
 
         ////////////////// begin datepicker controller /////////////////////////////////
 
@@ -381,15 +740,18 @@
 
     }
 
-    function campaignStepController($scope, ZoneService, ContentService, RequestService, $rootScope) {
+    function campaignStepController($scope, ZoneService, ContentService, RequestService, session) {
 
         $scope.step = 1;
         $scope.zones = [];
         $scope.contentTypes = [];
         $scope.contents = [];
 
+
         if ($scope.campaign) {
-            RequestService.postJsonRequest('campaign/findCampaignBeacons', {'cmp_cd': $rootScope.company}).then(function (beacons) {
+
+            RequestService.postJsonRequest('campaign/findCampaignBeacons', {'cmp_cd': session.getUser().user.cmp_cd}).then(function (beacons) {
+
                 if ($scope.campaign.beacons) {
                     $scope.campaign.beacons.forEach(function (campBeacon) {
 
@@ -398,22 +760,22 @@
                         })
 
                     });
-
+                    console.log('first')
                     $scope.campaign.beacons = cleanup($scope.campaign.beacons, 'beacon');
                 } else {
+
                     $scope.campaign.beacons = beacons;
                     $scope.campaign.beacons = cleanup($scope.campaign.beacons, 'beacon');
                 }
 
-                console.log($scope.campaign)
-            })
+            });
 
         }
 
         else {
             $scope.campaign = [];
 
-            RequestService.postJsonRequest('campaign/findCampaignBeacons', {'cmp_cd': $rootScope.company}).then(function (beacons) {
+            RequestService.postJsonRequest('campaign/findCampaignBeacons', {'cmp_cd': session.getUser().user.cmp_cd}).then(function (beacons) {
                 $scope.campaign.beacons = beacons
 
             })
@@ -486,77 +848,146 @@
     function alertController($scope, sweet, RequestService) {
 
         $scope.confirmCancel = function (campaign) {
+
             $scope.campaign = campaign;
 
-            if ($scope.campaign.owner.camp_state == 'inactive' || $scope.campaign.owner.camp_state == 'expired') {
-                var campaignParams = {
-                    camp_cd: $scope.campaign.owner.camp_cd,
-                    camp_name: $scope.campaign.owner.camp_name,
-                    camp_description: $scope.campaign.owner.camp_description,
-                    camp_priority: $scope.campaign.owner.camp_priority,
-                    camp_state: 'active',
-                    sch_cd: $scope.campaign.owner.schedule
-                }
-                sweet.show({
-                    title: 'Confirm',
-                    text: 'Activate this campaign?',
-                    type: 'info',
-                    showCancelButton: true,
-                    confirmButtonColor: '#03A9F4',
-                    confirmButtonText: 'Yes, activate it!',
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                }, function (isConfirm) {
-                    if (isConfirm) {
-                        RequestService.postJsonRequest('campaign/updateCampaign', campaignParams).then(function (updateCampaign) {
-                            if (!updateCampaign.result) {
-                                $scope.campaign.owner.camp_state = 'active';
-                                sweet.show('Activated!', 'The campaign is currently used.', 'success');
-                            } else {
-                                sweet.show('Cancelled', '', 'error');
-                            }
-                        })
+            if ($scope.campaign.trueOwner.cmp_camp_owner == true) {
 
-                    } else {
-                        sweet.show('Cancelled', '', 'error');
+                if ($scope.campaign.owner.camp_state == 'inactive' || $scope.campaign.owner.camp_state == 'expired') {
+
+                    var campaignParams = {
+                        camp_cd: $scope.campaign.owner.camp_cd,
+                        camp_name: $scope.campaign.owner.camp_name,
+                        camp_description: $scope.campaign.owner.camp_description,
+                        camp_priority: $scope.campaign.owner.camp_priority,
+                        camp_state: 'active',
+                        sch_cd: $scope.campaign.owner.schedule
                     }
-                });
-            } else if (campaign.owner.camp_state == 'active') {
+                    sweet.show({
+                        title: 'Confirm',
+                        text: 'Activate this campaign?',
+                        type: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#03A9F4',
+                        confirmButtonText: 'Yes, activate it!',
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    }, function (isConfirm) {
+                        if (isConfirm) {
+                            RequestService.postJsonRequest('campaign/updateCampaign', campaignParams).then(function (updateCampaign) {
+                                if (!updateCampaign.result) {
+                                    $scope.campaign.owner.camp_state = 'active';
+                                    sweet.show('Activated!', 'The campaign is currently used.', 'success');
+                                } else {
+                                    sweet.show('Cancelled', '', 'error');
+                                }
+                            })
 
-                var campaignParams = {
-                    camp_cd: $scope.campaign.owner.camp_cd,
-                    camp_name: $scope.campaign.owner.camp_name,
-                    camp_description: $scope.campaign.owner.camp_description,
-                    camp_priority: $scope.campaign.owner.camp_priority,
-                    camp_state: 'inactive',
-                    sch_cd: $scope.campaign.owner.schedule
-                }
+                        } else {
+                            sweet.show('Cancelled', '', 'error');
+                        }
+                    });
+                } else if (campaign.owner.camp_state == 'active') {
 
-                sweet.show({
-                    title: 'Confirm',
-                    text: 'Deactivate this campaign?',
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#D32F2F',
-                    confirmButtonText: 'Yes, Deactivate it!',
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                }, function (isConfirm) {
-                    if (isConfirm) {
-                        RequestService.postJsonRequest('campaign/updateCampaign', campaignParams).then(function (updateCampaign) {
-                            if (!updateCampaign.result) {
-                                $scope.campaign.owner.camp_state = 'inactive';
-                                sweet.show('Deactivated!', 'The campaign are not visible anymore', 'success');
-                            } else {
-                                sweet.show('Cancelled', '', 'error');
-                            }
-                        })
-
-                    } else {
-                        sweet.show('Cancelled', '', 'error');
+                    var campaignParams = {
+                        camp_cd: $scope.campaign.owner.camp_cd,
+                        camp_name: $scope.campaign.owner.camp_name,
+                        camp_description: $scope.campaign.owner.camp_description,
+                        camp_priority: $scope.campaign.owner.camp_priority,
+                        camp_state: 'inactive',
+                        sch_cd: $scope.campaign.owner.schedule
                     }
-                });
+
+                    sweet.show({
+                        title: 'Confirm',
+                        text: 'Deactivate this campaign?',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#D32F2F',
+                        confirmButtonText: 'Yes, Deactivate it!',
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    }, function (isConfirm) {
+                        if (isConfirm) {
+                            RequestService.postJsonRequest('campaign/updateCampaign', campaignParams).then(function (updateCampaign) {
+                                if (!updateCampaign.result) {
+                                    $scope.campaign.owner.camp_state = 'inactive';
+                                    sweet.show('Deactivated!', 'The campaign are not visible anymore', 'success');
+                                } else {
+                                    sweet.show('Cancelled', '', 'error');
+                                }
+                            })
+
+                        } else {
+                            sweet.show('Cancelled', '', 'error');
+                        }
+                    });
+                }
+            } else {
+                if ($scope.campaign.trueOwner.camp_state == 'pending') {
+                    var campaignParams = {
+                        cmp_camp_cd: $scope.campaign.trueOwner.cmp_camp_cd,
+                        camp_state: 'accepted'
+                    }
+
+                    sweet.show({
+                        title: 'activate shared campaign',
+                        text: 'Activate this campaign?',
+                        type: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#03A9F4',
+                        confirmButtonText: 'Yes, activate it!',
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    }, function (isConfirm) {
+                        if (isConfirm) {
+                            RequestService.postJsonRequest('companyCampaign/UpdateState', campaignParams).then(function (updateCampaign) {
+                                if (!updateCampaign.result) {
+                                    $scope.campaign.trueOwner.camp_state = 'accepted';
+                                    sweet.show('Activated!', 'The campaign is currently used.', 'success');
+                                } else {
+                                    sweet.show('Cancelled', '', 'error');
+                                }
+                            })
+
+                        } else {
+                            sweet.show('Cancelled', '', 'error');
+                        }
+                    });
+                } else if ($scope.campaign.trueOwner.camp_state == 'accepted') {
+
+                    var campaignParams = {
+                        cmp_camp_cd: $scope.campaign.trueOwner.cmp_camp_cd,
+                        camp_state: 'pending'
+                    }
+
+                    sweet.show({
+                        title: 'Confirm',
+                        text: 'Deactivate shared campaign?',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#D32F2F',
+                        confirmButtonText: 'Yes, Deactivate it!',
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    }, function (isConfirm) {
+                        if (isConfirm) {
+                            RequestService.postJsonRequest('companyCampaign/UpdateState', campaignParams).then(function (updateCampaign) {
+                                if (!updateCampaign.result) {
+                                    $scope.campaign.trueOwner.camp_state = 'pending';
+                                    sweet.show('Deactivated!', 'The campaign are not visible anymore', 'success');
+                                } else {
+                                    sweet.show('Cancelled', '', 'error');
+                                }
+                            })
+
+                        } else {
+                            sweet.show('Cancelled', '', 'error');
+                        }
+                    });
+                }
             }
+
         };
 
     }
@@ -565,7 +996,6 @@
 
         $scope.redeemers = [];
         $scope.beacons = [];
-
 
         var promise = BeaconService.getListOfBeacons();
 
@@ -580,9 +1010,9 @@
 
                     for (var i = 0; i < $scope.campaign.beacons.length; i++) {
                         if ($scope.campaign.beacons[i].config) {
-                            console.log($scope.campaign.beacons[i])
+
                             if ($scope.campaign.beacons[i].config.interaction_type.lkp_name == "fetch") {
-                                console.log($scope.campaign.beacons[i])
+
                                 $scope.redeemers.push($scope.campaign.beacons[i]);
                             }
                         }
@@ -598,7 +1028,6 @@
 
     function modalController($scope, $uibModal) {
         $scope.animationsEnabled = true;
-
 
         /**
          * open modal
@@ -636,21 +1065,24 @@
 
     }
 
-    function publishModalController($scope, $rootScope, $uibModal, RequestService) {
+    function publishModalController($scope, session, $uibModal, DetailedAssociateService) {
 
         $scope.associates = [];
         $scope.animationsEnabled = true;
 
-        RequestService.postJsonRequest('company/findAssociates', {cmp_cd: $rootScope.company}).then(function (associates) {
-            associates.forEach(function (associate) {
-                if (associate.asc_state == 'accepted') {
-                    if (associate.owner == $rootScope.company) {
-                        $scope.associates.push(associate.asc_cmp_receiver_id);
-                    } else {
-                        $scope.associates.push(associate.asc_cmp_sender_id);
+        DetailedAssociateService.getAssociates().then(function (associates) {
+
+            if (!associates.result) {
+                associates.forEach(function (associate) {
+                    if (associate.asc_state == 'accepted') {
+                        if (associate.owner == session.getUser().user.cmp_cd) {
+                            $scope.associates.push(associate.asc_cmp_receiver_id);
+                        } else {
+                            $scope.associates.push(associate.asc_cmp_sender_id);
+                        }
                     }
-                }
-            });
+                });
+            }
         });
 
         /**
@@ -661,17 +1093,18 @@
          * @param {object} beacon
          */
         $scope.openModal = function (size, tpl, associates, campaign) {
+            $scope.associates = associates
 
             var modalInstance = $uibModal.open({
                 animation: $scope.animationsEnabled,
                 templateUrl: tpl,
-                controller: 'ModalCampaignInstanceCtrl',
+                controller: 'PublishCampaignInstanceCtrl',
                 size: size,
                 backdrop: 'static',
                 keyboard: false,
                 resolve: {
                     associates: function () {
-                        return associates;
+                        return $scope.associates;
                     },
                     campaign: function () {
 
@@ -686,16 +1119,10 @@
 
     }
 
-    /**
-     * @method modalInstanceController
-     * @param {object} $scope
-     * @param {object} $modalInstance
-     * @param {object} beacon
-     */
-    function modalInstanceController($scope, $uibModalInstance, associates, campaign, beacon, RequestService) {
+    function publishCampaignModalController($scope, $uibModalInstance, campaign, associates) {
+
         $scope.associates = associates;
         $scope.campaign = campaign;
-        $scope.beacon = beacon;
 
         /**
          * press ok in modal
@@ -706,92 +1133,330 @@
             $uibModalInstance.close();
         };
 
-        $scope.saveBeaconConfig = function () {
+        /**
+         * cancel modal
+         * @method cancel
+         */
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    }
 
+    /**
+     * @method modalInstanceController
+     * @param {object} $scope
+     * @param {object} $modalInstance
+     * @param {object} beacon
+     */
+    function modalInstanceController($scope, $uibModalInstance, associates, campaign, beacon, RequestService, notify, DetailedCampaign) {
+
+        $scope.associates = associates;
+        $scope.campaign = campaign;
+        $scope.beacon = beacon;
+
+        /**
+         * press ok in modal
+         * @method ok
+         */
+
+        $scope.saveContentConfig = function (contents) {
+
+
+            if (beacon.contents.length > 0) {
+                beacon.contents.forEach(function (content) {
+
+                        if (content.camp_bcn_cnt_cd != undefined && content.config != undefined) {
+
+                            RequestService.postJsonRequest('campaignContentLookup/deleteAllConfiguration', {camp_bcn_cnt_cd: content.camp_bcn_cnt_cd}).then(function (deletedConfiguration) {
+
+                                    if (deletedConfiguration.result == 'deleted successfully') {
+                                        //console.log('all deleted');
+
+                                        if (content.config.frequency != undefined) {
+
+
+                                            RequestService.postJsonRequest('campaignContentLookup/addConfiguration', {
+
+                                                camp_bcn_cnt_cd: content.camp_bcn_cnt_cd,
+                                                lkp_cd: content.config.frequency.lkp_cd,
+                                                camp_bcn_cnt_value: content.config.frequency.value
+
+                                            }).then(function (frequency) {
+
+                                                if (frequency.result == undefined) {
+                                                    //console.log('frequency created')
+                                                }
+
+                                            });
+                                        }
+
+                                        if (content.config.trigger_type != undefined) {
+
+                                            RequestService.postJsonRequest('campaignContentLookup/addConfiguration', {
+                                                camp_bcn_cnt_cd: content.camp_bcn_cnt_cd,
+                                                lkp_cd: content.config.trigger_type.lkp_cd
+                                            }).then(function (frequency) {
+                                                if (frequency.result == undefined) {
+                                                    //console.log('trigger type created')
+                                                }
+                                            })
+
+                                        }
+
+                                        if (content.config.interaction_with_gender.length > 0) {
+                                            content.config.interaction_with_gender.forEach(function (genderInteraction) {
+
+                                                RequestService.postJsonRequest('campaignContentLookup/addConfiguration', {
+                                                    camp_bcn_cnt_cd: content.camp_bcn_cnt_cd,
+                                                    lkp_cd: genderInteraction.lkp_cd
+
+                                                }).then(function (frequency) {
+                                                    if (frequency.result == undefined) {
+                                                        //console.log('gender interaction created')
+                                                    }
+                                                })
+
+                                            })
+                                        }
+
+                                        if (content.config.interaction_with_race.length > 0) {
+
+                                            content.config.interaction_with_race.forEach(function (raceInteraction) {
+
+                                                RequestService.postJsonRequest('campaignContentLookup/addConfiguration', {
+                                                    camp_bcn_cnt_cd: content.camp_bcn_cnt_cd,
+                                                    lkp_cd: raceInteraction.lkp_cd
+
+                                                }).then(function (frequency) {
+
+                                                    if (frequency.result == undefined) {
+                                                        //console.log('race interaction created')
+                                                    }
+
+                                                });
+
+                                            });
+                                        }
+                                    }
+
+                                }
+                            )
+                        } else if (content.camp_bcn_cnt_cd == undefined && content.config != undefined) {
+
+                            var assignContentToBeacon = {
+                                camp_bcn_cnt_start_age: content.camp_bcn_cnt_start_age,
+                                camp_bcn_cnt_end_age: content.camp_bcn_cnt_end_age,
+                                camp_bcn_cnt_priority: content.camp_bcn_cnt_priority,
+                                camp_bcn_cd: beacon.camp_bcn_cd,
+                                cnt_cd: content.cnt_cd
+                            };
+
+                            RequestService.postJsonRequest('campaignContent/assignContentToBeacon', assignContentToBeacon).then(function (assignedContentToBeacon) {
+                                //console.log(assignedContentToBeacon);
+
+                                if (content.config.frequency != undefined) {
+
+
+                                    RequestService.postJsonRequest('campaignContentLookup/addConfiguration', {
+
+                                        camp_bcn_cnt_cd: assignedContentToBeacon.camp_bcn_cnt_cd,
+                                        lkp_cd: content.config.frequency.lkp_cd,
+                                        camp_bcn_cnt_value: content.config.frequency.value
+
+                                    }).then(function (frequency) {
+
+                                        if (frequency.result == undefined) {
+                                            //console.log('frequency created')
+                                        }
+
+                                    });
+                                }
+
+                                if (content.config.trigger_type != undefined) {
+
+                                    RequestService.postJsonRequest('campaignContentLookup/addConfiguration', {
+                                        camp_bcn_cnt_cd: assignedContentToBeacon.camp_bcn_cnt_cd,
+                                        lkp_cd: content.config.trigger_type.lkp_cd
+                                    }).then(function (frequency) {
+                                        if (frequency.result == undefined) {
+                                            //console.log('trigger type created')
+                                        }
+                                    })
+
+                                }
+
+                                if (content.config.interaction_with_gender.length > 0) {
+                                    content.config.interaction_with_gender.forEach(function (genderInteraction) {
+
+                                        RequestService.postJsonRequest('campaignContentLookup/addConfiguration', {
+                                            camp_bcn_cnt_cd: assignedContentToBeacon.camp_bcn_cnt_cd,
+                                            lkp_cd: genderInteraction.lkp_cd
+
+                                        }).then(function (frequency) {
+                                            if (frequency.result == undefined) {
+                                                //console.log('gender interaction created')
+                                            }
+                                        })
+
+                                    })
+                                }
+
+                                if (content.config.interaction_with_race.length > 0) {
+
+                                    content.config.interaction_with_race.forEach(function (raceInteraction) {
+
+                                        RequestService.postJsonRequest('campaignContentLookup/addConfiguration', {
+                                            camp_bcn_cnt_cd: assignedContentToBeacon.camp_bcn_cnt_cd,
+                                            lkp_cd: raceInteraction.lkp_cd
+
+                                        }).then(function (frequency) {
+
+                                            if (frequency.result == undefined) {
+                                                //console.log('race interaction created')
+                                            }
+
+                                        });
+
+                                    });
+                                }
+
+
+                            })
+                        }
+                    }
+                )
+            }
+
+
+            $uibModalInstance.close();
+        }
+
+        $scope.ok = function () {
+
+            $uibModalInstance.close();
+        };
+
+        $scope.saveBeaconConfig = function () {
+            console.log('1289')
             if ($scope.campaign.owner) {
-                console.log($scope.campaign)
+
                 if ($scope.beacon.camp_bcn_cd == undefined) {
-                    console.log($scope.beacon)
-                    var assignBeaconParams = {
-                        camp_bcn_limit: $scope.beacon.camp_bcn_limit,
-                        camp_bcn_state: true,
-                        camp_bcn_start_age: $scope.beacon.camp_bcn_start_age,
-                        camp_bcn_end_age: $scope.beacon.camp_bcn_end_age,
-                        campaign: $scope.campaign.owner.camp_cd,
-                        beacon: $scope.beacon.beacon.bcn_cd
+                    console.log('1293')
+                    if ($scope.beacon.config == undefined || $scope.beacon.camp_bcn_limit == undefined) {
+                        notify({
+                            message: 'Please fill the required information',
+                            classes: 'alert-warning',
+                            position: 'center'
+                        });
+                    } else {
+                        console.log('1301')
+                        var assignBeaconParams = {
+                            camp_bcn_limit: $scope.beacon.camp_bcn_limit,
+                            camp_bcn_state: true,
+                            camp_bcn_start_age: $scope.beacon.camp_bcn_start_age,
+                            camp_bcn_end_age: $scope.beacon.camp_bcn_end_age,
+                            campaign: $scope.campaign.owner.camp_cd,
+                            beacon: $scope.beacon.beacon.bcn_cd
+                        }
+
+                        RequestService.postJsonRequest('campaignBeacon/assignBeaconToCampaign', assignBeaconParams).then(function (assignBeaconResult) {
+
+
+                            if ($scope.beacon.config.frequency) {
+
+                                var beaconFrequencyConfiguration = {
+                                    camp_bcn_cd: assignBeaconResult.camp_bcn_cd,
+                                    lkp_cd: $scope.beacon.config.frequency.lkp_cd,
+                                    camp_bcn_value: $scope.beacon.config.frequency.value
+                                }
+
+                                RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconFrequencyConfiguration).then(function (frequencyConfig) {
+
+                                })
+
+                            }
+                            if ($scope.beacon.config.interaction_type) {
+
+                                var beaconInteractionTypeConfiguration = {
+                                    camp_bcn_cd: assignBeaconResult.camp_bcn_cd,
+                                    lkp_cd: $scope.beacon.config.interaction_type.lkp_cd
+                                }
+
+                                RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconInteractionTypeConfiguration).then(function (interactionTypeConfig) {
+
+                                })
+                            }
+
+                            if ($scope.beacon.config.interaction_with_gender) {
+
+                                $scope.beacon.config.interaction_with_gender.forEach(function (gender) {
+                                    var beaconInteractWithGender = {
+                                        camp_bcn_cd: assignBeaconResult.camp_bcn_cd,
+                                        lkp_cd: gender.lkp_cd
+                                    }
+
+                                    RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconInteractWithGender).then(function (interactWithGender) {
+
+                                    })
+                                })
+
+
+                            }
+
+                            if ($scope.beacon.config.interaction_with_race) {
+                                $scope.beacon.config.interaction_with_race.forEach(function (race) {
+                                    var beaconInteractWithRace = {
+                                        camp_bcn_cd: assignBeaconResult.camp_bcn_cd,
+                                        lkp_cd: race.lkp_cd
+                                    }
+
+                                    RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconInteractWithRace).then(function (interactWithRace) {
+
+                                    })
+                                })
+                            }
+
+                            if ($scope.beacon.config.trigger_type) {
+                                var beaconTriggerType = {
+                                    camp_bcn_cd: assignBeaconResult.camp_bcn_cd,
+                                    lkp_cd: $scope.beacon.config.trigger_type.lkp_cd
+                                }
+
+                                RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconTriggerType).then(function (triggerType) {
+
+                                })
+                            }
+
+                            $scope.beacon.bcn_used = true;
+                            console.log('1380')
+                            //DetailedCampaign.getCampaignByCompanyId().then(function (result) {
+                            //    if (result.result == "this model doesn't exist" || result.result == 'error') {
+                            //        notify({
+                            //            message: "You have 0 campaign!",
+                            //            classes: 'alert-info',
+                            //            position: 'center',
+                            //            duration: 2000
+                            //        });
+                            //        $scope.campaigns = [];
+                            //    }
+                            //    else if (result.result == undefined) {
+                            //
+                            //        console.log($scope.campaign);
+                            //        result.forEach(function (camp) {
+                            //            if ($scope.campaign.owner.camp_cd == camp.owner.camp_cd) {
+                            //                console.log(camp)
+                            //                $scope.campaign = camp;
+                            //            }
+                            //        })
+                            //
+                            //
+                            //    }
+                            //})
+
+                        })
+                        $uibModalInstance.close();
                     }
 
-                    RequestService.postJsonRequest('campaignBeacon/assignBeaconToCampaign', assignBeaconParams).then(function (assignBeaconResult) {
-
-
-                        if ($scope.beacon.config.frequency) {
-
-                            var beaconFrequencyConfiguration = {
-                                camp_bcn_cd: assignBeaconResult.camp_bcn_cd,
-                                lkp_cd: $scope.beacon.config.frequency.lkp_cd,
-                                camp_bcn_value: $scope.beacon.config.frequency.value
-                            }
-
-                            RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconFrequencyConfiguration).then(function (frequencyConfig) {
-
-                            })
-
-                        }
-                        if ($scope.beacon.config.interaction_type) {
-
-                            var beaconInteractionTypeConfiguration = {
-                                camp_bcn_cd: assignBeaconResult.camp_bcn_cd,
-                                lkp_cd: $scope.beacon.config.interaction_type.lkp_cd
-                            }
-
-                            RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconInteractionTypeConfiguration).then(function (interactionTypeConfig) {
-
-                            })
-                        }
-
-                        if ($scope.beacon.config.interaction_with_gender) {
-
-                            $scope.beacon.config.interaction_with_gender.forEach(function (gender) {
-                                var beaconInteractWithGender = {
-                                    camp_bcn_cd: assignBeaconResult.camp_bcn_cd,
-                                    lkp_cd: gender.lkp_cd
-                                }
-
-                                RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconInteractWithGender).then(function (interactWithGender) {
-
-                                })
-                            })
-
-
-                        }
-
-                        if ($scope.beacon.config.interaction_with_race) {
-                            $scope.beacon.config.interaction_with_race.forEach(function (race) {
-                                var beaconInteractWithRace = {
-                                    camp_bcn_cd: assignBeaconResult.camp_bcn_cd,
-                                    lkp_cd: race.lkp_cd
-                                }
-
-                                RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconInteractWithRace).then(function (interactWithRace) {
-
-                                })
-                            })
-                        }
-
-                        if ($scope.beacon.config.trigger_type) {
-                            var beaconTriggerType = {
-                                camp_bcn_cd: assignBeaconResult.camp_bcn_cd,
-                                lkp_cd: $scope.beacon.config.trigger_type.lkp_cd
-                            }
-
-                            RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconTriggerType).then(function (triggerType) {
-
-                            })
-                        }
-
-                        $scope.beacon.bcn_used = true;
-
-                    })
 
                 } else {
 
@@ -858,7 +1523,7 @@
                                         }
 
                                         RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconInteractWithRace).then(function (interactWithRace) {
-                                            console.log(interactWithRace)
+
                                         })
                                     })
                                 }
@@ -870,7 +1535,7 @@
                                     }
 
                                     RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconTriggerType).then(function (triggerType) {
-                                        console.log(triggerType)
+
                                     })
                                 }
                             })
@@ -899,8 +1564,7 @@
                             }
 
                             RequestService.postJsonRequest('campaignBeacon/updateBeaconInCampaign', updateBeaconInCampaign).then(function (assignBeaconResult) {
-                                console.log(assignBeaconResult);
-                                console.log($scope.beacon)
+
 
                                 if ($scope.beacon.config.frequency) {
                                     var beaconFrequencyConfiguration = {
@@ -910,7 +1574,7 @@
                                     }
 
                                     RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconFrequencyConfiguration).then(function (frequencyConfig) {
-                                        console.log(frequencyConfig)
+
                                     })
                                 }
                                 if ($scope.beacon.config.interaction_type) {
@@ -921,7 +1585,7 @@
                                     }
 
                                     RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconInteractionTypeConfiguration).then(function (interactionTypeConfig) {
-                                        console.log(interactionTypeConfig)
+
                                     })
                                 }
 
@@ -934,7 +1598,7 @@
                                         }
 
                                         RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconInteractWithGender).then(function (interactWithGender) {
-                                            console.log(interactWithGender)
+
                                         })
                                     })
 
@@ -949,7 +1613,7 @@
                                         }
 
                                         RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconInteractWithRace).then(function (interactWithRace) {
-                                            console.log(interactWithRace)
+
                                         })
                                     })
                                 }
@@ -961,27 +1625,27 @@
                                     }
 
                                     RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconTriggerType).then(function (triggerType) {
-                                        console.log(triggerType)
+
                                     })
                                 }
-
-
                             })
                         }
-
-
                     })
-
-
+                    $uibModalInstance.close();
                 }
-            } else {
-                alert('Please save your campaign first')
 
+            } else {
+
+                notify({
+                    message: 'Please save your campaign first!',
+                    classes: 'alert-warning',
+                    position: 'center'
+                });
+                $uibModalInstance.close();
 
             }
 
 
-            $uibModalInstance.close();
         }
 
         /**
@@ -1022,6 +1686,27 @@
 
         })
 
+        $scope.makeContentChanged = function () {
+            if ($scope.content.config.frequency.lkp_name == "day") {
+                $scope.min = 1;
+                $scope.max = 6;
+            } else if ($scope.content.config.frequency.lkp_name == "hour") {
+                $scope.min = 1;
+                $scope.max = 23;
+            } else if ($scope.content.config.frequency.lkp_name == "week") {
+                $scope.min = 1;
+                $scope.max = 3;
+            } else if ($scope.content.config.frequency.lkp_name == "month") {
+                $scope.min = 1;
+                $scope.max = 11;
+            } else if ($scope.content.config.frequency.lkp_name == "year") {
+                $scope.min = 1;
+                $scope.max = 1;
+            } else {
+                $scope.min = 0;
+                $scope.max = 0;
+            }
+        }
 
         // set the max and min value for input depending on the value chosen
         $scope.makeChanged = function () {
@@ -1049,6 +1734,7 @@
 
         }
 
+
     }
 
     /**
@@ -1058,40 +1744,43 @@
      * @param {service} CampaignService service from app.campaign module
      * @param {object} toastr
      */
-    function campaignBadgeController($scope, CampaignService, toastr) {
+    function campaignBadgeController($scope, toastr, session, DetailedCampaign) {
 
-        CampaignService.getCampaign(function (data) {
-
-            $scope.campaigns = [];
+        if (session.getUser() != null) {
             $scope.publishRequestNumber = 0;
-            $scope.campaigns = data;
+            $scope.campaignNotification = [];
 
-            for (var i = 0; i < data.length; i++) {
+            DetailedCampaign.getCampaignByCompanyId().then(function (result) {
+                if (result.result == "this model doesn't exist" || result.result == 'error') {
 
-                // check if the request state is pending
-                for (var j = 0; j < data[i].published_to.length; j++) {
-                    if (data[i].published_to[j].cmp_state == "pending") {
-                        $scope.publishRequestNumber++;
+                }
+                else if (result.result == undefined) {
+                    result.forEach(function (campaignsList) {
+                        if (campaignsList.trueOwner.cmp_camp_owner == false && campaignsList.trueOwner.camp_state == 'pending') {
+                            $scope.campaignNotification.push(campaignsList);
+                            //console.log($scope.campaignNotification)
+                            $scope.publishRequestNumber++;
+                        }
+                    })
+
+                }
+
+                if ($scope.publishRequestNumber > 0) {
+
+                    if ($scope.publishRequestNumber == 1) {
+
+                        toastr.info('You have ' + $scope.publishRequestNumber + ' publish pending request', 'Information');
+                    } else {
+                        toastr.info('You have ' + $scope.publishRequestNumber + ' publish pending requests', 'Information');
                     }
+
                 }
+            });
 
-            }
-
-            if ($scope.publishRequestNumber > 0) {
-
-                if ($scope.publishRequestNumber == 1) {
-
-                    toastr.info('You have ' + $scope.publishRequestNumber + ' publish pending request', 'Information');
-                } else {
-                    toastr.info('You have ' + $scope.publishRequestNumber + ' publish pending requests', 'Information');
-                }
-
-            }
-        })
-
+        }
     }
 
-// merge function only json object
+    // merge json object
     function merge(obj1, obj2) {
         var result = {}; // return result
         for (var i in obj1) {      // for every property in obj1

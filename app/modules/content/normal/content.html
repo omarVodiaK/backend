@@ -52,7 +52,9 @@
                                             Type:</label>
                                         <!-- Single button -->
                                         <div class="col-xs-9">
-                                            <select id="content_type" class="btn btn-defautl">
+                                            <select ng-model="content.cnt_type.lkp_cd" id="content_type"
+                                                    class="btn btn-defautl">
+                                                <option value="">--Select Type--</option>
                                                 <option ng-repeat="contentType in contentTypes"
                                                         value="{{contentType.lkp_cd}}"
                                                         ng-selected="{false: '', true: 'selected'} [content.cnt_type.lkp_cd == contentType.lkp_cd]">
@@ -151,7 +153,7 @@
     </div>
 </div>
 
-<div class="bs-component" style="margin-top:20px;">
+<div class="bs-component" style="margin-top:20px;" ng-if="contents.length > 0">
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
@@ -172,13 +174,13 @@
                 <td>{{content.cnt_content}}</td>
                 <td>
                     <div class="wrapper size">
-                        <img class="img-circle" ng-show="content.cnt_url != ''" lazy-src="{{content.cnt_url}}"/>
+                        <img class="img-circle" ng-show="content.cnt_url != '' && content.cnt_type.lkp_value == 'image'"
+                             lazy-src="{{content.cnt_url}}"/>
                     </div>
 
                 </td>
                 <td ng-if="content.is_ds_content == true">External Content</td>
                 <td ng-if="content.is_ds_content == false">Internal Content</td>
-                <td></td>
                 <td class="text-right">
                     <div class="btn-group checkbox" role="group" ng-controller="ModalContentCtrl">
 
@@ -203,6 +205,17 @@
                 boundary-links="true">
         </dir-pagination-controls>
     </div>
+</div>
+
+<div class="bs-component" style="margin-top:20px;" ng-if="contents.length == 0">
+
+    <div class="row">
+
+        <div class="alert alert-info" role="alert"><i class="glyphicon glyphicon-info-sign"></i> You have 0
+            content!
+        </div>
+    </div>
+
 </div>
 
 <link rel="stylesheet" href="assets/css/toggle.css">

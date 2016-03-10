@@ -22,15 +22,84 @@
      * @description app.associate module controller for controlling modal and selecting respective information from RequestService.
      * @method associateController
      * @param {object} $scope
-     * @param {Service} RequestService service
-     * @param {object} $rootScope
+     * @param {Service} RequestService
+     * @param {object} session
      * @param {object} $filter
      */
-    function associateController($scope, RequestService, $rootScope, $filter) {
+    function associateController($scope, RequestService, session, $filter, DetailedAssociateService, notify) {
 
         $scope.associates = [];
         $scope.emails = [];
         $scope.users = [];
+
+        /*
+         * Geofence API call
+         * */
+
+        //RequestService.postJsonRequest('campaign/findGeofences', {cmp_cd: session.getUser().user.cmp_cd}).then(function (geo) {
+        //    console.log(geo)
+        //})
+
+        /*
+         * get informations to display from beacon identifier
+         *
+         * TODO add end user identifier
+         * */
+
+        //RequestService.postJsonRequest('campaign/findContentByBeacon', {
+        //    bcn_uuid: 'aaaaaaaaaaaa-aaaa-aaaa',
+        //    bcn_major: 1,
+        //    bcn_minor: 1,
+        //    cmp_cd: session.getUser().user.cmp_cd
+        //}).then(function (contents) {
+        //    console.log(contents)
+        //})
+
+
+        //RequestService.postJsonRequest('content/redeemVoucher', {
+        //    bcn_uuid: 'ssssssssss-ssss-ssss',
+        //    bcn_major: 1,
+        //    bcn_minor: 1,
+        //    cnt_cd : 'cnt_204',
+        //    cmp_cd: session.getUser().user.cmp_cd
+        //}).then(function (contents) {
+        //    console.log(contents)
+        //})
+
+
+        //RequestService.postJsonRequest('content/generateVoucher', {
+        //    camp_bcn_cd: "camp_bcn_67",
+        //    usr_cd: 'usr_1',
+        //    cmp_cd: session.getUser().user.cmp_cd
+        //}).then(function (results) {
+        //    console.log(results);
+        //})
+
+        //RequestService.postJsonRequest('userAction/createUserAction',{
+        //    usr_cd: 'usr_1',
+        //    camp_bcn_cnt_cd: 'camp_bcn_cnt_43'
+        //}).then(function (result) {
+        //    console.log(result)
+        //})
+
+
+        /**
+         * call RequestService
+         * @method postJsonRequest
+         */
+        DetailedAssociateService.getAssociates().then(function (data) {
+
+            if (data.result == "this model doesn't exist" || data.result == 'error' || data.length == 0) {
+                notify({
+                    message: "You have 0 associate!",
+                    classes: 'alert-info',
+                    position: 'center',
+                    duration: 2000
+                });
+            } else if (data.result == undefined) {
+                $scope.associates = data;
+            }
+        })
 
         /**
          * false is default value so the modal will not popup when the page is loaded
@@ -68,10 +137,15 @@
 
                             }
                         }
+                        notify({
+                            message: "Associate Accepted!",
+                            classes: 'alert-info',
+                            position: 'center',
+                            duration: 2000
+                        });
                     }
                 });
-        }
-
+        };
 
         /**
          * remove associate row
@@ -80,30 +154,122 @@
          */
         $scope.removeAssociateRow = function (id) {
 
-            RequestService.postJsonRequest('company/deleteAssociate', {'asc_cd': id}).then(function (res) {
-                if (res.result == 'deleted successfully') {
-                    var index = -1;
-                    var arrAssociates = $scope.associates;
-                    for (var i = 0; i < arrAssociates.length; i++) {
-                        if (arrAssociates[i].asc_cd === id) {
-                            index = i;
-                            break;
+            RequestService.postJsonRequest('company/deleteAllAssociateCompanyCampaign', {
+                'asc_cd': id,
+                'cmp_cd': session.getUser().user.cmp_cd
+            }).then(function (removeResults) {
+
+                if (removeResults.result == undefined) {
+                    removeResults.forEach(function (removeResult) {
+                        if (removeResult.state == 'fulfilled' && removeResult.value != undefined) {
+
+                            RequestService.postJsonRequest('companyCampaign/deleteCampaignOwner', {cmp_camp_cd: removeResult.value.cmp_camp_cd}).then(function (result) {
+
+                                if (result.result == 'deleted successfully') {
+
+                                    RequestService.postJsonRequest('company/deleteAssociate', {asc_cd: id}).then(function (deletedAssociate) {
+
+                                        if (deletedAssociate.result == 'deleted successfully') {
+
+                                            var index = -1;
+                                            var arrAssociates = $scope.associates;
+                                            for (var i = 0; i < arrAssociates.length; i++) {
+                                                if (arrAssociates[i].asc_cd === id) {
+                                                    index = i;
+                                                    break;
+                                                }
+                                            }
+                                            if (index === -1) {
+
+
+                                            } else {
+
+                                                notify({
+                                                    message: "deleted successfully!",
+                                                    classes: 'alert-success',
+                                                    position: 'center',
+                                                    duration: 2000
+                                                });
+
+                                            }
+
+                                            $scope.associates.splice(index, 1);
+
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            RequestService.postJsonRequest('company/deleteAssociate', {asc_cd: id}).then(function (deletedAssociate) {
+
+                                if (deletedAssociate.result == 'deleted successfully') {
+
+                                    var index = -1;
+                                    var arrAssociates = $scope.associates;
+                                    for (var i = 0; i < arrAssociates.length; i++) {
+                                        if (arrAssociates[i].asc_cd === id) {
+                                            index = i;
+                                            break;
+                                        }
+                                    }
+                                    if (index === -1) {
+
+
+                                    } else {
+
+                                        notify({
+                                            message: "deleted successfully!",
+                                            classes: 'alert-success',
+                                            position: 'center',
+                                            duration: 2000
+                                        });
+
+                                    }
+
+                                    $scope.associates.splice(index, 1);
+
+                                }
+                            });
                         }
-                    }
-                    if (index === -1) {
-                        alert("Something gone wrong");
-                    }
+                    });
+                } else {
 
-                    $scope.associates.splice(index, 1);
+                    RequestService.postJsonRequest('company/deleteAssociate', {asc_cd: id}).then(function (deletedAssociate) {
+
+                        if (deletedAssociate.result == 'deleted successfully') {
+
+                            var index = -1;
+                            var arrAssociates = $scope.associates;
+                            for (var i = 0; i < arrAssociates.length; i++) {
+                                if (arrAssociates[i].asc_cd === id) {
+                                    index = i;
+                                    break;
+                                }
+                            }
+                            if (index === -1) {
+                                notify({
+                                    message: "Something gone wrong!",
+                                    classes: 'alert-danger',
+                                    position: 'center',
+                                    duration: 2000
+                                });
+                                alert("Something gone wrong");
+                            } else {
+                                notify({
+                                    message: "deleted successfully!",
+                                    classes: 'alert-success',
+                                    position: 'center',
+                                    duration: 2000
+                                });
+                            }
+
+                            $scope.associates.splice(index, 1);
+                        }
+                    });
                 }
-            })
 
 
-            /**
-             *  === is to check if the value and the type are equal
-             */
-
-
+            });
         };
 
         /**
@@ -112,32 +278,21 @@
          * @param {object} company
          */
         $scope.getAssociateName = function (company) {
+            if (session.getUser() != null) {
+                if (company.owner == session.getUser().user.cmp_cd) {
+                    return company.asc_cmp_receiver_id.cmp_name;
+                } else {
+                    return company.asc_cmp_sender_id.cmp_name;
+                }
 
-            if (company.owner == $rootScope.company) {
-                return company.asc_cmp_receiver_id.cmp_name;
-            } else {
-                return company.asc_cmp_sender_id.cmp_name;
             }
 
 
-        }
+        };
 
-        /**
-         * call RequestService
-         * @method postJsonRequest
-         */
-        RequestService.postJsonRequest('company/findAssociates', {'cmp_cd': $rootScope.company}).then(function (data) {
-            if (data.result == "this model doesn't exist" || data.result == 'error') {
+        RequestService.postJsonRequest('company/getCompanies', {'cmp_cd': session.getUser().user.cmp_cd}).then(function (data) {
 
-            } else if (data.result == undefined) {
-                $scope.associates = data;
-            }
-
-        })
-
-        RequestService.postJsonRequest('company/getCompanies', {'cmp_cd': $rootScope.company}).then(function (data) {
             if (data.result == 'no companies found' || data.result != undefined) {
-
             } else {
                 data.forEach(function (result) {
                     result.val = false;
@@ -146,8 +301,7 @@
             }
 
 
-        })
-
+        });
 
         $scope.sendRequest = function () {
 
@@ -160,21 +314,43 @@
 
                 checked.forEach(function (check) {
                     RequestService.postJsonRequest('company/invite', {
-                        'sender_id': $rootScope.company,
+                        'sender_id': session.getUser().user.cmp_cd,
                         'receiver_id': check.cmp_cd
                     }).then(function (result) {
                         if (result.result == "already invited") {
-                            alert('already invited');
+                            notify({
+                                message: "already invited!",
+                                classes: 'alert-warning',
+                                position: 'center',
+                                duration: 2000
+                            });
                             $scope.showModal = false;
                         } else {
-                            RequestService.postJsonRequest('company/findAssociates', {'cmp_cd': $rootScope.company}).then(function (data) {
+
+                            DetailedAssociateService.getAssociates().then(function (data) {
+
                                 if (data.result == "this model doesn't exist" || data.result == 'error') {
 
+                                    notify({
+                                        message: "this user doesn't exist!",
+                                        classes: 'alert-warning',
+                                        position: 'center',
+                                        duration: 2000
+                                    });
                                 } else if (data.result == undefined) {
+
+                                    notify({
+                                        message: "Invitation Sent!",
+                                        classes: 'alert-warning',
+                                        position: 'center',
+                                        duration: 2000
+                                    });
+
                                     $scope.associates = data;
                                 }
-
                             })
+
+
                             $scope.showModal = false;
                         }
                     })
@@ -194,34 +370,39 @@
      * @param {service} RequestService service
      * @param {object} toastr
      */
-    function badgeController($scope, $rootScope, RequestService, toastr) {
+    function badgeController($scope, toastr, session, DetailedAssociateService) {
+        if (session.getUser() != null) {
 
-        RequestService.postJsonRequest('company/findAssociates', {'cmp_cd': $rootScope.company}).then(function (result) {
+            DetailedAssociateService.getAssociates().then(function (result) {
+                $scope.associates = [];
+                $scope.requestNumber = 0;
+                $scope.associateNotification = [];
+                /**
+                 * fill $scope.associate with service result
+                 */
+                $scope.associates = result;
 
-            $scope.associates = [];
-            $scope.requestNumber = 0;
-
-            /**
-             * fill $scope.associate with service result
-             */
-            $scope.associates = result;
-
-            for (var i = 0; i < $scope.associates.length; i++) {
-                // check if the request state is pending
-                if ($scope.associates[i].asc_state == 'pending') {
-                    $scope.requestNumber++;
+                for (var i = 0; i < $scope.associates.length; i++) {
+                    // check if the request state is pending
+                    if ($scope.associates[i].asc_state == 'pending') {
+                        $scope.requestNumber++;
+                        $scope.associateNotification.push($scope.associates[i]);
+                        console.log($scope.associateNotification)
+                    }
                 }
-            }
 
-            if ($scope.requestNumber > 0) {
-                // trigger toastr
-                if ($scope.requestNumber == 1) {
-                    toastr.info('You have ' + $scope.requestNumber + ' pending request', 'Information');
-                } else {
-                    toastr.info('You have ' + $scope.requestNumber + ' pending requests', 'Information');
+                if ($scope.requestNumber > 0) {
+                    // trigger toastr
+                    if ($scope.requestNumber == 1) {
+                        toastr.info('You have ' + $scope.requestNumber + ' pending request', 'Information');
+                    } else {
+                        toastr.info('You have ' + $scope.requestNumber + ' pending requests', 'Information');
+                    }
                 }
-            }
-        })
+            })
+
+        }
+
 
     }
 

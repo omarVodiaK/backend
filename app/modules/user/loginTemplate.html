@@ -1,29 +1,40 @@
-<div class="auth">
-    <div class="row">
-        <div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4 form-box">
-            <img class="profile-img box-shadow--4dp" id="loginImage" src="assets/images/Login.ico"
-                 alt="beacon" style="margin: -60px auto 0;">
+<div class="middle row">
+    <div class="col-md-5 logo-table">
+        <div class="logo-cell">
+            <h1>TRACTIVE</h1>
 
-            <form class="form-signin" name='loginForm' ng-submit="submit()" ng-controller="LoginController">
-                <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Email" required
-                           autofocus ng-model="formData.email">
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Password"
-                           required ng-model="formData.password">
-                </div>
-                <button id="loginSubmit" class="btn btn-lg btn-block authSubmit"
-                        type="submit">
-                    Sign in
-                </button>
-                <div class="col-sm-12 col-md-12">
-                    <a class="pull-left" href="#/forgot">Forgot Password? </a>
-                    <br>
-                    <a class="pull-left" href="#/register">Register? </a>
-                </div>
-                <span class="clearfix"></span>
-            </form>
+            <h3>Dashboard</h3>
         </div>
     </div>
+    <div class="col-md-1 vertical-line-login">
+    </div>
+    <div class="col-md-4">
+        <form name='loginForm' ng-submit="submit()">
+            <div class="tips-form-group">
+                <input ng-placeholder="Email address{}" type="email" class="form-control" required
+                       autofocus ng-model="formData.email">
+            </div>
+            <div class="tips-form-group">
+                <input ng-placeholder="Password{}" type="password" class="form-control"
+                       required ng-model="formData.password">
+            </div>
+            <div ng-model="formData.captcha"
+                 style="transform:scale(0.70);-webkit-transform:scale(0.70);transform-origin:0 0;-webkit-transform-origin:0 0;"
+                 data-tabindex="3" vc-recaptcha key="'6LcdjRETAAAAAHMAL07jN-uOAjukL37dwyyD9GUk'"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <a class="pull-left password-recover" href="#/forgot">Forgot Password?</a>
+                    <a class="pull-left sign-up" href="#/register">Sign up</a>
+                </div>
+                <div class="col-md-6">
+                    <button id="loginSubmit" class="btn-block sign-in authSubmit"
+                            type="submit">
+                        Sign in
+                    </button>
+                </div>
+            </div>
+            <span class="clearfix"></span>
+        </form>
+    </div>
 </div>
+

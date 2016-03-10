@@ -22,58 +22,66 @@
      * @param {object} $scope
      * @param {service} RequestService
      */
-    function locationController($scope, RequestService, $rootScope) {
+    function locationController($scope, RequestService, session, notify) {
 
-        $scope.location = {};
+
         $scope.locations = [];
         $scope.fakeLocations = [];
 
         var idExist = false;
 
         var params = {
-            "cmp_cd": $rootScope.company
+            "cmp_cd": session.getUser().user.cmp_cd
         }
 
         // Request list for locations
         RequestService.postJsonRequest('location/getLocationsByCompanyId', params).then(function (data) {
+            if (data.result == undefined) {
+                // Translate locations array to new format so it can be displayed on the abn_tree_directive
+                $scope.locations = JSON.parse(JSON.stringify(data), function (k, v) {
 
-            // Translate locations array to new format so it can be displyed on the abn_tree_directive
-            $scope.locations = JSON.parse(JSON.stringify(data), function (k, v) {
+                    if (k === "loc_name")
+                        this.label = v;
+                    else if (k === "loc_description")
+                        this.description = v;
+                    else if (k === "locations") {
 
-                if (k === "loc_name")
-                    this.label = v;
-                else if (k === "loc_description")
-                    this.description = v;
-                else if (k === "locations") {
+                        this.children = v;
+                        this.onSelect = function (branch) {
+                            $scope.output = branch
+                        };
 
-                    this.children = v;
-                    this.onSelect = function (branch) {
-                        $scope.output = branch
-                    };
+                    } else {
 
-                } else {
+                        this.onSelect = function (branch) {
+                            $scope.output = branch
+                        };
 
-                    this.onSelect = function (branch) {
-                        $scope.output = branch
-                    };
-
-                    return v;
-                }
-                for (var i = 0; i < $scope.fakeLocations.length; i++) {
-
-                    if (this.loc_cd == $scope.fakeLocations[i].loc_cd) {
-                        idExist = true;
+                        return v;
                     }
+                    for (var i = 0; i < $scope.fakeLocations.length; i++) {
 
-                }
-                if (!idExist) {
+                        if (this.loc_cd == $scope.fakeLocations[i].loc_cd) {
+                            idExist = true;
+                        }
 
-                    $scope.fakeLocations.push(this);
+                    }
+                    if (!idExist) {
 
-                }
-                idExist = false;
+                        $scope.fakeLocations.push(this);
 
-            });
+                    }
+                    idExist = false;
+
+                });
+            } else {
+                notify({
+                    message: "You have 0 location!",
+                    classes: 'alert-info',
+                    position: 'center',
+                    duration: 2000
+                });
+            }
 
 
         });
@@ -114,6 +122,9 @@
                     },
                     location: function () {
                         return location;
+                    },
+                    fakeLocations: function () {
+                        return $scope.fakeLocations;
                     }
                 }
             });
@@ -128,7 +139,7 @@
      * @param {object} $scope
      * @param {object} $uibModalInstance
      */
-    function modalInstanceController($scope, $uibModalInstance, location, RequestService, $rootScope) {
+    function modalInstanceController($scope, $uibModalInstance, location, RequestService, $rootScope, session, notify) {
 
         $scope.fakeLocations = [];
 
@@ -151,7 +162,13 @@
                 var parent_cd;
 
                 if (angular.element('#location_label').val() == "" || angular.element('#location_description').val() == "") {
-                    alert('all information are required');
+
+                    notify({
+                        message: "all information are required!",
+                        classes: 'alert-warning',
+                        position: 'center',
+                        duration: 2000
+                    });
                 } else {
 
                     if (angular.element('#location_parent').val() == "0") {
@@ -165,19 +182,24 @@
                         "loc_name": angular.element('#location_label').val(),
                         "loc_description": angular.element('#location_description').val(),
                         "loc_parent": parent_cd,
-                        "cmp_cd": $rootScope.company
+                        "cmp_cd": session.getUser().user.cmp_cd
                     };
 
                     // Request to create new location from API
                     RequestService.postJsonRequest('location/createLocation', params).then(function (data) {
                         $scope.location = data;
                         var params = {
-                            "cmp_cd": $rootScope.company
+                            "cmp_cd": session.getUser().user.cmp_cd
                         };
 
                         // Request list of locations from API
                         RequestService.postJsonRequest('location/getLocationsByCompanyId', params).then(function (data) {
-
+                            notify({
+                                message: "Location created Successfully!",
+                                classes: 'alert-success',
+                                position: 'center',
+                                duration: 2000
+                            });
                             // parse result and rebuild it to fit abn_tree_directive
                             var parse = parseLocation(data);
 
@@ -190,15 +212,21 @@
                         });
 
                     });
-
+                    $uibModalInstance.close();
                 }
-            }
-            else {
+
+            } else {
 
                 var parent_cd;
                 // Check if values are not empty
                 if (angular.element('#location_label').val() == "" || angular.element('#location_description').val() == "") {
                     alert('all information are required');
+                    notify({
+                        message: "all information are required!",
+                        classes: 'alert-warning',
+                        position: 'center',
+                        duration: 2000
+                    });
                 } else {
 
                     // Check selected value of #location_parent element in DOM
@@ -214,7 +242,7 @@
                         "loc_description": angular.element('#location_description').val(),
                         "loc_parent": parent_cd,
                         "loc_cd": location.loc_cd,
-                        "cmp_cd": $rootScope.company
+                        "cmp_cd": session.getUser().user.cmp_cd
                     };
 
                     // Send Request for update
@@ -226,8 +254,13 @@
                         $scope.location = location;
 
                         //Select new response
-                        RequestService.postJsonRequest('location/getLocationsByCompanyId', {"cmp_cd": $rootScope.company}).then(function (res) {
-
+                        RequestService.postJsonRequest('location/getLocationsByCompanyId', {"cmp_cd": session.getUser().user.cmp_cd}).then(function (res) {
+                            notify({
+                                message: "location updated!",
+                                classes: 'alert-success',
+                                position: 'center',
+                                duration: 2000
+                            });
                             var parse = parseLocation(res);
 
                             $scope.locations = parse;
@@ -236,11 +269,11 @@
 
                         });
                     });
+                    $uibModalInstance.close();
                 }
             }
 
 
-            $uibModalInstance.close();
         };
 
         /**

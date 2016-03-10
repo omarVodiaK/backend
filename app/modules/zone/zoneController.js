@@ -20,22 +20,26 @@
      * @param {object} $scope
      * @param {service} ZoneService
      */
-    function zoneController($scope, RequestService, $rootScope) {
-
+    function zoneController($scope, RequestService, session, notify) {
+        $scope.zones = [];
 
         var params = {
-            "cmp_cd": $rootScope.company
+            "cmp_cd": session.getUser().user.cmp_cd
         }
 
         // Load zones into $scope
         RequestService.postJsonRequest('zone/findZoneByCompanyId', params).then(function (data) {
-            if (data.result == "this model doesn't exist") {
 
+            if (data.result == "this model doesn't exist") {
+                notify({
+                    message: "You have 0 zone!",
+                    classes: 'alert-info',
+                    position: 'center',
+                    duration: 2000
+                });
             } else {
                 $scope.zones = data;
             }
-
-
         })
 
 
@@ -63,14 +67,35 @@
                         }
                     }
                     if (index === -1) {
-                        alert("Something gone wrong");
+
+                        notify({
+                            message: "Something gone wrong!",
+                            classes: 'alert-danger',
+                            position: 'center',
+                            duration: 2000
+                        });
+
+                    } else {
+
+                        notify({
+                            message: "Deleted successfully!",
+                            classes: 'alert-success',
+                            position: 'center',
+                            duration: 2000
+                        });
+
                     }
 
                     $scope.zones.splice(index, 1);
 
                 } else {
 
-                    alert("Something gone wrong");
+                    notify({
+                        message: "Something gone wrong!",
+                        classes: 'alert-danger',
+                        position: 'center',
+                        duration: 2000
+                    });
 
                 }
 
@@ -97,7 +122,8 @@
          * @param {string} tpl template name
          */
         $scope.open = function (size, tpl, zone) {
-            var modalInstance = $uibModal.open({
+
+            var uibModalInstance = $uibModal.open({
                 animation: $scope.animationsEnabled,
                 templateUrl: tpl,
                 controller: 'ModalInstanceCtrl',
@@ -123,13 +149,12 @@
      * @param {object} $scope
      * @param {object} $modalInstance
      */
-    function modalInstanceController($scope, $uibModalInstance, zone, RequestService, zones) {
+    function modalInstanceController($scope, $uibModalInstance, zone, RequestService, zones, session, notify) {
 
         $scope.zones = zones;
         $scope.zone = zone;
 
         $scope.ok = function () {
-
 
             if (zone == undefined) {
 
@@ -143,12 +168,27 @@
                         "zone_range": angular.element('#zone_range').val(),
                         "zone_latitude": angular.element('#zone_latitude').val(),
                         "zone_longitude": angular.element('#zone_longitude').val(),
-                        "cmp_cd": $rootScope.company
+                        "cmp_cd": session.getUser().user.cmp_cd
                     }
 
                     RequestService.postJsonRequest('zone/createZone', params).then(function (data) {
+                        if (data.result == undefined) {
+                            notify({
+                                message: "Created Successfully!",
+                                classes: 'alert-success',
+                                position: 'center',
+                                duration: 2000
+                            });
+                            $scope.zones.push(data);
+                        } else {
+                            notify({
+                                message: "Something gone wrong!",
+                                classes: 'alert-danger',
+                                position: 'center',
+                                duration: 2000
+                            });
+                        }
 
-                        $scope.zones.push(data);
 
                     });
 
@@ -158,10 +198,28 @@
 
             } else {
 
+
                 var params = $scope.zone;
                 params.cmp_cd = params.company
 
                 RequestService.postJsonRequest('zone/updateZone', params).then(function (data) {
+
+                    if (data.result == undefined) {
+                        notify({
+                            message: "Updated Successfully!",
+                            classes: 'alert-success',
+                            position: 'center',
+                            duration: 2000
+                        });
+                    } else {
+                        notify({
+                            message: "Something gone wrong!",
+                            classes: 'alert-danger',
+                            position: 'center',
+                            duration: 2000
+                        });
+                    }
+
                 });
 
                 $uibModalInstance.close();

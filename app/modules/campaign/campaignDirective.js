@@ -21,38 +21,68 @@
                 },
                 restrict: 'E', // restrict to element
                 link: function (scope, element, attrs) {
-                    scope.$watch("campaign.owner.camp_state", function (newValue, oldValue) {
-                        console.log('old ' + oldValue)
-                        console.log('new ' + newValue)
-
-                        scope.campaign.owner.camp_state = newValue;
-
-
-                        if (scope.campaign.owner.camp_state == "inactive") {
-                            console.log('its inactive')
-
-                            var replacementElement = angular.element('<div><span class="glyphicon glyphicon-file" aria-hidden="true"></span> <span class="glyphicon-class">Inactive</span></div>')
+                    scope.$watch("campaign.trueOwner.camp_state", function (newValue, oldValue) {
+                        var replacementElement;
+                        if (scope.campaign.trueOwner.camp_state == "pending") {
+                            replacementElement = angular.element('<div><span class="glyphicon glyphicon-file" aria-hidden="true"></span> <span class="glyphicon-class  hidden-md hidden-xs">Inactive</span></div>')
                             element.html('');
                             element.append(replacementElement)
-
-
-                        } else if (scope.campaign.owner.camp_state == "active") {
-                            console.log('its active')
-
-                            var replacementElement = angular.element('<div><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <span class="glyphicon-class">Activated</span></div>')
+                        } else if (scope.campaign.trueOwner.camp_state == "accepted") {
+                            replacementElement = angular.element('<div><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <span class="glyphicon-class hidden-md hidden-xs">Activated</span></div>')
                             element.html('');
                             element.append(replacementElement)
-
                         } else {
-                            console.log('its expired')
-
-                            var replacementElement = angular.element('<div><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <span class="glyphicon-class">Expired</span></div>')
+                            replacementElement = angular.element('<div><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <span class="glyphicon-class">Expired</span></div>')
                             element.html('');
                             element.append(replacementElement)
-
-
                         }
+                    })
+
+
+                    scope.$watch("campaign.owner.camp_state", function (newValue, oldValue) {
+                        var replacementElement;
+
+                        if (scope.campaign.trueOwner.cmp_camp_owner == true) {
+                            scope.campaign.owner.camp_state = newValue;
+
+                            if (scope.campaign.owner.camp_state == "inactive") {
+
+                                replacementElement = angular.element('<div><span class="glyphicon glyphicon-file" aria-hidden="true"></span> <span class="glyphicon-class  hidden-md hidden-xs">Inactive</span></div>')
+                                element.html('');
+                                element.append(replacementElement)
+
+                            } else if (scope.campaign.owner.camp_state == "active") {
+
+                                replacementElement = angular.element('<div><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <span class="glyphicon-class hidden-md hidden-xs">Activated</span></div>')
+                                element.html('');
+                                element.append(replacementElement)
+
+                            } else if (scope.campaign.owner.camp_state == "expired") {
+
+                                replacementElement = angular.element('<div><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <span class="glyphicon-class">Expired</span></div>')
+                                element.html('');
+                                element.append(replacementElement)
+
+                            }
+                        } else {
+                            if (scope.campaign.trueOwner.camp_state == "pending") {
+                                replacementElement = angular.element('<div><span class="glyphicon glyphicon-file" aria-hidden="true"></span> <span class="glyphicon-class  hidden-md hidden-xs">Inactive</span></div>')
+                                element.html('');
+                                element.append(replacementElement)
+                            } else if (scope.campaign.trueOwner.camp_state == "accepted") {
+                                replacementElement = angular.element('<div><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <span class="glyphicon-class hidden-md hidden-xs">Activated</span></div>')
+                                element.html('');
+                                element.append(replacementElement)
+                            } else {
+                                replacementElement = angular.element('<div><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <span class="glyphicon-class">Expired</span></div>')
+                                element.html('');
+                                element.append(replacementElement)
+                            }
+                        }
+
                     }, true);
+
+
                 }
             }
         })
@@ -62,8 +92,9 @@
      * @directive sharedirective
      */
         .directive('sharedirective', function () {
+
             return {
-                template: '<section class="btn-click"><button class="btn btn-default" ng-click="myFn(associate, campaign)">{{value}}</button></section>',
+                template: '<section class="btn-click"><button class="btn btn-default" ng-click="publish(associate, campaign)">{{value}}</button></section>',
                 replace: true,
                 scope: {
                     campaign: '=campaign', // pass campaign model as attribute to directive
@@ -75,17 +106,33 @@
                     $scope.value = 'Publish';
                     $scope.campaignOwnerIdentifier = '';
 
-                    $scope.myFn = function (associate, campaign) {
+                    $scope.publish = function (associate, campaign) {
+
+                        var allowToPublish = false;
                         if ($scope.value == 'Publish') {
 
-                            RequestService.postJsonRequest('companyCampaign/createCampaignOwner', {
-                                cmp_cd: associate.cmp_cd,
-                                camp_cd: campaign.owner.camp_cd,
-                                camp_state: 'pending',
-                                cmp_camp_owner: false
-                            }).then(function (publishedCampaign) {
+                            if (campaign.beacons != undefined) {
+                                campaign.beacons.forEach(function (beacon) {
+                                    if (beacon.bcn_used == true) {
+                                        allowToPublish = true;
+                                    }
+                                });
 
-                            })
+                            }
+
+                            if (allowToPublish) {
+                                RequestService.postJsonRequest('companyCampaign/createCampaignOwner', {
+                                    cmp_cd: associate.cmp_cd,
+                                    camp_cd: campaign.owner.camp_cd,
+                                    camp_state: 'pending',
+                                    cmp_camp_owner: false
+                                }).then(function (publishedCampaign) {
+
+                                })
+                            } else {
+                                alert('Please configure atleast one beacon before sharing your campaign');
+                            }
+
 
                         } else if ($scope.value == 'Suppress(Pending)' || $scope.value == 'Suppress') {
 
@@ -134,6 +181,6 @@
                 }
 
             }
-        })
+        });
 
 })();

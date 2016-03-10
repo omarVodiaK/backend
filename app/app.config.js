@@ -11,12 +11,14 @@ angular
 
         });
     })
+    .constant("APPLICATION_NAME", "SANTA Dashboard")
     .constant("DEFAULT_BACKEND_CONFIG", {"HOST": "localhost", "PORT": "8283", "POSTFIX": "api", "API_KEY": ""})
     .constant("APP_VERSION", "1.0.0")
     .constant("PROJECT_NAME", "BACKEND CORE")
-    .run(function ($rootScope) {
-        $rootScope.company = 'cmp_1';
-        runs;
+    .constant("PROJECT_CODE", "unique_code")
+    .run(function ($rootScope, $location, PageValues, $state, session, APPLICATION_NAME) {
+
+        runs($rootScope, $location, PageValues, $state, session, APPLICATION_NAME);
     });
 
 function configs($httpProvider) {
@@ -44,13 +46,34 @@ function configs($httpProvider) {
     $httpProvider.interceptors.push(interceptor);
 }
 
-
-function runs($rootScope, PageValues) {
-    $rootScope.$on('$routeChangeStart', function () {
-
+function runs($rootScope, $location, PageValues, $state, session, APPLICATION_NAME) {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         PageValues.loading = true;
+
+        if (toState.title) {
+            $rootScope.pageTitle = APPLICATION_NAME + " > " + toState.title;
+        }
+        var isLogin = toState.name === "auth.login";
+        var authorizationRequired = toState.auth;
+
+        if (isLogin && (session.getUser() !== null && session.getUser() !== undefined)) {
+            event.preventDefault();
+            $state.go('dashboard.associate');
+
+        }
+
+        if (isLogin || (authorizationRequired !== undefined && !authorizationRequired)) {
+            return;
+        }
+        // if route requires auth and user is not logged in
+        if (session.getUser() === null || session.getUser() === undefined) {
+            // redirect back to login
+            event.preventDefault();
+            $state.go('auth.login');
+        }
+
     });
-    $rootScope.$on('$routeChangeSuccess', function () {
+    $rootScope.$on('$stateChangeSuccess', function () {
         PageValues.loading = false;
     });
 }

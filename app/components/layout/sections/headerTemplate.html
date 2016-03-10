@@ -1,146 +1,218 @@
-<a class="btn btn-inverse navbar-btn pull-left" ui-toggle="side-bar-toggled">
-    <span class="glyphicon glyphicon-indent-left header" aria-hidden="true"></span>
+<a href="#" class="custom-icon-sprites pull-left dashboard-logo hidden-xs">
+
 </a>
-<!-- Brand and toggle get grouped for better mobile display -->
-<div class="navbar-header navbar-center">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </button>
-
-    <a class="navbar-brand link link--kukuri" href="index.html"><span data-letters="Tractive">Tractive</span></a>
-
-</div>
-
-<p class="navbar-text hidden-xs hidden-sm">Beacon</p>
+<p class="navbar-text">SANTA Dashboard</p>
 
 <!-- Top Menu Items -->
-<ul class="nav navbar-right top-nav col-xs-push-6">
+<ul class="nav navbar-right top-nav">
 
-    <li uib-dropdown>
-        <a id="app-info" href="" data-toggle="dropdown" uib-dropdown-toggle>
-            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            <b class="caret"></b>
-        </a>
+    <li ng-controller="CampaignBadgeCtrl">
 
-        <ul class="dropdown-menu alert-dropdown">
-            <li>
-                <a href="">Alert Name <span class="label label-default">Alert Badge</span></a>
-            </li>
-            <li>
-                <a href="">Alert Name <span class="label label-primary">Alert Badge</span></a>
-            </li>
-            <li>
-                <a href="">Alert Name <span class="label label-success">Alert Badge</span></a>
-            </li>
-            <li>
-                <a href="">Alert Name <span class="label label-info">Alert Badge</span></a>
-            </li>
-            <li>
-                <a href="">Alert Name <span class="label label-warning">Alert Badge</span></a>
-            </li>
-            <li>
-                <a href="">Alert Name <span class="label label-danger">Alert Badge</span></a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a href="">View All</a>
-            </li>
-        </ul>
+        <div onclick="campaignBadge()" class="dropdown">
+
+            <div class="dropbtn custom-icon-sprites notification  badge">
+
+                <div class="shake badge badge-info outter-badge">{{publishRequestNumber}}</div>
+
+            </div>
+
+            <div id="campaignDropdown" class="dropdown-content">
+
+                <div class="error-notice" ng-repeat="notification in campaignNotification"
+                     ng-if="campaignNotification.length > 0">
+
+                    <div class="oaerror info">
+                        <a href="#/dashboard/campaign"> <strong>{{notification.owner.camp_name}}</strong><br>{{notification.owner.camp_description}}</a>
+                    </div>
+
+                </div>
+
+                <div class="error-notice" ng-if="campaignNotification.length == 0">
+                    <div class="oaerror warning">
+                        <strong>0 request found!</strong> - You have 0 campaign request
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
     </li>
-    <li uib-dropdown>
-        <a href="" data-toggle="dropdown" uib-dropdown-toggle>
-            <span class="glyphicon glyphicon-th-large header" aria-hidden="true"></span>
-            <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu alert-dropdown ui popup">
-            <li>
-                <a href="">Signage <a class="btn btn-primary">GO</a></a>
-            </li>
-            <li>
-                <a href="">Beacon <a class="btn btn-primary">GO</a></a>
-            </li>
-        </ul>
+
+    <li ng-controller="BadgeCtrl">
+
+        <div onclick="associateBadge()" class="dropdown">
+            <div class="dropbtn custom-icon-sprites share-requests badge">
+                <div class="shake badge badge-info outter-badge">{{requestNumber}}</div>
+            </div>
+
+        </div>
+
+        <div id="associateDropdown" class="dropdown-content">
+
+            <div class="error-notice" ng-repeat="notification in associateNotification"
+                 ng-if="associateNotification.length > 0">
+
+                <div class="oaerror info">
+                    <a href="#/dashboard/associate"> <strong>{{notification.asc_cmp_sender_id.cmp_name}}</strong> -
+                        {{notification.asc_cmp_sender_id.cmp_email}}</a>
+                </div>
+
+            </div>
+
+            <div class="error-notice" ng-if="associateNotification.length == 0">
+                <div class="oaerror warning">
+                    <strong>0 request found!</strong> - You have 0 associate request
+                </div>
+            </div>
+
+
+        </div>
+
     </li>
-    <li uib-dropdown>
-        <a href="" data-toggle="dropdown" uib-dropdown-toggle>
-            <span class="glyphicon glyphicon-user header" aria-hidden="true"></span>
-            John Smith
-            <b class="caret"></b>
+
+    <li dropdown class="hidden-xs hidden-md">
+
+        <a href="" data-toggle="dropdown" dropdown-toggle class="navbar-user">
+            {{userName}} {{lastName}}
+            <b class="custom-icon-sprites custom-caret"></b>
         </a>
 
         <ul class="dropdown-menu">
+
             <li>
                 <a href=""><span class="glyphicon glyphicon-user"></span> Profile</a>
             </li>
+
             <li>
                 <a href=""><span class="glyphicon glyphicon-cog"></span> Settings</a>
             </li>
+
             <li class="divider"></li>
+
             <li>
                 <a href=""><span class="glyphicon glyphicon-off"></span> Log Out</a>
             </li>
+
         </ul>
+
+    </li>
+
+    <li>
+        <a href="#" class="custom-icon-sprites logout" ng-click="logout()"></a>
     </li>
 
 </ul>
 
 
-<style>
-    .link {
-        outline: none;
-        text-decoration: none;
+<style type="text/css">
+
+    .outter-badge {
         position: relative;
-        font-size: 2em;
-        line-height: 1;
-        color: #9e9ba4;
+        margin-top: 10px;
+        margin-right: -35px;
+    }
+
+    .dropbtn {
+        background-color: transparent;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .dropdown {
+        position: relative;
         display: inline-block;
     }
 
-    .link--kukuri {
-        text-transform: uppercase;
-        font-weight: 900;
-        overflow: hidden;
-        line-height: 0.75;
-        color: #b2b0a9;
-    }
-
-    .link--kukuri:hover {
-        color: #b2b0a9;
-    }
-
-    .link--kukuri::after {
-        content: '';
+    .dropdown-content {
+        border-radius: 10px;
+        width: 300px;
+        padding: 10px 10px 10px 10px;
+        display: none;
         position: absolute;
-        height: 16px;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        overflow: auto;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown a:hover {
+        background-color: #f1f1f1
+    }
+
+    .show {
+        display: block;
+    }
+
+    .oaerror {
         width: 100%;
-        top: 50%;
-        margin-top: -8px;
-        right: 0;
-        background: #F9F9F9;
-        transform: translate3d(-100%, 0, 0);
-        transition: transform 0.4s;
-        transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+        margin-bottom: 5px;
+        background-color: #FFFFFF; /* Default background */
+        border: 1px solid #eee;
+        border-left-width: 5px;
+        border-radius: 3px;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 12px;
     }
 
-    .link--kukuri:hover::after {
-        transform: translate3d(100%, 0, 0);
+    .warning {
+        border-left-color: #f0ad4e;
+        background-color: rgba(240, 173, 78, 0.1);
     }
 
-    .link--kukuri::before {
-        content: attr(data-letters);
-        position: absolute;
-        z-index: 2;
-        overflow: hidden;
-        color: #424242;
-        white-space: nowrap;
-        width: 0%;
-        transition: width 0.4s 0.3s;
+    .warning strong {
+        color: #f0ad4e;
     }
 
-    .link--kukuri:hover::before {
-        width: 100%;
+    .info {
+        border-left-color: #5bc0de;
+        background-color: rgba(91, 192, 222, 0.1);
     }
+
+    .info strong {
+        color: #5bc0de;
+    }
+
 </style>
+
+<script>
+
+    /* When the user clicks on the button,
+     toggle between hiding and showing the dropdown content */
+
+    function campaignBadge() {
+
+        document.getElementById("campaignDropdown").classList.toggle("show");
+
+    }
+
+    function associateBadge() {
+
+        document.getElementById("associateDropdown").classList.toggle("show");
+
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+
+</script>

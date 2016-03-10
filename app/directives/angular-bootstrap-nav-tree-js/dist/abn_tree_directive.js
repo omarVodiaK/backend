@@ -167,7 +167,9 @@
                                         };
 
                                         RequestService.postJsonRequest('location/deleteLocation', params).then(function (data) {
-                                            //console.log(data)
+                                            if (data.result == 'deleted successfully') {
+                                                alert('deleted successfully');
+                                            }
                                         })
                                         obj.splice(x, 1);
                                     }

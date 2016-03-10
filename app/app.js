@@ -3,8 +3,12 @@
 angular
     .module('app',
     [
+        'vcRecaptcha',
+        'ngMessages',
         'ui.router',
         'ngRoute',
+        'angular-loading-bar',
+        'cgNotify',
         'ngAnimate',
         'ngSanitize',
         'angularMoment',
@@ -14,7 +18,7 @@ angular
         'oi.select', // multi select dropdown
         'hSweetAlert',
         'ngWizard',
-        'ngDroplet',
+        'ngDroplet', // File upload
         'me-lazyload',
         'pascalprecht.translate',
         'angularBootstrapNavTree',

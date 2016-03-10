@@ -2,21 +2,30 @@ angular
     .module('app.core')
     .directive('ngPlaceholder', ngPlaceholder);
 
-function ngPlaceholder($interpolate, $parse) {
+function ngPlaceholder() {
     var linkFunction = function (scope, element, attributes, ngModel) {
         //Create a copy of the original data that�s passed in
         function init() {
             var formGroup = element.parent();
-            if (element.is("select")) {
+            if (attributes.ngPlaceholder.split("{}").length > 0 && element.is("select")) {
                 var html = '<label for="' + attributes.name + '">' + attributes.ngPlaceholder.split("{}")[0] + '</label>';
                 formGroup.prepend(html);
                 return;
             }
             /*var html = '<div class="">' + attributes.ngPlaceholder.split("{}")[1] + '</div>';
              element.parent().prepend(html);*/
-            var html = '<label for="' + attributes.name + '">' + attributes.ngPlaceholder.split("{}")[0] + '</label>';
-            formGroup.prepend(html);
+            if (attributes.ngPlaceholder.split("{}").length > 0) {
+                var html = '<label for="' + attributes.name + '">' + attributes.ngPlaceholder.split("{}")[0] + '</label>';
+                formGroup.prepend(html);
+            }
             formGroup.addClass("is-empty");
+
+            scope.$watch(function () {
+                return ngModel.$modelValue;
+            }, function (newValue) {
+                if (newValue)
+                    formGroup.removeClass("is-empty");
+            });
 
             // Focus: Show label
             element.focus(function (event) {
@@ -39,21 +48,6 @@ function ngPlaceholder($interpolate, $parse) {
                 if (ngModel.$viewValue)
                     formGroup.removeClass("is-empty");
             });
-
-            if (attributes.compareTo !== undefined) {
-                /*var pwdToMatch = $parse(attributes.compareTo);
-                 var pwdFn = $interpolate(attributes.compareTo)(scope);
-                 console.log(pwdFn);
-                 scope.$watch(pwdFn, function(newVal) {
-                 ngModel.$setValidity('comparison', ngModel.$viewValue == newVal);
-                 })
-
-                 ngModel.$validators.comparison = function(modelValue, viewValue) {
-                 var value = modelValue || viewValue;
-                 return value == pwdToMatch(scope);
-                 };*/
-
-            }
         }
 
         function transform(formGroup, ngModel) {

@@ -1,25 +1,24 @@
+<div class="swap-app">
+    <a href="" class="custom-icon-sprites left-arrow pull-left"></a>
+    <a href="" class="custom-icon-sprites current-app pull-left"></a>
+    <a href="" class="custom-icon-sprites right-arrow pull-left"></a>
+</div>
 <ul class="nav navbar-nav side-nav cl-effect-15">
 
-    <li ng-controller="BadgeCtrl">
+    <li>
 
         <a href="#/dashboard/associate">
             <b class="badge bg-info pull-right"></b>
             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                    <span class="hide-toggled">
-                        {{'ASSOCIATE_MENU' | translate}}
-                    </span>
-            <span class="shake badge badge-info">{{requestNumber}}</span>
+            <span class="hide-toggled">{{'ASSOCIATE_MENU' | translate}}</span>
         </a>
     </li>
 
     <li>
-        <a href="#/dashboard/campaign" ng-controller="CampaignBadgeCtrl">
+        <a href="#/dashboard/campaign">
             <b class="badge bg-info pull-right"></b>
             <span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span>
-                    <span class="hide-toggled">
-                        {{'CAMPAIGN_MENU'| translate}}
-                        </span>
-            <span class="shake badge badge-info">{{publishRequestNumber}}</span>
+            <span class="hide-toggled">{{'CAMPAIGN_MENU'| translate}}</span>
         </a>
     </li>
 
@@ -27,9 +26,7 @@
         <a href="#/dashboard/location">
             <b class="badge bg-info pull-right"></b>
             <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
-                    <span class="hide-toggled">
-                        {{'LOCATION_MENU' | translate}}
-                    </span>
+            <span class="hide-toggled">{{'LOCATION_MENU' | translate}}</span>
         </a>
     </li>
 
@@ -37,9 +34,7 @@
         <a href="#/dashboard/zone">
             <b class="badge bg-info pull-right"></b>
             <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
-                    <span class="hide-toggled">
-                        {{'ZONE_MENU'| translate}}
-                        </span>
+            <span class="hide-toggled">{{'ZONE_MENU'| translate}}</span>
         </a>
     </li>
 
@@ -47,9 +42,7 @@
         <a href="#/dashboard/beacon">
             <b class="badge bg-info pull-right"></b>
             <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
-                    <span class="hide-toggled">
-                        {{'BEACON_MENU'| translate}}
-                        </span>
+            <span class="hide-toggled">{{'BEACON_MENU'| translate}}</span>
         </a>
     </li>
 
@@ -66,24 +59,11 @@
                     class="hide-toggled">{{'PRODUCT_MENU'| translate}}</span></a></li>
         </ul>
     </li>
-
-    <li>
-        <a href="#/dashboard/notification">
-            <b class="badge bg-info pull-right"></b>
-            <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-                    <span class="hide-toggled">
-                        {{'NOTIFICATION_MENU'| translate}}
-                        </span>
-        </a>
-    </li>
-
     <li>
         <a href="#/dashboard/analytic">
             <b class="badge bg-info pull-right"></b>
             <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-                    <span class="hide-toggled">
-                        {{'ANALYTIC_MENU'| translate}}
-                        </span>
+            <span class="hide-toggled">{{'ANALYTIC_MENU'| translate}}</span>
         </a>
     </li>
 

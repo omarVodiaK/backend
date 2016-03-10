@@ -24,15 +24,21 @@
      * @param {object} $scope
      * @param {service} ContentService
      */
-    function productController($scope, RequestService, $rootScope) {
+    function productController($scope, RequestService, session, notify) {
 
+        $scope.products = [];
         var params = {
-            'cmp_cd': $rootScope.company
+            'cmp_cd': session.getUser().user.cmp_cd
         };
 
         RequestService.postJsonRequest('product/findProductByCompanyId', params).then(function (result) {
             if (result.result == "this model doesn't exist") {
-
+                notify({
+                    message: "You have 0 product!",
+                    classes: 'alert-info',
+                    position: 'center',
+                    duration: 2000
+                });
             } else if (result.result == undefined) {
                 result.forEach(function (res) {
 
@@ -59,13 +65,12 @@
 
                 $scope.products = result;
 
+
                 console.log($scope.products)
             }
 
 
-
         });
-
 
         $scope.removeProductRow = function (id) {
             var identifier = {
@@ -83,12 +88,34 @@
                         }
                     }
                     if (index === -1) {
-                        alert("Something gone wrong");
+
+                        notify({
+                            message: "Something Gone Wrong!",
+                            classes: 'alert-warning',
+                            position: 'center',
+                            duration: 2000
+                        });
+
+                    } else {
+
+                        notify({
+                            message: "Deleted Successfully!",
+                            classes: 'alert-success',
+                            position: 'center',
+                            duration: 2000
+                        });
+
                     }
                     $scope.products.splice(index, 1);
                 } else {
 
-                    alert("Something gone wrong");
+                    notify({
+                        message: "Something Gone Wrong!",
+                        classes: 'alert-warning',
+                        position: 'center',
+                        duration: 2000
+                    });
+
 
                 }
             })
@@ -103,7 +130,7 @@
      * @param {object} $scope
      * @param {service} ContentService
      */
-    function productDetailController($scope, RequestService) {
+    function productDetailController($scope, RequestService, notify) {
 
         $scope.deleteSubProduct = function (product) {
 
@@ -111,11 +138,21 @@
                 $scope.product.sub_products.splice($scope.product.sub_products.indexOf(product), 1);
             } else {
                 RequestService.postJsonRequest('product/deleteSubProduct', {'sub_prd_cd': product.sub_prd_cd}).then(function (result) {
+
                     if (result.result == 'deleted successfully') {
+
+                        notify({
+                            message: "Deleted Successfully!",
+                            classes: 'alert-success',
+                            position: 'center',
+                            duration: 2000
+                        });
+
                         $scope.product.sub_products.splice($scope.product.sub_products.indexOf(product), 1);
 
                     }
-                })
+
+                });
             }
 
 
@@ -192,6 +229,12 @@
             } else {
                 RequestService.postJsonRequest('product/deleteProductDetails', {'prd_dtl_cd': product.prd_dtl_cd}).then(function (result) {
                     if (result.result == 'deleted successfully') {
+                        notify({
+                            message: "Deleted Successfully!",
+                            classes: 'alert-success',
+                            position: 'center',
+                            duration: 2000
+                        });
                         $scope.product.details.fineprint.splice($scope.product.details.fineprint.indexOf(product), 1);
                         RequestService.postJsonRequest('product/findProductById', {'prd_cd': product.prd_cd}).then(function (res) {
 
@@ -200,6 +243,7 @@
                                     $scope.products[i] = res;
                                 }
                             }
+
 
                         })
                     }
@@ -241,6 +285,14 @@
             } else {
                 RequestService.postJsonRequest('product/deleteProductDetails', {'prd_dtl_cd': product.prd_dtl_cd}).then(function (result) {
                     if (result.result == 'deleted successfully') {
+
+                        notify({
+                            message: "Deleted Successfully!",
+                            classes: 'alert-success',
+                            position: 'center',
+                            duration: 2000
+                        });
+
                         $scope.product.details.highlight.splice($scope.product.details.highlight.indexOf(product), 1);
                     }
                 });
@@ -253,6 +305,14 @@
 
             RequestService.postJsonRequest('product/deleteProductImage', {'prd_img_cd': image.prd_img_cd}).then(function (result) {
                 if (result.result == 'deleted successfully') {
+
+                    notify({
+                        message: "Deleted Successfully!",
+                        classes: 'alert-success',
+                        position: 'center',
+                        duration: 2000
+                    });
+
                     $scope.product.product_image.splice($scope.product.product_image.indexOf(image), 1);
                 }
             });
@@ -344,7 +404,7 @@
 
     }
 
-    function modalInstanceController($scope, $uibModalInstance, product, $rootScope, RequestService, products, $q) {
+    function modalInstanceController($scope, $uibModalInstance, product, $rootScope, RequestService, products, $q, session, notify) {
         $scope.products = products;
         $scope.product = product;
         $scope.selectedCategories = [];
@@ -374,8 +434,13 @@
                     angular.element('#product_measure_unit').val() == '' ||
                     angular.element('#product_description').val() == '' ||
                     angular.element('#product_category')[0].textContent == '') {
+                    notify({
+                        message: "Some information are required!",
+                        classes: 'alert-info',
+                        position: 'center',
+                        duration: 2000
+                    });
 
-                    alert('Some information are required');
 
                 } else {
 
@@ -390,7 +455,7 @@
                     });
 
                     var params = {
-                        'cmp_cd': $rootScope.company,
+                        'cmp_cd': session.getUser().user.cmp_cd,
                         'prd_title': angular.element('#product_title').val(),
                         'prd_description': angular.element('#product_description').val(),
                         'prd_original_price': angular.element('#product_original_price').val(),
@@ -401,125 +466,136 @@
 
                     RequestService.postJsonRequest('product/createProduct', params).then(function (prd) {
 
-                        RequestService.postJsonRequest('product/findProductById', {'prd_cd': prd.prd_cd}).then(function (product) {
+                        if (prd.result == undefined) {
+
+                            notify({
+                                message: "Product Created Successfully!",
+                                classes: 'alert-success',
+                                position: 'center',
+                                duration: 2000
+                            });
+
+                            RequestService.postJsonRequest('product/findProductById', {'prd_cd': prd.prd_cd}).then(function (product) {
 
 
-                            if (product.result == undefined) {
+                                if (product.result == undefined) {
 
-                                $scope.selectedCategories.forEach(function (category) {
-                                    promises.push(assignCategoryToProduct(category, product, RequestService, defer));
+                                    $scope.selectedCategories.forEach(function (category) {
+                                        promises.push(assignCategoryToProduct(category, product, RequestService, defer));
 
-                                });
+                                    });
 
-                                var fineprint_parent = $(".fineprint_parent");
-                                $(fineprint_parent).find("input").each(function () {
+                                    var fineprint_parent = $(".fineprint_parent");
+                                    $(fineprint_parent).find("input").each(function () {
 
-                                    promises.push(createFineprint(product, $(this).val(), RequestService, defer));
+                                        promises.push(createFineprint(product, $(this).val(), RequestService, defer));
 
-                                });
+                                    });
 
-                                var highlight_parent = $(".highlight_parent");
-                                $(highlight_parent).find("input").each(function () {
+                                    var highlight_parent = $(".highlight_parent");
+                                    $(highlight_parent).find("input").each(function () {
 
-                                    promises.push(createHighlight(product, $(this).val(), RequestService, defer));
+                                        promises.push(createHighlight(product, $(this).val(), RequestService, defer));
 
-                                });
+                                    });
 
-                                var sub_product_parent = $(".sub_product_parent");
-                                $(sub_product_parent).find("input").each(function () {
+                                    var sub_product_parent = $(".sub_product_parent");
+                                    $(sub_product_parent).find("input").each(function () {
 
-                                    switch (i) {
-                                        case 0:
+                                        switch (i) {
+                                            case 0:
 
-                                            description = $(this).val();
-                                            break;
-                                        case 1:
+                                                description = $(this).val();
+                                                break;
+                                            case 1:
 
-                                            discount = $(this).val();
-                                            break;
-                                        case 2:
+                                                discount = $(this).val();
+                                                break;
+                                            case 2:
 
-                                            quantity = $(this).val();
-                                            arraySubProducts.push({
-                                                'prd_description': description,
-                                                'prd_discount': discount,
-                                                'quantity': quantity
-                                            });
-                                            break;
+                                                quantity = $(this).val();
+                                                arraySubProducts.push({
+                                                    'prd_description': description,
+                                                    'prd_discount': discount,
+                                                    'quantity': quantity
+                                                });
+                                                break;
 
-                                    }
-                                    if (i == 2) {
-                                        i = 0;
-                                    } else {
-                                        i++;
-                                    }
+                                        }
+                                        if (i == 2) {
+                                            i = 0;
+                                        } else {
+                                            i++;
+                                        }
 
-                                });
-
-
-                                if (arraySubProducts.length > 0) {
-
-                                    if (product.sub_products.length > 0) {
-
-                                        product.sub_products.forEach(function (subProduct) {
-                                            if (subProduct.sub_prd_cd == undefined) {
-                                                promises.push(RequestService.postJsonRequest('product/createSubProduct', {
-                                                    'sub_prd_description': subProduct.sub_prd_description,
-                                                    'sub_prd_discount': subProduct.sub_prd_discount,
-                                                    'sub_prd_initial_qte': subProduct.sub_prd_initial_qte,
-                                                    prd_cd: product.prd_cd
-                                                }).then(function () {
-                                                    defer.resolve();
-                                                }))
-                                            }
-
-                                        });
-                                    } else {
-
-                                        arraySubProducts.forEach(function (sub) {
-                                            promises.push(RequestService.postJsonRequest('product/createSubProduct', {
-                                                'sub_prd_description': sub.prd_description,
-                                                'sub_prd_discount': sub.prd_discount,
-                                                'sub_prd_initial_qte': sub.quantity,
-                                                prd_cd: product.prd_cd
-                                            }).then(function (res) {
-
-                                                defer.resolve();
-                                            }));
-                                        });
-                                    }
-                                }
+                                    });
 
 
-                                $q.all(promises).then(function () {
-                                    RequestService.postJsonRequest('product/findProductById', {'prd_cd': product.prd_cd}).then(function (res) {
-                                        var highlights = [];
-                                        var fineprints = [];
+                                    if (arraySubProducts.length > 0) {
 
-                                        if (res.details.length > 0) {
-                                            res.details.forEach(function (detail) {
+                                        if (product.sub_products.length > 0) {
 
-                                                if (detail.prd_dtl_type == 'fineprint') {
-                                                    fineprints.push(detail)
-
-                                                } else if (detail.prd_dtl_type == 'highlight') {
-                                                    highlights.push(detail);
+                                            product.sub_products.forEach(function (subProduct) {
+                                                if (subProduct.sub_prd_cd == undefined) {
+                                                    promises.push(RequestService.postJsonRequest('product/createSubProduct', {
+                                                        'sub_prd_description': subProduct.sub_prd_description,
+                                                        'sub_prd_discount': subProduct.sub_prd_discount,
+                                                        'sub_prd_initial_qte': subProduct.sub_prd_initial_qte,
+                                                        prd_cd: product.prd_cd
+                                                    }).then(function () {
+                                                        defer.resolve();
+                                                    }))
                                                 }
 
                                             });
+                                        } else {
 
-                                            res.details.fineprint = fineprints;
-                                            res.details.highlight = highlights;
+                                            arraySubProducts.forEach(function (sub) {
+                                                promises.push(RequestService.postJsonRequest('product/createSubProduct', {
+                                                    'sub_prd_description': sub.prd_description,
+                                                    'sub_prd_discount': sub.prd_discount,
+                                                    'sub_prd_initial_qte': sub.quantity,
+                                                    prd_cd: product.prd_cd
+                                                }).then(function (res) {
 
+                                                    defer.resolve();
+                                                }));
+                                            });
                                         }
+                                    }
 
-                                        $scope.products.push(res);
 
+                                    $q.all(promises).then(function () {
+                                        RequestService.postJsonRequest('product/findProductById', {'prd_cd': product.prd_cd}).then(function (res) {
+                                            var highlights = [];
+                                            var fineprints = [];
+
+                                            if (res.details.length > 0) {
+                                                res.details.forEach(function (detail) {
+
+                                                    if (detail.prd_dtl_type == 'fineprint') {
+                                                        fineprints.push(detail)
+
+                                                    } else if (detail.prd_dtl_type == 'highlight') {
+                                                        highlights.push(detail);
+                                                    }
+
+                                                });
+
+                                                res.details.fineprint = fineprints;
+                                                res.details.highlight = highlights;
+
+                                            }
+
+                                            $scope.products.push(res);
+
+                                        });
                                     });
-                                });
 
-                            }
-                        })
+                                }
+                            })
+                        }
+
                     });
 
                     $uibModalInstance.close();
@@ -543,6 +619,13 @@
 
 
                     if (product[0].result == undefined) {
+
+                        notify({
+                            message: "Product Updated Successfully!",
+                            classes: 'alert-success',
+                            position: 'center',
+                            duration: 2000
+                        });
 
 
                         var textContent = angular.element('#product_category')[0].textContent.split("×");
@@ -689,7 +772,13 @@
 
 
                     } else {
-                        alert('error occurred');
+                        notify({
+                            message: "an Error occurred!",
+                            classes: 'alert-warning',
+                            position: 'center',
+                            duration: 2000
+                        });
+
                     }
                 });
 
@@ -754,11 +843,11 @@
      * @param {object} $scope
      * @param {object} CategoryService
      * */
-    function categoryController($scope, RequestService, $rootScope) {
+    function categoryController($scope, RequestService, $rootScope, session) {
 
 
         var params = {
-            'cmp_cd': $rootScope.company
+            'cmp_cd': session.getUser().user.cmp_cd
         };
 
         // retrieve all categories from api
@@ -887,17 +976,12 @@
         });
     }
 
-    function productGalleryController($scope, Lightbox, ProductService) {
+    function productGalleryController($scope) {
 
         $scope.currentPage = 1;
         $scope.itemsPerPage = 5;
         $scope.checkedItems = [];
         $scope.images = [];
-
-        ProductService.getProduct(function (data) {
-            $scope.products = data;
-            $scope.totalItems = $scope.images.length;
-        });
 
         $scope.getIndex = function (index, itemPerPage, currentPage) {
 
@@ -942,7 +1026,6 @@
             'prd_dtl_type': 'fineprint'
 
         }).then(function (result) {
-            console.log('here')
             defer.resolve();
 
         })

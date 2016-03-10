@@ -5,7 +5,7 @@
 
 
 <div ng-controller="ModalLocationCtrl">
-    <div class="container-fluid">
+    <div class="bs-component">
         <div class="row" style="margin-top:20px;">
             <div class="col-md-6">
             </div>
@@ -43,16 +43,21 @@
                                     <label class="control-label col-xs-2">Parent</label>
 
                                     <div class="col-xs-10" ng-controller="LocationCtrl">
-                                        <select id="location_parent" class="btn btn-default">
 
-                                            <option value="0">No Parent</option>
+                                        <select ng-model="location.loc_parent" id="location_parent"
+                                                class="btn btn-default">
+
+                                            <option value="">No Parent</option>
                                             <option ng-repeat="l in fakeLocations" value="{{l.loc_cd}}"
-                                                    ng-selected="{false: '', true: 'selected'} [l.loc_cd == location.loc_parent]">
+
+                                                    ng-selected="{false: '', true: 'selected'} [location.loc_parent == l.loc_cd]">
 
                                                 {{l.label}}
                                             </option>
 
                                         </select>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -76,20 +81,19 @@
         </div>
     </div>
 
-    <div class="bs-component" style="margin-top:20px;">
+    <div class="bs-component" style="margin-top:20px;" ng-if="locations.length >0">
 
         <div class="clearfix visible-sm"></div>
 
         <div class="row">
 
-            <div class="col-md-6" style="background:whitesmoke;">
+            <div class="col-md-6">
                 <!-- Tree View -->
                 <abn-tree tree-data="locations" tree-control="my_tree"></abn-tree>
 
             </div>
-            <div class="col-md-6" ng-if="output.label != undefined">
-
-
+            <div class="col-md-1"></div>
+            <div class="col-md-4" ng-if="output.label != undefined">
                 <div class="row stylish-panel">
                     <div class="col-md-12">
                         <div>
@@ -104,8 +108,20 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-1"></div>
 
         </div>
+    </div>
+
+    <div class="bs-component" style="margin-top:20px;" ng-if="locations.length == 0">
+
+        <div class="row">
+
+            <div class="alert alert-info" role="alert"><i class="glyphicon glyphicon-info-sign"></i> You have 0
+                location!
+            </div>
+        </div>
+
     </div>
 </div>
 <style>

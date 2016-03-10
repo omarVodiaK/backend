@@ -1,82 +1,87 @@
 .auth {
-    /*background: #D1D1D1 url('../images/mochaGrunge.png');*/
-}
-
-.auth .form-box {
-    /*background-color: #16A085;*/
-}
-
-.auth .row {
-    padding: 100px;
-}
-
-.auth .pull-left {
-    color: #ffffff;
-}
-
-.auth .box-shadow--4dp {
-    box-shadow: 20px 20px 24px 5px rgba(0, 0, 0, .14), 0 6px 30px 5px rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(0, 0, 0, .2);
-    background-color: #16A085;
-}
-
-.auth .authSubmit {
-    background-color: #198573;
+    height: 100%;
+    width: 100%;
+    background-image: url("../images/login-background.jpg");
+    display: table;
     color: white;
 }
 
 .auth form {
-    max-width: 330px;
-    padding: 15px;
-    margin: 0 auto;
+    margin-left: 50px;
 }
 
-.auth .form-signin .form-signin-heading, .form-signin .checkbox {
-    margin-bottom: 10px;
+.auth input, a, button, label {
+    font-family: play-regular;
+    color: white;
 }
 
-.auth .form-signin .checkbox {
-    font-weight: normal;
+.auth .logo-table {
+    display: table;
+    height: 50%;
 }
 
-.auth .form-signin .form-control {
-    position: relative;
-    font-size: 16px;
-    height: auto;
-    padding: 10px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+.auth .logo-cell {
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    display: table-cell;
+    text-align: right;
 }
 
-.auth .form-signin .form-control:focus {
-    z-index: 2;
+.auth .middle {
+    display: table-cell;
+    vertical-align: middle;
+    padding-top: 25px;
 }
 
-.auth .form-signin input[type="text"] {
-    margin-bottom: -1px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+.auth .sign-in {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c5302e+0,ef5350+100 */
+    background: #c5302e; /* Old browsers */
+    background: -moz-linear-gradient(top, #c5302e 0%, #ef5350 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #c5302e 0%, #ef5350 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #c5302e 0%, #ef5350 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c5302e', endColorstr='#ef5350', GradientType=0); /* IE6-9 */
+    width: 141px;
+    height: 57px;
+    border-width: 0 0 0 0;
+    font-size: 21px;
 }
 
-.auth .form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+.auth h1 {
+    color: #fff;
+    font-size: 60px;
 }
 
-.auth .login-title {
-    color: #555;
-    font-size: 18px;
-    font-weight: 400;
-    display: block;
+.auth h3 {
+    color: #fff;
+    font-size: 20px;
+    font-family: play-regular;
 }
 
-.auth .profile-img {
-    width: 94px;
-    height: 94px;
-    margin: 0 auto 10px;
-    display: block;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
+.auth .vertical-line-login {
+    border-right: 1px solid #FFFFFF;
+    height: 50%;
+}
+
+.vertical-line {
+    border-right: 1px solid #FFFFFF;
+}
+
+.auth .vertical-line-register {
+    border-right: 1px solid #fff;
+    height: 494px;
+}
+
+.auth .sign-up {
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.auth .password-recover {
+    color: #00b8d4;
+    font-size: 20px;
 }

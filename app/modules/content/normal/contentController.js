@@ -7,7 +7,7 @@
      */
 
     angular
-        .module('app.content', ['hSweetAlert', 'bootstrapLightbox'])
+        .module('app.content', [])
         .controller('ContentCtrl', contentController)
         .controller('ModalContentCtrl', modalController)
         .controller('ModalContentInstanceCtrl', modalInstanceController)
@@ -20,10 +20,10 @@
      * @param {object} $scope
      * @param {service} ContentService
      */
-    function contentController($scope, RequestService, $rootScope) {
+    function contentController($scope, RequestService, session, notify) {
         $scope.contents = [];
         var params = {
-            "cmp_cd": $rootScope.company
+            "cmp_cd": session.getUser().user.cmp_cd
         };
 
         $scope.contentTypes = [];
@@ -32,7 +32,12 @@
         RequestService.postJsonRequest('content/findContentByCompanyId', params).then(function (data) {
 
             if (data.result == "this model doesn't exist") {
-
+                notify({
+                    message: "You have 0 Content!",
+                    classes: 'alert-info',
+                    position: 'center',
+                    duration: 2000
+                });
             } else if (data.result == undefined) {
                 data.forEach(function (content) {
 
@@ -41,7 +46,6 @@
                     }
                 })
             }
-
 
 
         });
@@ -68,12 +72,31 @@
                         }
                     }
                     if (index === -1) {
-                        alert("Something gone wrong");
+                        notify({
+                            message: "Something gone wrong!",
+                            classes: 'alert-warning',
+                            position: 'center',
+                            duration: 2000
+                        });
+
+                    } else {
+                        notify({
+                            message: "Deleted Successfully!",
+                            classes: 'alert-success',
+                            position: 'center',
+                            duration: 2000
+                        });
                     }
                     $scope.contents.splice(index, 1);
+
                 } else {
 
-                    alert("Something gone wrong");
+                    notify({
+                        message: "Something gone wrong!",
+                        classes: 'alert-warning',
+                        position: 'center',
+                        duration: 2000
+                    });
 
                 }
 
@@ -126,10 +149,9 @@
      * @param {object} $scope
      * @param {object} $modalInstance
      */
-    function modalInstanceController($scope, $uibModalInstance, content, $rootScope, RequestService, contents) {
+    function modalInstanceController($scope, $uibModalInstance, content, $rootScope, RequestService, contents, session, notify) {
 
         $scope.content = content;
-
         $scope.contents = contents;
         var is_ds_content;
         var content_url;
@@ -141,8 +163,16 @@
         $scope.ok = function () {
 
             if (content == undefined) {
+
                 if (angular.element('#content_title').val() == '' || angular.element('#content_content').val() == '') {
-                    alert('some information are required');
+
+                    notify({
+                        message: "some information are required!",
+                        classes: 'alert-warning',
+                        position: 'center',
+                        duration: 2000
+                    });
+
                 } else {
 
                     if ($rootScope.checkedItems == undefined) {
@@ -167,11 +197,28 @@
                         'cnt_url': content_url,
                         'cnt_type': angular.element('#content_type').val(),
                         'is_ds_content': is_ds_content,
-                        'cmp_cd': $rootScope.company
+                        'cmp_cd': session.getUser().user.cmp_cd
                     };
 
                     RequestService.postJsonRequest('content/createContent', params).then(function (content) {
-                        $scope.contents.push(content);
+                        if (content.result != undefined) {
+                            notify({
+                                message: "Something gone wrong!",
+                                classes: 'alert-warning',
+                                position: 'center',
+                                duration: 2000
+                            });
+                        } else {
+
+                            notify({
+                                message: "Created Successfully!",
+                                classes: 'alert-success',
+                                position: 'center',
+                                duration: 2000
+                            });
+
+                            $scope.contents.push(content);
+                        }
                     });
 
                     $uibModalInstance.close();
@@ -206,17 +253,35 @@
                     'cnt_url': content_url,
                     'cnt_type': angular.element('#content_type').val(),
                     'is_ds_content': is_ds_content,
-                    'cmp_cd': $rootScope.company,
+                    'cmp_cd': session.getUser().user.cmp_cd,
                     'cnt_cd': $scope.content.cnt_cd
                 };
 
                 RequestService.postJsonRequest('content/updateContent', params).then(function (result) {
+                    if (result.result == undefined) {
+                        for (var i = 0; i < $scope.contents.length; i++) {
+                            if ($scope.contents[i].cnt_cd == result[0].cnt_cd) {
+                                $scope.contents[i] = result[0];
 
-                    for (var i = 0; i < $scope.contents.length; i++) {
-                        if ($scope.contents[i].cnt_cd == result[0].cnt_cd) {
-                            $scope.contents[i] = result[0];
+                            }
                         }
+
+                        notify({
+                            message: "Updated Successfully!",
+                            classes: 'alert-success',
+                            position: 'center',
+                            duration: 2000
+                        });
+
+                    } else {
+                        notify({
+                            message: "Something gone wrong!",
+                            classes: 'alert-warning',
+                            position: 'center',
+                            duration: 2000
+                        });
                     }
+
 
                 });
 
@@ -273,6 +338,9 @@
         }
 
         $scope.saveChecked = function (index, itemPerPage, currentPage) {
+            console.log(index)
+            console.log(itemPerPage)
+            console.log(currentPage)
             var paginationIndex;
 
 

@@ -19,22 +19,22 @@ function config($stateProvider, $urlRouterProvider, $locationProvider) {
         .state('auth.login', {
             url: '^/login',
             templateUrl: 'modules/user/loginTemplate.html',
-            controller: 'LoginController as login'
+            controller: 'LoginController as login',
+            params: {
+                message: null
+            },
+            auth: false
         })
         .state('auth.register', {
             url: '^/register',
             templateUrl: 'modules/user/registerTemplate.html',
-            controller: 'RegisterController as register'
+            controller: 'RegisterController as register',
+            auth: false
         })
         .state('dashboard', {
             abstract: true,
             url: '/dashboard',
             templateUrl: 'components/layout/layout.html'
-        })
-        .state('login', {
-            url: '/login',
-            templateUrl: 'modules/login/login.html',
-            controller: 'LoginCtrl'
         })
         .state('dashboard.associate', {
             url: '/associate',
@@ -81,6 +81,4 @@ function config($stateProvider, $urlRouterProvider, $locationProvider) {
             templateUrl: 'modules/notification/notification.html',
             controller: 'NotificationCtrl'
         });
-
-
 }

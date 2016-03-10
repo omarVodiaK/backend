@@ -1,92 +1,103 @@
-<div class="auth">
-    <div class="row">
-        <div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4 form-box">
-            <img class="profile-img box-shadow--4dp" id="loginImage" src="assets/images/Login.ico"
-                 alt="beacon" style="margin: -60px auto 0;">
+<div class="middle row">
+    <div class="col-md-5 logo-table">
+        <div class="logo-cell">
+            <h1>TRACTIVE</h1>
 
-            <form novalidate class="form-register" name='registerForm' ng-submit="submit()"
-                  ng-controller="RegisterController">
-                <div class="form-group">
-                    <input ng-placeholder="Name{}John" type="text" class="form-control" required name="firstName"
-                           autocomplete="off" autofocus ng-model="formData.firstName">
-
-                    <div ng-messages="registerForm.firstName.$error" ng-show="registerForm.firstName.$touched">
-                        <p ng-message="required" class="error-block">
-                            You forgot to enter your First Name...
-                        </p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input ng-placeholder="Last Name{}Smith" type="text" class="form-control" required name="lastName"
-                           ng-model="formData.lastName">
-
-                    <div ng-messages="registerForm.lastName.$error" ng-show="registerForm.lastName.$touched">
-                        <p ng-message="required" class="error-block">
-                            You forgot to enter your Last Name...
-                        </p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input ng-placeholder="Email{}john@smith.com" type="email" class="form-control" required
-                           name="userEmail" ng-model="formData.userEmail">
-
-                    <div ng-messages="registerForm.userEmail.$error" ng-show="registerForm.userEmail.$touched">
-                        <p ng-message="required" class="error-block">
-                            You forgot to enter your Email...
-                        </p>
-
-                        <p ng-message="email" class="error-block">
-                            This needs to be a valid email
-                        </p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input ng-placeholder="Password{}" type="password" class="form-control"
-                           required ng-model="formData.password">
-
-                    <div ng-messages="registerForm.password.$error" ng-show="registerForm.password.$touched">
-                        <p ng-message="required" class="error-block">
-                            You forgot to enter your Password...
-                        </p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input ng-placeholder="Confirm Password{}" type="password" class="form-control"
-                           compare-to="registerForm.password"
-                           required ng-model="formData.confirmPassword">
-
-                    <div ng-messages="registerForm.confirmPassword.$error"
-                         ng-show="registerForm.confirmPassword.$touched">
-                        <p ng-message="required" class="error-block">
-                            Don't You forget to Confirm your Password...?
-                        </p>
-
-                        <p ng-message="comparison" class="error-block">
-                            Hey, are you sure it is same...?
-                        </p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <select ng-placeholder="SomeSample{}" class="form-control">
-                        <option>Please Select</option>
-                        <option>lalalal</option>
-                        <option>asdfasdf</option>
-                        <option>zcvcvz</option>
-                        <option>qwe</option>
-                        <option>a</option>
-                    </select>
-                </div>
-                <button id="registerSubmit" class="btn btn-lg btn-block authSubmit"
-                        type="submit" disabled="registerForm.$invalid">
-                    Register
-                </button>
-                <div class="col-sm-12 col-md-12">
-                    <a class="pull-left" href="#/forgot">Forgot Password? </a>
-                    <br>
-                    <a class="pull-left" href="#/login">Login? </a>
-                </div>
-                <span class="clearfix"></span>
-            </form>
+            <h3>Dashboard</h3>
         </div>
+    </div>
+    <div class="col-md-1 vertical-line-register">
+    </div>
+    <div class="col-md-4">
+        <form novalidate class="form-register" name='registerForm' ng-submit="submit(registerForm.$valid)"
+              ng-controller="RegisterController">
+            <div class="form-group">
+                <input ng-placeholder="Name{}John" type="text" class="form-control" required name="firstName"
+                       autocomplete="off" autofocus ng-model="data.firstName">
+
+                <div ng-messages="registerForm.firstName.$error" ng-show="registerForm.firstName.$touched">
+                    <p ng-message="required" class="error-block">
+                        You forgot to enter your First Name...
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <input ng-placeholder="Last Name{}Smith" type="text" class="form-control" required name="lastName"
+                       ng-model="data.lastName">
+
+                <div ng-messages="registerForm.lastName.$error" ng-show="registerForm.lastName.$touched">
+                    <p ng-message="required" class="error-block">
+                        You forgot to enter your Last Name...
+                    </p>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <input ng-placeholder="Phone Number{}" type="text" class="form-control" required name="phone"
+                       ng-model="data.phone">
+
+                <div ng-messages="registerForm.phone.$error" ng-show="registerForm.phone.$touched">
+                    <p ng-message="required" class="error-block">
+                        You forgot to enter your Phone Number...
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <input ng-placeholder="Email address{}john@smith.com" type="email" class="form-control" required
+                       name="userEmail" ng-model="data.userEmail">
+
+                <div ng-messages="registerForm.userEmail.$error" ng-show="registerForm.userEmail.$touched">
+                    <p ng-message="required" class="error-block">
+                        You forgot to enter your Email...
+                    </p>
+
+                    <p ng-message="email" class="error-block">
+                        This needs to be a valid email
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <input ng-placeholder="Password{}" type="password" class="form-control" name="password"
+                       required ng-model="data.password">
+
+                <div ng-messages="registerForm.password.$error" ng-show="registerForm.password.$touched">
+                    <p ng-message="required" class="error-block">
+                        You forgot to enter your Password...
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <input ng-placeholder="Confirm Password{}" type="password" class="form-control"
+                       ng-compare="data.password" name="confirmPassword"
+                       required ng-model="data.confirmPassword">
+
+                <div ng-messages="registerForm.confirmPassword.$error" ng-show="registerForm.confirmPassword.$touched">
+                    <p ng-message="required" class="error-block">
+                        Don't You forget to Confirm your Password...?
+                    </p>
+
+                    <p ng-message="compare" class="error-block">
+                        Hey, are you sure it is the same...?
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox">
+                        I understand and agree with Tractive terms and conditions.
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="pull-right">
+                    <button id="loginSubmit" class="btn-block sign-in authSubmit"
+                            type="submit">
+                        Sign Up
+                    </button>
+                </div>
+            </div>
+            <span class="clearfix"></span>
+        </form>
     </div>
 </div>

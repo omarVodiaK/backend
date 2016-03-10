@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html data-ng-app="app">
 <head>
-    <title>Dashboard</title>
-    <!--<link rel="icon" type="image/png" href="assets/images/favicon.ico">-->
+    <title ng-bind="pageTitle">Dashboard</title>
+    <link rel="icon" type="image/png" href="assets/images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- build:css assets/css/styles.css -->
-
+    <link rel="stylesheet" href="assets/bower_components/angular-notify/dist/angular-notify.min.css"/>
     <link rel="stylesheet" href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet"
           href="assets/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
@@ -18,8 +18,12 @@
     <link rel="stylesheet"
           href="assets/bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.css">
     <link rel="stylesheet" href="directives/angular-bootstrap-nav-tree-js/dist/abn_tree.css">
-    <link rel="stylesheet" href="assets/bower_components/ng-wizard/dest/ngWizard.css">
+    <link rel="stylesheet" href="assets/bower_components/ng-wizard/dest/ngWizard.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/Default.css"/>
+    <link rel='stylesheet' href='assets/bower_components/angular-loading-bar/build/loading-bar.min.css' type='text/css'
+          media='all'/>
+
+
     <!--<link rel="stylesheet" href="assets/css/font-icons.css" type='text/css'>-->
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -37,7 +41,7 @@
     <!--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
     <!--[endif]-->
 </head>
-<body data-ng-app="app">
+<body>
 
 <div id="app" ui-view></div>
 
@@ -52,14 +56,21 @@
 <script src="assets/bower_components/bootstrap/dist/js/bootstrap.js"></script>
 <script src="assets/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 <script src="assets/bower_components/angular/angular.min.js"></script>
+<script src="assets/bower_components/angular-notify/dist/angular-notify.min.js"></script>
 
 <script src="assets/bower_components/angular-messages/angular-messages.js"></script>
+
+<!-- reCAPTCHA -->
+<script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit"></script>
+<script src="assets/bower_components/angular-recaptcha/release/angular-recaptcha.js"></script>
+<!-- endreCAPTCHA -->
 
 <script type="text/javascript" src="assets/bower_components/ng-droplet/dist/ng-droplet.js"></script>
 <script type="text/javascript" src="assets/js/me-lazyload.js"></script>
 
 <script src="assets/bower_components/ng-wizard/dest/ngWizard.js"></script>
 <script src="assets/bower_components/ng-file-upload/ng-file-upload-shim.min.js"></script>
+<script type='text/javascript' src='assets/bower_components/angular-loading-bar/build/loading-bar.min.js'></script>
 <!-- for no html5 browsers support -->
 <script src="assets/bower_components/ng-file-upload/ng-file-upload.min.js"></script>
 <script src="assets/bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
@@ -113,9 +124,9 @@
 <!-- / -->
 
 <!-- CONTROLLERS -->
-<script src="modules/user/userModule.js"></script>
+<script src="components/layout/sections/headerController.js"></script>
+<script src="modules/user/userController.js"></script>
 <script src="modules/associates/associateController.js"></script>
-<script src="modules/login/loginController.js"></script>
 <script src="modules/location/locationController.js"></script>
 <script src="modules/category/categoryController.js"></script>
 <script src="modules/zone/zoneController.js"></script>
@@ -124,19 +135,16 @@
 <script src="modules/content/product/productController.js"></script>
 <script src="modules/campaign/campaignController.js"></script>
 <script src="modules/notification/notificationController.js"></script>
-<script src="modules/user/loginController.js"></script>
-<script src="modules/user/registerController.js"></script>
 <!-- / -->
 
 <!-- SERVICES -->
-<script src="modules/login/loginService.js"></script>
+<script src="services/SessionService.js"></script>
 <script src="modules/associates/associateService.js"></script>
 <script src="modules/zone/zoneService.js"></script>
 <script src="modules/location/locationService.js"></script>
 <script src="modules/category/categoryService.js"></script>
 <script src="modules/beacon/beaconService.js"></script>
 <script src="modules/content/normal/contentService.js"></script>
-<script src="modules/content/product/productService.js"></script>
 <script src="modules/campaign/campaignService.js"></script>
 <script src="modules/notification/notificationService.js"></script>
 <script src="services/RequestFactory.js"></script>
@@ -149,6 +157,8 @@
 <script src="modules/campaign/campaignDirective.js"></script>
 <script src="modules/beacon/beaconDirective.js"></script>
 <script src="modules/zone/mapDirective.js"></script>
+<script src="directives/ngPlaceholderDirective.js"></script>
+<script src="directives/ngCompareDirective.js"></script>
 
 <!-- / -->
 <!-- FILTERS -->
@@ -207,7 +217,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background: #fff;
+
         }
     }
 

@@ -23,23 +23,29 @@
      * @description initialize beacons, zones, locations controller is called when the beacon page is loaded
      * @method beaconController
      * @param {object} $scope
-     * @param {object} $rootScope
+     * @param {object} session
      * @param {service} RequestService
      */
-    function beaconController($scope, RequestService, $rootScope) {
+    function beaconController($scope, RequestService, session, notify) {
         $scope.zones = [];
         $scope.locations = [];
         $scope.fakeLocations = [];
+        $scope.beacons = [];
         var idExist = false;
 
         var params = {
-            'cmp_cd': $rootScope.company
+            'cmp_cd': session.getUser().user.cmp_cd
         }
 
         RequestService.postJsonRequest('beacon/findBeaconByCompanyId', params).then(function (data) {
 
             if (data.result == "this model doesn't exist") {
-
+                notify({
+                    message: "You have 0 beacon!",
+                    classes: 'alert-info',
+                    position: 'center',
+                    duration: 2000
+                });
 
             } else {
                 $scope.beacons = data;
@@ -90,7 +96,6 @@
 
             });
 
-
         });
 
 
@@ -119,14 +124,35 @@
                     }
 
                     if (index === -1) {
-                        alert("Something gone wrong");
+
+                        notify({
+                            message: "Something gone wrong!",
+                            classes: 'alert-warning',
+                            position: 'center',
+                            duration: 2000
+                        });
+
+                    } else {
+
+                        notify({
+                            message: "deleted successfully!",
+                            classes: 'alert-success',
+                            position: 'center',
+                            duration: 2000
+                        });
+
                     }
 
                     $scope.beacons.splice(index, 1);
 
                 } else {
 
-                    alert("Something gone wrong");
+                    notify({
+                        message: "Something gone wrong!",
+                        classes: 'alert-warning',
+                        position: 'center',
+                        duration: 2000
+                    });
 
                 }
 
@@ -183,7 +209,7 @@
      * @param {object} beacons
      * @param {service} RequestService
      */
-    function modalInstanceController($scope, $uibModalInstance, beacon, beacons, RequestService) {
+    function modalInstanceController($scope, $uibModalInstance, beacon, beacons, RequestService, session, notify) {
 
         $scope.beacon = beacon;
         $scope.beacons = beacons;
@@ -198,7 +224,12 @@
             if (beacon == undefined) {
                 if (angular.element('#beacon_name').val() == "" || angular.element('#beacon_uuid').val() == "" || angular.element('#beacon_major').val() == "" || angular.element('#beacon_minor').val() == "" || angular.element('#beacon_general_info').val() == "") {
 
-                    alert('All information are required');
+                    notify({
+                        message: "All information are required",
+                        classes: 'alert-info',
+                        position: 'center',
+                        duration: 2000
+                    });
 
                 } else {
                     var params = {
@@ -208,14 +239,20 @@
                         "bcn_minor": angular.element('#beacon_minor').val(),
                         "zone_cd": angular.element('#beacon_zone').val(),
                         "bcn_shared": false,
-                        "loc_cd": "loc_7",
+                        "loc_cd": angular.element('#beacon_location').val(),
                         "bcn_general_info": angular.element('#beacon_general_info').val(),
-                        "cmp_cd": $rootScope.company
+                        "cmp_cd": session.getUser().user.cmp_cd
                     }
 
                     RequestService.postJsonRequest('beacon/createBeacon', params).then(function (data) {
 
                         if (data[0].bcn_name == angular.element('#beacon_name').val()) {
+                            notify({
+                                message: "Created Successfully!",
+                                classes: 'alert-info',
+                                position: 'center',
+                                duration: 2000
+                            });
                             $scope.beacons.push(data[0]);
                             $uibModalInstance.close();
                         }
@@ -226,16 +263,30 @@
                 }
             } else {
 
-                var params = $scope.beacon;
-                params.cmp_cd = params.company;
-                params.loc_cd = params.location.loc_cd;
-                params.zone_cd = params.zone.zone_cd;
 
+                var params = {
+                    "bcn_name": $scope.beacon.bcn_name,
+                    "bcn_uuid": $scope.beacon.bcn_uuid,
+                    "bcn_major": $scope.beacon.bcn_major,
+                    "bcn_minor": $scope.beacon.bcn_minor,
+                    "zone_cd": angular.element('#beacon_zone').val(),
+                    "bcn_shared": $scope.beacon.bcn_shared,
+                    "loc_cd": angular.element('#beacon_location').val(),
+                    "bcn_general_info": $scope.beacon.bcn_general_info,
+                    "bcn_cd": $scope.beacon.bcn_cd,
+                    "cmp_cd": session.getUser().user.cmp_cd
+                }
 
                 RequestService.postJsonRequest('beacon/updateBeacon', params).then(function (data) {
 
                     for (var i = 0; i < $scope.beacons.length; i++) {
                         if (data.bcn_cd == $scope.beacons[i].bcn_cd) {
+                            notify({
+                                message: "Updated Successfully!",
+                                classes: 'alert-info',
+                                position: 'center',
+                                duration: 2000
+                            });
                             $scope.beacons[i] = data;
                         }
                     }
