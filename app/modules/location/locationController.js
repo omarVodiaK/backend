@@ -21,9 +21,10 @@
      * @method locationController
      * @param {object} $scope
      * @param {service} RequestService
+     * @param {object} session
+     * @param {object} notify
      */
     function locationController($scope, RequestService, session, notify) {
-
 
         $scope.locations = [];
         $scope.fakeLocations = [];
@@ -32,9 +33,9 @@
 
         var params = {
             "cmp_cd": session.getUser().user.cmp_cd
-        }
+        };
 
-        // Request list for locations
+        // Request list of locations
         RequestService.postJsonRequest('location/getLocationsByCompanyId', params).then(function (data) {
             if (data.result == undefined) {
                 // Translate locations array to new format so it can be displayed on the abn_tree_directive
@@ -66,11 +67,11 @@
                         }
 
                     }
+
                     if (!idExist) {
-
                         $scope.fakeLocations.push(this);
-
                     }
+
                     idExist = false;
 
                 });
@@ -82,19 +83,14 @@
                     duration: 2000
                 });
             }
-
-
         });
-
-
     }
 
     /**
-     * modal controller
+     * @description modal controller
      * @method modalController
      * @param {object} $scope
      * @param {object} $uibModal
-     * @param {service} ZoneService
      */
     function modalController($scope, $uibModal) {
 
@@ -102,10 +98,9 @@
         $scope.animationsEnabled = true;
 
         /**
-         * open modal
+         * @description open modal
          * @method open
-         * @param {string} size size of modal, leave empty for default size
-         * @param {string} tpl name of the template
+         * @param {object} location
          */
         $scope.open = function (location) {
 
@@ -138,6 +133,11 @@
      * @method modalInstanceController
      * @param {object} $scope
      * @param {object} $uibModalInstance
+     * @param {object} location
+     * @param {session} RequestService
+     * @param {object} $rootScope
+     * @param {object} session
+     * @param {object} notify
      */
     function modalInstanceController($scope, $uibModalInstance, location, RequestService, $rootScope, session, notify) {
 
@@ -148,7 +148,6 @@
         if (location != 'lg') {
             $scope.location = location;
         }
-
 
         /**
          * press ok in modal
@@ -263,6 +262,7 @@
                             });
                             var parse = parseLocation(res);
 
+
                             $scope.locations = parse;
                             //post load and broadcast it to directive
                             $rootScope.$broadcast("location_updated", {locations: $scope.locations});
@@ -320,12 +320,9 @@
                 idExist = false;
 
             });
-
             return parse;
         }
-
     }
-
 
 })();
 

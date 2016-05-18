@@ -208,12 +208,13 @@
      * @param {object} beacon
      * @param {object} beacons
      * @param {service} RequestService
+     * @param {object} session
+     * @param {object} notify
      */
     function modalInstanceController($scope, $uibModalInstance, beacon, beacons, RequestService, session, notify) {
 
         $scope.beacon = beacon;
         $scope.beacons = beacons;
-
 
         /**
          * press ok in modal
@@ -232,6 +233,7 @@
                     });
 
                 } else {
+
                     var params = {
                         "bcn_name": angular.element('#beacon_name').val(),
                         "bcn_uuid": angular.element('#beacon_uuid').val(),
@@ -242,7 +244,7 @@
                         "loc_cd": angular.element('#beacon_location').val(),
                         "bcn_general_info": angular.element('#beacon_general_info').val(),
                         "cmp_cd": session.getUser().user.cmp_cd
-                    }
+                    };
 
                     RequestService.postJsonRequest('beacon/createBeacon', params).then(function (data) {
 
@@ -256,11 +258,9 @@
                             $scope.beacons.push(data[0]);
                             $uibModalInstance.close();
                         }
-
                     });
-
-
                 }
+
             } else {
 
 
@@ -275,7 +275,7 @@
                     "bcn_general_info": $scope.beacon.bcn_general_info,
                     "bcn_cd": $scope.beacon.bcn_cd,
                     "cmp_cd": session.getUser().user.cmp_cd
-                }
+                };
 
                 RequestService.postJsonRequest('beacon/updateBeacon', params).then(function (data) {
 
@@ -292,14 +292,9 @@
                     }
 
                     $uibModalInstance.close();
-
-
                 });
-
             }
-
         };
-
 
         /**
          * cancel modal
@@ -322,7 +317,6 @@
     function alertController($scope, sweet, RequestService) {
 
         $scope.confirmCancel = function (state, id) {
-
 
             if (state == false) {
                 sweet.show({

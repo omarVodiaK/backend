@@ -12,24 +12,22 @@
         .controller('ModalContentCtrl', modalController)
         .controller('ModalContentInstanceCtrl', modalInstanceController)
         .controller('GalleryCtrl', galleryController)
-        .controller('ContentAlertCtrl', alertController)
+        .controller('ContentAlertCtrl', alertController);
 
     /**
      *
      * @method contentController
      * @param {object} $scope
-     * @param {service} ContentService
+     * @param {service} RequestService
+     * @param {object} session
+     * @param {object} notify
      */
     function contentController($scope, RequestService, session, notify) {
-        $scope.contents = [];
-        var params = {
-            "cmp_cd": session.getUser().user.cmp_cd
-        };
 
+        $scope.contents = [];
         $scope.contentTypes = [];
 
-
-        RequestService.postJsonRequest('content/findContentByCompanyId', params).then(function (data) {
+        RequestService.postJsonRequest('content/findContentByCompanyId', {"cmp_cd": session.getUser().user.cmp_cd}).then(function (data) {
 
             if (data.result == "this model doesn't exist") {
                 notify({
@@ -39,14 +37,14 @@
                     duration: 2000
                 });
             } else if (data.result == undefined) {
+
                 data.forEach(function (content) {
 
                     if (content.cnt_type.lkp_value != 'voucher') {
                         $scope.contents.push(content);
                     }
-                })
+                });
             }
-
 
         });
 
@@ -54,6 +52,18 @@
             $scope.contentTypes = data;
         });
 
+        $scope.youtubeThumb = function (url) {
+            var video, results;
+
+            if (url === null) {
+                return '';
+            }
+
+            results = url.match('[\\?&]v=([^&#]*)');
+            video = (results === null) ? url : results[1];
+
+            return 'http://img.youtube.com/vi/' + video + '/0.jpg';
+        };
 
         $scope.removeContentRow = function (id) {
 
@@ -112,7 +122,6 @@
      * @method modalController
      * @param {object} $scope
      * @param {object} $uibModal
-     * @param {service} ZoneService
      */
     function modalController($scope, $uibModal) {
 
@@ -123,6 +132,7 @@
          * @method open
          * @param {string} size size of modal, leave empty for default size
          * @param {string} tpl name of the template
+         * @param {object} content
          */
         $scope.open = function (size, tpl, content) {
             var uibModalInstance = $uibModal.open({
@@ -145,9 +155,16 @@
     }
 
     /**
+     * @description create/update content
      * @method modalInstanceController
      * @param {object} $scope
-     * @param {object} $modalInstance
+     * @param $uibModalInstance
+     * @param content
+     * @param $rootScope
+     * @param RequestService
+     * @param contents
+     * @param session
+     * @param notify
      */
     function modalInstanceController($scope, $uibModalInstance, content, $rootScope, RequestService, contents, session, notify) {
 
@@ -259,11 +276,13 @@
 
                 RequestService.postJsonRequest('content/updateContent', params).then(function (result) {
                     if (result.result == undefined) {
+
                         for (var i = 0; i < $scope.contents.length; i++) {
+
                             if ($scope.contents[i].cnt_cd == result[0].cnt_cd) {
                                 $scope.contents[i] = result[0];
-
                             }
+
                         }
 
                         notify({
@@ -274,6 +293,7 @@
                         });
 
                     } else {
+
                         notify({
                             message: "Something gone wrong!",
                             classes: 'alert-warning',
@@ -282,17 +302,14 @@
                         });
                     }
 
-
                 });
 
                 $uibModalInstance.close();
             }
-
-
         };
 
         /**
-         * cancel modal
+         * @description dismiss modal
          * @method cancel
          */
         $scope.cancel = function () {
@@ -300,6 +317,14 @@
         };
     }
 
+    /**
+     * @description get Digital Signage content, get items index, open lightboxModal event
+     * @method galleryController
+     * @param {object} $scope
+     * @param {object} Lightbox
+     * @param {service} ContentService
+     * @param {object} $rootScope
+     */
     function galleryController($scope, Lightbox, ContentService, $rootScope) {
 
         $scope.currentPage = 1;
@@ -308,16 +333,16 @@
         $scope.images = [];
         $scope.checkedValue = -1;
 
+        // TODO integrate with digital signage
         ContentService.getDSContent(function (data) {
             $scope.images = data;
             $scope.totalItems = $scope.images.length;
             $rootScope.images = $scope.images;
-
         });
 
         $scope.getIndex = function (index, itemPerPage, currentPage) {
 
-            var match = false
+            var match = false;
             if (currentPage == 1) {
                 var paginationIndex = index;
 
@@ -335,12 +360,10 @@
                 }
             }
             return match;
-        }
+        };
 
         $scope.saveChecked = function (index, itemPerPage, currentPage) {
-            console.log(index)
-            console.log(itemPerPage)
-            console.log(currentPage)
+
             var paginationIndex;
 
 
@@ -376,6 +399,7 @@
 
             } else {
                 if (currentPage == 1) {
+
                     paginationIndex = index;
                     $scope.checkedValue = paginationIndex;
                     $scope.checkedItems = paginationIndex;
@@ -387,12 +411,11 @@
                     $scope.checkedItems = paginationIndex;
 
                 }
-
             }
 
 
             $rootScope.checkedItems = $scope.checkedValue;
-        }
+        };
 
         $scope.openLightboxModal = function (index, itemPerPage, currentPage) {
 
@@ -409,7 +432,7 @@
     }
 
     /**
-     * Description
+     * Description display confirmation message for save and cancel actions
      * @method modalInstanceController
      * @param {object} $scope
      * @param {object} sweet
@@ -434,7 +457,6 @@
                     sweet.show('Cancelled', '', 'error');
                 }
             });
-
         };
     }
 

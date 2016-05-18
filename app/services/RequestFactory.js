@@ -25,6 +25,7 @@ function dataService($http, DEFAULT_BACKEND_CONFIG, $log, session, $state) {
             'Content-Type': 'application/json'
         };
         if (url != "auth/login" && url != "auth/register" && session.getUser() !== null && session.getUser() !== undefined) {
+
             header["x-access-token"] = session.getAccessToken();
         }
         return $http({
@@ -34,7 +35,6 @@ function dataService($http, DEFAULT_BACKEND_CONFIG, $log, session, $state) {
             'headers': header,
             'cache': true
         }).then(function (response) {
-
             if (response.data.success === false) {
                 session.destroy();
                 $state.go("auth.login");

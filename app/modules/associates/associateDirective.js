@@ -66,6 +66,7 @@
             }
         };
     }
+
     /**
      * auto complete for the users email emails
      * @method autoCompleteDirective

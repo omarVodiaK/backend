@@ -5,10 +5,22 @@
         .controller('LoginController', loginController)
         .controller('RegisterController', registerController);
 
+
+    /**
+     * @description
+     * @method loginController
+     * @param {object} $scope
+     * @param {array} PageValues
+     * @param {service} RequestService
+     * @param {object} session
+     * @param {object} $state
+     * @param {object} $stateParams
+     */
     function loginController($scope, PageValues, RequestService, session, $state, $stateParams) {
         //Set page title and description
         PageValues.title = "Login";
         PageValues.description = "";
+
         //Setup view model object
         var vm = this;
         vm.title = "Login";
@@ -21,21 +33,31 @@
         }
 
         $scope.submit = function () {
+            console.log($scope.formData.email + "   " + $scope.formData.password + "   " + $scope.formData.captcha)
             RequestService.postJsonRequest("auth/login", {
                 "email": $scope.formData.email,
                 "password": $scope.formData.password,
                 "g-recaptcha-response": $scope.formData.captcha
-            }).then(function (result) {   // TODO add undefined condition
-                if (result.success !== true) {
-                    var combinedMessage = "";
-                    $.each(result.messages, function (key, value) {
-                        combinedMessage += value;
-                    });
-                    alert(combinedMessage);
-                } else if (result.success === true) {
-                    session.setUser(result.result);
-                    $state.go('dashboard.associate');
+            }).then(function (result) {
+                // TODO add undefined condition
+
+                console.log(result);
+                if (result === undefined) {
+                    alert('Wrong password?');
+
+                } else {
+                    if (result.success !== true) {
+                        var combinedMessage = "";
+                        $.each(result.messages, function (key, value) {
+                            combinedMessage += value;
+                        });
+                        alert(combinedMessage);
+                    } else if (result.success === true) {
+                        session.setUser(result.result);
+                        $state.go('dashboard.associate');
+                    }
                 }
+
 
             });
         };
@@ -74,5 +96,4 @@
             }
         };
     }
-})
-();
+})();

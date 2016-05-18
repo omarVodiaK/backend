@@ -76,7 +76,7 @@ gulp.task('clean', ['usemin'], function () {
 });
 
 
-//Start a web server on port 8282 to server the app webapp
+//Start a web server on port 8283 to server the app webapp
 gulp.task('connect-dev', function() {
     connect.server({
         root: 'app/',
@@ -84,7 +84,7 @@ gulp.task('connect-dev', function() {
         middleware: function (connect, opt) {
             return [
                 modRewrite([
-                    '^/api/(.*)$ http://localhost:3002/api/$1 [P]'
+                    '^/api/(.*)$ http://beacon.apptractive.com.my:3002/api/$1 [P]'
                 ])
             ]
         }

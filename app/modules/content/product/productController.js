@@ -841,7 +841,9 @@
      * @description controller to handle categories for each product
      * @method categoryController
      * @param {object} $scope
-     * @param {object} CategoryService
+     * @param {object} RequestService
+     * @param {object} $rootScope
+     * @param {object} session
      * */
     function categoryController($scope, RequestService, $rootScope, session) {
 

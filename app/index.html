@@ -22,7 +22,7 @@
     <link rel="stylesheet" type="text/css" href="assets/css/Default.css"/>
     <link rel='stylesheet' href='assets/bower_components/angular-loading-bar/build/loading-bar.min.css' type='text/css'
           media='all'/>
-
+    <link rel="stylesheet" href="assets/bower_components/angular-chart.js/dist/angular-chart.css">
 
     <!--<link rel="stylesheet" href="assets/css/font-icons.css" type='text/css'>-->
 
@@ -57,7 +57,6 @@
 <script src="assets/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 <script src="assets/bower_components/angular/angular.min.js"></script>
 <script src="assets/bower_components/angular-notify/dist/angular-notify.min.js"></script>
-
 <script src="assets/bower_components/angular-messages/angular-messages.js"></script>
 
 <!-- reCAPTCHA -->
@@ -99,11 +98,26 @@
 <script src="assets/js/angular-truncate.js"></script>
 <script src="assets/js/angular-preload-image.min.js"></script>
 
+<!-- Chart.js -->
+<script src="assets/bower_components/Chart.js/Chart.js"></script>
+<!-- /Chart.js -->
+
+<!-- angular-chart.js -->
+<script src="assets/bower_components/angular-chart.js/dist/angular-chart.js"></script>
+<!-- /angular-chart.js -->
+
+<!-- count-to -->
+<script src="assets/bower_components/angular-count-to/build/angular-count-to.min.js"></script>
+<!-- /count-to -->
+
 <!--file input -->
 <script src="assets/js/bootstrap.file-input.js"></script>
 
 <!--Map-->
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3&language=&region="></script>
+<!-- The API Key must be included as a parameter in the URL -->
+<!-- The Key included is free but limited and cannot respond to more than 2500 request per day and/or 10 request per second -->
+<script type="text/javascript"
+        src="http://maps.google.com/maps/api/js?key=AIzaSyD9RZcNL0TX-raAvc6N4CxlT0jXuBdu2hI"></script>
 <!-- / -->
 
 <!--pagination-->
@@ -135,15 +149,14 @@
 <script src="modules/content/product/productController.js"></script>
 <script src="modules/campaign/campaignController.js"></script>
 <script src="modules/notification/notificationController.js"></script>
+<script src="modules/analytic/analyticController.js"></script>
 <!-- / -->
 
 <!-- SERVICES -->
 <script src="services/SessionService.js"></script>
 <script src="modules/associates/associateService.js"></script>
 <script src="modules/zone/zoneService.js"></script>
-<script src="modules/location/locationService.js"></script>
 <script src="modules/category/categoryService.js"></script>
-<script src="modules/beacon/beaconService.js"></script>
 <script src="modules/content/normal/contentService.js"></script>
 <script src="modules/campaign/campaignService.js"></script>
 <script src="modules/notification/notificationService.js"></script>

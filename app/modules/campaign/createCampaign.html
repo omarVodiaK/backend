@@ -533,7 +533,7 @@
         </form>
 
         <!-- angular ui modal redeem from -->
-        <script type="text/ng-template" id="redeemFromModalTpl" ng-controller="RedeemCtrl">
+        <script type="text/ng-template" id="redeemFromModalTpl">
             <div class="modal-header">
                 <h3 class="modal-title">Redeem From</h3>
 
@@ -612,7 +612,7 @@
 
         <!-- angular ui modal assign Content -->
         <script type="text/ng-template" id="assignContentModalTpl">
-            <div ng-controller="beaconContentCtrl">
+            <div ng-controller="BeaconContentCtrl">
                 <div class="modal-header">
                     <h1>Assign Content</h1>
                 </div>
@@ -727,11 +727,22 @@
 
                                                                             <img lazy-src="{{content.cnt_url}}"
                                                                                  class="img-circle  col-md-9"
-                                                                                 ng-if="content.content == undefined && content.cnt_url != ''">
+                                                                                 ng-if="content.content == undefined && content.cnt_url != '' && content.cnt_type == 'lkp_2'">
+
+                                                                            <img lazy-src="{{youtubeThumb(content.cnt_url)}}"
+                                                                                 alt="content.cnt_type"
+                                                                                 class="img-circle  col-md-9"
+                                                                                 ng-if="content.content == undefined && content.cnt_url != '' && content.cnt_type == 'lkp_5'">
+
+                                                                            <img lazy-src="{{youtubeThumb(content.content.cnt_url)}}"
+                                                                                 class="img-circle  col-md-9"
+                                                                                 alt="content.cnt_type.lkp_value"
+                                                                                 ng-if="content.content != undefined && content.content.cnt_url != '' && content.content.cnt_type == 'lkp_5'">
+
 
                                                                             <img lazy-src="{{content.content.cnt_url}}"
                                                                                  class="img-circle  col-md-9"
-                                                                                 ng-if="content.content != undefined && content.content.cnt_url != ''">
+                                                                                 ng-if="content.content != undefined && content.content.cnt_url != '' && content.content.cnt_type == 'lkp_2'">
 
 
                                                                             <img
@@ -763,9 +774,7 @@
 
                                                                         </div>
 
-
                                                                     </div>
-
                                                                 </div>
                                                             </li>
                                                         </ul>
@@ -1255,3 +1264,4 @@
 
 <link rel="stylesheet" href="assets/css/toggle.css">
 <script src="../../assets/js/modernizr.custom.js"></script>
+

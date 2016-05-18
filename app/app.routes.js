@@ -6,7 +6,6 @@ angular
 
 function config($stateProvider, $urlRouterProvider, $locationProvider) {
 
-
     $urlRouterProvider.
         when('/', "/dashboard/associate")
         .otherwise("/dashboard/associate");
@@ -80,5 +79,10 @@ function config($stateProvider, $urlRouterProvider, $locationProvider) {
             url: '/notification',
             templateUrl: 'modules/notification/notification.html',
             controller: 'NotificationCtrl'
+        })
+        .state('dashboard.analytic', {
+            url: '/analytic',
+            templateUrl: 'modules/analytic/analytic.html',
+            controller: 'AnalyticCtrl'
         });
 }

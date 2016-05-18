@@ -144,10 +144,15 @@
     }
 
     /**
-     * @description ok and cancel buttons to dismiss modal
+     * @description save zone event and cancel event to dismiss the modal
      * @method modalInstanceController
      * @param {object} $scope
-     * @param {object} $modalInstance
+     * @param {object} $uibModalInstance
+     * @param {object} zone
+     * @param {service} RequestService
+     * @param {array} zones
+     * @param {object} session
+     * @param {object} notify
      */
     function modalInstanceController($scope, $uibModalInstance, zone, RequestService, zones, session, notify) {
 
@@ -234,37 +239,39 @@
     }
 
     /**
-     * @description load in location and geocode address
+     * @description load location and geocode address
      * @method geocodeController
      * @param {object} $scope
      */
     function geocodeController($scope) {
+
+
+        $scope.whoiswhere = [];
+
 
         /**
          * @description set the latitude and longitude to load map first time
          * @method gotoLocation
          * @param {string} lat
          * @param {string} lon
+         * @param {integer} range
          */
-        $scope.whoiswhere = [];
-
         $scope.gotoLocation = function (lat, lon, range) {
-            // check if new lat and lon equals zone_latitude and zone_longitude
-            if ($scope.zone.zone_latitude != lat || $scope.zone.zone_longitude != lon) {
-                // set new geometry location
-                $scope.loc = {lat: lat, lon: lon};
-                $scope.whoiswhere = [
-                    {"name": "My Marker", "lat": lat, "lon": lon, "range": range},
-                ];
-                // $$phase is used for safe $apply implementation
-                if (!$scope.$$phase) {
-                    // async function when async event occurs
-                    $scope.$apply(function () {
-                        $scope.zone.zone_latitude = lat;
-                        $scope.zone.zone_longitude = lon;
-                    });
-                }
+
+            // set new geometry location
+            $scope.loc = {lat: lat, lon: lon};
+            $scope.whoiswhere = [
+                {"name": "My Marker", "lat": lat, "lon": lon, "range": range},
+            ];
+            // $$phase is used for safe $apply implementation
+            if (!$scope.$$phase) {
+                // async function when async event occurs
+                $scope.$apply(function () {
+                    $scope.zone.zone_latitude = lat;
+                    $scope.zone.zone_longitude = lon;
+                });
             }
+
         };
 
         /**

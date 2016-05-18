@@ -11,6 +11,7 @@ angular
         'app.product',
         'app.campaign',
         'app.notification',
+        'app.analytic',
         'user'
     ]);
 

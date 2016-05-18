@@ -25,6 +25,8 @@
      * @param {Service} RequestService
      * @param {object} session
      * @param {object} $filter
+     * @param {service} DetailedAssociateService
+     * @param {object} notify
      */
     function associateController($scope, RequestService, session, $filter, DetailedAssociateService, notify) {
 
@@ -32,59 +34,9 @@
         $scope.emails = [];
         $scope.users = [];
 
-        /*
-         * Geofence API call
-         * */
-
-        //RequestService.postJsonRequest('campaign/findGeofences', {cmp_cd: session.getUser().user.cmp_cd}).then(function (geo) {
-        //    console.log(geo)
-        //})
-
-        /*
-         * get informations to display from beacon identifier
-         *
-         * TODO add end user identifier
-         * */
-
-        //RequestService.postJsonRequest('campaign/findContentByBeacon', {
-        //    bcn_uuid: 'aaaaaaaaaaaa-aaaa-aaaa',
-        //    bcn_major: 1,
-        //    bcn_minor: 1,
-        //    cmp_cd: session.getUser().user.cmp_cd
-        //}).then(function (contents) {
-        //    console.log(contents)
-        //})
-
-
-        //RequestService.postJsonRequest('content/redeemVoucher', {
-        //    bcn_uuid: 'ssssssssss-ssss-ssss',
-        //    bcn_major: 1,
-        //    bcn_minor: 1,
-        //    cnt_cd : 'cnt_204',
-        //    cmp_cd: session.getUser().user.cmp_cd
-        //}).then(function (contents) {
-        //    console.log(contents)
-        //})
-
-
-        //RequestService.postJsonRequest('content/generateVoucher', {
-        //    camp_bcn_cd: "camp_bcn_67",
-        //    usr_cd: 'usr_1',
-        //    cmp_cd: session.getUser().user.cmp_cd
-        //}).then(function (results) {
-        //    console.log(results);
-        //})
-
-        //RequestService.postJsonRequest('userAction/createUserAction',{
-        //    usr_cd: 'usr_1',
-        //    camp_bcn_cnt_cd: 'camp_bcn_cnt_43'
-        //}).then(function (result) {
-        //    console.log(result)
-        //})
-
 
         /**
-         * call RequestService
+         * @description populate associates
          * @method postJsonRequest
          */
         DetailedAssociateService.getAssociates().then(function (data) {
@@ -99,7 +51,7 @@
             } else if (data.result == undefined) {
                 $scope.associates = data;
             }
-        })
+        });
 
         /**
          * false is default value so the modal will not popup when the page is loaded
@@ -148,9 +100,9 @@
         };
 
         /**
-         * remove associate row
-         * @method removeAssociate
-         * @param {int} id
+         * @description remove associate object from scope and database
+         * @method removeAssociateRow
+         * @param {integer} id
          */
         $scope.removeAssociateRow = function (id) {
 
@@ -284,12 +236,10 @@
                 } else {
                     return company.asc_cmp_sender_id.cmp_name;
                 }
-
             }
-
-
         };
 
+        // get companies registered in the dashboard
         RequestService.postJsonRequest('company/getCompanies', {'cmp_cd': session.getUser().user.cmp_cd}).then(function (data) {
 
             if (data.result == 'no companies found' || data.result != undefined) {
@@ -299,10 +249,9 @@
                     $scope.users.push(result)
                 })
             }
-
-
         });
 
+        // send request to users of the dashboard by toggling on the switch box
         $scope.sendRequest = function () {
 
             var checked;
@@ -317,14 +266,18 @@
                         'sender_id': session.getUser().user.cmp_cd,
                         'receiver_id': check.cmp_cd
                     }).then(function (result) {
+
                         if (result.result == "already invited") {
+
                             notify({
                                 message: "already invited!",
                                 classes: 'alert-warning',
                                 position: 'center',
                                 duration: 2000
                             });
+
                             $scope.showModal = false;
+
                         } else {
 
                             DetailedAssociateService.getAssociates().then(function (data) {
@@ -337,6 +290,7 @@
                                         position: 'center',
                                         duration: 2000
                                     });
+
                                 } else if (data.result == undefined) {
 
                                     notify({
@@ -348,18 +302,15 @@
 
                                     $scope.associates = data;
                                 }
-                            })
-
-
+                            });
                             $scope.showModal = false;
                         }
-                    })
+                    });
                 });
 
                 unchecked = $filter('filter')(newObj, {'val': false});
                 $scope.showModal = false;
             }, true);
-
         }
     }
 
@@ -367,10 +318,12 @@
      * @description app.associate module controller, it handles the notification part using toastr.
      * @method badgeController
      * @param {object} $scope
-     * @param {service} RequestService service
      * @param {object} toastr
+     * @param {object} session
+     * @param {service} DetailedAssociateService
      */
     function badgeController($scope, toastr, session, DetailedAssociateService) {
+
         if (session.getUser() != null) {
 
             DetailedAssociateService.getAssociates().then(function (result) {
@@ -387,7 +340,6 @@
                     if ($scope.associates[i].asc_state == 'pending') {
                         $scope.requestNumber++;
                         $scope.associateNotification.push($scope.associates[i]);
-                        console.log($scope.associateNotification)
                     }
                 }
 
@@ -399,10 +351,8 @@
                         toastr.info('You have ' + $scope.requestNumber + ' pending requests', 'Information');
                     }
                 }
-            })
-
+            });
         }
-
 
     }
 

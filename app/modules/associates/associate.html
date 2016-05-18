@@ -84,7 +84,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr dir-paginate="associate in associates |filter:search|itemsPerPage:5">
+        <tr dir-paginate="associate in associates |filter:search|itemsPerPage:10">
             <td>{{getAssociateName(associate)}}</td>
             <td>{{associate.asc_state}}</td>
             <td class="text-right">
@@ -105,6 +105,11 @@
         </tr>
         </tbody>
     </table>
+    <dir-pagination-controls
+            max-size="5"
+            direction-links="true"
+            boundary-links="true">
+    </dir-pagination-controls>
 </div>
 
 <div class="bs-component" style="margin-top:20px;" ng-if="associates.length == 0">
@@ -117,12 +122,6 @@
     </div>
 
 </div>
-
-<dir-pagination-controls
-        max-size="5"
-        direction-links="true"
-        boundary-links="true">
-</dir-pagination-controls>
 
 
 <link rel="stylesheet" href="assets/css/toggle.css">

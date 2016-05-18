@@ -1,5 +1,6 @@
 (function () {
     'use strict';
+
     /**
      * @module app.login
      * @description using app.login module
@@ -22,6 +23,7 @@
         };
 
         return {
+
             /**
              * @method loginUser
              * @description check email and password asynchronously
@@ -55,12 +57,12 @@
                 promise.success = function (fn) {
                     promise.then(fn);
                     return promise;
-                }
+                };
 
                 promise.error = function (fn) {
                     promise.then(null, fn);
                     return promise;
-                }
+                };
 
                 return promise;
             },
@@ -75,11 +77,8 @@
                     // prepare data here
                     callback(data);
                 });
-
             },
             getListOfUsers: getListOfUsers
         }
-
-
     }
 })();

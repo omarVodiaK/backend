@@ -7,22 +7,6 @@
      */
     angular
         .module('app.campaign')
-        .factory('CampaignService', ['$http', function ($http) {
-            return {
-
-                /**
-                 * http call for Campaign list
-                 * @method getCampaign
-                 * @param {} callback
-                 */
-                getCampaign: function (callback) {
-                    $http.get("./modules/campaign/campaign.json").success(function (data) {
-                        // prepare data here
-                        callback(data);
-                    });
-                }
-            };
-        }])
 
         .service('ShareData', function ($window) {
 
@@ -72,7 +56,6 @@
                 if (mydata) {
 
                     mydata = JSON.parse(mydata);
-                    console.log(mydata)
 
                 }
 
@@ -119,9 +102,7 @@
 
             detailedCampaignServiceScope.refreshCampaign = function () {
 
-
                 return RequestService.postJsonRequest('campaign/findCampaignByCompanyId', {'cmp_cd': session.getUser().user.cmp_cd});
-
 
             }
         })

@@ -9,5 +9,6 @@
   "ADVERTISEMENT_MENU": "Publicité",
   "PRODUCT_MENU": "Produit",
   "CAMPAIGN_MENU": "Campagne",
-  "NOTIFICATION_MENU": "Notification"
+  "NOTIFICATION_MENU": "Notification",
+  "ANALYTIC_MENU": "Statistiques"
 }

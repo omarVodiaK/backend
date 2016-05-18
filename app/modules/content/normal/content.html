@@ -80,7 +80,8 @@
                                                                     <div class="col-md-6 col-xs-6">
                                                                         <a ng-click="openLightboxModal($index, itemsPerPage, currentPage)">
                                                                             <img lazy-src="{{image.thumbUrl}}"
-                                                                                 class="img-rounded">
+                                                                                 class="img-responsive"
+                                                                                 style="margin-bottom: 5px;">
                                                                         </a>
                                                                     </div>
                                                                     <div class="col-md-6 col-xs-6 text-right  v-center"
@@ -90,9 +91,11 @@
                                                                             <label class="switch">
                                                                                 <input class="ds_content"
                                                                                        type="checkbox"
-                                                                                       ng-model="image"
-                                                                                       ng-change="saveChecked($index, itemsPerPage, currentPage)"
-                                                                                       ng-checked="{false: '', true: 'checked'} [content.cnt_url == image.thumbUrl] || true == getIndex($index, itemsPerPage, currentPage)">
+                                                                                        >
+
+                                                                                <!--ng-model="image"-->
+                                                                                <!--ng-change="saveChecked($index, itemsPerPage, currentPage)"-->
+                                                                                <!--ng-checked="{false: '', true: 'checked'} [content.cnt_url == image.thumbUrl] || true == getIndex($index, itemsPerPage, currentPage)"-->
                                                                                 <i></i>
                                                                             </label>
                                                                         </div>
@@ -161,7 +164,7 @@
                 <th></th>
                 <th>Title</th>
                 <th>Description</th>
-                <th>URL</th>
+                <th>Preview</th>
                 <th>Type</th>
                 <th></th>
 
@@ -176,6 +179,13 @@
                     <div class="wrapper size">
                         <img class="img-circle" ng-show="content.cnt_url != '' && content.cnt_type.lkp_value == 'image'"
                              lazy-src="{{content.cnt_url}}"/>
+
+                        <img class="img-circle"
+                             ng-show="content.cnt_url == '' && content.cnt_type.lkp_value == 'notification'"
+                             src="assets/images/notification.png"/>
+
+                        <img class="img-circle" ng-if="content.cnt_url != '' && content.cnt_type.lkp_value == 'video'"
+                             lazy-src="{{youtubeThumb(content.cnt_url)}}">
                     </div>
 
                 </td>
@@ -186,13 +196,13 @@
 
                         <button class="btn btn-danger" ng-click="removeContentRow(content.cnt_cd)"><i
                                 class="glyphicon glyphicon-remove visible-xs-inline-block"></i>
-                            <span class="hidden-xs">Remove</span></button>
+                            <span class="hidden-xs hidden-md">Remove</span></button>
 
                         <!-- Button trigger modal -->
                         <button class="btn btn-warning"
                                 ng-click="open('lg','contentModalTpl',content)"><i
                                 class="glyphicon glyphicon-pencil visible-xs-inline-block"></i>
-                            <span class="hidden-xs">Update</span></button>
+                            <span class="hidden-xs hidden-md">Update</span></button>
                     </div>
                 </td>
 

@@ -6,70 +6,70 @@
 <!-- Top Menu Items -->
 <ul class="nav navbar-right top-nav">
 
-    <li ng-controller="CampaignBadgeCtrl">
+    <!--<li ng-controller="CampaignBadgeCtrl">-->
 
-        <div onclick="campaignBadge()" class="dropdown">
+    <!--<div onclick="campaignBadge()" class="dropdown">-->
 
-            <div class="dropbtn custom-icon-sprites notification  badge">
+    <!--<div class="dropbtn custom-icon-sprites notification  badge">-->
 
-                <div class="shake badge badge-info outter-badge">{{publishRequestNumber}}</div>
+    <!--<div class="shake badge badge-info outter-badge">{{publishRequestNumber}}</div>-->
 
-            </div>
+    <!--</div>-->
 
-            <div id="campaignDropdown" class="dropdown-content">
+    <!--<div id="campaignDropdown" class="dropdown-content">-->
 
-                <div class="error-notice" ng-repeat="notification in campaignNotification"
-                     ng-if="campaignNotification.length > 0">
+    <!--<div class="error-notice" ng-repeat="notification in campaignNotification"-->
+    <!--ng-if="campaignNotification.length > 0">-->
 
-                    <div class="oaerror info">
-                        <a href="#/dashboard/campaign"> <strong>{{notification.owner.camp_name}}</strong><br>{{notification.owner.camp_description}}</a>
-                    </div>
+    <!--<div class="oaerror info">-->
+    <!--<a href="#/dashboard/campaign"> <strong>{{notification.owner.camp_name}}</strong><br>{{notification.owner.camp_description}}</a>-->
+    <!--</div>-->
 
-                </div>
+    <!--</div>-->
 
-                <div class="error-notice" ng-if="campaignNotification.length == 0">
-                    <div class="oaerror warning">
-                        <strong>0 request found!</strong> - You have 0 campaign request
-                    </div>
-                </div>
+    <!--<div class="error-notice" ng-if="campaignNotification.length == 0">-->
+    <!--<div class="oaerror warning">-->
+    <!--<strong>0 request found!</strong> - You have 0 campaign request-->
+    <!--</div>-->
+    <!--</div>-->
 
-            </div>
+    <!--</div>-->
 
-        </div>
+    <!--</div>-->
 
-    </li>
+    <!--</li>-->
 
-    <li ng-controller="BadgeCtrl">
+    <!--<li ng-controller="BadgeCtrl">-->
 
-        <div onclick="associateBadge()" class="dropdown">
-            <div class="dropbtn custom-icon-sprites share-requests badge">
-                <div class="shake badge badge-info outter-badge">{{requestNumber}}</div>
-            </div>
+    <!--<div onclick="associateBadge()" class="dropdown">-->
+    <!--<div class="dropbtn custom-icon-sprites share-requests badge">-->
+    <!--<div class="shake badge badge-info outter-badge">{{requestNumber}}</div>-->
+    <!--</div>-->
 
-        </div>
+    <!--</div>-->
 
-        <div id="associateDropdown" class="dropdown-content">
+    <!--<div id="associateDropdown" class="dropdown-content">-->
 
-            <div class="error-notice" ng-repeat="notification in associateNotification"
-                 ng-if="associateNotification.length > 0">
+    <!--<div class="error-notice" ng-repeat="notification in associateNotification"-->
+    <!--ng-if="associateNotification.length > 0">-->
 
-                <div class="oaerror info">
-                    <a href="#/dashboard/associate"> <strong>{{notification.asc_cmp_sender_id.cmp_name}}</strong> -
-                        {{notification.asc_cmp_sender_id.cmp_email}}</a>
-                </div>
+    <!--<div class="oaerror info">-->
+    <!--<a href="#/dashboard/associate"> <strong>{{notification.asc_cmp_sender_id.cmp_name}}</strong> --->
+    <!--{{notification.asc_cmp_sender_id.cmp_email}}</a>-->
+    <!--</div>-->
 
-            </div>
+    <!--</div>-->
 
-            <div class="error-notice" ng-if="associateNotification.length == 0">
-                <div class="oaerror warning">
-                    <strong>0 request found!</strong> - You have 0 associate request
-                </div>
-            </div>
+    <!--<div class="error-notice" ng-if="associateNotification.length == 0">-->
+    <!--<div class="oaerror warning">-->
+    <!--<strong>0 request found!</strong> - You have 0 associate request-->
+    <!--</div>-->
+    <!--</div>-->
 
 
-        </div>
+    <!--</div>-->
 
-    </li>
+    <!--</li>-->
 
     <li dropdown class="hidden-xs hidden-md">
 
