@@ -5,7 +5,7 @@ var uglify = require('gulp-uglify');
 var ngAnnotate = require('gulp-ng-annotate');
 var usemin = require('gulp-usemin');
 var rev = require('gulp-rev');
-var revOutdated  = require('gulp-rev-outdated');
+var revOutdated = require('gulp-rev-outdated');
 var minifyCss = require('gulp-minify-css');
 var ngHtml2Js = require("gulp-ng-html2js");
 var inject = require("gulp-inject");
@@ -15,11 +15,11 @@ var gulpAngularExtender = require('gulp-angular-extender');
 var modRewrite = require('connect-modrewrite');
 
 //Convert all HTML tpl files to Angular template module
-gulp.task('create-templates', function() {
+gulp.task('create-templates', function () {
     return gulp.src('./**/*.tpl.html')
         .pipe(ngHtml2Js({
             moduleName: "app.templates",
-            rename: function(url) {
+            rename: function (url) {
                 return url.replace('app/', '');
             }
         }))
@@ -28,7 +28,7 @@ gulp.task('create-templates', function() {
 });
 
 //Inject the templates file into ./app/index.html to be picked up by usemin
-gulp.task('inject-templates', ['create-templates'], function() {
+gulp.task('inject-templates', ['create-templates'], function () {
     return gulp.src('./app/index.html')
         .pipe(inject(gulp.src('./app/app.templates.js', {read: false}), {ignorePath: 'app', addRootSlash: false}))
         .pipe(gulp.dest('app/'));
@@ -36,7 +36,7 @@ gulp.task('inject-templates', ['create-templates'], function() {
 
 //Minify, concatenate and version CSS and JS
 //Use ngAnnotate to take care of Angular inject issues
-gulp.task('usemin', ['inject-templates'], function() {
+gulp.task('usemin', ['inject-templates'], function () {
     return gulp.src('./app/index.html')
         .pipe(usemin({
             css: [minifyCss(), 'concat', rev()],
@@ -58,7 +58,7 @@ gulp.task('add-dependencies', ['usemin'], function () {
 });
 
 //Copy the asset files from app to build
-gulp.task('copy-asset-files', function() {
+gulp.task('copy-asset-files', function () {
     gulp.src(['./app/assets/fonts/*']).pipe(gulp.dest('build/assets/fonts/'));
     gulp.src(['./app/assets/images/*']).pipe(gulp.dest('build/assets/images/'));
 });
@@ -75,9 +75,8 @@ gulp.task('clean', ['usemin'], function () {
         .pipe(clean());
 });
 
-
 //Start a web server on port 8283 to server the app webapp
-gulp.task('connect-dev', function() {
+gulp.task('connect-dev', function () {
     connect.server({
         root: 'app/',
         port: 8283,
@@ -92,7 +91,7 @@ gulp.task('connect-dev', function() {
 });
 
 //Start a web server on port 8283 to server the build app (You probably wouldn't use this server for production delivery)
-gulp.task('connect-prod', function() {
+gulp.task('connect-prod', function () {
     connect.server({
         root: 'build/',
         port: 8283

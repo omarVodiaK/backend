@@ -33,18 +33,14 @@
         }
 
         $scope.submit = function () {
-            console.log($scope.formData.email + "   " + $scope.formData.password + "   " + $scope.formData.captcha)
+
             RequestService.postJsonRequest("auth/login", {
                 "email": $scope.formData.email,
                 "password": $scope.formData.password,
                 "g-recaptcha-response": $scope.formData.captcha
             }).then(function (result) {
-                // TODO add undefined condition
-
-                console.log(result);
                 if (result === undefined) {
-                    alert('Wrong password?');
-
+                    alert('Wrong email or password');
                 } else {
                     if (result.success !== true) {
                         var combinedMessage = "";
@@ -57,8 +53,6 @@
                         $state.go('dashboard.associate');
                     }
                 }
-
-
             });
         };
     }
@@ -89,7 +83,7 @@
                         if (result.success === true) {
                             $state.go('auth.login', {message: "You have been registered. Please, login in order to use web application."});
                         } else if (!result.success) {
-                            console.log(result);
+
                         }
                     });
                 }
