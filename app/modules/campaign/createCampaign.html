@@ -826,6 +826,7 @@
 
 
                                 <div class="row" style="margin-bottom: 10px;">
+
                                     <div class="col-md-12">
 
                                         <label class="control-label col-xs-3"
@@ -841,7 +842,9 @@
                                             </oi-select>
 
                                         </div>
+
                                     </div>
+
                                 </div>
 
                                 <div class="row" style="margin-bottom: 10px;">
@@ -1086,7 +1089,7 @@
 
                             <div class="col-md-12">
                                 <div class="panel panel-default"
-                                     ng-if="beacon.config.interaction_type.lkp_name == 'generate'"
+                                     ng-if="beacon.config.interaction_type.lkp_name == 'generate' || beacon.config.interaction_type.lkp_name == 'passive'"
                                      ng-controller="PopulateFrequencyCtrl">
                                     <div class="panel-heading">
                                         <h3 class="panel-title">Campaign related informations</h3>

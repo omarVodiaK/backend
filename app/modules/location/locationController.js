@@ -1,7 +1,6 @@
 (function () {
     'use strict';
 
-
     /**
      *
      * @module app.location
@@ -9,7 +8,6 @@
      * @inject {} angularUtils.directives.dirPagination
      * @inject {} ui.bootstrap
      */
-
     angular
         .module('app.location', ['angularUtils.directives.dirPagination', 'angularBootstrapNavTree'])
         .controller('LocationCtrl', locationController)
@@ -20,61 +18,72 @@
      * @description call API and populate locations
      * @method locationController
      * @param {object} $scope
+     * @param {locationService} LocationService
      * @param {service} RequestService
-     * @param {object} session
      * @param {object} notify
      */
-    function locationController($scope, RequestService, session, notify) {
-
-        $scope.locations = [];
-        $scope.fakeLocations = [];
+    function locationController($scope, LocationService, notify) {
 
         var idExist = false;
+        $scope.locations = [];
+        $scope.fakeLocations = [];
+        $scope.players = [];
 
-        var params = {
-            "cmp_cd": session.getUser().user.cmp_cd
-        };
+        var data = LocationService.getLocation();
 
-        // Request list of locations
-        RequestService.postJsonRequest('location/getLocationsByCompanyId', params).then(function (data) {
-            if (data.result == undefined) {
-                // Translate locations array to new format so it can be displayed on the abn_tree_directive
-                $scope.locations = JSON.parse(JSON.stringify(data), function (k, v) {
+        data.then(function (results) {
 
-                    if (k === "loc_name")
-                        this.label = v;
-                    else if (k === "loc_description")
-                        this.description = v;
-                    else if (k === "locations") {
+            if (results != undefined) {
+                if (results.length > 0) {
 
-                        this.children = v;
-                        this.onSelect = function (branch) {
-                            $scope.output = branch
-                        };
+                    // Translate locations array to new format so it can be displayed on the abn_tree_directive
+                    $scope.locations = JSON.parse(JSON.stringify(results), function (k, v) {
 
-                    } else {
+                        if (k === "loc_name")
+                            this.label = v;
+                        else if (k === "loc_description")
+                            this.description = v;
+                        else if (k === "locations") {
 
-                        this.onSelect = function (branch) {
-                            $scope.output = branch
-                        };
+                            this.children = v;
+                            this.onSelect = function (branch) {
+                                $scope.output = branch;
+                            };
 
-                        return v;
-                    }
-                    for (var i = 0; i < $scope.fakeLocations.length; i++) {
+                        } else {
 
-                        if (this.loc_cd == $scope.fakeLocations[i].loc_cd) {
-                            idExist = true;
+                            this.onSelect = function (branch) {
+                                $scope.output = branch;
+                            };
+
+                            return v;
                         }
 
-                    }
+                        for (var i = 0; i < $scope.fakeLocations.length; i++) {
 
-                    if (!idExist) {
-                        $scope.fakeLocations.push(this);
-                    }
+                            if (this.loc_cd == $scope.fakeLocations[i].loc_cd) {
+                                idExist = true;
+                            }
 
-                    idExist = false;
+                        }
 
-                });
+                        if (!idExist) {
+                            $scope.fakeLocations.push(this);
+                        }
+
+                        idExist = false;
+
+                    });
+                }
+                else {
+                    notify({
+                        message: "You have 0 location!",
+                        classes: 'alert-info',
+                        position: 'center',
+                        duration: 2000
+                    });
+                }
+
             } else {
                 notify({
                     message: "You have 0 location!",
@@ -84,6 +93,54 @@
                 });
             }
         });
+
+        $scope.playersList = LocationService.getPlayers();
+
+        //$scope.playersList.then(function (results) {
+        //
+        //    $scope.players = [
+        //        {
+        //            "plr_cd": "plr_1",
+        //            "plr_name": "Demo1",
+        //            "plr_deleted_lfg": "string",
+        //            "plr_status_cd": "status",
+        //            "plr_mac_address": "status",
+        //            "plr_device_info": "status",
+        //            "plr_screen_resolution": "1920",
+        //            "plr_screen_orientation": "landscape",
+        //            "plr_working_duration": "duration",
+        //            "plr_description": "description",
+        //            "prl_license": "license",
+        //            "plr_version": "version",
+        //            "plr_location": "location",
+        //            "plr_timezone": "+8 UTC",
+        //            "plr_screen_touch_flg": "yes",
+        //            "plr_shared_flg": "shared",
+        //            "plr_ip_address": "http://192.168.1.34"
+        //        },
+        //        {
+        //            "plr_cd": "plr_2",
+        //            "plr_name": "Demo2",
+        //            "plr_deleted_lfg": "string",
+        //            "plr_status_cd": "status",
+        //            "plr_mac_address": "status",
+        //            "plr_device_info": "status",
+        //            "plr_screen_resolution": "1920",
+        //            "plr_screen_orientation": "landscape",
+        //            "plr_working_duration": "duration",
+        //            "plr_description": "description",
+        //            "prl_license": "license",
+        //            "plr_version": "version",
+        //            "plr_location": "location",
+        //            "plr_timezone": "+8 UTC",
+        //            "plr_screen_touch_flg": "yes",
+        //            "plr_shared_flg": "shared",
+        //            "plr_ip_address": "http://192.168.1.34"
+        //        }];
+        //
+        //    //$scope.players = results;
+        //});
+
     }
 
     /**
@@ -113,6 +170,7 @@
                 keyboard: false,
                 resolve: {
                     locations: function () {
+                        console.log($scope.locations)
                         return $scope.locations;
                     },
                     location: function () {
@@ -123,7 +181,6 @@
                     }
                 }
             });
-
 
         };
 
@@ -146,18 +203,33 @@
         var idExist = false;
 
         if (location != 'lg') {
+
             $scope.location = location;
+
+            if ($scope.location.plr_cd == null) {
+                $scope.location.plr_cd = "0";
+            }
+
+            if ($scope.location.loc_parent == null) {
+                $scope.location.loc_parent = "0";
+            }
+
+        } else {
+            $scope.location = {};
+            $scope.location.loc_parent = "0";
+            $scope.location.plr_cd = "0";
         }
 
         /**
-         * press ok in modal
+         * save/update model
          * @method ok
          */
         $scope.ok = function () {
 
-            // Check if location value
-            if (location == 'lg') {
+            var player = null;
 
+            //Check if location value
+            if (location == 'lg') {
                 var parent_cd;
 
                 if (angular.element('#location_label').val() == "" || angular.element('#location_description').val() == "") {
@@ -168,7 +240,12 @@
                         position: 'center',
                         duration: 2000
                     });
+
                 } else {
+
+                    if (angular.element('#location_player').val() != "0") {
+                        player = angular.element('#location_player').val();
+                    }
 
                     if (angular.element('#location_parent').val() == "0") {
                         parent_cd = null;
@@ -181,12 +258,15 @@
                         "loc_name": angular.element('#location_label').val(),
                         "loc_description": angular.element('#location_description').val(),
                         "loc_parent": parent_cd,
+                        "plr_cd": player,
                         "cmp_cd": session.getUser().user.cmp_cd
                     };
 
                     // Request to create new location from API
                     RequestService.postJsonRequest('location/createLocation', params).then(function (data) {
+
                         $scope.location = data;
+
                         var params = {
                             "cmp_cd": session.getUser().user.cmp_cd
                         };
@@ -219,14 +299,20 @@
                 var parent_cd;
                 // Check if values are not empty
                 if (angular.element('#location_label').val() == "" || angular.element('#location_description').val() == "") {
-                    alert('all information are required');
+
                     notify({
                         message: "all information are required!",
                         classes: 'alert-warning',
                         position: 'center',
                         duration: 2000
                     });
+
                 } else {
+
+
+                    if (angular.element('#location_player').val() != "0") {
+                        player = angular.element('#location_player').val();
+                    }
 
                     // Check selected value of #location_parent element in DOM
                     if (angular.element('#location_parent').val() == "0") {
@@ -241,6 +327,7 @@
                         "loc_description": angular.element('#location_description').val(),
                         "loc_parent": parent_cd,
                         "loc_cd": location.loc_cd,
+                        "plr_cd": player,
                         "cmp_cd": session.getUser().user.cmp_cd
                     };
 

@@ -25,6 +25,8 @@ angular
         'app.routes',
         'app.core',
         'app.services',
-        'app.config'
+        'app.config',
+        'com.2fdevs.videogular',
+        'com.2fdevs.videogular.plugins.controls'
     ]);
 

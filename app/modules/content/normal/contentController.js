@@ -15,32 +15,66 @@
         .controller('ContentAlertCtrl', alertController);
 
     /**
-     *
+     * @description load content and content type from beacon API, delete content and display youtube thumbnails
      * @method contentController
      * @param {object} $scope
      * @param {service} RequestService
      * @param {object} session
      * @param {object} notify
+     * @param {service} ContentService
      */
-    function contentController($scope, RequestService, session, notify) {
+    function contentController($scope, RequestService, session, notify, ContentService) {
 
         $scope.contents = [];
         $scope.contentTypes = [];
+        $scope.tag = [];
+
+
+        var contentTag = ContentService.getContentTag();
+
+
+        RequestService.postJsonRequest('userAction/findProfile', {
+            usr_cd: "usr_85",
+            cmp_cd: session.getUser().user.cmp_cd
+        }).then(function (result) {
+
+        })
+
+        contentTag.then(function (data) {
+
+            if (data.result != undefined) {
+
+                if (data.result == "no tags found") {
+
+                }
+
+            } else {
+
+                data.forEach(function (d) {
+                    $scope.tag.push(d);
+                });
+
+            }
+
+        });
 
         RequestService.postJsonRequest('content/findContentByCompanyId', {"cmp_cd": session.getUser().user.cmp_cd}).then(function (data) {
 
             if (data.result == "this model doesn't exist") {
+
                 notify({
                     message: "You have 0 Content!",
                     classes: 'alert-info',
                     position: 'center',
                     duration: 2000
                 });
+
             } else if (data.result == undefined) {
 
                 data.forEach(function (content) {
 
                     if (content.cnt_type.lkp_value != 'voucher') {
+
                         $scope.contents.push(content);
                     }
                 });
@@ -74,14 +108,23 @@
             RequestService.postJsonRequest('content/deleteContent', identifier).then(function (data) {
 
                 if (data.result == "deleted successfully") {
+
+                    RequestService.postJsonRequest('contentTag/deleteContentTagByContentId', identifier).then(function (deleteResult) {
+                    });
+
                     var index = -1;
+
                     for (var i = 0; i < $scope.contents.length; i++) {
+
                         if ($scope.contents[i].cnt_cd === id) {
                             index = i;
                             break;
                         }
+
                     }
+
                     if (index === -1) {
+
                         notify({
                             message: "Something gone wrong!",
                             classes: 'alert-warning',
@@ -90,13 +133,16 @@
                         });
 
                     } else {
+
                         notify({
                             message: "Deleted Successfully!",
                             classes: 'alert-success',
                             position: 'center',
                             duration: 2000
                         });
+
                     }
+
                     $scope.contents.splice(index, 1);
 
                 } else {
@@ -118,7 +164,7 @@
     }
 
     /**
-     * modal controller
+     * @description modal controller
      * @method modalController
      * @param {object} $scope
      * @param {object} $uibModal
@@ -134,7 +180,33 @@
          * @param {string} tpl name of the template
          * @param {object} content
          */
-        $scope.open = function (size, tpl, content) {
+        $scope.open = function (size, tpl, content, tags) {
+
+            if (content != undefined) {
+
+                if (tags != undefined) {
+
+                    tags.forEach(function (tag) {
+
+                        if (content.tag != undefined) {
+
+                            if (content.tag.length > 0) {
+
+                                content.tag.forEach(function (c) {
+                                    if (c.tag_cd == tag.tag_cd) {
+                                        c.tag_name = tag.tag_name;
+                                    }
+                                });
+
+                            }
+
+                        }
+
+                    });
+                }
+
+            }
+
             var uibModalInstance = $uibModal.open({
                 animation: $scope.animationsEnabled,
                 templateUrl: tpl,
@@ -148,6 +220,9 @@
                     },
                     content: function () {
                         return content;
+                    },
+                    tags: function () {
+                        return tags;
                     }
                 }
             });
@@ -158,17 +233,19 @@
      * @description create/update content
      * @method modalInstanceController
      * @param {object} $scope
-     * @param $uibModalInstance
-     * @param content
-     * @param $rootScope
-     * @param RequestService
-     * @param contents
-     * @param session
-     * @param notify
+     * @param {object} $uibModalInstance
+     * @param {object} content
+     * @param {object} $rootScope
+     * @param {service} RequestService
+     * @param {array} contents
+     * @param {object} session
+     * @param {object} notify
      */
-    function modalInstanceController($scope, $uibModalInstance, content, $rootScope, RequestService, contents, session, notify) {
+    function modalInstanceController($scope, $uibModalInstance, content, $rootScope, RequestService, contents, session, notify, tags) {
 
-        $scope.content = content;
+        if (content != undefined) {
+            $scope.content = content;
+        }
         $scope.contents = contents;
         var is_ds_content;
         var content_url;
@@ -179,6 +256,8 @@
          */
         $scope.ok = function () {
 
+            var med_cd = null;
+            // save a content
             if (content == undefined) {
 
                 if (angular.element('#content_title').val() == '' || angular.element('#content_content').val() == '') {
@@ -192,6 +271,7 @@
 
                 } else {
 
+                    //Check if any item is selected from the DS Media list
                     if ($rootScope.checkedItems == undefined) {
                         is_ds_content = false;
                         content_url = angular.element('#content_url').val();
@@ -199,8 +279,8 @@
                         if ($rootScope.checkedItems != -1) {
 
                             is_ds_content = true;
-
-                            content_url = $rootScope.images[$rootScope.checkedItems].url;
+                            content_url = $rootScope.images[$rootScope.checkedItems].med_url;
+                            med_cd = $rootScope.images[$rootScope.checkedItems].med_cd;
                         } else {
                             is_ds_content = false;
                             content_url = angular.element('#content_url').val();
@@ -214,18 +294,33 @@
                         'cnt_url': content_url,
                         'cnt_type': angular.element('#content_type').val(),
                         'is_ds_content': is_ds_content,
+                        'med_cd': med_cd,
                         'cmp_cd': session.getUser().user.cmp_cd
                     };
 
+
                     RequestService.postJsonRequest('content/createContent', params).then(function (content) {
+
                         if (content.result != undefined) {
+
                             notify({
                                 message: "Something gone wrong!",
                                 classes: 'alert-warning',
                                 position: 'center',
                                 duration: 2000
                             });
+
                         } else {
+                            if ($scope.content.tag != undefined) {
+                                $scope.content.tag.forEach(function (t) {
+                                    RequestService.postJsonRequest('contentTag/createContentTag', {
+                                        cnt_cd: content.cnt_cd,
+                                        tag_cd: t.tag_cd
+                                    }).then(function (contentTag) {
+                                    })
+                                })
+                            }
+
 
                             notify({
                                 message: "Created Successfully!",
@@ -235,13 +330,17 @@
                             });
 
                             $scope.contents.push(content);
+
+                            $uibModalInstance.close();
                         }
+
                     });
 
                     $uibModalInstance.close();
                 }
-            } else {
-
+            }
+            // update a content
+            else {
                 if ($rootScope.checkedItems == undefined) {
 
                     is_ds_content = false;
@@ -253,7 +352,8 @@
 
                         is_ds_content = true;
 
-                        content_url = $rootScope.images[$rootScope.checkedItems].url;
+                        content_url = $rootScope.images[$rootScope.checkedItems].med_url;
+                        med_cd = $rootScope.images[$rootScope.checkedItems].med_cd;
 
                     } else {
 
@@ -270,11 +370,13 @@
                     'cnt_url': content_url,
                     'cnt_type': angular.element('#content_type').val(),
                     'is_ds_content': is_ds_content,
+                    'med_cd': med_cd,
                     'cmp_cd': session.getUser().user.cmp_cd,
                     'cnt_cd': $scope.content.cnt_cd
                 };
 
                 RequestService.postJsonRequest('content/updateContent', params).then(function (result) {
+
                     if (result.result == undefined) {
 
                         for (var i = 0; i < $scope.contents.length; i++) {
@@ -283,6 +385,34 @@
                                 $scope.contents[i] = result[0];
                             }
 
+                        }
+
+                        if ($scope.content.tag != undefined) {
+
+                            if ($scope.content.tag.length == 0) {
+
+                                RequestService.postJsonRequest('contentTag/deleteContentTagByContentId', {cnt_cd: $scope.content.cnt_cd}).then(function (contentTag) {
+
+                                });
+
+                            } else {
+
+                                RequestService.postJsonRequest('contentTag/deleteContentTagByContentId', {cnt_cd: $scope.content.cnt_cd}).then(function (contentTag) {
+
+                                    $scope.content.tag.forEach(function (t) {
+
+                                        RequestService.postJsonRequest('contentTag/createContentTag', {
+                                            cnt_cd: content.cnt_cd,
+                                            tag_cd: t.tag_cd
+                                        }).then(function (contentTag) {
+                                        });
+
+                                    });
+
+                                });
+
+
+                            }
                         }
 
                         notify({
@@ -324,8 +454,9 @@
      * @param {object} Lightbox
      * @param {service} ContentService
      * @param {object} $rootScope
+     * @param {object} session
      */
-    function galleryController($scope, Lightbox, ContentService, $rootScope) {
+    function galleryController($scope, Lightbox, ContentService, $rootScope, session) {
 
         $scope.currentPage = 1;
         $scope.itemsPerPage = 5;
@@ -333,22 +464,38 @@
         $scope.images = [];
         $scope.checkedValue = -1;
 
-        // TODO integrate with digital signage
-        ContentService.getDSContent(function (data) {
-            $scope.images = data;
-            $scope.totalItems = $scope.images.length;
-            $rootScope.images = $scope.images;
+        // TODO resolve DS Media list display
+        var dsMedia = ContentService.getDSMedia();
+
+        var token = '?token=' + session.getAccessToken();
+
+        dsMedia.then(function (data) {
+
+            if (data != undefined) {
+                data.response.forEach(function (d) {
+                    d.checked = false;
+                    d.med_url = 'http://188.166.176.241' + d.med_url + token;
+                    d.url = d.med_url;
+                    $scope.images.push(d);
+                });
+
+                $scope.totalItems = $scope.images.length;
+                $rootScope.images = $scope.images;
+            }
         });
 
         $scope.getIndex = function (index, itemPerPage, currentPage) {
 
             var match = false;
+
             if (currentPage == 1) {
+
                 var paginationIndex = index;
 
             } else if (currentPage > 1) {
 
                 var paginationIndex = index + ((currentPage - 1) * itemPerPage);
+
             }
 
             for (var i = 0; i < $scope.checkedItems.length; i++) {
@@ -359,15 +506,16 @@
                     break;
                 }
             }
+
             return match;
         };
 
-        $scope.saveChecked = function (index, itemPerPage, currentPage) {
+        $scope.saveChecked = function (index, itemPerPage, currentPage, images) {
 
             var paginationIndex;
 
-
             if (currentPage == 1) {
+
                 paginationIndex = index;
 
             } else if (currentPage > 1) {
@@ -376,10 +524,17 @@
 
             }
 
+            angular.forEach(images, function (image, i) {
+                if (paginationIndex != i)
+                    image.checked = false;
+            });
+
             if ($scope.checkedValue != -1) {
 
                 if (paginationIndex == $scope.checkedValue) {
+
                     $scope.checkedValue = -1;
+
                 } else {
 
                     if (currentPage == 1) {
@@ -398,6 +553,7 @@
                 }
 
             } else {
+
                 if (currentPage == 1) {
 
                     paginationIndex = index;
@@ -411,6 +567,7 @@
                     $scope.checkedItems = paginationIndex;
 
                 }
+
             }
 
 
@@ -426,6 +583,7 @@
 
                 var paginationIndex = index + ((currentPage - 1) * itemPerPage);
             }
+
 
             Lightbox.openModal($scope.images, paginationIndex);
         };

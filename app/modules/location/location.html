@@ -13,51 +13,84 @@
                 <div class="pull-right">
                     <!-- angular ui modal -->
                     <script type="text/ng-template" id="locationModalTpl">
-                        <form class="form-horizontal" name="locationForm" novalidate>
+                        <form class="form-horizontal" name="locationForm" ng-controller="LocationCtrl" novalidate>
                             <div class="modal-header">
                                 <h3 class="modal-title">Location</h3>
                             </div>
                             <div class="modal-body">
 
                                 <div class="form-group">
-                                    <label class="control-label col-xs-2">Name:</label>
 
-                                    <div class="col-xs-10">
-                                        <input id="location_label" type="text" name="name" class="form-control"
-                                               placeholder="Name"
-                                               ng-model="location.label"
-                                               value="{{location.label}}" required>
+                                    <div class="row">
+
+                                        <label class="control-label col-xs-2">Name:</label>
+
+                                        <div class="col-xs-10">
+                                            <input id="location_label" type="text" name="name" class="form-control"
+                                                   placeholder="Name"
+                                                   ng-model="location.label"
+                                                   value="{{location.label}}" required>
+                                        </div>
+
                                     </div>
+
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-xs-2">Description</label>
 
-                                    <div class="col-xs-10">
-                                    <textarea id="location_description" type="text" ng-model="location.description"
-                                              class="form-control" rows="2"
-                                              placeholder="Description">{{location.description}}</textarea>
+                                    <div class="row">
+
+                                        <label class="control-label col-xs-2">Description:</label>
+
+                                        <div class="col-xs-10">
+                                                <textarea id="location_description" type="text"
+                                                          ng-model="location.description"
+                                                          class="form-control" rows="2"
+                                                          placeholder="Description">{{location.description}}</textarea>
+                                        </div>
+
                                     </div>
+
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="control-label col-xs-2">Parent</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="control-label col-xs-2">Parent:</label>
 
-                                    <div class="col-xs-10" ng-controller="LocationCtrl">
+                                            <div class="col-xs-10">
 
-                                        <select ng-model="location.loc_parent" id="location_parent"
-                                                class="btn btn-default">
+                                                <select ng-model="location.loc_parent" id="location_parent"
+                                                        class="btn btn-default">
 
-                                            <option value="">No Parent</option>
-                                            <option ng-repeat="l in fakeLocations" value="{{l.loc_cd}}"
+                                                    <option value="0">No Parent</option>
+                                                    <option ng-repeat="l in fakeLocations" value="{{l.loc_cd}}"
 
-                                                    ng-selected="{false: '', true: 'selected'} [location.loc_parent == l.loc_cd]">
+                                                            ng-selected="{false: '', true: 'selected'} [location.loc_parent == l.loc_cd]">
 
-                                                {{l.label}}
-                                            </option>
+                                                        {{l.label}}
+                                                    </option>
 
-                                        </select>
+                                                </select>
 
+                                            </div>
 
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="control-label col-xs-2">Player:</label>
+
+                                            <div class="col-xs-10">
+                                                <select class="btn btn-default" ng-model="location.plr_cd"
+                                                        id="location_player">
+                                                    <option value="0">
+                                                        No Player
+                                                    </option>
+                                                    <option ng-repeat="p in players" value="{{p.plr_ip_address}}"
+                                                            ng-selected="{false: '', true: 'selected'} [location.plr_cd == p.plr_cd]">
+                                                        {{p.plr_name}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

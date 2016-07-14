@@ -83,7 +83,7 @@ gulp.task('connect-dev', function () {
         middleware: function (connect, opt) {
             return [
                 modRewrite([
-                    '^/api/(.*)$ http://beacon.apptractive.com.my:3002/api/$1 [P]'
+                    '^/api/(.*)$ http://localhost:3002/api/$1 [P]'
                 ])
             ]
         }

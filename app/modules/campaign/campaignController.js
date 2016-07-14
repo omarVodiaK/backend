@@ -194,7 +194,7 @@
             campaign.update = update;
             // save
             ShareData.addData(campaign);
-
+            console.log(campaign)
             window.location.href = "#/dashboard/new-campaign";
         };
 
@@ -251,7 +251,7 @@
                     });
                 }
             }
-        }
+        };
     }
 
     /**
@@ -418,7 +418,6 @@
 
                     RequestService.postJsonRequest('campaign/createCampaign', campaignParams).then(function (createdCampaign) {
 
-
                         var companyCampaignParams = {
                             cmp_cd: session.getUser().user.cmp_cd,
                             camp_cd: createdCampaign.camp_cd,
@@ -454,11 +453,12 @@
                                         day_cd: day,
                                         sch_cd: schedule.sch_cd
                                     }).then(function (res) {
-
                                     });
+
                                 });
 
                                 RequestService.postJsonRequest('campaign/updateCampaign', campaignNewParams).then(function (updatedCampaign) {
+
                                     notify({
                                         message: 'Campaign Created Successfully!',
                                         classes: 'alert-success',
@@ -479,14 +479,17 @@
                                         } else if (result.result == undefined) {
 
                                             result.forEach(function (camp) {
+
                                                 if (camp.owner.camp_cd == createdCampaign.camp_cd) {
 
                                                     $scope.campaign = camp;
+
                                                     if ($scope.campaign) {
 
                                                         RequestService.postJsonRequest('campaign/findCampaignBeacons', {'cmp_cd': session.getUser().user.cmp_cd}).then(function (beacons) {
 
                                                             if ($scope.campaign.beacons) {
+
                                                                 $scope.campaign.beacons.forEach(function (campBeacon) {
 
                                                                     beacons.forEach(function (beacon) {
@@ -494,14 +497,19 @@
                                                                     });
 
                                                                 });
+
                                                                 $scope.campaign.beacons = cleanup($scope.campaign.beacons, 'beacon');
+
                                                             } else {
 
                                                                 $scope.campaign.beacons = beacons;
                                                                 $scope.campaign.beacons = cleanup($scope.campaign.beacons, 'beacon');
+
                                                             }
                                                         });
+
                                                     }
+
                                                 }
                                             });
                                         }
@@ -510,6 +518,7 @@
                             });
                         });
                     });
+
                 } else {
 
                     notify({
@@ -520,7 +529,6 @@
                     });
 
                 }
-
 
             } else {
 
@@ -612,7 +620,6 @@
                     }
                 });
             }
-
         };
 
         $scope.newArray = [];
@@ -1016,6 +1023,7 @@
                     }
                 });
             }
+
         });
 
         /**
@@ -1100,7 +1108,6 @@
         $scope.campaign = campaign;
         $scope.beacon = beacon;
 
-
         /**
          * @description retrieve thumbnail from youtube video url
          * @method youtubeThumb
@@ -1121,7 +1128,6 @@
         };
 
         $scope.saveContentConfig = function (contents) {
-
 
             if (beacon.contents.length > 0) {
                 beacon.contents.forEach(function (content) {
@@ -1271,6 +1277,8 @@
                         });
                     }
                 });
+            } else {
+                alert("something went wrong");
             }
 
             $uibModalInstance.close();
@@ -1397,6 +1405,7 @@
                             };
 
                             RequestService.postJsonRequest('campaignBeacon/updateBeaconInCampaign', updateBeaconParams).then(function () {
+
                                 if ($scope.beacon.config.frequency) {
                                     var beaconFrequencyConfiguration = {
                                         camp_bcn_cd: $scope.beacon.camp_bcn_cd,
@@ -1408,6 +1417,7 @@
 
                                     });
                                 }
+
                                 if ($scope.beacon.config.interaction_type) {
 
                                     var beaconInteractionTypeConfiguration = {
@@ -1433,7 +1443,9 @@
                                 }
 
                                 if ($scope.beacon.config.interaction_with_race) {
+
                                     $scope.beacon.config.interaction_with_race.forEach(function (race) {
+
                                         var beaconInteractWithRace = {
                                             camp_bcn_cd: $scope.beacon.camp_bcn_cd,
                                             lkp_cd: race.lkp_cd
@@ -1441,7 +1453,9 @@
 
                                         RequestService.postJsonRequest('campaignLookup/addConfiguration', beaconInteractWithRace).then(function (interactWithRace) {
                                         });
+
                                     });
+
                                 }
 
                                 if ($scope.beacon.config.trigger_type) {

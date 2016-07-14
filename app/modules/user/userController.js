@@ -39,18 +39,30 @@
                 "password": $scope.formData.password,
                 "g-recaptcha-response": $scope.formData.captcha
             }).then(function (result) {
+
                 if (result === undefined) {
                     alert('Wrong email or password');
-                } else {
+                } else if (result != undefined) {
                     if (result.success !== true) {
-                        var combinedMessage = "";
-                        $.each(result.messages, function (key, value) {
-                            combinedMessage += value;
-                        });
-                        alert(combinedMessage);
+
+                        if (result.code == "ECONNREFUSED") {
+                            alert('TIPS is not accessible please contact our team!');
+                        } else {
+                            var combinedMessage = "";
+                            $.each(result.messages, function (key, value) {
+                                combinedMessage += value;
+                            });
+                            alert(combinedMessage);
+                        }
+
                     } else if (result.success === true) {
-                        session.setUser(result.result);
-                        $state.go('dashboard.associate');
+                        if (result.result.user.licenses !== undefined) {
+                            session.setUser(result.result);
+                            $state.go('dashboard.associate');
+                        } else {
+                            alert("seems that you don't have a license!");
+                        }
+
                     }
                 }
             });

@@ -4,7 +4,7 @@
   "version": "1.0",
   "private": true,
   "dependencies": {
-    "angular": "1.4.x",
+    "angular": "1.5.x",
     "angular-mocks": "1.4.x",
     "jquery": "~2.1.1",
     "jquery-ui": "1.11.4",
