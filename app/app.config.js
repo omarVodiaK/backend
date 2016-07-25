@@ -8,7 +8,6 @@ angular
         angular.extend(toastrConfig, {
 
             positionClass: 'toast-bottom-right'
-
         });
     })
     .constant("APPLICATION_NAME", "SANTA Dashboard")

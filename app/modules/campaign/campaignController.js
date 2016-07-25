@@ -194,7 +194,6 @@
             campaign.update = update;
             // save
             ShareData.addData(campaign);
-            console.log(campaign)
             window.location.href = "#/dashboard/new-campaign";
         };
 

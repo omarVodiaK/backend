@@ -8,10 +8,10 @@
     angular
         .module('app.campaign')
 
-    /**
-     * @description replace html element with corresponding icon depending in the data retrieved
-     * @directive statedirective
-     */
+        /**
+         * @description replace html element with corresponding icon depending in the data retrieved
+         * @directive statedirective
+         */
         .directive('statedirective', function () {
             return {
                 template: '',
@@ -87,10 +87,10 @@
             }
         })
 
-    /**
-     * @description replace html element with corresponding html depending in the data retrieved
-     * @directive sharedirective
-     */
+        /**
+         * @description replace html element with corresponding html depending in the data retrieved
+         * @directive sharedirective
+         */
         .directive('sharedirective', function () {
 
             return {
@@ -121,6 +121,7 @@
                             }
 
                             if (allowToPublish) {
+
                                 RequestService.postJsonRequest('companyCampaign/createCampaignOwner', {
                                     cmp_cd: associate.cmp_cd,
                                     camp_cd: campaign.owner.camp_cd,
@@ -130,7 +131,7 @@
 
                                 })
                             } else {
-                                alert('Please configure atleast one beacon before sharing your campaign');
+                                alert('Please configure at least one beacon before sharing your campaign');
                             }
 
 
@@ -149,7 +150,6 @@
                     };
 
                     RequestService.postJsonRequest('companyCampaign/findCampaignOwners', {camp_cd: $scope.campaign.owner.camp_cd}).then(function (campaignOwners) {
-
 
                         campaignOwners.forEach(function (owner) {
 
@@ -172,14 +172,163 @@
 
                             }
 
-                        })
-
-
-                    })
-
-
+                        });
+                    });
                 }
 
+            }
+        })
+
+        /**
+         * @description replace html element with corresponding html depending in the data retrieved
+         * @directive thumbnaildirective
+         */
+        .directive('thumbnaildirective', function () {
+            return {
+                template: '',
+                replace: true,
+                scope: {
+                    content: '=' // pass content model as attribute to thumbnail directive
+                },
+                restrict: 'E', // restrict to element
+                link: function (scope, element, attrs) {
+                    scope.$watch("content.content", function (newValue, oldValue) {
+
+                        var replacementElement;
+
+                        if (scope.content.content == undefined && scope.content.cnt_url != '' && scope.content.cnt_type == 'lkp_2') {
+
+                            replacementElement = angular.element('<img src="' + scope.content.cnt_url + '" class="img-circle col-md-9"><label class="col-md-3 text-center">"' + scope.content.cnt_title + '"</label>');
+                            element.html('');
+                            element.append(replacementElement);
+                        } else if (scope.content.content == undefined && scope.content.cnt_url != '' && scope.content.cnt_type == 'lkp_5') {
+                            if (validateYouTubeUrl(scope.content.cnt_url)) {
+                                replacementElement = angular.element('<img src="' + scope.youtubeThumb(scope.content.cnt_url) + '" class="img-circle col-md-9"><label class="col-md-3 text-center">"' + scope.content.cnt_title + '"</label>');
+                                element.html('');
+                                element.append(replacementElement);
+                            } else {
+                                replacementElement = angular.element('<video width="300" src="' + scope.content.cnt_url + '" controls></video> <label class="col-md-3 text-center">"' + scope.content.cnt_title + '"</label>');
+                                element.html('');
+                                element.append(replacementElement);
+                            }
+
+                        } else if (scope.content.content != undefined && scope.content.content.cnt_url != '' && scope.content.content.cnt_type == 'lkp_5') {
+                            if (validateYouTubeUrl(scope.content.content.cnt_url)) {
+                                replacementElement = angular.element('<img src="' + scope.youtubeThumb(scope.content.content.cnt_url) + '" class="img-circle col-md-9"><label class="col-md-3 text-center">"' + scope.content.content.cnt_title + '"</label>');
+                                element.html('');
+                                element.append(replacementElement);
+                            } else {
+
+                                replacementElement = angular.element('<video width="300"  src="' + scope.content.content.cnt_url + '" controls></video> <label class="col-md-3 text-center">"' + scope.content.content.cnt_title + '"</label>');
+                                element.html('');
+                                element.append(replacementElement);
+                            }
+
+                        } else if (scope.content.content != undefined && scope.content.content.cnt_url != '' && scope.content.content.cnt_type == 'lkp_2') {
+
+                            replacementElement = angular.element('<img src="' + scope.content.content.cnt_url + '" class="img-circle col-md-9"><label class="col-md-3 text-center">"' + scope.content.content.cnt_title + '"</label>');
+                            element.html('');
+                            element.append(replacementElement);
+                        } else if (scope.content.content == undefined && scope.content.cnt_url == '') {
+
+                            replacementElement = angular.element('<img src="assets/images/no-image.png" class="img-circle col-md-9"><label class="col-md-3 text-center">"' + scope.content.cnt_title + '"</label>');
+                            element.html('');
+                            element.append(replacementElement);
+
+                        } else if (scope.content.content != undefined && scope.content.content.cnt_url == '') {
+                            replacementElement = angular.element('<img src="assets/images/no-image.png" class="img-circle col-md-9"><label class="col-md-3 text-center">"' + scope.content.cnt_title + '"</label>');
+                            element.html('');
+                            element.append(replacementElement);
+                        }
+
+                    });
+
+                    scope.youtubeThumb = function (url) {
+                        var video, results;
+
+                        if (url === null) {
+                            return '';
+                        }
+
+                        if (validateYouTubeUrl(url) == true) {
+                            results = url.match('[\\?&]v=([^&#]*)');
+                            video = (results === null) ? url : results[1];
+
+                            return 'http://img.youtube.com/vi/' + video + '/0.jpg';
+                        } else {
+
+                            return url;
+                        }
+                    };
+
+                    function validateYouTubeUrl(url) {
+
+                        if (url != undefined || url !== '') {
+
+                            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+                            var match = url.match(regExp);
+
+                            if (match && match[2].length == 11) {
+
+                                // Do anything for being valid
+                                return true;
+                            } else {
+
+                                // Do anything for not being valid
+                                return false;
+                            }
+                        } else {
+                            return '';
+                        }
+                    }
+
+                }
+            }
+        })
+
+        .directive('campaignaction', function () {
+            return {
+                template: '',
+                controller: 'CampaignAlertCtrl',
+                replace: true,
+                scope: {
+                    campaign: '='
+                },
+                restrict: 'E',
+                transclude: true,
+                link: function (scope, element, attrs) {
+                    scope.$watch("", function (newValue, oldValue) {
+                        var replacementElement;
+                        console.log(scope.campaign)
+                        if (scope.campaign.trueOwner.cmp_camp_owner == true && scope.campaign.owner.camp_state == 'active') {
+
+                            replacementElement = angular.element('<button ng-click="' + scope.confirmCancel(scope.campaign) + '" class="btn btn-default"><i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i><span class="hidden-xs hidden-md">Deactivate</span></button>');
+
+                            element.html('');
+                            element.append(replacementElement);
+                        } else if (scope.campaign.trueOwner.cmp_camp_owner == true && scope.campaign.owner.camp_state == 'inactive') {
+
+                            replacementElement = angular.element('<button ng-click="' + scope.confirmCancel(scope.campaign) + '" class="btn btn-success"><i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i> <span class="hidden-xs hidden-md">activate</span></button>');
+                            element.html('');
+                            element.append(replacementElement);
+                        } else if (scope.campaign.trueOwner.cmp_camp_owner == true && scope.campaign.owner.camp_state == 'expired') {
+
+                            replacementElement = angular.element('<button ng-click="' + scope.confirmCancel(scope.campaign) + '" class="btn btn-success"><i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i><span class="hidden-xs hidden-md">Reactivate</span></button>');
+                            element.html('');
+                            element.append(replacementElement);
+                        }else if(scope.campaign.trueOwner.cmp_camp_owner == false && scope.campaign.trueOwner.camp_state == 'accepted'){
+
+                            replacementElement = angular.element('<button ng-click="' + scope.confirmCancel(scope.campaign) + '" class="btn btn-default"><i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i><span class="hidden-xs hidden-md">Deactivate</span></button>');
+                            element.html('');
+                            element.append(replacementElement);
+                        }else if(scope.campaign.trueOwner.cmp_camp_owner == false && scope.campaign.trueOwner.camp_state == 'pending'){
+
+                            replacementElement = angular.element('<button ng-click="' + scope.confirmCancel(scope.campaign) + '" class="btn btn-success"><i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i> <span class="hidden-xs hidden-md">activate</span></button>');
+                            element.html('');
+                            element.append(replacementElement);
+                        }
+                    })
+                }
             }
         });
 

@@ -33,8 +33,8 @@
             <tr>
                 <th></th>
                 <th>Name</th>
-                <th class="hidden-md hidden-xs">Start from</th>
-                <th class="hidden-md hidden-xs">Finish at</th>
+                <th class="hidden-xs">Start from</th>
+                <th class="hidden-xs">Finish at</th>
                 <th>State</th>
                 <th>Priority</th>
                 <th></th>
@@ -52,11 +52,12 @@
                 </td>
                 <td>
                     {{campaign.owner.camp_priority}}
-
                 </td>
                 <td class="text-right">
 
                     <div class="btn-group" role="group">
+
+                        <!--<campaignaction campaign="campaign" confirmCancel="confirmCancel(campaign)"></campaignaction>-->
 
                         <button ng-click="confirmCancel(campaign)"
                                 ng-if="campaign.trueOwner.cmp_camp_owner == true && campaign.owner.camp_state == 'active'"
@@ -110,6 +111,17 @@
                             <span class="hidden-xs  hidden-md">Details</span>
                         </button>
 
+                        <button ng-controller="PublishCampaignModal" class="btn btn-default"
+                                ng-if="campaign.trueOwner.cmp_camp_owner == true"
+                                ng-click="openModal('lg', 'publishModalContent.html',associates, campaign)">
+                            <i class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
+                            <span class="hidden-xs  hidden-md">Publish</span>
+                        </button>
+
+                        <button disabled class="btn btn-default" ng-if="campaign.trueOwner.cmp_camp_owner == false">
+                            <i class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
+                            <span class="hidden-xs  hidden-md">Publish</span>
+                        </button>
 
                         <script type="text/ng-template" id="publishModalContent.html">
 
@@ -175,43 +187,32 @@
                             </dir-pagination-controls>
                         </script>
 
-                        <button ng-controller="PublishCampaignModal" class="btn btn-default"
-                                ng-if="campaign.trueOwner.cmp_camp_owner == true"
-                                ng-click="openModal('lg', 'publishModalContent.html',associates, campaign)">
-                            <i class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
-                            <span class="hidden-xs  hidden-md">Publish</span>
-                        </button>
-
-                        <button disabled class="btn btn-default" ng-if="campaign.trueOwner.cmp_camp_owner == false">
-                            <i class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
-                            <span class="hidden-xs  hidden-md">Publish</span>
-                        </button>
-
                     </div>
                 </td>
             </tr>
             </tbody>
         </table>
+
         <dir-pagination-controls
                 pagination-id="campaignPagination"
                 max-size="5"
                 direction-links="true"
                 boundary-links="true">
         </dir-pagination-controls>
+
     </div>
+
 </div>
 
 <div class="bs-component" style="margin-top:20px;" ng-if="campaigns.length == 0">
 
     <div class="row">
-
         <div class="alert alert-info" role="alert"><i class="glyphicon glyphicon-info-sign"></i> You have 0
             campaign!
         </div>
     </div>
 
 </div>
-
 
 <link rel="stylesheet" type="text/css" href="assets/css/component.css"/>
 

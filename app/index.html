@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html data-ng-app="app">
 <head>
+
     <title ng-bind="pageTitle">Dashboard</title>
     <link rel="icon" type="image/png" href="assets/images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,8 +16,7 @@
     <link rel="stylesheet" href="assets/bower_components/jquery-ui/themes/flick/jquery-ui.css">
     <link rel="stylesheet" href="assets/bower_components/sweetalert/dist/sweetalert.css">
     <link rel="stylesheet" href="assets/bower_components/oi.select/dist/select.css">
-    <link rel="stylesheet"
-          href="assets/bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.css">
+
     <link rel="stylesheet" href="directives/angular-bootstrap-nav-tree-js/dist/abn_tree.css">
     <link rel="stylesheet" href="assets/bower_components/ng-wizard/dest/ngWizard.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/Default.css"/>
@@ -41,6 +41,7 @@
     <!--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
     <!--[endif]-->
 </head>
+
 <body>
 
 <div id="app" ui-view></div>
@@ -48,7 +49,6 @@
 <!-- build:assets assets.min.js -->
 <!-- ASSETS -->
 <!-- load jquery before bootstrap in order to have modal -->
-
 
 <script src="assets/bower_components/jquery/dist/jquery.js"></script>
 <script src="assets/bower_components/jquery-ui/jquery-ui.js"></script>
@@ -62,7 +62,7 @@
 <!-- reCAPTCHA -->
 <script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit"></script>
 <script src="assets/bower_components/angular-recaptcha/release/angular-recaptcha.js"></script>
-<!-- endreCAPTCHA -->
+<!-- /endreCAPTCHA -->
 
 <script type="text/javascript" src="assets/bower_components/ng-droplet/dist/ng-droplet.js"></script>
 <script type="text/javascript" src="assets/js/me-lazyload.js"></script>
@@ -73,22 +73,20 @@
 <!-- for no html5 browsers support -->
 <script src="assets/bower_components/ng-file-upload/ng-file-upload.min.js"></script>
 <script src="assets/bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
-<script src="assets/bower_components/angular-bootstrap-lightbox/dist/angular-bootstrap-lightbox.js"></script>
+<script src="directives/angular-bootstrap-lightbox.js"></script>
 <!-- always load before ngSweetAlert -->
 <script src="assets/bower_components/sweetalert/dist/sweetalert-dev.js"></script>
 <script src="assets/bower_components/angular-sweetalert/dist/ngSweetAlert.js"></script>
 <script src="assets/bower_components/oi.select/dist/select-tpls.js"></script>
 
-<!-- translation -->
+
 <script src="assets/bower_components/angular-translate/angular-translate.min.js"></script>
 <script src="assets/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
 <script src="assets/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
 <script src="assets/bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js"></script>
-<!--<script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>-->
 <script src="assets/bower_components/angular-animate/angular-animate.min.js"></script>
 <script src="assets/bower_components/angular-route/angular-route.min.js"></script>
 <script src="assets/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-<script src="directives/angular-bootstrap-nav-tree-js/dist/abn_tree_directive.js"></script>
 <script src="assets/bower_components/checklist-model/checklist-model.js"></script>
 
 <script src="assets/js/angular-touch.min.js"></script>
@@ -96,15 +94,6 @@
 <script src="assets/js/angular-moment.min.js"></script>
 <script src="assets/js/angular-truncate.js"></script>
 <script src="assets/js/angular-preload-image.min.js"></script>
-
-
-<!-- videogular -->
-<script src="assets/bower_components/videogular/videogular.js"></script>
-<script src="assets/bower_components/videogular-controls/vg-controls.js"></script>
-<script src="assets/bower_components/videogular-overlay-play/vg-overlay-play.js"></script>
-<script src="assets/bower_components/videogular-poster/vg-poster.js"></script>
-<script src="assets/bower_components/videogular-buffering/vg-buffering.js"></script>
-<!-- /videogular -->
 
 <!-- Chart.js -->
 <script src="assets/bower_components/Chart.js/Chart.js"></script>
@@ -118,32 +107,35 @@
 <script src="assets/bower_components/angular-count-to/build/angular-count-to.min.js"></script>
 <!-- /count-to -->
 
-<!--file input -->
+<!-- file input -->
 <script src="assets/js/bootstrap.file-input.js"></script>
+<!-- /file input -->
 
-<!--Map-->
+<!-- Map -->
 <!-- The API Key must be included as a parameter in the URL -->
 <!-- The Key included is free but limited and cannot respond to more than 2500 request per day and/or 10 request per second -->
 <script type="text/javascript"
         src="http://maps.google.com/maps/api/js?key=AIzaSyD9RZcNL0TX-raAvc6N4CxlT0jXuBdu2hI"></script>
-<!-- / -->
+<!-- /Map -->
 
 <!--pagination-->
 <script src="assets/js/dirPagination.js"></script>
 <!-- / -->
+
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
 <!-- / -->
 <!-- endbuild -->
 
 <!-- build:js app.min.js -->
+
 <!-- MODULES -->
 <script src="app.routes.js"></script>
 <script src="app.config.js"></script>
 <script src="app.core.js"></script>
 <script src="app.services.js"></script>
 <script src="app.js"></script>
-<!-- / -->
+<!-- /MODULES -->
 
 <!-- CONTROLLERS -->
 <script src="components/layout/sections/headerController.js"></script>
@@ -158,7 +150,7 @@
 <script src="modules/campaign/campaignController.js"></script>
 <script src="modules/notification/notificationController.js"></script>
 <script src="modules/analytic/analyticController.js"></script>
-<!-- / -->
+<!-- /CONTROLLERS -->
 
 <!-- SERVICES -->
 <script src="services/SessionService.js"></script>
@@ -169,31 +161,31 @@
 <script src="modules/campaign/campaignService.js"></script>
 <script src="modules/location/locationService.js"></script>
 <script src="modules/notification/notificationService.js"></script>
-
 <script src="services/RequestFactory.js"></script>
 <script src="services/ShowFactory.js"></script>
 <script src="services/pageValue.js"></script>
-<!-- / -->
+<!-- /SERVICES -->
 
 <!-- DIRECTIVES -->
+<script src="directives/angular-bootstrap-nav-tree-js/dist/abn_tree_directive.js"></script>
 <script src="modules/associates/associateDirective.js"></script>
 <script src="modules/campaign/campaignDirective.js"></script>
 <script src="modules/beacon/beaconDirective.js"></script>
 <script src="modules/zone/mapDirective.js"></script>
 <script src="directives/ngPlaceholderDirective.js"></script>
 <script src="directives/ngCompareDirective.js"></script>
+<!-- /DIRECTIVES -->
 
-<!-- / -->
 <!-- FILTERS -->
 <script src="modules/content/normal/contentFilter.js"></script>
 <script src="modules/campaign/campaignFilter.js"></script>
-<!-- / -->
+<!-- /FILTERS -->
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
-<!-- / -->
-<!-- endbuild -->
+<!-- /IE10 -->
 
+<!-- endbuild -->
 
 <!-- CUSTOM SCRIPTS -->
 <script>
@@ -211,10 +203,6 @@
 
 <!-- CUSTOM STYLES -->
 <style>
-
-    .badge-info {
-        background-color: #269abc;
-    }
 
     @media (max-width: 768px) {
         .btn-responsive {
@@ -330,10 +318,6 @@
         100% {
             transform: translateX(0)
         }
-    }
-
-    .shake {
-        animation: shake 400ms ease-in-out;
     }
 
 </style>

@@ -241,7 +241,7 @@
      * @param {object} session
      * @param {object} notify
      */
-    function modalInstanceController($scope, $uibModalInstance, content, $rootScope, RequestService, contents, session, notify, tags) {
+    function modalInstanceController($scope, $uibModalInstance, content, $rootScope, RequestService, contents, session, notify, tags, $sce) {
 
         if (content != undefined) {
             $scope.content = content;
@@ -273,15 +273,20 @@
 
                     //Check if any item is selected from the DS Media list
                     if ($rootScope.checkedItems == undefined) {
+
                         is_ds_content = false;
                         content_url = angular.element('#content_url').val();
+
                     } else {
+
                         if ($rootScope.checkedItems != -1) {
 
                             is_ds_content = true;
-                            content_url = $rootScope.images[$rootScope.checkedItems].med_url;
+                            content_url = $sce.valueOf($rootScope.images[$rootScope.checkedItems].med_url);
                             med_cd = $rootScope.images[$rootScope.checkedItems].med_cd;
+
                         } else {
+
                             is_ds_content = false;
                             content_url = angular.element('#content_url').val();
                         }
@@ -456,7 +461,7 @@
      * @param {object} $rootScope
      * @param {object} session
      */
-    function galleryController($scope, Lightbox, ContentService, $rootScope, session) {
+    function galleryController($scope, Lightbox, ContentService, $rootScope, session, $sce) {
 
         $scope.currentPage = 1;
         $scope.itemsPerPage = 5;
@@ -473,8 +478,9 @@
 
             if (data != undefined) {
                 data.response.forEach(function (d) {
+
                     d.checked = false;
-                    d.med_url = 'http://188.166.176.241' + d.med_url + token;
+                    d.med_url = $sce.trustAsResourceUrl('http://128.199.125.79' + d.med_url + token);
                     d.url = d.med_url;
                     $scope.images.push(d);
                 });

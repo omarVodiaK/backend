@@ -17,7 +17,6 @@
     "angular-ui-router": "~0.2.11",
     "angular-ui-bootstrap-bower": "~1.1.2",
     "angular-sweetalert": "angular-h-sweetalert#~1.4.6",
-    "angular-bootstrap-lightbox": "~0.9.0",
     "eonasdan-bootstrap-datetimepicker": "~4.17.37",
     "angular-toastr": "1.5.0",
     "animate.css": "3.4.0",

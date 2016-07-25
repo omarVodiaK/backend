@@ -63,6 +63,7 @@
                                                         class="btn btn-default">
 
                                                     <option value="0">No Parent</option>
+
                                                     <option ng-repeat="l in fakeLocations" value="{{l.loc_cd}}"
 
                                                             ng-selected="{false: '', true: 'selected'} [location.loc_parent == l.loc_cd]">
@@ -75,25 +76,36 @@
                                             </div>
 
                                         </div>
+
                                         <div class="col-md-6">
+
                                             <label class="control-label col-xs-2">Player:</label>
 
                                             <div class="col-xs-10">
+
+                                                <!--<select id="location_player" class="btn btn-default" ng-model="plloc" ng-options="player.plr_name for player in players track by player.plr_cd" ng-change="selectPlayer(location)" >-->
+                                                    <!--<option value="0">No Player</option>-->
+                                                <!--</select>-->
+
                                                 <select class="btn btn-default" ng-model="location.plr_cd"
                                                         id="location_player">
-                                                    <option value="0">
-                                                        No Player
-                                                    </option>
-                                                    <option ng-repeat="p in players" value="{{p.plr_ip_address}}"
+
+                                                    <option value="0">No Player</option>
+
+                                                    <option ng-repeat="p in players" value="{{p.plr_cd}}"
                                                             ng-selected="{false: '', true: 'selected'} [location.plr_cd == p.plr_cd]">
                                                         {{p.plr_name}}
                                                     </option>
+
                                                 </select>
                                             </div>
+
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
+
                             <div class="modal-footer">
                                 <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
                                 <button class="btn btn-primary"

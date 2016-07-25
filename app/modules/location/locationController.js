@@ -27,7 +27,6 @@
         var idExist = false;
         $scope.locations = [];
         $scope.fakeLocations = [];
-        $scope.players = [];
 
         var data = LocationService.getLocation();
 
@@ -96,50 +95,10 @@
 
         $scope.playersList = LocationService.getPlayers();
 
-        //$scope.playersList.then(function (results) {
-        //
-        //    $scope.players = [
-        //        {
-        //            "plr_cd": "plr_1",
-        //            "plr_name": "Demo1",
-        //            "plr_deleted_lfg": "string",
-        //            "plr_status_cd": "status",
-        //            "plr_mac_address": "status",
-        //            "plr_device_info": "status",
-        //            "plr_screen_resolution": "1920",
-        //            "plr_screen_orientation": "landscape",
-        //            "plr_working_duration": "duration",
-        //            "plr_description": "description",
-        //            "prl_license": "license",
-        //            "plr_version": "version",
-        //            "plr_location": "location",
-        //            "plr_timezone": "+8 UTC",
-        //            "plr_screen_touch_flg": "yes",
-        //            "plr_shared_flg": "shared",
-        //            "plr_ip_address": "http://192.168.1.34"
-        //        },
-        //        {
-        //            "plr_cd": "plr_2",
-        //            "plr_name": "Demo2",
-        //            "plr_deleted_lfg": "string",
-        //            "plr_status_cd": "status",
-        //            "plr_mac_address": "status",
-        //            "plr_device_info": "status",
-        //            "plr_screen_resolution": "1920",
-        //            "plr_screen_orientation": "landscape",
-        //            "plr_working_duration": "duration",
-        //            "plr_description": "description",
-        //            "prl_license": "license",
-        //            "plr_version": "version",
-        //            "plr_location": "location",
-        //            "plr_timezone": "+8 UTC",
-        //            "plr_screen_touch_flg": "yes",
-        //            "plr_shared_flg": "shared",
-        //            "plr_ip_address": "http://192.168.1.34"
-        //        }];
-        //
-        //    //$scope.players = results;
-        //});
+        $scope.playersList.then(function (results) {
+
+            $scope.players = results;
+        });
 
     }
 
@@ -149,10 +108,17 @@
      * @param {object} $scope
      * @param {object} $uibModal
      */
-    function modalController($scope, $uibModal) {
+    function modalController($scope, $uibModal, LocationService) {
 
         // enable animation when opening the modal
         $scope.animationsEnabled = true;
+
+        $scope.playersList = LocationService.getPlayers();
+
+        $scope.playersList.then(function (results) {
+
+            $scope.players = results;
+        });
 
         /**
          * @description open modal
@@ -170,7 +136,7 @@
                 keyboard: false,
                 resolve: {
                     locations: function () {
-                        console.log($scope.locations)
+
                         return $scope.locations;
                     },
                     location: function () {
@@ -178,6 +144,9 @@
                     },
                     fakeLocations: function () {
                         return $scope.fakeLocations;
+                    },
+                    players: function () {
+                        return $scope.players;
                     }
                 }
             });
@@ -196,7 +165,7 @@
      * @param {object} session
      * @param {object} notify
      */
-    function modalInstanceController($scope, $uibModalInstance, location, RequestService, $rootScope, session, notify) {
+    function modalInstanceController($scope, $uibModalInstance, location, players, RequestService, $rootScope, session, notify) {
 
         $scope.fakeLocations = [];
 
@@ -227,9 +196,11 @@
         $scope.ok = function () {
 
             var player = null;
+            var player_ip = null;
 
             //Check if location value
             if (location == 'lg') {
+
                 var parent_cd;
 
                 if (angular.element('#location_label').val() == "" || angular.element('#location_description').val() == "") {
@@ -244,13 +215,21 @@
                 } else {
 
                     if (angular.element('#location_player').val() != "0") {
+
                         player = angular.element('#location_player').val();
                     }
 
                     if (angular.element('#location_parent').val() == "0") {
+
                         parent_cd = null;
                     } else {
+
                         parent_cd = angular.element('#location_parent').val();
+                    }
+
+                    var index = isInArray(player, players);
+                    if (index != -1) {
+                        player_ip = players[index].plr_ip
                     }
 
                     // create new location object
@@ -259,6 +238,7 @@
                         "loc_description": angular.element('#location_description').val(),
                         "loc_parent": parent_cd,
                         "plr_cd": player,
+                        "plr_ip_address": player_ip,
                         "cmp_cd": session.getUser().user.cmp_cd
                     };
 
@@ -268,17 +248,20 @@
                         $scope.location = data;
 
                         var params = {
+
                             "cmp_cd": session.getUser().user.cmp_cd
                         };
 
                         // Request list of locations from API
                         RequestService.postJsonRequest('location/getLocationsByCompanyId', params).then(function (data) {
+
                             notify({
                                 message: "Location created Successfully!",
                                 classes: 'alert-success',
                                 position: 'center',
                                 duration: 2000
                             });
+
                             // parse result and rebuild it to fit abn_tree_directive
                             var parse = parseLocation(data);
 
@@ -291,12 +274,15 @@
                         });
 
                     });
+
                     $uibModalInstance.close();
                 }
 
-            } else {
+            } else { //Update location
 
                 var parent_cd;
+
+
                 // Check if values are not empty
                 if (angular.element('#location_label').val() == "" || angular.element('#location_description').val() == "") {
 
@@ -309,16 +295,23 @@
 
                 } else {
 
-
                     if (angular.element('#location_player').val() != "0") {
+
                         player = angular.element('#location_player').val();
                     }
 
                     // Check selected value of #location_parent element in DOM
                     if (angular.element('#location_parent').val() == "0") {
+
                         parent_cd = null;
                     } else {
+
                         parent_cd = angular.element('#location_parent').val();
+                    }
+
+                    var index = isInArray(player, players);
+                    if (index != -1) {
+                        player_ip = players[index].plr_ip
                     }
 
                     // Build location to update
@@ -328,6 +321,7 @@
                         "loc_parent": parent_cd,
                         "loc_cd": location.loc_cd,
                         "plr_cd": player,
+                        "plr_ip_address": player_ip,
                         "cmp_cd": session.getUser().user.cmp_cd
                     };
 
@@ -341,14 +335,15 @@
 
                         //Select new response
                         RequestService.postJsonRequest('location/getLocationsByCompanyId', {"cmp_cd": session.getUser().user.cmp_cd}).then(function (res) {
+
                             notify({
                                 message: "location updated!",
                                 classes: 'alert-success',
                                 position: 'center',
                                 duration: 2000
                             });
-                            var parse = parseLocation(res);
 
+                            var parse = parseLocation(res);
 
                             $scope.locations = parse;
                             //post load and broadcast it to directive
@@ -356,11 +351,10 @@
 
                         });
                     });
+
                     $uibModalInstance.close();
                 }
             }
-
-
         };
 
         /**
@@ -409,8 +403,22 @@
             });
             return parse;
         }
+
+        function isInArray(value, array) {
+            var hasMatch = false;
+            var arrayIndex = -1;
+            for (var index = 0; index < array.length; ++index) {
+
+                var object = array[index];
+
+                if (object.plr_cd == value) {
+                    arrayIndex = index;
+                    hasMatch = true;
+                    break;
+                }
+            }
+            return arrayIndex
+        }
     }
 
 })();
-
-

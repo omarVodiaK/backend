@@ -112,19 +112,35 @@
 
                                                                 <div class="row">
 
-                                                                    <div class="col-md-6 col-xs-6">
 
-                                                                        <a ng-click="openLightboxModal($index, itemsPerPage, currentPage)">
+                                                                    <div class="col-md-9 col-xs-9"
+                                                                         ng-if="image.med_mimetype.indexOf('video') > -1">
 
-                                                                            <img src="{{image.med_url}}"
-                                                                                 class="img-responsive"
-                                                                                 style="margin-bottom: 5px;">
+                                                                        <video width="300" controls="controls">
+                                                                            <source src="{{image.med_url}}"
+                                                                                    type="{{image.med_mimetype}}">
+                                                                        </video>
 
-                                                                        </a>
 
                                                                     </div>
 
-                                                                    <div class="col-md-6 col-xs-6 text-right  v-center"
+                                                                    <div class="col-md-9 col-xs-9"
+                                                                         ng-if="image.med_mimetype.indexOf('audio') > -1">
+                                                                        <audio width="300" controls="controls">
+                                                                            <source src="{{image.med_url}}"
+                                                                                    type="{{image.med_mimetype}}">
+                                                                        </audio>
+                                                                    </div>
+
+                                                                    <div class="col-md-9 col-xs-9"
+                                                                         ng-if="image.med_mimetype.indexOf('image') > -1">
+                                                                        <a ng-click="openLightboxModal($index, itemsPerPage, currentPage)">
+                                                                            <img width="300"
+                                                                                 lazy-src="{{image.med_url}}">
+                                                                        </a>
+                                                                    </div>
+
+                                                                    <div class="col-md-3 col-xs-3 text-right  v-center"
                                                                          style="display:table; height:100px;">
 
                                                                         <div style="display:table-cell; vertical-align:middle; text-align:center;">
@@ -198,7 +214,7 @@
 
                         <div class="btn-group" ng-controller="ContentAlertCtrl">
 
-                        <button class="btn btn-danger" type="button" ng-click="confirmCancel()">Cancel</button>
+                            <button class="btn btn-danger" type="button" ng-click="confirmCancel()">Cancel</button>
                             <button class="btn btn-primary" type="button" ng-click="ok()">Save</button>
 
                         </div>
@@ -232,7 +248,7 @@
 
             <tr>
 
-            <th></th>
+                <th></th>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Preview</th>
@@ -317,6 +333,7 @@
 <link rel="stylesheet" href="assets/css/toggle.css">
 
 <style type="text/css">
+
     .size {
         width: 100px;
         height: 100px;

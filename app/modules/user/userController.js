@@ -40,6 +40,8 @@
                 "g-recaptcha-response": $scope.formData.captcha
             }).then(function (result) {
 
+                console.log(result);
+
                 if (result === undefined) {
                     alert('Wrong email or password');
                 } else if (result != undefined) {

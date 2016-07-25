@@ -19,7 +19,7 @@
             var getDSMedia = function () {
                 // Request list of DS media
                 return RequestService.postJsonRequest('content/findDSMedia', params).then(function (data) {
-                    console.log(data)
+
                     return data;
                 });
             };

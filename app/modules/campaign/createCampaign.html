@@ -10,13 +10,16 @@
         <uib-accordion-heading>
             General Information
         </uib-accordion-heading>
+
         <form>
+
             <div class="form-group">
                 <label>Name</label>
                 <input id="campaign_name" type="text" ng-model="campaign.owner.camp_name"
                        value="{{campaign.owner.camp_name}}"
                        class="form-control" placeholder="Your title go here">
             </div>
+
             <div class="form-group">
                 <label>Description</label>
                 <textarea id="campaign_description" class="form-control" ng-model="campaign.owner.camp_description"
@@ -27,9 +30,11 @@
             <div class="form-group">
                 <label>Priority</label>
                 <input id="campaign_priority" type="number" ng-model="campaign.owner.camp_priority"
-                       value="{{campaign.owner.camp_priority}}" class="form-control" placeholder="priro">
+                       value="{{campaign.owner.camp_priority}}" class="form-control" placeholder="priority">
             </div>
+
         </form>
+
     </uib-accordion-group>
 
     <uib-accordion-group panel-class="panel-primary">
@@ -51,7 +56,7 @@
                                    is-open="statusStart.opened" datepicker-options="dateOptions" ng-required="true"
                                    close-text="Done"/>
 
-                   <span class="input-group-btn">
+                            <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="openStart($event)"><i
                         class="glyphicon glyphicon-calendar"></i></button>
               </span>
@@ -65,7 +70,7 @@
                                    uib-datepicker-popup="{{format}}" ng-model="dtEnd"
                                    is-open="statusEnd.opened" datepicker-options="dateOptions" ng-required="true"
                                    close-text="Done"/>
-                    <span class="input-group-btn">
+                            <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="openEnd($event)"><i
                         class="glyphicon glyphicon-calendar"></i></button>
               </span>
@@ -527,9 +532,9 @@
 
                     </table>
 
-
                 </div>
             </div>
+
         </form>
 
         <!-- angular ui modal redeem from -->
@@ -724,42 +729,8 @@
                                                                         <div class="col-md-6 col-xs-6"
                                                                              ng-click="openConfig(content)">
 
-
-                                                                            <img lazy-src="{{content.cnt_url}}"
-                                                                                 class="img-circle  col-md-9"
-                                                                                 ng-if="content.content == undefined && content.cnt_url != '' && content.cnt_type == 'lkp_2'">
-
-                                                                            <img lazy-src="{{youtubeThumb(content.cnt_url)}}"
-                                                                                 alt="content.cnt_type"
-                                                                                 class="img-circle  col-md-9"
-                                                                                 ng-if="content.content == undefined && content.cnt_url != '' && content.cnt_type == 'lkp_5'">
-
-                                                                            <img lazy-src="{{youtubeThumb(content.content.cnt_url)}}"
-                                                                                 class="img-circle  col-md-9"
-                                                                                 alt="content.cnt_type.lkp_value"
-                                                                                 ng-if="content.content != undefined && content.content.cnt_url != '' && content.content.cnt_type == 'lkp_5'">
-
-
-                                                                            <img lazy-src="{{content.content.cnt_url}}"
-                                                                                 class="img-circle  col-md-9"
-                                                                                 ng-if="content.content != undefined && content.content.cnt_url != '' && content.content.cnt_type == 'lkp_2'">
-
-
-                                                                            <img
-                                                                                    lazy-src="assets/images/no-image.png"
-                                                                                    class="img-circle col-md-9"
-                                                                                    ng-if="content.content == undefined  && content.cnt_url == ''"/>
-
-                                                                            <img
-                                                                                    lazy-src="assets/images/no-image.png"
-                                                                                    class="img-circle col-md-9"
-                                                                                    ng-if="content.content != undefined && content.content.cnt_url == ''"/>
-
-                                                                            <label class="col-md-3 text-center"
-                                                                                   ng-if="content.content == undefined">{{content.cnt_title}}</label>
-
-                                                                            <label class="col-md-3 text-center"
-                                                                                   ng-if="content.content != undefined">{{content.content.cnt_title}}</label>
+                                                                            <thumbnaildirective
+                                                                                    content="content"></thumbnaildirective>
 
                                                                         </div>
 
@@ -944,7 +915,6 @@
             </div>
         </script>
         <!--</script>-->
-
 
         <!-- angular ui modal complete informations -->
         <script type="text/ng-template" id="campaignModalTpl">
@@ -1259,7 +1229,6 @@
                 <span class="hidden-xs">Save Campaign</span>
             </button>
         </div>
-
 
     </uib-accordion-group>
 
