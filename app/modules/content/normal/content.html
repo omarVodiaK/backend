@@ -112,33 +112,8 @@
 
                                                                 <div class="row">
 
-
-                                                                    <div class="col-md-9 col-xs-9"
-                                                                         ng-if="image.med_mimetype.indexOf('video') > -1">
-
-                                                                        <video width="300" controls="controls">
-                                                                            <source src="{{image.med_url}}"
-                                                                                    type="{{image.med_mimetype}}">
-                                                                        </video>
-
-
-                                                                    </div>
-
-                                                                    <div class="col-md-9 col-xs-9"
-                                                                         ng-if="image.med_mimetype.indexOf('audio') > -1">
-                                                                        <audio width="300" controls="controls">
-                                                                            <source src="{{image.med_url}}"
-                                                                                    type="{{image.med_mimetype}}">
-                                                                        </audio>
-                                                                    </div>
-
-                                                                    <div class="col-md-9 col-xs-9"
-                                                                         ng-if="image.med_mimetype.indexOf('image') > -1">
-                                                                        <a ng-click="openLightboxModal($index, itemsPerPage, currentPage)">
-                                                                            <img width="300"
-                                                                                 lazy-src="{{image.med_url}}">
-                                                                        </a>
-                                                                    </div>
+                                                                    <dsdirective image="image"
+                                                                                 content="content"></dsdirective>
 
                                                                     <div class="col-md-3 col-xs-3 text-right  v-center"
                                                                          style="display:table; height:100px;">
@@ -151,7 +126,7 @@
                                                                                        type="checkbox"
                                                                                        ng-model="image.checked"
                                                                                        ng-change="saveChecked($index, itemsPerPage, currentPage, images)"
-                                                                                       ng-checked="{false: '', true: 'checked'} [content.cnt_url == image.med_url] || true == getIndex($index, itemsPerPage, currentPage)">
+                                                                                       ng-checked="{false: '', true: 'checked'} [content.med_cd == image.med_cd] || true == getIndex($index, itemsPerPage, currentPage)">
 
                                                                                 <i></i>
 
@@ -191,6 +166,96 @@
                                                                    value="{{content.cnt_url}}">
 
                                                         </div>
+
+                                                    </uib-tab>
+
+                                                    <uib-tab heading="Upload">
+
+                                                        <section class="container" ng-controller="contentDropletCtrl">
+
+                                                            <section class="droplet"
+                                                                     ng-class="{ uploading: interface.isUploading() }">
+
+                                                                <ul class="statistics">
+                                                                    <li><label>Valid:</label>
+                                                                        {{interface.getFiles(interface.FILE_TYPES.VALID).length}}
+                                                                    </li>
+                                                                    <li><label>Invalid:</label>
+                                                                        {{interface.getFiles(interface.FILE_TYPES.INVALID).length}}
+                                                                    </li>
+                                                                    <li><label>Uploaded:</label>
+                                                                        {{interface.getFiles(interface.FILE_TYPES.UPLOADED).length}}
+                                                                    </li>
+                                                                    <li><label>Deleted:</label>
+                                                                        {{interface.getFiles(interface.FILE_TYPES.DELETED).length}}
+                                                                    </li>
+                                                                    <li><label>Total:</label>
+                                                                        {{interface.getFiles().length}}
+                                                                    </li>
+                                                                </ul>
+
+                                                                <section class="toolbar">
+
+                                                                    <input type="button" class="button upload-files"
+                                                                           value="Upload Files"
+                                                                           ng-click="interface.uploadFiles()"
+                                                                           ng-hide="interface.isUploading()"
+                                                                           ng-class="{ clickable: interface.isReady() }"/>
+
+
+                                                                    <div class="add-file">
+                                                                        <input type="button" class="button add-files"
+                                                                               value="Add Files..."
+                                                                               style="width: 100%;"/>
+                                                                        <droplet-upload-single
+                                                                                ng-model="interface"></droplet-upload-single>
+                                                                    </div>
+
+                                                                    <comment class="progress"
+                                                                             ng-class="{ visible: interface.isUploading() }">
+                                                                        Uploaded: {{interface.progress.percent}}%
+                                                                    </comment>
+
+                                                                </section>
+
+                                                                <droplet ng-model="interface"
+                                                                         product="product.product_image">
+
+                                                                    <comment></comment>
+
+                                                                    <section class="message success"
+                                                                             ng-class="{ visible: success }"
+                                                                             ng-click="success = false">
+                                                                        Successfully uploaded {{uploadCount}} files.
+                                                                    </section>
+
+                                                                    <section class="message error"
+                                                                             ng-class="{ visible: error }"
+                                                                             ng-click="error = false">
+                                                                        Failed to upload any of the files.
+                                                                    </section>
+
+                                                                    <ul class="files">
+
+                                                                        <li ng-repeat="model in interface.getFiles(interface.FILE_TYPES.VALID)">
+                                                                            <droplet-preview ng-model="model"
+                                                                                             product="product.product_image"></droplet-preview>
+                                                                            <div class="delete"
+                                                                                 ng-click="model.deleteFile()">&times;</div>
+                                                                            <div class="size">{{model.file.size / 1024 /
+                                                                                1024 |
+                                                                                number:
+                                                                                1}}MB
+                                                                            </div>
+                                                                        </li>
+
+                                                                    </ul>
+
+                                                                </droplet>
+
+                                                            </section>
+
+                                                        </section>
 
                                                     </uib-tab>
 
@@ -265,26 +330,14 @@
                 <td>{{content.cnt_title}}</td>
                 <td>{{content.cnt_content}}</td>
                 <td>
-
                     <div class="wrapper size">
-                        <img class="img-circle" ng-show="content.cnt_url != '' && content.cnt_type.lkp_value == 'image'"
-                             lazy-src="{{content.cnt_url}}"/>
 
-                        <img class="img-circle"
-                             ng-show="content.cnt_url == '' && content.cnt_type.lkp_value == 'notification'"
-                             src="assets/images/notification.png"/>
+                        <previewdirective content="content"></previewdirective>
 
-                        <img class="img-circle" ng-if="content.cnt_url != '' && content.cnt_type.lkp_value == 'video'"
-                             lazy-src="{{youtubeThumb(content.cnt_url)}}">
-
-                        <img class="img-circle" ng-if="content.cnt_url != '' && content.cnt_type.lkp_value == 'audio'"
-                             src="assets/images/audio-icon.png"/>
                     </div>
-
                 </td>
                 <td ng-if="content.is_ds_content == true">External Content</td>
                 <td ng-if="content.is_ds_content == false">Internal Content</td>
-
                 <td class="text-right">
 
                     <div class="btn-group checkbox" role="group" ng-controller="ModalContentCtrl">
@@ -317,6 +370,7 @@
         </dir-pagination-controls>
 
     </div>
+
 </div>
 
 <div class="bs-component" style="margin-top:20px;" ng-if="contents.length == 0">

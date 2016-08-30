@@ -237,14 +237,18 @@
                         if (deleteConfigResult.result == "deleted successfully") {
 
                             RequestService.postJsonRequest('campaignContent/deleteBeaconFromCampaign', {camp_bcn_cnt_cd: content.camp_bcn_cnt_cd}).then(function (deleteContentResult) {
+
                                 if (deleteContentResult.result == "deleted successfully") {
+
                                     notify({
                                         message: 'Deleted Successfully!',
                                         classes: 'alert-success',
                                         position: 'center'
                                     });
+
                                     $scope.content = '';
                                 }
+
                             });
                         }
                     });
@@ -275,8 +279,8 @@
         } else {
 
             $scope.contents = [];
-
             $scope.contentTypes = [];
+
             RequestService.postJsonRequest('campaign/findCampaignBeacons', {'cmp_cd': session.getUser().user.cmp_cd}).then(function (beacons) {
 
                 $scope.campaign = {};
@@ -285,9 +289,7 @@
 
                 RequestService.postJsonRequest('content/findContentByCompanyId', {"cmp_cd": session.getUser().user.cmp_cd}).then(function (data) {
 
-                    if (data.result == "this model doesn't exist") {
-
-                    } else if (data.result == undefined) {
+                    if (data.result == undefined) {
 
                         data.forEach(function (content) {
                             if (content.cnt_type.lkp_value != 'voucher') {
@@ -311,7 +313,9 @@
             $scope.title = 'new Campaign';
 
         } else {
+
             if ($scope.campaign.update == true) {
+
                 $scope.title = 'update Campaign';
 
             } else {
@@ -324,6 +328,7 @@
 
         $scope.selectedDay = function (id) {
             var selected = false;
+
             $scope.selectedDays.forEach(function (day) {
                 if (day == id) {
                     selected = true;
@@ -332,6 +337,7 @@
             });
 
             if (selected == false) {
+
                 $scope.selectedDays.push(id);
             }
         };
@@ -452,6 +458,7 @@
                                         day_cd: day,
                                         sch_cd: schedule.sch_cd
                                     }).then(function (res) {
+
                                     });
 
                                 });
@@ -489,7 +496,7 @@
 
                                                             if ($scope.campaign.beacons) {
 
-                                                                $scope.campaign.beacons.forEach(function (campBeacon) {
+                                                                $scope.campaign.beacons.forEach(function () {
 
                                                                     beacons.forEach(function (beacon) {
                                                                         $scope.campaign.beacons.push(beacon);
@@ -1760,5 +1767,4 @@
         $scope.campaigns.splice(index, 1);
     }
 
-})
-();
+})();

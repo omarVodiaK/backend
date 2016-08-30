@@ -11,22 +11,19 @@
 }
 
 body {
-    /*
-    <<<<<<< HEAD
-        font-family: 'Arial', sans-serif;
-        background: #D1D1D1 url('../images/mochaGrunge.png');
-        margin-top: 100px;
-    =======
-    */
+
+    /*font-family: 'Arial', sans-serif;*/
+    /*background: #D1D1D1 url('../images/mochaGrunge.png');*/
+    /*margin-top: 100px;*/
+
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3c4756+0,232a32+100 */
     background-repeat: no-repeat;
     background: #3c4756; /* Old browsers */
     background: -moz-radial-gradient(top, ellipse cover, #3c4756 0%, #232a32 100%);
-    FF3 .6 -15
+    FF3.6 -15
     background: -webkit-radial-gradient(top, ellipse cover, #3c4756 0%, #232a32 100%); /* Chrome10-25,Safari5.1-6 */
     background: radial-gradient(ellipse at top, #3c4756 0%, #232a32 100%);
-    W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7 +
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3c4756', endColorstr='#232a32', GradientType=1); /* IE6-9 fallback on horizontal gradient */
+    W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7 + filter: progid: DXImageTransform . Microsoft . gradient(startColorstr = '#3c4756', endColorstr = '#232a32', GradientType = 1); /* IE6-9 fallback on horizontal gradient */
 
 }
 
@@ -1053,7 +1050,6 @@ span.actions {
     border-left-color: #428BCA;
     border-radius: 10px;
 }
-
 /* end loading bar */
 
 /* begin content list */
@@ -1156,5 +1152,4 @@ span.actions {
     bottom: 20px;
     right: 20px;
 }
-
 /* end content list */

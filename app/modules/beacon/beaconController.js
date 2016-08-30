@@ -27,6 +27,7 @@
      * @param {service} RequestService
      */
     function beaconController($scope, RequestService, session, notify) {
+
         $scope.zones = [];
         $scope.locations = [];
         $scope.fakeLocations = [];
@@ -35,7 +36,7 @@
 
         var params = {
             'cmp_cd': session.getUser().user.cmp_cd
-        }
+        };
 
         RequestService.postJsonRequest('beacon/findBeaconByCompanyId', params).then(function (data) {
 
@@ -97,7 +98,6 @@
             });
 
         });
-
 
         /**
          * @description delete row from zone table
@@ -223,6 +223,7 @@
         $scope.ok = function () {
 
             if (beacon == undefined) {
+
                 if (angular.element('#beacon_name').val() == "" || angular.element('#beacon_uuid').val() == "" || angular.element('#beacon_major').val() == "" || angular.element('#beacon_minor').val() == "" || angular.element('#beacon_general_info').val() == "") {
 
                     notify({
@@ -231,7 +232,6 @@
                         position: 'center',
                         duration: 2000
                     });
-
                 } else {
 
                     var params = {
@@ -263,7 +263,6 @@
 
             } else {
 
-
                 var params = {
                     "bcn_name": $scope.beacon.bcn_name,
                     "bcn_uuid": $scope.beacon.bcn_uuid,
@@ -281,12 +280,14 @@
 
                     for (var i = 0; i < $scope.beacons.length; i++) {
                         if (data.bcn_cd == $scope.beacons[i].bcn_cd) {
+
                             notify({
                                 message: "Updated Successfully!",
                                 classes: 'alert-info',
                                 position: 'center',
                                 duration: 2000
                             });
+
                             $scope.beacons[i] = data;
                         }
                     }
@@ -303,7 +304,6 @@
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
-
 
     }
 
@@ -344,23 +344,21 @@
                                 for (var i = 0; i < $scope.beacons.length; i++) {
 
                                     if (data.bcn_cd == $scope.beacons[i].bcn_cd) {
+
                                         $scope.beacons[i] = data;
                                     }
-
                                 }
 
-                                sweet.show('Shared!', 'The beacon is now visible to associates.', 'success');
+                                sweet.show('Shared!', 'The beacon is now visible to associates!', 'success');
 
                             } else {
 
                                 sweet.show('Cancelled', '', 'error');
-
                             }
 
-
                         });
-
                     } else {
+
                         sweet.show('Cancelled', '', 'error');
                     }
                 });
@@ -423,27 +421,38 @@
      * @param {object} Upload
      * @param {object} $timeout
      */
-    function UploadController($scope, Upload, $timeout) {
+    function UploadController($scope, Upload, $timeout, DEFAULT_BACKEND_CONFIG, session, APPLICATION_ID) {
 
         $scope.uploadPic = function (file) {
+
             file.upload = Upload.upload({
-                url: 'http://localhost:3507/upload.html',
-                data: {file: file}
+
+                url: "http://" + DEFAULT_BACKEND_CONFIG.HOST + ":" + DEFAULT_BACKEND_CONFIG.PORT + "/upload/multi",
+                data: {file: file},
+                headers: {"x-access-token": session.getUser().token, "application_id": APPLICATION_ID}
+
             });
 
             file.upload.then(function (response) {
+
                 $timeout(function () {
+
                     file.result = response.data;
                 });
+
             }, function (response) {
+
                 if (response.status > 0)
                     $scope.errorMsg = response.status + ': ' + response.data;
+
             }, function (evt) {
+
                 // Math.min is to fix IE which reports 200% sometimes
                 file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
             });
+
         }
+
     }
 
 })();
-

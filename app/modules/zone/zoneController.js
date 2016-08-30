@@ -8,7 +8,7 @@
      * @inject {} angularUtils.directives.dirPagination
      */
     angular.
-        module('app.zone', ['angularUtils.directives.dirPagination'])
+    module('app.zone', ['angularUtils.directives.dirPagination'])
         .controller('ZoneCtrl', zoneController)
         .controller('ModalZoneCtrl', modalZoneController)
         .controller('ModalInstanceCtrl', modalInstanceController)

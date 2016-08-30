@@ -46,9 +46,9 @@
                                                           class="form-control" rows="2"
                                                           placeholder="Address"
                                                           aria-describedby="geocode-addon" required></textarea>
-                                                <span class="input-group-addon"
-                                                      ng-click="geoCode(zone.zone_address, zone.zone_range)"
-                                                      id="geocode-addon"><i class="icon-search"></i></span>
+                                                    <span class="input-group-addon"
+                                                          ng-click="geoCode(zone.zone_address, zone.zone_range)"
+                                                          id="geocode-addon"><i class="icon-search"></i></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -160,9 +160,14 @@
             </tr>
             </tbody>
         </table>
+
     </div>
 
-
+    <dir-pagination-controls
+            max-size="5"
+            direction-links="true"
+            boundary-links="true">
+    </dir-pagination-controls>
 </div>
 
 <div class="bs-component" style="margin-top:20px;" ng-if="zones.length == 0">
@@ -172,14 +177,14 @@
         <div class="alert alert-info" role="alert"><i class="glyphicon glyphicon-info-sign"></i> You have 0
             zones!
         </div>
+
     </div>
 
 </div>
 
-<dir-pagination-controls
-        max-size="5"
-        direction-links="true"
-        boundary-links="true">
-</dir-pagination-controls>
-
-
+<!-- Map -->
+<!-- The API Key must be included as a parameter in the URL -->
+<!-- The Key included is free but limited and cannot respond to more than 2500 request per day and/or 10 request per second -->
+<script type="text/javascript"
+        src="http://maps.google.com/maps/api/js?key=AIzaSyD_7_LuciWsEjEbgAmj-fVDgCiGsE6WaKE"></script>
+<!-- /Map -->

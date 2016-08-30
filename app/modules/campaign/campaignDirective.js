@@ -20,8 +20,8 @@
                     campaign: '=data' // pass campaign model as attribute to directive
                 },
                 restrict: 'E', // restrict to element
-                link: function (scope, element, attrs) {
-                    scope.$watch("campaign.trueOwner.camp_state", function (newValue, oldValue) {
+                link: function (scope, element) {
+                    scope.$watch("campaign.trueOwner.camp_state", function () {
                         var replacementElement;
                         if (scope.campaign.trueOwner.camp_state == "pending") {
                             replacementElement = angular.element('<div><span class="glyphicon glyphicon-file" aria-hidden="true"></span> <span class="glyphicon-class  hidden-md hidden-xs">Inactive</span></div>')
@@ -191,8 +191,8 @@
                     content: '=' // pass content model as attribute to thumbnail directive
                 },
                 restrict: 'E', // restrict to element
-                link: function (scope, element, attrs) {
-                    scope.$watch("content.content", function (newValue, oldValue) {
+                link: function (scope, element) {
+                    scope.$watch("content.content", function () {
 
                         var replacementElement;
 
@@ -201,20 +201,24 @@
                             replacementElement = angular.element('<img src="' + scope.content.cnt_url + '" class="img-circle col-md-9"><label class="col-md-3 text-center">"' + scope.content.cnt_title + '"</label>');
                             element.html('');
                             element.append(replacementElement);
+
                         } else if (scope.content.content == undefined && scope.content.cnt_url != '' && scope.content.cnt_type == 'lkp_5') {
+
                             if (validateYouTubeUrl(scope.content.cnt_url)) {
-                                replacementElement = angular.element('<img src="' + scope.youtubeThumb(scope.content.cnt_url) + '" class="img-circle col-md-9"><label class="col-md-3 text-center">"' + scope.content.cnt_title + '"</label>');
+                                replacementElement = angular.element('<img src="' + youtubeThumb(scope.content.cnt_url) + '" class="img-circle col-md-9"><label class="col-md-3 text-center">"' + scope.content.cnt_title + '"</label>');
                                 element.html('');
                                 element.append(replacementElement);
                             } else {
+                                console.log(scope.content)
                                 replacementElement = angular.element('<video width="300" src="' + scope.content.cnt_url + '" controls></video> <label class="col-md-3 text-center">"' + scope.content.cnt_title + '"</label>');
                                 element.html('');
                                 element.append(replacementElement);
                             }
 
                         } else if (scope.content.content != undefined && scope.content.content.cnt_url != '' && scope.content.content.cnt_type == 'lkp_5') {
+
                             if (validateYouTubeUrl(scope.content.content.cnt_url)) {
-                                replacementElement = angular.element('<img src="' + scope.youtubeThumb(scope.content.content.cnt_url) + '" class="img-circle col-md-9"><label class="col-md-3 text-center">"' + scope.content.content.cnt_title + '"</label>');
+                                replacementElement = angular.element('<img src="' + youtubeThumb(scope.content.content.cnt_url) + '" class="img-circle col-md-9"><label class="col-md-3 text-center">"' + scope.content.content.cnt_title + '"</label>');
                                 element.html('');
                                 element.append(replacementElement);
                             } else {
@@ -229,6 +233,7 @@
                             replacementElement = angular.element('<img src="' + scope.content.content.cnt_url + '" class="img-circle col-md-9"><label class="col-md-3 text-center">"' + scope.content.content.cnt_title + '"</label>');
                             element.html('');
                             element.append(replacementElement);
+
                         } else if (scope.content.content == undefined && scope.content.cnt_url == '') {
 
                             replacementElement = angular.element('<img src="assets/images/no-image.png" class="img-circle col-md-9"><label class="col-md-3 text-center">"' + scope.content.cnt_title + '"</label>');
@@ -236,14 +241,16 @@
                             element.append(replacementElement);
 
                         } else if (scope.content.content != undefined && scope.content.content.cnt_url == '') {
-                            replacementElement = angular.element('<img src="assets/images/no-image.png" class="img-circle col-md-9"><label class="col-md-3 text-center">"' + scope.content.cnt_title + '"</label>');
+
+                            replacementElement = angular.element('<img src="assets/images/no-image.png" class="img-circle col-md-9"><label class="col-md-3 text-center">"' + scope.content.content.cnt_title + '"</label>');
                             element.html('');
                             element.append(replacementElement);
                         }
 
                     });
 
-                    scope.youtubeThumb = function (url) {
+
+                    function youtubeThumb(url) {
                         var video, results;
 
                         if (url === null) {
@@ -256,10 +263,9 @@
 
                             return 'http://img.youtube.com/vi/' + video + '/0.jpg';
                         } else {
-
                             return url;
                         }
-                    };
+                    }
 
                     function validateYouTubeUrl(url) {
 
@@ -280,8 +286,33 @@
                         } else {
                             return '';
                         }
-                    }
+                    };
 
+                }
+            }
+        })
+
+        .directive('beaconuseddirective', function () {
+            return {
+                template: '',
+                replace: true,
+                scope: {
+                    beacon: '='
+                },
+                restrict: 'E',
+                link: function (scope, element) {
+                    scope.$watch('beacon', function () {
+                        var replacementElement;
+                        if (scope.beacon.bcn_used) {
+                            replacementElement = angular.element('<span class="glyphicon glyphicon-ok" style="color:forestgreen;" aria-hidden="true"></span>');
+                            element.html('');
+                            element.append(replacementElement);
+                        } else {
+                            replacementElement = angular.element('<span class="glyphicon glyphicon-remove" style="color:red;" aria-hidden="true"></span>');
+                            element.html('');
+                            element.append(replacementElement);
+                        }
+                    })
                 }
             }
         })
@@ -296,39 +327,49 @@
                 },
                 restrict: 'E',
                 transclude: true,
-                link: function (scope, element, attrs) {
-                    scope.$watch("", function (newValue, oldValue) {
+                link: function (scope, element) {
+                    scope.$watch("", function () {
                         var replacementElement;
-                        console.log(scope.campaign)
+
                         if (scope.campaign.trueOwner.cmp_camp_owner == true && scope.campaign.owner.camp_state == 'active') {
-
+                            // htmlButton('btn btn-default', 'Deactivate')
                             replacementElement = angular.element('<button ng-click="' + scope.confirmCancel(scope.campaign) + '" class="btn btn-default"><i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i><span class="hidden-xs hidden-md">Deactivate</span></button>');
-
                             element.html('');
                             element.append(replacementElement);
+
                         } else if (scope.campaign.trueOwner.cmp_camp_owner == true && scope.campaign.owner.camp_state == 'inactive') {
 
                             replacementElement = angular.element('<button ng-click="' + scope.confirmCancel(scope.campaign) + '" class="btn btn-success"><i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i> <span class="hidden-xs hidden-md">activate</span></button>');
                             element.html('');
                             element.append(replacementElement);
+
                         } else if (scope.campaign.trueOwner.cmp_camp_owner == true && scope.campaign.owner.camp_state == 'expired') {
 
                             replacementElement = angular.element('<button ng-click="' + scope.confirmCancel(scope.campaign) + '" class="btn btn-success"><i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i><span class="hidden-xs hidden-md">Reactivate</span></button>');
                             element.html('');
                             element.append(replacementElement);
-                        }else if(scope.campaign.trueOwner.cmp_camp_owner == false && scope.campaign.trueOwner.camp_state == 'accepted'){
+
+                        } else if (scope.campaign.trueOwner.cmp_camp_owner == false && scope.campaign.trueOwner.camp_state == 'accepted') {
 
                             replacementElement = angular.element('<button ng-click="' + scope.confirmCancel(scope.campaign) + '" class="btn btn-default"><i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i><span class="hidden-xs hidden-md">Deactivate</span></button>');
                             element.html('');
                             element.append(replacementElement);
-                        }else if(scope.campaign.trueOwner.cmp_camp_owner == false && scope.campaign.trueOwner.camp_state == 'pending'){
+
+                        } else if (scope.campaign.trueOwner.cmp_camp_owner == false && scope.campaign.trueOwner.camp_state == 'pending') {
 
                             replacementElement = angular.element('<button ng-click="' + scope.confirmCancel(scope.campaign) + '" class="btn btn-success"><i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i> <span class="hidden-xs hidden-md">activate</span></button>');
                             element.html('');
                             element.append(replacementElement);
                         }
-                    })
+                    });
+
+                    function htmlButton(buttonClass, buttonName ){
+
+                        return '<button ng-click="' + scope.confirmCancel(scope.campaign) + '" class="' + buttonClass + '"><i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i><span class="hidden-xs hidden-md">buttonName</span></button>';
+                    }
                 }
+
+
             }
         });
 

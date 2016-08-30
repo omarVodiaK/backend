@@ -405,7 +405,7 @@ angular.module('bootstrapLightbox').provider('Lightbox', function () {
                     Lightbox.image = properties.image || image;
                     Lightbox.imageUrl = properties.imageUrl || imageUrl;
                     Lightbox.imageCaption = properties.imageCaption ||
-                    Lightbox.getImageCaption(image);
+                        Lightbox.getImageCaption(image);
 
                     // restore the loading flag and complete the loading bar
                     Lightbox.loading = false;
@@ -450,7 +450,7 @@ angular.module('bootstrapLightbox').provider('Lightbox', function () {
              */
             Lightbox.prevImage = function () {
                 Lightbox.setImage((Lightbox.index - 1 + Lightbox.images.length) %
-                Lightbox.images.length);
+                    Lightbox.images.length);
             };
 
             /**
@@ -657,8 +657,8 @@ angular.module('bootstrapLightbox').directive('lightboxSrc', ['$window',
                     angular.element(
                         document.querySelector('.lightbox-modal .modal-dialog')
                     ).css({
-                            'width': modalDimensions.width + 'px'
-                        });
+                        'width': modalDimensions.width + 'px'
+                    });
 
                     // .modal-content has no width specified; if we set the width on
                     // .modal-content and not on .modal-dialog, .modal-dialog retains its
@@ -666,8 +666,8 @@ angular.module('bootstrapLightbox').directive('lightboxSrc', ['$window',
                     angular.element(
                         document.querySelector('.lightbox-modal .modal-content')
                     ).css({
-                            'height': modalDimensions.height + 'px'
-                        });
+                        'height': modalDimensions.height + 'px'
+                    });
                 };
 
                 // load the new image and/or resize the video whenever the attr changes

@@ -5,12 +5,12 @@
     "private" : false,
     "favor_generated" : true,
     "tags": {
-    "function":{
-        "name":{},
-        "desc":{"value":"Description"},
-        "params":{},
-        "rtrn":{}
-    }
-},
+        "function":{
+            "name":{},
+            "desc":{"value":"Description"},
+            "params":{},
+            "rtrn":{}
+        }
+    },
     "template" : "../templates/default.js"
 }

@@ -17,7 +17,6 @@
 
                 // Request list of locations
                 return RequestService.postJsonRequest('location/getLocationsByCompanyId', params).then(function (data) {
-                    console.log(data)
                     return data;
                 });
 

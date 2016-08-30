@@ -27,4 +27,3 @@ angular
             'app.services',
             'app.config'
         ]);
-

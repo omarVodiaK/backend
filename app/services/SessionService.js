@@ -14,6 +14,7 @@ function sessionManagement(PROJECT_CODE, $log) {
     this._customObject = JSON.parse(localStorage.getItem('session.' + PROJECT_CODE + '.customObject'));
 
     this.getUser = function () {
+
         return this._user;
     };
 
@@ -47,10 +48,9 @@ function sessionManagement(PROJECT_CODE, $log) {
      * Destroy session
      */
     this.destroy = function destroy() {
+
         this.setUser(null);
-        localStorage.removeItem('session.' + PROJECT_CODE + '.user');
         this.setCustomObject(null);
-        localStorage.clear();
     };
 
 }

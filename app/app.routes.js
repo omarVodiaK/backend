@@ -7,7 +7,7 @@ angular
 function config($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $urlRouterProvider.
-        when('/', "/dashboard/associate")
+    when('/', "/dashboard/associate")
         .otherwise("/dashboard/associate");
     $stateProvider
         .state('auth', {

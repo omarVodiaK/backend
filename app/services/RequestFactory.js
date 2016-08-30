@@ -21,13 +21,16 @@ function dataService($http, DEFAULT_BACKEND_CONFIG, $log, session, $state) {
             postfix = postfix + "/" + DEFAULT_BACKEND_CONFIG.POSTFIX;
         var requestUrl = 'http://' + DEFAULT_BACKEND_CONFIG.HOST + port + postfix + '/' + url;
         var data = params;
+
         var header = {
             'Content-Type': 'application/json'
         };
+
         if (url != "auth/login" && url != "auth/register" && session.getUser() !== null && session.getUser() !== undefined) {
 
             header["x-access-token"] = session.getAccessToken();
         }
+
         return $http({
             'url': requestUrl,
             'method': 'POST',

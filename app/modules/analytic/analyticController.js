@@ -5,11 +5,9 @@
      * module app.analytic
      * @module app.analytic
      */
-    angular.module('app.analytic', ['chart.js', 'countTo'])
-
-
-        .controller('AnalyticCtrl', analyticController)
-
+    angular
+        .module('app.analytic', ['chart.js', 'countTo'])
+        .controller('AnalyticCtrl', analyticController);
 
     /**
      * @description app.analytic module controller for selecting respective information from RequestService.
@@ -109,7 +107,7 @@
         RequestService.postJsonRequest('userAction/findInteractionUsers', {cmp_cd: session.getUser().user.cmp_cd}).then(function (user_action) {
 
             var users = user_action.inactive_users + user_action.active_users;
-            $scope.percActiveUsersData = [per(user_action.active_users, users), per(user_action.inactive_users, users)];
+            $scope.percActiveUsersData = [percentage(user_action.active_users, users), percentage(user_action.inactive_users, users)];
             $scope.percActiveUsersLabels = ["active", "inactive"];
             $scope.validatePercentageUsers = true;
 
@@ -152,7 +150,7 @@
     }
 
     // Calculate percentage
-    function per(num, amount) {
+    function percentage(num, amount) {
         return ((num / amount) * 100).toFixed(2);
     }
 

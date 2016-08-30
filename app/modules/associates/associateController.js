@@ -34,7 +34,6 @@
         $scope.emails = [];
         $scope.users = [];
 
-
         /**
          * @description populate associates
          * @method postJsonRequest
@@ -79,24 +78,24 @@
                 }
             ).then(function (result) {
 
-                    if (result.length == 1) {
+                if (result.length == 1) {
 
-                        for (var i = 0; i < $scope.associates.length; i++) {
+                    for (var i = 0; i < $scope.associates.length; i++) {
 
-                            if ($scope.associates[i].asc_cd == result[0].asc_cd) {
+                        if ($scope.associates[i].asc_cd == result[0].asc_cd) {
 
-                                $scope.associates[i] = result[0];
+                            $scope.associates[i] = result[0];
 
-                            }
                         }
-                        notify({
-                            message: "Associate Accepted!",
-                            classes: 'alert-info',
-                            position: 'center',
-                            duration: 2000
-                        });
                     }
-                });
+                    notify({
+                        message: "Associate Accepted!",
+                        classes: 'alert-info',
+                        position: 'center',
+                        duration: 2000
+                    });
+                }
+            });
         };
 
         /**

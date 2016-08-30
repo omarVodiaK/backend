@@ -7,12 +7,13 @@
      */
 
     angular
-        .module('app.content', [])
+        .module('app.content', ['app.config'])
         .controller('ContentCtrl', contentController)
         .controller('ModalContentCtrl', modalController)
         .controller('ModalContentInstanceCtrl', modalInstanceController)
         .controller('GalleryCtrl', galleryController)
-        .controller('ContentAlertCtrl', alertController);
+        .controller('ContentAlertCtrl', alertController)
+        .controller('contentDropletCtrl', dropletController);
 
     /**
      * @description load content and content type from beacon API, delete content and display youtube thumbnails
@@ -29,31 +30,17 @@
         $scope.contentTypes = [];
         $scope.tag = [];
 
-
         var contentTag = ContentService.getContentTag();
-
-
-        RequestService.postJsonRequest('userAction/findProfile', {
-            usr_cd: "usr_85",
-            cmp_cd: session.getUser().user.cmp_cd
-        }).then(function (result) {
-
-        })
 
         contentTag.then(function (data) {
 
-            if (data.result != undefined) {
+            if (data.result == undefined) {
 
-                if (data.result == "no tags found") {
-
+                if (data.length > 0) {
+                    data.forEach(function (d) {
+                        $scope.tag.push(d);
+                    });
                 }
-
-            } else {
-
-                data.forEach(function (d) {
-                    $scope.tag.push(d);
-                });
-
             }
 
         });
@@ -74,7 +61,6 @@
                 data.forEach(function (content) {
 
                     if (content.cnt_type.lkp_value != 'voucher') {
-
                         $scope.contents.push(content);
                     }
                 });
@@ -126,7 +112,7 @@
                     if (index === -1) {
 
                         notify({
-                            message: "Something gone wrong!",
+                            message: "Something went wrong!",
                             classes: 'alert-warning',
                             position: 'center',
                             duration: 2000
@@ -148,17 +134,14 @@
                 } else {
 
                     notify({
-                        message: "Something gone wrong!",
+                        message: "Something went wrong!",
                         classes: 'alert-warning',
                         position: 'center',
                         duration: 2000
                     });
-
                 }
 
             });
-
-
         };
 
     }
@@ -240,8 +223,11 @@
      * @param {array} contents
      * @param {object} session
      * @param {object} notify
+     * @param {object} $sce
+     * @param {service} CDNService
+     * @param {CONSTANT} CDN_CONFIG
      */
-    function modalInstanceController($scope, $uibModalInstance, content, $rootScope, RequestService, contents, session, notify, tags, $sce) {
+    function modalInstanceController($scope, $uibModalInstance, content, $rootScope, RequestService, contents, session, notify, $sce, CDNService, CDN_CONFIG) {
 
         if (content != undefined) {
             $scope.content = content;
@@ -275,7 +261,18 @@
                     if ($rootScope.checkedItems == undefined) {
 
                         is_ds_content = false;
-                        content_url = angular.element('#content_url').val();
+
+                        if (CDNService.getCDNResult() == '') {
+
+                            if (angular.element('#content_url').val() != '') {
+
+                                content_url = angular.element('#content_url').val();
+                            }
+
+                        } else if (CDNService.getCDNResult() != '') {
+
+                            content_url = CDN_CONFIG.HOST + ":" + CDN_CONFIG.PORT + "" + CDNService.getCDNResult()[0].med_url + "?token=" + session.getAccessToken();
+                        }
 
                     } else {
 
@@ -288,7 +285,18 @@
                         } else {
 
                             is_ds_content = false;
-                            content_url = angular.element('#content_url').val();
+
+                            if (CDNService.getCDNResult() == '') {
+
+                                if (angular.element('#content_url').val() != '') {
+
+                                    content_url = angular.element('#content_url').val();
+                                }
+
+                            } else if (CDNService.getCDNResult() != '') {
+
+                                content_url = CDN_CONFIG.HOST + ":" + CDN_CONFIG.PORT + "" + CDNService.getCDNResult()[0].med_url + "?token=" + session.getAccessToken();
+                            }
                         }
                     }
 
@@ -341,7 +349,9 @@
 
                     });
 
+                    CDNService.setCDNResult('');
                     $uibModalInstance.close();
+
                 }
             }
             // update a content
@@ -349,7 +359,19 @@
                 if ($rootScope.checkedItems == undefined) {
 
                     is_ds_content = false;
-                    content_url = angular.element('#content_url').val();
+
+                    if (CDNService.getCDNResult() == '') {
+
+                        if (angular.element('#content_url').val() != '') {
+
+                            content_url = angular.element('#content_url').val();
+                        }
+
+                    } else if (CDNService.getCDNResult() != '') {
+
+                        content_url = CDN_CONFIG.HOST + ":" + CDN_CONFIG.PORT + "" + CDNService.getCDNResult()[0].med_url + "?token=" + session.getAccessToken();
+
+                    }
 
                 } else {
 
@@ -357,14 +379,24 @@
 
                         is_ds_content = true;
 
-                        content_url = $rootScope.images[$rootScope.checkedItems].med_url;
+                        content_url = $sce.valueOf($rootScope.images[$rootScope.checkedItems].med_url);
                         med_cd = $rootScope.images[$rootScope.checkedItems].med_cd;
 
                     } else {
 
                         is_ds_content = false;
-                        content_url = angular.element('#content_url').val();
 
+                        if (CDNService.getCDNResult() == '') {
+
+                            if (angular.element('#content_url').val() != '') {
+
+                                content_url = angular.element('#content_url').val();
+                            }
+
+                        } else if (CDNService.getCDNResult() != '') {
+
+                            content_url = CDN_CONFIG.HOST + ":" + CDN_CONFIG.PORT + "" + CDNService.getCDNResult()[0].med_url + "?token=" + session.getAccessToken();
+                        }
                     }
                 }
 
@@ -439,6 +471,7 @@
 
                 });
 
+                CDNService.setCDNResult('');
                 $uibModalInstance.close();
             }
         };
@@ -448,6 +481,7 @@
          * @method cancel
          */
         $scope.cancel = function () {
+            CDNService.setCDNResult('');
             $uibModalInstance.dismiss('cancel');
         };
     }
@@ -457,11 +491,10 @@
      * @method galleryController
      * @param {object} $scope
      * @param {object} Lightbox
-     * @param {service} ContentService
      * @param {object} $rootScope
      * @param {object} session
      */
-    function galleryController($scope, Lightbox, ContentService, $rootScope, session, $sce) {
+    function galleryController($scope, Lightbox, $rootScope, session) {
 
         $scope.currentPage = 1;
         $scope.itemsPerPage = 5;
@@ -470,25 +503,36 @@
         $scope.checkedValue = -1;
 
         // TODO resolve DS Media list display
-        var dsMedia = ContentService.getDSMedia();
+        // var dsMedia = ContentService.getDSMedia();
 
         var token = '?token=' + session.getAccessToken();
 
-        dsMedia.then(function (data) {
-
-            if (data != undefined) {
-                data.response.forEach(function (d) {
-
-                    d.checked = false;
-                    d.med_url = $sce.trustAsResourceUrl('http://128.199.125.79' + d.med_url + token);
-                    d.url = d.med_url;
-                    $scope.images.push(d);
-                });
-
-                $scope.totalItems = $scope.images.length;
-                $rootScope.images = $scope.images;
-            }
-        });
+        // dsMedia.then(function (data) {
+        //
+        //     if (data.length != undefined) {
+        //
+        //         data.response.forEach(function (d) {
+        //
+        //             d.checked = false;
+        //             d.med_url = $sce.trustAsResourceUrl(SIGNAGE_CONFIG.HOST + ":" + SIGNAGE_CONFIG.PORT + d.med_url + token);
+        //             d.url = $sce.valueOf(d.med_url);
+        //             $scope.images.push(d);
+        //
+        //         });
+        //
+        //         $scope.totalItems = $scope.images.length;
+        //         $rootScope.images = $scope.images;
+        //     } else {
+        //         if (data.status == -1) {
+        //             notify({
+        //                 message: "You have 0 DS Content!",
+        //                 classes: 'alert-info',
+        //                 position: 'center',
+        //                 duration: 2000
+        //             });
+        //         }
+        //     }
+        // });
 
         $scope.getIndex = function (index, itemPerPage, currentPage) {
 
@@ -593,6 +637,84 @@
 
             Lightbox.openModal($scope.images, paginationIndex);
         };
+
+    }
+
+    /**
+     * @description controller to handle image upload in ng-droplet
+     * @method dropletController
+     * @param {object} $scope
+     * @param {object} $timeout
+     * @param {object} session
+     * @param {CONSTANT} APPLICATION_ID
+     * @param {service} CDNService
+     * */
+    function dropletController($scope, $timeout, session, APPLICATION_ID, CDNService) {
+
+        /**
+         * @property interface
+         * @type {Object}
+         */
+        $scope.interface = {};
+
+        /**
+         * @property uploadCount
+         * @type {Number}
+         */
+        $scope.uploadCount = 0;
+
+        /**
+         * @property success
+         * @type {Boolean}
+         */
+        $scope.success = false;
+
+        /**
+         * @property error
+         * @type {Boolean}
+         */
+        $scope.error = false;
+
+        // Listen for when the interface has been configured.
+        $scope.$on('$dropletReady', function whenDropletReady() {
+
+            $scope.interface.allowedExtensions([/.+/]);
+            $scope.interface.useArray(false);
+            $scope.interface.setRequestUrl("/upload/multi");
+            $scope.interface.setRequestHeaders({
+                "x-access-token": session.getUser().token,
+                "application_id": APPLICATION_ID
+            });
+            $scope.interface.defineHTTPSuccess([/2.{2}/]);
+
+        });
+
+        // Listen for when the files have been successfully uploaded.
+        $scope.$on('$dropletSuccess', function onDropletSuccess(event, response, files) {
+
+            $scope.uploadCount = files.length;
+            $scope.success = true;
+
+            $scope.$watch('interface', function () {
+
+                CDNService.setCDNResult(response);
+            });
+
+            $timeout(function timeout() {
+                $scope.success = false;
+            }, 3000);
+
+        });
+
+        // Listen for when the files have failed to upload.
+        $scope.$on('$dropletError', function onDropletError(event, response) {
+            $scope.error = true;
+
+            $timeout(function timeout() {
+                $scope.error = false;
+            }, 3000);
+
+        });
     }
 
     /**
@@ -625,4 +747,3 @@
     }
 
 })();
-
