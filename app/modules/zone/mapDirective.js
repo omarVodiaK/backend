@@ -133,12 +133,10 @@
                                 var marker = new google.maps.Marker({
                                     position: loc,
                                     map: map,
-                                    title: "location",
+                                    title: "Zone",
                                     animation: google.maps.Animation.DROP
+                                    // icon : 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png' //CUSTOM MARKER
                                 });
-
-                                // Custom marker
-                                // options:{icon:'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'}
 
                                 // Create circle object
                                 var circle = new google.maps.Circle({

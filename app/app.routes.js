@@ -4,7 +4,7 @@ angular
     .module('app.routes', ['ui.router'])
     .config(config);
 
-function config($stateProvider, $urlRouterProvider, $locationProvider) {
+function config($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.
     when('/', "/dashboard/associate")

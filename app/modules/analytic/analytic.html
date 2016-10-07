@@ -28,12 +28,12 @@
 
         </div>
 
-        <div class="col-md-3" style="text-align: center;">
+        <div class="col-md-3" ng-show="validateUserByCompany" style="text-align: center;">
             <h4>Users gender</h4>
 
 
             <br>
-            <canvas id="genderChart" ng-show="validateUserByCompany" class="chart chart-pie"
+            <canvas id="genderChart"  class="chart chart-pie"
                     chart-data="genderData"
                     chart-options="{animation:false}"
                     chart-labels="genderLabels"
@@ -43,10 +43,10 @@
             </canvas>
         </div>
 
-        <div class="col-md-3" style="text-align: center;">
+        <div class="col-md-3" ng-show="validateUserByCompany" style="text-align: center;">
             <h4>User Nationalities</h4>
             <br>
-            <canvas id="raceChart" ng-show="validateUserByCompany" class="chart chart-pie" chart-data="raceData"
+            <canvas id="raceChart"  class="chart chart-pie" chart-data="raceData"
                     chart-options="{animation:false}"
                     chart-labels="raceLabels"
                     chart-legend="true"
@@ -54,10 +54,10 @@
             </canvas>
         </div>
 
-        <div class="col-md-3" style="text-align: center;">
+        <div class="col-md-3" ng-show="validateUserByCompany" style="text-align: center;">
             <h4>Users age groups</h4>
             <br>
-            <canvas id="ageChart" ng-show="validateUserByCompany" class="chart chart-bar" class="chart chart-line"
+            <canvas id="ageChart"  class="chart chart-bar" class="chart chart-line"
                     chart-options="{animation:false}"
                     chart-data="ageData" chart-labels="ageLabels" chart-colours="['#FF9800']">
             </canvas>
@@ -65,12 +65,12 @@
         </div>
     </div>
 
-    <div class="row top-buffer" style="text-align: center;">
+    <div class="row top-buffer" ng-show="validatePercentageUsers" style="text-align: center;">
         <div class="col-md-6 top-buffer">
             <h1 style="margin-top: 100px;">% of active users</h1>
         </div>
         <div class="col-md-6">
-            <canvas ng-show="validatePercentageUsers" id="percentageChart" class="chart chart-polar-area"
+            <canvas id="percentageChart" class="chart chart-polar-area"
                     chart-data="percActiveUsersData"
                     chart-options="{animation:false}"
                     chart-labels="percActiveUsersLabels"
@@ -80,23 +80,23 @@
         </div>
     </div>
 
-    <div class="row top-buffer" style="text-align: center;">
+    <div  ng-show="validateInteraction"  class="row top-buffer" style="text-align: center;">
         <div class="col-md-6 top-buffer">
             <h1 style="margin-top: 100px;">Beacon Interactions</h1>
         </div>
         <div class="col-md-6">
-            <canvas ng-show="validateInteraction" id="InteractionChart" class="chart chart-radar"
+            <canvas id="InteractionChart" class="chart chart-radar"
                     chart-data="[interactionData]" chart-labels="interactionLabels" chart-colours="[ '#803690']">
             </canvas>
         </div>
     </div>
 
-    <div class="row top-buffer" style="text-align: center;">
+    <div class="row top-buffer"  ng-show="validateVouchers" style="text-align: center;">
         <div class="col-md-6 top-buffer">
             <h1 style="margin-top: 100px;">Vouchers Generated</h1>
         </div>
         <div class="col-md-6">
-            <canvas ng-show="validateVouchers" class="chart chart-polar-area" id="VoucherChart"
+            <canvas class="chart chart-polar-area" id="VoucherChart"
                     chart-options="{animation:false}"
                     chart-data="voucherData" chart-labels="voucherLabels"
                     chart-colours="[ '#448AFF', '#4CAF50', '#F44336']">

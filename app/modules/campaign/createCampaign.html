@@ -611,11 +611,12 @@
                                             <uib-tabset justified="true">
 
                                                 <uib-tab heading="Content">
-                                                    <div class="row">
-                                                        <ul class="list-unstyled grid cs-style-3"
+                                                    <div class="row text-center">
+                                                        <ul class="list-unstyled grid"
                                                             style="margin-top: 10%;">
 
-                                                            <li ng-repeat="content in beacon.contents"
+                                                            <li pagination-id="campaignContentPagination"
+                                                                dir-paginate="content in beacon.contents | itemsPerPage:5"
                                                                 ng-click="openConfig(content)">
 
                                                                 <div class="row">
@@ -638,7 +639,7 @@
 
                                                                         </div>
 
-                                                                        <div class="col-md-6 col-xs-6"
+                                                                        <div class="col-md-6 col-xs-6 col-lg-6"
                                                                              ng-click="openConfig(content)">
 
                                                                             <thumbnaildirective
@@ -661,6 +662,11 @@
                                                                 </div>
                                                             </li>
                                                         </ul>
+                                                        <dir-pagination-controls
+                                                                pagination-id="campaignContentPagination" max-size="5"
+                                                                direction-links="true"
+                                                                boundary-links="true"></dir-pagination-controls>
+
                                                     </div>
                                                 </uib-tab>
                                             </uib-tabset>

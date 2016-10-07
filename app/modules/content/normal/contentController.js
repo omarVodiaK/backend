@@ -493,8 +493,9 @@
      * @param {object} Lightbox
      * @param {object} $rootScope
      * @param {object} session
+     * @param {service} ContentService
      */
-    function galleryController($scope, Lightbox, $rootScope, session) {
+    function galleryController($scope, Lightbox, $rootScope, session, ContentService, $sce, CDN_CONFIG) {
 
         $scope.currentPage = 1;
         $scope.itemsPerPage = 5;
@@ -503,36 +504,40 @@
         $scope.checkedValue = -1;
 
         // TODO resolve DS Media list display
-        // var dsMedia = ContentService.getDSMedia();
+        var dsMedia = ContentService.getDSMedia();
 
         var token = '?token=' + session.getAccessToken();
 
-        // dsMedia.then(function (data) {
-        //
-        //     if (data.length != undefined) {
-        //
-        //         data.response.forEach(function (d) {
-        //
-        //             d.checked = false;
-        //             d.med_url = $sce.trustAsResourceUrl(SIGNAGE_CONFIG.HOST + ":" + SIGNAGE_CONFIG.PORT + d.med_url + token);
-        //             d.url = $sce.valueOf(d.med_url);
-        //             $scope.images.push(d);
-        //
-        //         });
-        //
-        //         $scope.totalItems = $scope.images.length;
-        //         $rootScope.images = $scope.images;
-        //     } else {
-        //         if (data.status == -1) {
-        //             notify({
-        //                 message: "You have 0 DS Content!",
-        //                 classes: 'alert-info',
-        //                 position: 'center',
-        //                 duration: 2000
-        //             });
-        //         }
-        //     }
-        // });
+        dsMedia.then(function (data) {
+            if (data !== undefined) {
+                if (data.response !== undefined) {
+                    if (data.response.length != undefined) {
+
+                        data.response.forEach(function (d) {
+
+                            d.checked = false;
+                            d.med_url = $sce.trustAsResourceUrl(CDN_CONFIG.HOST + ":" + CDN_CONFIG.PORT + "/cdn" + d.med_url + token);
+                            d.url = $sce.valueOf(d.med_url);
+                            $scope.images.push(d);
+
+                        });
+
+                        $scope.totalItems = $scope.images.length;
+                        $rootScope.images = $scope.images;
+                    } else {
+                        if (data.status == -1) {
+                            notify({
+                                message: "You have 0 DS Content!",
+                                classes: 'alert-info',
+                                position: 'center',
+                                duration: 2000
+                            });
+                        }
+                    }
+                }
+
+            }
+        });
 
         $scope.getIndex = function (index, itemPerPage, currentPage) {
 

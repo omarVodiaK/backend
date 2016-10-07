@@ -15,8 +15,9 @@
      * @param {object} $scope
      * @param {Service} RequestService
      * @param {object} session
+     * @param {object} notify
      */
-    function analyticController($scope, RequestService, session) {
+    function analyticController($scope, RequestService, session, notify) {
         $scope.data = [];
 
         $scope.validateUserByCompany = false;
@@ -51,85 +52,104 @@
         $scope.interactionLabels = [];
         $scope.interactionData = [];
 
-
         RequestService.postJsonRequest('user/findUserByCompany', {cmp_cd: session.getUser().user.cmp_cd}).then(function (users) {
 
-            $scope.numberUsers = users.length;
+            if (users.length > 0) {
 
-            users.forEach(function (user) {
+                $scope.numberUsers = users.length;
 
-                // Calculate user age
-                age = _calculateAge(user.usr_dob);
+                users.forEach(function (user) {
 
-                // Check and accumulate users by gender
-                if (user.usr_gender == 'male') {
-                    $scope.maleUsers++;
-                } else {
-                    $scope.femaleUsers++;
-                }
+                    // Calculate user age
+                    age = _calculateAge(user.usr_dob);
 
-                // Check and accumulate users by race
-                if (user.usr_race == 'malay') {
-                    $scope.malay++;
-                } else if (user.usr_race == 'indian') {
-                    $scope.indian++;
-                } else if (user.usr_race == 'chinese') {
-                    $scope.chinese++;
-                } else if (user.usr_race == 'expatriate') {
-                    $scope.expatriate++;
-                }
+                    // Check and accumulate users by gender
+                    if (user.usr_gender == 'male') {
+                        $scope.maleUsers++;
+                    } else {
+                        $scope.femaleUsers++;
+                    }
 
-                // Calculate age groups
-                if (age >= 16 && age <= 25) {
-                    $scope.ageGroup1++;
-                } else if (age >= 26 && age <= 35) {
-                    $scope.ageGroup2++;
-                } else if (age >= 36 && age <= 50) {
-                    $scope.ageGroup3++;
-                } else if (age >= 51 && age <= 69) {
-                    $scope.ageGroup4++;
-                } else if (age >= 70) {
-                    $scope.ageGroup5++;
-                }
+                    // Check and accumulate users by race
+                    if (user.usr_race == 'malay') {
+                        $scope.malay++;
+                    } else if (user.usr_race == 'indian') {
+                        $scope.indian++;
+                    } else if (user.usr_race == 'chinese') {
+                        $scope.chinese++;
+                    } else if (user.usr_race == 'expatriate') {
+                        $scope.expatriate++;
+                    }
 
-            });
+                    // Calculate age groups
+                    if (age >= 16 && age <= 25) {
+                        $scope.ageGroup1++;
+                    } else if (age >= 26 && age <= 35) {
+                        $scope.ageGroup2++;
+                    } else if (age >= 36 && age <= 50) {
+                        $scope.ageGroup3++;
+                    } else if (age >= 51 && age <= 69) {
+                        $scope.ageGroup4++;
+                    } else if (age >= 70) {
+                        $scope.ageGroup5++;
+                    }
 
-            $scope.raceData = [$scope.malay, $scope.indian, $scope.chinese, $scope.expatriate];
+                });
 
-            $scope.ageData = [[$scope.ageGroup1, $scope.ageGroup2, $scope.ageGroup3, $scope.ageGroup4, $scope.ageGroup5]];
+                $scope.raceData = [$scope.malay, $scope.indian, $scope.chinese, $scope.expatriate];
 
-            $scope.genderData = [$scope.maleUsers, $scope.femaleUsers];
+                $scope.ageData = [[$scope.ageGroup1, $scope.ageGroup2, $scope.ageGroup3, $scope.ageGroup4, $scope.ageGroup5]];
 
-            $scope.validateUserByCompany = true;
+                $scope.genderData = [$scope.maleUsers, $scope.femaleUsers];
+
+                $scope.validateUserByCompany = true;
+
+            } else {
+
+                notify({
+                    message: "You don't have registered users!",
+                    classes: 'alert-info',
+                    position: 'center',
+                    duration: 2000
+                });
+            }
 
         });
 
         RequestService.postJsonRequest('userAction/findInteractionUsers', {cmp_cd: session.getUser().user.cmp_cd}).then(function (user_action) {
 
-            var users = user_action.inactive_users + user_action.active_users;
-            $scope.percActiveUsersData = [percentage(user_action.active_users, users), percentage(user_action.inactive_users, users)];
-            $scope.percActiveUsersLabels = ["active", "inactive"];
-            $scope.validatePercentageUsers = true;
+            if (user_action.actions !== 0) {
 
+                var users = user_action.inactive_users + user_action.active_users;
+                $scope.percActiveUsersData = [percentage(user_action.active_users, users), percentage(user_action.inactive_users, users)];
+                $scope.percActiveUsersLabels = ["active", "inactive"];
+                $scope.validatePercentageUsers = true;
+            }
         });
 
         RequestService.postJsonRequest('userAction/findCompanyVouchers', {cmp_cd: session.getUser().user.cmp_cd}).then(function (vouchers) {
 
-            var expiredVouchers = vouchers.vouchers - vouchers.redeemedVoucher;
-            $scope.voucherData = [vouchers.vouchers, vouchers.redeemedVoucher, expiredVouchers];
-            $scope.voucherLabels = ["vouchers", "Redeemed", "Expired"];
-            $scope.validateVouchers = true;
+            if (vouchers.vouchers != 0) {
+
+                var expiredVouchers = vouchers.vouchers - vouchers.redeemedVoucher;
+                $scope.voucherData = [vouchers.vouchers, vouchers.redeemedVoucher, expiredVouchers];
+                $scope.voucherLabels = ["vouchers", "Redeemed", "Expired"];
+                $scope.validateVouchers = true;
+            }
         });
 
         RequestService.postJsonRequest('userAction/findBeacons', {cmp_cd: session.getUser().user.cmp_cd}).then(function (results) {
 
-            results.forEach(function (result) {
-                $scope.interactionLabels.push(result.beacon.bcn_name);
-                $scope.interactionData.push(result.occurrence);
-            });
+            if (results.length > 0) {
 
-            $scope.validateInteraction = true;
+                results.forEach(function (result) {
 
+                    $scope.interactionLabels.push(result.beacon.bcn_name);
+                    $scope.interactionData.push(result.occurrence);
+                });
+
+                $scope.validateInteraction = true;
+            }
         });
 
         // onClick event for chart values

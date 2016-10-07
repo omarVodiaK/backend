@@ -41,18 +41,19 @@
 
                 "email": $scope.formData.email,
                 "password": $scope.formData.password,
-                "application_id": APPLICATION_ID
+                "application_id": APPLICATION_ID,
+                "g-recaptcha-response": $scope.formData.captcha
             }).then(function (result) {
 
                 console.log(result);
 
-                if (result.result === undefined) {
+                if (result === undefined) {
 
                     alert('Wrong email or password');
 
                 } else {
 
-                    if (result.result.success !== true) {
+                    if (result.success !== true) {
 
                         if (result.code == "ECONNREFUSED") {
 
@@ -60,11 +61,11 @@
 
                         } else {
 
-                            if (result.result.messages != undefined) {
+                            if (result.messages != undefined) {
 
                                 var combinedMessage = "";
 
-                                $.each(result.result.messages, function (key, value) {
+                                $.each(result.messages, function (key, value) {
 
                                     combinedMessage += value;
                                 });
@@ -75,13 +76,14 @@
                                     position: 'center',
                                     duration: 2000
                                 });
+
                             }
 
                         }
 
-                    } else if (result.result.success === true) {
+                    } else if (result.success === true) {
 
-                        if (result.result.user.roles.length > 0) {
+                        if (result.result.user.licenses.length > 0) {
 
                             session.setUser(result.result);
                             $state.go('dashboard.associate');
@@ -94,9 +96,7 @@
                                 position: 'center',
                                 duration: 2000
                             });
-
                         }
-
                     }
                 }
             });
@@ -129,17 +129,22 @@
                     "confirm_password": this.data.confirmPassword,
                     "cellphone": this.data.phone,
                     "role_id": 2
+
                 }).then(function (result) {
 
                     if (result.success === true) {
 
-                        $state.go('auth.login', {message: "You have been registered. Please, login in order to use web application."});
-                    } else if (!result.success) {
-
+                        $state.go('auth.login', {message: "You have been registered. Please, login in order to use the web application!"});
+                    } else {
+                        notify({
+                            message: 'An error occurred, please try later!',
+                            classes: 'alert-warning',
+                            position: 'center',
+                            duration: 2000
+                        });
                     }
                 });
             }
-
         };
     }
 

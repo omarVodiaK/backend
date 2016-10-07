@@ -107,6 +107,7 @@
      * @method modalController
      * @param {object} $scope
      * @param {object} $uibModal
+     * @param {service} LocationService
      */
     function modalController($scope, $uibModal, LocationService) {
 
@@ -116,9 +117,9 @@
         $scope.playersList = LocationService.getPlayers();
 
         $scope.playersList.then(function (results) {
-
             $scope.players = results;
         });
+
 
         /**
          * @description open modal
@@ -160,6 +161,7 @@
      * @param {object} $scope
      * @param {object} $uibModalInstance
      * @param {object} location
+     * @param {object} players
      * @param {session} RequestService
      * @param {object} $rootScope
      * @param {object} session
@@ -184,13 +186,14 @@
             }
 
         } else {
+
             $scope.location = {};
             $scope.location.loc_parent = "0";
             $scope.location.plr_cd = "0";
         }
 
         /**
-         * save/update model
+         * @description save/update model
          * @method ok
          */
         $scope.ok = function () {
@@ -228,7 +231,9 @@
                     }
 
                     var index = isInArray(player, players);
+
                     if (index != -1) {
+
                         player_ip = players[index].plr_ip
                     }
 
@@ -310,10 +315,11 @@
                     }
 
                     var index = isInArray(player, players);
+
                     if (index != -1) {
                         player_ip = players[index].plr_ip
                     }
-
+                    console.log(player_ip)
                     // Build location to update
                     var params = {
                         "loc_name": angular.element('#location_label').val(),
@@ -362,10 +368,12 @@
          * @method cancel
          */
         $scope.cancel = function () {
+
             $uibModalInstance.dismiss('cancel');
         };
 
         function parseLocation(data) {
+
             var parse = JSON.parse(JSON.stringify(data), function (k, v) {
                 if (k === "loc_name")
                     this.label = v;
@@ -386,6 +394,7 @@
 
                     return v;
                 }
+
                 for (var i = 0; i < $scope.fakeLocations.length; i++) {
 
                     if (this.loc_cd == $scope.fakeLocations[i].loc_cd) {
@@ -393,20 +402,25 @@
                     }
 
                 }
+
                 if (!idExist) {
 
                     $scope.fakeLocations.push(this);
 
                 }
+
                 idExist = false;
 
             });
+
             return parse;
         }
 
         function isInArray(value, array) {
+
             var hasMatch = false;
             var arrayIndex = -1;
+
             for (var index = 0; index < array.length; ++index) {
 
                 var object = array[index];
@@ -417,7 +431,8 @@
                     break;
                 }
             }
-            return arrayIndex
+
+            return arrayIndex;
         }
     }
 

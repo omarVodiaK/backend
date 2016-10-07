@@ -101,31 +101,32 @@
         })
 
         .directive('dsdirective', function () {
-            return{
+            return {
                 template: '',
                 replace: true,
                 scope: {
                     image: '=',
                     content: '='
                 },
-                restrict:'E',
+                restrict: 'E',
                 link: function (scope, element) {
+
                     scope.$watch('image', function () {
                         var replacementElement;
 
-                        if(scope.image.med_mimetype.indexOf('video') > -1){
+                        if (scope.image.med_mimetype.indexOf('video') > -1) {
 
                             replacementElement = angular.element('<div class="col-md-9 col-xs-9"><video width="300" controls="controls"><source src="' + scope.image.med_url + '" type="' + scope.image.med_mimetype + '"></video></div>');
                             element.html('');
                             element.append(replacementElement);
 
-                        }else if(scope.image.med_mimetype.indexOf('audio') > -1){
+                        } else if (scope.image.med_mimetype.indexOf('audio') > -1) {
 
-                            replacementElement = angular.element('<div class="col-md-9 col-xs-9"><audio width="300" controls="controls"><source src="'+ scope.image.med_url +'" type="'+ scope.image.med_mimetype +'"></audio></div>');
+                            replacementElement = angular.element('<div class="col-md-9 col-xs-9"><audio width="300" controls="controls"><source src="' + scope.image.med_url + '" type="' + scope.image.med_mimetype + '"></audio></div>');
                             element.html('');
                             element.append(replacementElement);
 
-                        }else if(scope.image.med_mimetype.indexOf('image') > -1){
+                        } else if (scope.image.med_mimetype.indexOf('image') > -1) {
 
                             replacementElement = angular.element('<div class="col-md-9 col-xs-9"><img width="300" src="' + scope.image.med_url + '"></div>');
                             element.html('');

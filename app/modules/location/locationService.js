@@ -17,9 +17,9 @@
 
                 // Request list of locations
                 return RequestService.postJsonRequest('location/getLocationsByCompanyId', params).then(function (data) {
+
                     return data;
                 });
-
             };
 
             var getPlayers = function () {
@@ -28,13 +28,12 @@
 
                     return data;
                 });
-
             };
 
             return {
                 getLocation: getLocation,
                 getPlayers: getPlayers
             }
-
+            
         });
 })();

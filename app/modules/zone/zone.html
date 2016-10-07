@@ -145,15 +145,18 @@
                 <td style=" max-width:50px;">{{zone.zone_longitude}}</td>
                 <td class="text-right">
                     <div class="btn-group" role="group">
-                        <button class="btn btn-danger" ng-click="removeZoneRow(zone.zone_cd)"><i
-                                class="glyphicon glyphicon-remove visible-xs-inline-block"></i>
-                            <span class="hidden-xs">Remove</span></button>
+                        <!-- Button delete row -->
+                        <button class="btn btn-danger" ng-click="removeZoneRow(zone.zone_cd)">
+                            <i class="glyphicon glyphicon-remove visible-xs-inline-block"></i>
+                            <span class="hidden-xs">Remove</span>
+                        </button>
 
                         <!-- Button trigger modal -->
                         <button class="btn btn-warning"
-                                ng-click="open('lg','zoneModalTpl', zone, zones)"><i
-                                class="glyphicon glyphicon-pencil visible-xs-inline-block"></i>
-                            <span class="hidden-xs">Update</span></button>
+                                ng-click="open('lg','zoneModalTpl', zone, zones)">
+                            <i class="glyphicon glyphicon-pencil visible-xs-inline-block"></i>
+                            <span class="hidden-xs">Update</span>
+                        </button>
                     </div>
                 </td>
 
@@ -174,9 +177,7 @@
 
     <div class="row">
 
-        <div class="alert alert-info" role="alert"><i class="glyphicon glyphicon-info-sign"></i> You have 0
-            zones!
-        </div>
+        <div class="alert alert-info" role="alert"><i class="glyphicon glyphicon-info-sign"></i> You have 0 zones!</div>
 
     </div>
 

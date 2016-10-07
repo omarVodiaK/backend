@@ -36,7 +36,7 @@
                             element.html('');
                             element.append(replacementElement)
                         }
-                    })
+                    });
 
 
                     scope.$watch("campaign.owner.camp_state", function (newValue, oldValue) {
@@ -192,6 +192,7 @@
                 },
                 restrict: 'E', // restrict to element
                 link: function (scope, element) {
+                    console.log(scope.content);
                     scope.$watch("content.content", function () {
 
                         var replacementElement;
@@ -210,7 +211,7 @@
                                 element.append(replacementElement);
                             } else {
                                 console.log(scope.content)
-                                replacementElement = angular.element('<video width="300" src="' + scope.content.cnt_url + '" controls></video> <label class="col-md-3 text-center">"' + scope.content.cnt_title + '"</label>');
+                                replacementElement = angular.element('<video width="250" src="' + scope.content.cnt_url + '" controls></video> <label class="col-md-3 text-center">"' + scope.content.cnt_title + '"</label>');
                                 element.html('');
                                 element.append(replacementElement);
                             }
@@ -223,7 +224,7 @@
                                 element.append(replacementElement);
                             } else {
 
-                                replacementElement = angular.element('<video width="300"  src="' + scope.content.content.cnt_url + '" controls></video> <label class="col-md-3 text-center">"' + scope.content.content.cnt_title + '"</label>');
+                                replacementElement = angular.element('<video width="250"  src="' + scope.content.content.cnt_url + '" controls></video> <label class="col-md-3 text-center">"' + scope.content.content.cnt_title + '"</label>');
                                 element.html('');
                                 element.append(replacementElement);
                             }
