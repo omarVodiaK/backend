@@ -17,7 +17,7 @@
             '<div class="modal-dialog">' +
             '<div class="modal-content">' +
             '<div class="modal-header">' +
-            '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
+            '<i class="glyphicon glyphicon-remove-circle glyphiconLG glyphiconWhiteRemove pull-right" data-dismiss="modal" "></i>' +
             '<h4 class="modal-title">{{ title }}</h4>' +
             '</div>' +
             '<div class="modal-body" ng-transclude></div>' + //  marks the insertion point for the transcluded DOM

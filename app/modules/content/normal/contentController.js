@@ -232,6 +232,7 @@
         if (content != undefined) {
             $scope.content = content;
         }
+
         $scope.contents = contents;
         var is_ds_content;
         var content_url;
@@ -271,7 +272,7 @@
 
                         } else if (CDNService.getCDNResult() != '') {
 
-                            content_url = CDN_CONFIG.HOST + ":" + CDN_CONFIG.PORT + "" + CDNService.getCDNResult()[0].med_url + "?token=" + session.getAccessToken();
+                            content_url = CDN_CONFIG.HOST + ":" + CDN_CONFIG.PORT + "/cdn" + CDNService.getCDNResult()[0].med_url + "?token=" + session.getAccessToken();
                         }
 
                     } else {
@@ -295,7 +296,7 @@
 
                             } else if (CDNService.getCDNResult() != '') {
 
-                                content_url = CDN_CONFIG.HOST + ":" + CDN_CONFIG.PORT + "" + CDNService.getCDNResult()[0].med_url + "?token=" + session.getAccessToken();
+                                content_url = CDN_CONFIG.HOST + ":" + CDN_CONFIG.PORT + "/cdn" + CDNService.getCDNResult()[0].med_url + "?token=" + session.getAccessToken();
                             }
                         }
                     }
@@ -310,7 +311,6 @@
                         'med_cd': med_cd,
                         'cmp_cd': session.getUser().user.cmp_cd
                     };
-
 
                     RequestService.postJsonRequest('content/createContent', params).then(function (content) {
 
@@ -351,7 +351,6 @@
 
                     CDNService.setCDNResult('');
                     $uibModalInstance.close();
-
                 }
             }
             // update a content
@@ -369,7 +368,7 @@
 
                     } else if (CDNService.getCDNResult() != '') {
 
-                        content_url = CDN_CONFIG.HOST + ":" + CDN_CONFIG.PORT + "" + CDNService.getCDNResult()[0].med_url + "?token=" + session.getAccessToken();
+                        content_url = CDN_CONFIG.HOST + ":" + CDN_CONFIG.PORT + "/cdn" + CDNService.getCDNResult()[0].med_url + "?token=" + session.getAccessToken();
 
                     }
 
@@ -395,7 +394,7 @@
 
                         } else if (CDNService.getCDNResult() != '') {
 
-                            content_url = CDN_CONFIG.HOST + ":" + CDN_CONFIG.PORT + "" + CDNService.getCDNResult()[0].med_url + "?token=" + session.getAccessToken();
+                            content_url = CDN_CONFIG.HOST + ":" + CDN_CONFIG.PORT + "/cdn" + CDNService.getCDNResult()[0].med_url + "?token=" + session.getAccessToken();
                         }
                     }
                 }
@@ -685,7 +684,7 @@
 
             $scope.interface.allowedExtensions([/.+/]);
             $scope.interface.useArray(false);
-            $scope.interface.setRequestUrl("/upload/multi");
+            $scope.interface.setRequestUrl("/cdn/upload/alternative");
             $scope.interface.setRequestHeaders({
                 "x-access-token": session.getUser().token,
                 "application_id": APPLICATION_ID
@@ -706,6 +705,8 @@
             });
 
             $timeout(function timeout() {
+
+                console.log(response);
                 $scope.success = false;
             }, 3000);
 
@@ -713,7 +714,10 @@
 
         // Listen for when the files have failed to upload.
         $scope.$on('$dropletError', function onDropletError(event, response) {
+
             $scope.error = true;
+            console.log(response);
+            console.log(event);
 
             $timeout(function timeout() {
                 $scope.error = false;

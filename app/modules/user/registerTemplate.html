@@ -1,103 +1,151 @@
 <div class="middle row">
-    <div class="col-md-5 logo-table">
-        <div class="logo-cell">
-            <h1>TRACTIVE</h1>
 
-            <h3>Dashboard</h3>
+    <div class="col-md-6 col-xs-12 col-sm-12 logo-table">
+        <div class="logo-cell">
+            <h1 class="login_title">TRACTIVE</h1>
+            <div class="col-md-10 col-sm-10 col-xs-10 pull-right">
+                <h3 class="login-subtitle">Beacon Dashboard</h3>
+            </div>
+
         </div>
     </div>
-    <div class="col-md-1 vertical-line-register">
-    </div>
-    <div class="col-md-4">
+
+    <div class="col-md-1 vertical-line-login hidden-xs hidden-sm"></div>
+
+    <div class="col-md-5 col-xs-12 col-sm-12 login-div">
+
         <form novalidate class="form-login" name='registerForm' ng-submit="submit(registerForm.$valid)"
               ng-controller="RegisterController">
-            <div class="form-group">
-                <input ng-placeholder="Name{}John" type="text" class="form-control" required name="firstName"
-                       autocomplete="off" autofocus ng-model="data.firstName">
 
-                <div ng-messages="registerForm.firstName.$error" ng-show="registerForm.firstName.$touched">
-                    <p ng-message="required" class="error-block">
-                        You forgot to enter your First Name...
-                    </p>
-                </div>
+            <div class="tips-form-group inner-addon left-addon">
+                <i class="glyphicon glyphicon-user login"></i>
+                <input placeholder="First Name" autofocus type="text" name="fistName" autocomplete="off"
+                       class="form-control input-email" required ng-model="data.firstName">
             </div>
-            <div class="form-group">
-                <input ng-placeholder="Last Name{}Smith" type="text" class="form-control" required name="lastName"
-                       ng-model="data.lastName">
 
-                <div ng-messages="registerForm.lastName.$error" ng-show="registerForm.lastName.$touched">
-                    <p ng-message="required" class="error-block">
-                        You forgot to enter your Last Name...
-                    </p>
-                </div>
+            <!--<div class="form-group">-->
+            <!--<input ng-placeholder="Name{}John" type="text" class="form-control" required name="firstName"-->
+            <!--autocomplete="off" autofocus ng-model="data.firstName">-->
 
+            <!--<div ng-messages="registerForm.firstName.$error" ng-show="registerForm.firstName.$touched">-->
+            <!--<p ng-message="required" class="error-block">-->
+            <!--You forgot to enter your First Name...-->
+            <!--</p>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <div class="tips-form-group inner-addon left-addon">
+                <i class="glyphicon glyphicon-user login"></i>
+                <input placeholder="Last Name" type="text" class="form-control input-email" autocomplete="off"
+                       name="lastName" ng-model="data.lastName" required>
             </div>
-            <div class="form-group">
-                <input ng-placeholder="Phone Number{}" type="text" class="form-control" required name="phone"
-                       ng-model="data.phone">
 
-                <div ng-messages="registerForm.phone.$error" ng-show="registerForm.phone.$touched">
-                    <p ng-message="required" class="error-block">
-                        You forgot to enter your Phone Number...
-                    </p>
-                </div>
+            <!--<div class="form-group">-->
+            <!--<input ng-placeholder="Last Name{}Smith" type="text" class="form-control" required name="lastName"-->
+            <!--ng-model="data.lastName">-->
+
+            <!--<div ng-messages="registerForm.lastName.$error" ng-show="registerForm.lastName.$touched">-->
+            <!--<p ng-message="required" class="error-block">-->
+            <!--You forgot to enter your Last Name...-->
+            <!--</p>-->
+            <!--</div>-->
+
+            <!--</div>-->
+
+            <div class="tips-form-group inner-addon left-addon">
+                <i class="glyphicon glyphicon-phone login"></i>
+                <input placeholder="phone number" type="text" class="form-control input-email" autocomplete="off"
+                       name="phone" required ng-model="data.phone">
             </div>
-            <div class="form-group">
-                <input ng-placeholder="Email address{}john@smith.com" type="email" class="form-control" required
-                       name="userEmail" ng-model="data.userEmail">
 
-                <div ng-messages="registerForm.userEmail.$error" ng-show="registerForm.userEmail.$touched">
-                    <p ng-message="required" class="error-block">
-                        You forgot to enter your Email...
-                    </p>
+            <!--<div class="form-group">-->
+            <!--<input ng-placeholder="Phone Number{}" type="text" class="form-control" required name="phone"-->
+            <!--ng-model="data.phone">-->
 
-                    <p ng-message="email" class="error-block">
-                        This needs to be a valid email
-                    </p>
-                </div>
+            <!--<div ng-messages="registerForm.phone.$error" ng-show="registerForm.phone.$touched">-->
+            <!--<p ng-message="required" class="error-block">-->
+            <!--You forgot to enter your Phone Number...-->
+            <!--</p>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <div class="tips-form-group inner-addon left-addon">
+                <i class="glyphicon glyphicon-inbox login"></i>
+                <input placeholder="email" type="email" class="form-control input-email" autocomplete="off"
+                       name="userEmail" ng-model="data.userEmail" required>
             </div>
-            <div class="form-group">
-                <input ng-placeholder="Password{}" type="password" class="form-control" name="password"
-                       required ng-model="data.password">
 
-                <div ng-messages="registerForm.password.$error" ng-show="registerForm.password.$touched">
-                    <p ng-message="required" class="error-block">
-                        You forgot to enter your Password...
-                    </p>
-                </div>
+            <!--<div class="form-group">-->
+            <!--<input ng-placeholder="Email address{}john@smith.com" type="email" class="form-control" required-->
+            <!--name="userEmail" ng-model="data.userEmail">-->
+
+            <!--<div ng-messages="registerForm.userEmail.$error" ng-show="registerForm.userEmail.$touched">-->
+            <!--<p ng-message="required" class="error-block">-->
+            <!--You forgot to enter your Email...-->
+            <!--</p>-->
+
+            <!--<p ng-message="email" class="error-block">-->
+            <!--This needs to be a valid email-->
+            <!--</p>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <div class="tips-form-group inner-addon left-addon">
+                <i class="glyphicon glyphicon-lock"></i>
+                <input placeholder="password" type="password" class="form-control input-email" autocomplete="off"
+                       name="password" ng-model="data.password" required>
             </div>
-            <div class="form-group">
-                <input ng-placeholder="Confirm Password{}" type="password" class="form-control"
-                       ng-compare="data.password" name="confirmPassword"
-                       required ng-model="data.confirmPassword">
 
-                <div ng-messages="registerForm.confirmPassword.$error" ng-show="registerForm.confirmPassword.$touched">
-                    <p ng-message="required" class="error-block">
-                        Don't You forget to Confirm your Password...?
-                    </p>
+            <!--<div class="form-group">-->
+            <!--<input ng-placeholder="Password{}" type="password" class="form-control" name="password"-->
+            <!--required ng-model="data.password">-->
 
-                    <p ng-message="compare" class="error-block">
-                        Hey, are you sure it is the same...?
-                    </p>
-                </div>
+            <!--<div ng-messages="registerForm.password.$error" ng-show="registerForm.password.$touched">-->
+            <!--<p ng-message="required" class="error-block">-->
+            <!--You forgot to enter your Password...-->
+            <!--</p>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <div class="tips-form-group inner-addon left-addon">
+                <i class="glyphicon glyphicon-lock"></i>
+                <input placeholder="confirm password" type="password" class="form-control input-email"
+                       autocomplete="off" name="confirmPassword" ng-model="data.confirmPassword" required>
             </div>
-            <div class="row">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox">
+
+            <!--<div class="form-group">-->
+            <!--<input ng-placeholder="Confirm Password{}" type="password" class="form-control"-->
+            <!--ng-compare="data.password" name="confirmPassword"-->
+            <!--required ng-model="data.confirmPassword">-->
+
+            <!--<div ng-messages="registerForm.confirmPassword.$error" ng-show="registerForm.confirmPassword.$touched">-->
+            <!--<p ng-message="required" class="error-block">-->
+            <!--Don't You forget to Confirm your Password...?-->
+            <!--</p>-->
+
+            <!--<p ng-message="compare" class="error-block">-->
+            <!--Hey, are you sure it is the same...?-->
+            <!--</p>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <div class="tips-form-group">
+                    <span class="tips-form-group">
+                    <input type="checkbox">
                         I understand and agree with Tractive terms and conditions.
-                    </label>
-                </div>
+                    </span>
             </div>
+
             <div class="row">
-                <div class="pull-right">
-                    <button id="loginSubmit" class="btn-block sign-in authSubmit"
-                            type="submit">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <button id="loginSubmit" class="btn-block sign-in authSubmit pull-right" type="submit">
                         Sign Up
                     </button>
                 </div>
             </div>
-            <span class="clearfix"></span>
+
         </form>
+
     </div>
+
 </div>

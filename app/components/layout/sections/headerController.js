@@ -11,7 +11,8 @@
         vm.description = "";
 
         if (session.getUser() != null) {
-            $scope.userName = session.getUser().user.fname;
+
+            $scope.userName = session.getUser().user.first_name;
             $scope.lastName = session.getUser().user.lname
         }
 

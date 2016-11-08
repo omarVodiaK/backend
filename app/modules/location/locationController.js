@@ -33,6 +33,7 @@
         data.then(function (results) {
 
             if (results != undefined) {
+
                 if (results.length > 0) {
 
                     // Translate locations array to new format so it can be displayed on the abn_tree_directive
@@ -74,6 +75,7 @@
 
                     });
                 }
+
                 else {
                     notify({
                         message: "You have 0 location!",
@@ -84,6 +86,7 @@
                 }
 
             } else {
+
                 notify({
                     message: "You have 0 location!",
                     classes: 'alert-info',
@@ -119,7 +122,6 @@
         $scope.playersList.then(function (results) {
             $scope.players = results;
         });
-
 
         /**
          * @description open modal

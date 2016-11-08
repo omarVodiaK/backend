@@ -10,6 +10,21 @@
     src: url(../fonts/play-regular.ttf);
 }
 
+@font-face {
+    font-family: TitilliumWeb-Bold;
+    src: url(../fonts/TitilliumWeb-Bold.ttf);
+}
+
+@font-face {
+    font-family: TitilliumWeb-Regular;
+    src: url(../fonts/TitilliumWeb-Regular.ttf);
+}
+
+@font-face {
+    font-family: TitilliumWeb-Italic;
+    src: url(../fonts/TitilliumWeb-Italic.ttf);
+}
+
 body {
 
     /*font-family: 'Arial', sans-serif;*/
@@ -18,12 +33,12 @@ body {
 
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3c4756+0,232a32+100 */
     background-repeat: no-repeat;
-    background: #3c4756; /* Old browsers */
-    background: -moz-radial-gradient(top, ellipse cover, #3c4756 0%, #232a32 100%);
-    FF3.6 -15
-    background: -webkit-radial-gradient(top, ellipse cover, #3c4756 0%, #232a32 100%); /* Chrome10-25,Safari5.1-6 */
-    background: radial-gradient(ellipse at top, #3c4756 0%, #232a32 100%);
-    W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7 + filter: progid: DXImageTransform . Microsoft . gradient(startColorstr = '#3c4756', endColorstr = '#232a32', GradientType = 1); /* IE6-9 fallback on horizontal gradient */
+    background: #f6f6f6; /* Old browsers */
+    /*background: -moz-radial-gradient(top, ellipse cover, #3c4756 0%, #232a32 100%);*/
+    /*FF3.6 -15*/
+    /*background: -webkit-radial-gradient(top, ellipse cover, #3c4756 0%, #232a32 100%); !* Chrome10-25,Safari5.1-6 *!*/
+    /*background: radial-gradient(ellipse at top, #3c4756 0%, #232a32 100%);*/
+    /*W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7 + filter: progid: DXImageTransform . Microsoft . gradient(startColorstr = '#3c4756', endColorstr = '#232a32', GradientType = 1); !* IE6-9 fallback on horizontal gradient *!*/
 
 }
 
@@ -32,6 +47,16 @@ html, body {
     padding: 0;
     height: 100%;
     width: 100%;
+}
+
+.login_title {
+    font-family: TitilliumWeb-Bold;
+    font-size: 10px;
+}
+
+.login-subtitle {
+    font-family: TitilliumWeb-Bold;
+    font-size: 24px;
 }
 
 .content-hover :hover {
@@ -49,7 +74,6 @@ html, body {
 
 .navbar-user {
     font-family: play-regular !important;
-    color: white !important;
     font-size: 24px;
     margin-top: 19px;
     margin-left: 0;
@@ -68,11 +92,11 @@ h1, h2, h3, h4 {
     font-family: play-bold;
     font-weight: 300;
     margin: 0;
-    color: white;
+    color: black;
 }
 
 table thead tr > th {
-    color: white;
+    color: black;
     font-family: play-regular;
     font-size: 17px;
 }
@@ -85,7 +109,7 @@ table tbody tr > td {
 }
 
 .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
-    background-color: #272E36;
+    background-color: #1d2133;
 }
 
 .add-button {
@@ -150,7 +174,7 @@ a:hover {
     -moz-box-shadow: 0px 3px 6px -6px black;
     -webkit-box-shadow: 0px 3px 6px -6px black;
     box-shadow: 0px 3px 6px -6px black;
-    min-height: 80px;
+    min-height: 50px;
 }
 
 #site-header {
@@ -245,6 +269,10 @@ p {
     color: white;
 }
 
+label {
+    color: #000 !important;
+}
+
 .label {
     display: inline;
     padding: .2em .6em .3em;
@@ -273,6 +301,13 @@ p {
 .container-fluid {
     width: 100%;
     padding: 100px 19px 0px 305px;
+}
+
+@media (max-width: 767px) {
+    .container-fluid {
+        width: 100%;
+        padding: 100px 19px 0px 10px;
+    }
 }
 
 .huge {
@@ -308,7 +343,7 @@ p {
 }
 
 .top-nav > .open > .dropdown-menu {
-    float: left;
+    float: right;
     position: absolute;
     margin-top: 0;
     border: 1px solid rgba(0, 0, 0, .15);
@@ -318,6 +353,11 @@ p {
     box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
     width: 100%;
     background-color: #232a32;
+}
+
+.dropdown-menu {
+    top: 100%;
+    left: inherit;
 }
 
 .top-nav > .open > .dropdown-menu > li > a {
@@ -351,7 +391,7 @@ ul.alert-dropdown {
 @media (min-width: 768px) {
     .swap-app {
         position: fixed;
-        top: 80px;
+        top: 60px;
         left: 225px;
         width: 280px;
         margin-left: -225px;
@@ -372,7 +412,7 @@ ul.alert-dropdown {
         font-family: play-regular !important;
         font-size: 15px;
         position: fixed;
-        top: 278px;
+        top: 51px;
         left: 225px;
         width: 280px;
         margin-left: -225px;
@@ -646,17 +686,33 @@ span.glyphicon.header {
     margin-bottom: 23px;
 }
 
+.form-control::-webkit-input-placeholder {
+    color: #ffffff !important;
+}
+
+.form-control:-moz-placeholder {
+    color: #ffffff !important;
+}
+
+.form-control::-moz-placeholder {
+    color: #ffffff !important;
+}
+
+.form-control:-ms-input-placeholder {
+    color: #ffffff !important;
+}
+
 .tips-form-group input[type='text'], .tips-form-group input[type='email'], .tips-form-group input[type="password"] {
     /*Default styles for field*/
+    font-family: TitilliumWeb-Regular;
+    font-size: 18px;
     position: relative;
     width: 100%;
     background: 0 0;
-    padding: 26px 0 11px 32px;
-    font-size: 15px;
+    /*padding: 26px 0 11px 32px;*/
     line-height: 1.4;
     font-weight: 500;
-    border: 1px solid #f5f5f5;
-    border-width: 0 0 1px;
+    border-width: 0 0 2px;
     box-shadow: none;
     z-index: 1;
     color: white;
@@ -753,6 +809,10 @@ span.glyphicon.header {
 
 .tips-form-group.has-success.has-focus label {
     color: forestgreen;
+}
+
+.navbar-inverse .navbar-brand span {
+    color: white !important;
 }
 
 .tips-form-group.has-success.has-focus.has-focus::after {
@@ -913,7 +973,7 @@ span.glyphicon.header {
 }
 
 .custom-caret {
-    background-position: -79px -60px;
+    background-position: -79px -56px;
     width: 29px;
     height: 21px;
     display: inline-block;
@@ -1022,8 +1082,41 @@ span.actions {
 }
 
 .modal-content {
-    background-color: #364152;
+    background-color: #f6f6f6;
 }
+
+.modal-header {
+    background-color: #673ab7;
+}
+
+.modal-title {
+    color: white !important;
+    font-family: TitilliumWeb-Bold;
+    font-size: 16px;
+}
+
+.glyphiconLG{
+    font-size: 25px;
+}
+
+.glyphiconWhiteOk{
+    color: white;
+}
+
+.glyphiconWhiteRemove{
+    color: white;
+}
+
+.glyphiconWhiteRemove:hover{
+    color: red;
+    cursor: pointer;
+}
+
+.glyphiconWhiteOk:hover{
+    color: #00bfa5;
+    cursor: pointer;
+}
+
 
 .pagination > li > a, .pagination > li > span {
     background-color: #36404D;
@@ -1050,6 +1143,7 @@ span.actions {
     border-left-color: #428BCA;
     border-radius: 10px;
 }
+
 /* end loading bar */
 
 /* begin content list */
@@ -1152,4 +1246,5 @@ span.actions {
     bottom: 20px;
     right: 20px;
 }
+
 /* end content list */

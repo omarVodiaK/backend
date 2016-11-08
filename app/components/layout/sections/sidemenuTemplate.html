@@ -1,69 +1,64 @@
-<div class="swap-app">
-    <a href="" class="custom-icon-sprites left-arrow pull-left"></a>
-    <a href="" class="custom-icon-sprites current-app pull-left"></a>
-    <a href="" class="custom-icon-sprites right-arrow pull-left"></a>
-</div>
-<ul class="nav navbar-nav side-nav cl-effect-15">
+<ul class="nav navbar-nav side-nav cl-effect-15" style="background: #1d2133;">
 
     <li>
-
         <a href="#/dashboard/associate">
             <b class="badge bg-info pull-right"></b>
-            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-            <span class="hide-toggled">{{'ASSOCIATE_MENU' | translate}}</span>
+            <span class="glyphicon glyphicon-user nav-menu-icon" aria-hidden="true"></span>
+            <span class="hide-toggled nav-menu">{{'ASSOCIATE_MENU' | translate}}</span>
         </a>
     </li>
 
     <li>
         <a href="#/dashboard/campaign">
             <b class="badge bg-info pull-right"></b>
-            <span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span>
-            <span class="hide-toggled">{{'CAMPAIGN_MENU'| translate}}</span>
+            <span class="glyphicon glyphicon-bullhorn nav-menu-icon" aria-hidden="true"></span>
+            <span class="hide-toggled nav-menu">{{'CAMPAIGN_MENU'| translate}}</span>
         </a>
     </li>
 
     <li>
         <a href="#/dashboard/location">
             <b class="badge bg-info pull-right"></b>
-            <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
-            <span class="hide-toggled">{{'LOCATION_MENU' | translate}}</span>
+            <span class="glyphicon glyphicon-record nav-menu-icon" aria-hidden="true"></span>
+            <span class="hide-toggled nav-menu">{{'LOCATION_MENU' | translate}}</span>
         </a>
     </li>
 
     <li>
         <a href="#/dashboard/zone">
             <b class="badge bg-info pull-right"></b>
-            <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
-            <span class="hide-toggled">{{'ZONE_MENU'| translate}}</span>
+            <span class="glyphicon glyphicon-screenshot nav-menu-icon" aria-hidden="true"></span>
+            <span class="hide-toggled nav-menu">{{'ZONE_MENU'| translate}}</span>
         </a>
     </li>
 
     <li>
         <a href="#/dashboard/beacon">
             <b class="badge bg-info pull-right"></b>
-            <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
-            <span class="hide-toggled">{{'BEACON_MENU'| translate}}</span>
+            <span class="glyphicon glyphicon-transfer nav-menu-icon" aria-hidden="true"></span>
+            <span class="hide-toggled nav-menu">{{'BEACON_MENU'| translate}}</span>
         </a>
     </li>
 
     <li class="dropdown-submenu">
         <a>
             <b class="badge bg-info pull-right"></b>
-            <span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-            <span class="hide-toggled">{{'CONTENT_MENU'| translate}}</span>
+            <span class="glyphicon glyphicon-phone nav-menu-icon" aria-hidden="true"></span>
+            <span class="hide-toggled nav-menu">{{'CONTENT_MENU'| translate}}</span>
         </a>
         <ul class="dropdown-menu">
             <li><a href="#/dashboard/content/normal"><span
-                    class="hide-toggled">{{'ADVERTISEMENT_MENU'| translate}}</span></a></li>
+                    class="hide-toggled nav-menu">{{'ADVERTISEMENT_MENU'| translate}}</span></a></li>
             <li><a href="#/dashboard/content/product"><span
-                    class="hide-toggled">{{'PRODUCT_MENU'| translate}}</span></a></li>
+                    class="hide-toggled nav-menu">{{'PRODUCT_MENU'| translate}}</span></a></li>
         </ul>
     </li>
+
     <li>
         <a href="#/dashboard/analytic">
             <b class="badge bg-info pull-right"></b>
-            <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-            <span class="hide-toggled">{{'ANALYTIC_MENU'| translate}}</span>
+            <span class="glyphicon glyphicon-stats nav-menu-icon" aria-hidden="true"></span>
+            <span class="hide-toggled nav-menu">{{'ANALYTIC_MENU'| translate}}</span>
         </a>
     </li>
 
@@ -88,6 +83,16 @@
 
     .dropdown-submenu:hover > a:after {
         color: #999;
+    }
+
+    .nav-menu {
+        color: #4D5A7E !important;
+        font-family: TitilliumWeb-Regular;
+        font-size: 18px;
+    }
+
+    .nav-menu-icon {
+        color: #4D5A7E !important;
     }
 
     .shown {
@@ -121,7 +126,9 @@
 </style>
 
 <script>
+
     $('.dropdown-submenu > a').click(function () {
         $(this).parent().children('.dropdown-menu').toggleClass('shown');
     });
+
 </script>

@@ -1,13 +1,38 @@
 .auth {
     height: 100%;
     width: 100%;
-    background-image: url("../images/login-background.jpg");
     display: table;
     color: white;
 }
 
-.auth form {
-    margin-left: 50px;
+.left-login {
+    width: 50%;
+    height: 50%;
+    background-image: url("../images/login-background.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.right-login {
+    width: 50%;
+    height: 50%;
+    background-image: url("../images/login-background.jpg");
+}
+
+@media (max-width: 992px) {
+    .auth form {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+
+    }
+}
+
+@media (min-width: 992px) {
+    .auth form {
+        margin-left: 50px;
+        padding-right: 270px;
+    }
 }
 
 .auth input, a, button, label {
@@ -15,55 +40,78 @@
     color: white;
 }
 
+.auth .login-div {
+    display: table;
+    height: 50%;
+}
+
 .auth .logo-table {
+
     display: table;
     height: 50%;
 }
 
 .auth .logo-cell {
     margin: 0;
-    padding: 0;
+    padding-left: 30px;
+    vertical-align: middle;
+    background-image: url("../images/worldMap.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    display: table-cell;
+    text-align: center;
+}
+
+.auth .login-form {
+
     vertical-align: middle;
     display: table-cell;
-    text-align: right;
 }
 
 .auth .middle {
+
     display: table-cell;
     vertical-align: middle;
     padding-top: 25px;
+    background: #262A3C;
 }
 
 .auth .sign-in {
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
 
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c5302e+0,ef5350+100 */
-    background: #c5302e; /* Old browsers */
-    background: -moz-linear-gradient(top, #c5302e 0%, #ef5350 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #c5302e 0%, #ef5350 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #c5302e 0%, #ef5350 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c5302e', endColorstr='#ef5350', GradientType=0); /* IE6-9 */
+    border-width: 0px;
+    background: #00bfa5;
+    margin-top: 30px;
     width: 141px;
-    height: 57px;
-    border-width: 0 0 0 0;
-    font-size: 21px;
+    font-family: TitilliumWeb-Regular;
+    font-size: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
-.auth h1 {
-    color: #fff;
-    font-size: 60px;
+@media (min-width: 992px) {
+    .auth h1 {
+        color: #fff;
+        font-size: 85px;
+        font-family: TitilliumWeb-Bold;
+    }
+}
+
+@media (max-width: 992px) {
+    .auth h1 {
+        color: #fff;
+        font-size: 60px;
+        font-family: TitilliumWeb-Bold;
+    }
 }
 
 .auth h3 {
     color: #fff;
-    font-size: 20px;
-    font-family: play-regular;
+    font-size: 24px;
+    font-family: TitilliumWeb-Bold;
 }
 
 .auth .vertical-line-login {
-    border-right: 1px solid #FFFFFF;
+    border-left: 1px solid #FFFFFF;
     height: 50%;
 }
 
@@ -77,11 +125,80 @@
 }
 
 .auth .sign-up {
-    font-size: 20px;
-    margin-left: 10px;
+    font-family: TitilliumWeb-Bold;
+    font-size: 16px;
 }
 
 .auth .password-recover {
-    color: #00b8d4;
-    font-size: 20px;
+    color: #00bfa5;
+    font-family: TitilliumWeb-Italic;
+    font-size: 16px;
+}
+
+.row.vertical-divider {
+    overflow: hidden;
+}
+
+.row.vertical-divider > div[class^="col-"] {
+    text-align: center;
+    padding-bottom: 100px;
+    margin-bottom: -100px;
+    border-left: 3px solid #F2F7F9;
+    border-right: 3px solid #F2F7F9;
+}
+
+.row.vertical-divider div[class^="col-"]:first-child {
+    border-left: none;
+}
+
+.row.vertical-divider div[class^="col-"]:last-child {
+    border-right: none;
+}
+
+.inner-addon {
+    position: relative;
+}
+
+.glyphicon.glyphicon-user.login {
+    font-size: 30px;
+}
+
+.glyphicon.glyphicon-phone.login {
+    font-size: 30px;
+}
+
+.glyphicon.glyphicon-inbox.login {
+    font-size: 30px;
+}
+
+.glyphicon.glyphicon-lock {
+    font-size: 30px;
+}
+
+/* style glyph */
+.inner-addon .glyphicon {
+    position: absolute;
+    pointer-events: none;
+    padding-right: 20px;
+    padding-left: 10px;
+
+}
+
+.form-control.input-email{
+    padding-left: 50px;
+    border-radius: 0;
+}
+
+.form-control.input-password{
+    padding-left: 50px;
+    border-radius: 0;
+}
+
+/* align glyph */
+.left-addon .glyphicon {
+    left: 0px;
+}
+
+.right-addon .glyphicon {
+    right: 0px;
 }

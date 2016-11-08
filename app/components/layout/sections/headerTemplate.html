@@ -1,108 +1,42 @@
-<a href="#" class="custom-icon-sprites pull-left dashboard-logo hidden-xs">
+<div class="navbar-header" style="background: #1D202D;">
 
-</a>
-<p class="navbar-text">SANTA Dashboard</p>
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#side-navigation"
+            aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
 
-<!-- Top Menu Items -->
-<ul class="nav navbar-right top-nav">
+    <span class="navbar-brand navbar-brand-inner">
+        <b class="icon icon-dashboard"></b>SANTA Dashboard</span>
 
-    <!--<li ng-controller="CampaignBadgeCtrl">-->
-
-    <!--<div onclick="campaignBadge()" class="dropdown">-->
-
-    <!--<div class="dropbtn custom-icon-sprites notification  badge">-->
-
-    <!--<div class="shake badge badge-info outter-badge">{{publishRequestNumber}}</div>-->
-
-    <!--</div>-->
-
-    <!--<div id="campaignDropdown" class="dropdown-content">-->
-
-    <!--<div class="error-notice" ng-repeat="notification in campaignNotification"-->
-    <!--ng-if="campaignNotification.length > 0">-->
-
-    <!--<div class="oaerror info">-->
-    <!--<a href="#/dashboard/campaign"> <strong>{{notification.owner.camp_name}}</strong><br>{{notification.owner.camp_description}}</a>-->
-    <!--</div>-->
-
-    <!--</div>-->
-
-    <!--<div class="error-notice" ng-if="campaignNotification.length == 0">-->
-    <!--<div class="oaerror warning">-->
-    <!--<strong>0 request found!</strong> - You have 0 campaign request-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--</div>-->
-
-    <!--</div>-->
-
-    <!--</li>-->
-
-    <!--<li ng-controller="BadgeCtrl">-->
-
-    <!--<div onclick="associateBadge()" class="dropdown">-->
-    <!--<div class="dropbtn custom-icon-sprites share-requests badge">-->
-    <!--<div class="shake badge badge-info outter-badge">{{requestNumber}}</div>-->
-    <!--</div>-->
-
-    <!--</div>-->
-
-    <!--<div id="associateDropdown" class="dropdown-content">-->
-
-    <!--<div class="error-notice" ng-repeat="notification in associateNotification"-->
-    <!--ng-if="associateNotification.length > 0">-->
-
-    <!--<div class="oaerror info">-->
-    <!--<a href="#/dashboard/associate"> <strong>{{notification.asc_cmp_sender_id.cmp_name}}</strong> --->
-    <!--{{notification.asc_cmp_sender_id.cmp_email}}</a>-->
-    <!--</div>-->
-
-    <!--</div>-->
-
-    <!--<div class="error-notice" ng-if="associateNotification.length == 0">-->
-    <!--<div class="oaerror warning">-->
-    <!--<strong>0 request found!</strong> - You have 0 associate request-->
-    <!--</div>-->
-    <!--</div>-->
-
-
-    <!--</div>-->
-
-    <!--</li>-->
-
-    <li dropdown class="hidden-xs hidden-md">
-
-        <a href="" data-toggle="dropdown" dropdown-toggle class="navbar-user">
-            {{userName}} {{lastName}}
+    <span class="navbar-brand" style="float: right !important;">
+        <span data-toggle="dropdown" dropdown-toggle>
+            {{userName}}
             <b class="custom-icon-sprites custom-caret"></b>
-        </a>
+        </span>
 
         <ul class="dropdown-menu">
 
             <li>
-                <a href=""><span class="glyphicon glyphicon-user"></span> Profile</a>
+                <a href=""><span class="glyphicon glyphicon-user"></span>Profile</a>
             </li>
 
             <li>
-                <a href=""><span class="glyphicon glyphicon-cog"></span> Settings</a>
+                <a href=""><span class="glyphicon glyphicon-cog"></span>Settings</a>
             </li>
 
             <li class="divider"></li>
-
             <li>
-                <a href=""><span class="glyphicon glyphicon-off"></span> Log Out</a>
+                <a href="#" ng-click="logout()"><span class="glyphicon glyphicon-off"></span>Log Out</a>
             </li>
 
         </ul>
 
-    </li>
+    </span>
 
-    <li>
-        <a href="#" class="custom-icon-sprites logout" ng-click="logout()"></a>
-    </li>
-
-</ul>
+</div>
 
 
 <style type="text/css">
@@ -135,6 +69,11 @@
         min-width: 160px;
         overflow: auto;
         box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar-header{
+        width: 100%;
+        color: #333333 !important;
     }
 
     .dropdown-content a {
@@ -181,6 +120,10 @@
         color: #5bc0de;
     }
 
+    .navbar-brand-inner{
+        color: #00d8ff !important;
+    }
+
 </style>
 
 <script>
@@ -216,3 +159,4 @@
     }
 
 </script>
+

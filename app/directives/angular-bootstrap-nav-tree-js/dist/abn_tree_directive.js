@@ -17,17 +17,17 @@
                     template: "<ul class='nav nav-list nav-pills nav-stacked abn-tree'>" +
                     "<li ng-model='treeData' ng-repeat='row in tree_rows | filter:{visible:true} track by row.branch.uid' ng-animate='abn-tree-animate' ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"abn-tree-row\">" +
                     "<div class='row'>" +
-                    "<div class='col-md-6'>" +
-                    "<a><i ng-class='row.tree_icon' ng-click='row.branch.expanded = !row.branch.expanded' class='indented tree-icon'></i>" +
-                    "<span class='indented tree-label' ng-click='user_clicks_branch(row.branch)'>{{ row.label }} </span></a>" +
+                    "<div class='col-md-3'>" +
+                    "<a><i ng-class='row.tree_icon' ng-click='row.branch.expanded = !row.branch.expanded'  style='color: black;' class='indented tree-icon'></i>" +
+                    "<span class='indented tree-label' ng-click='user_clicks_branch(row.branch)' style='color: black;'>{{ row.label }} </span></a>" +
                     "</div>" +
-                    "<div class='col-md-6'>" +
+                    "<div class='col-md-3'>" +
                     "<div class='btn-group pull-right' role='group'>" +
                     "<button ng-click='open(row.branch)' class='btn btn-warning btn-sm'>" +
-                    "<i class='glyphicon glyphicon-edit visible-xs-inline-block'></i>" +
+                    "<i class='glyphicon glyphicon-edit'></i>" +
                     "</button>" +
                     "<button class='btn btn-danger btn-sm' ng-click='user_delete_branch(row.branch)'>" +
-                    "<i class='glyphicon glyphicon-remove visible-xs-inline-block'></i>" +
+                    "<i class='glyphicon glyphicon-remove'></i>" +
                     "</button>" +
                     "</div>" +
                     "</div>" +
@@ -52,30 +52,37 @@
 
                         });
 
-
                         var error, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, n, on_treeData_change, select_branch, selected_branch, tree;
+
                         error = function (s) {
                             console.log('ERROR:' + s);
                             debugger;
                             return void 0;
                         };
+
                         if (attrs.iconExpand == null) {
                             attrs.iconExpand = 'glyphicon glyphicon-plus  fa fa-plus';
                         }
+
                         if (attrs.iconCollapse == null) {
                             attrs.iconCollapse = 'glyphicon glyphicon-minus fa fa-minus';
                         }
+
                         if (attrs.iconLeaf == null) {
                             attrs.iconLeaf = 'glyphicon glyphicon-home  fa fa-file';
                         }
+
                         if (attrs.expandLevel == null) {
                             attrs.expandLevel = '3';
                         }
+
                         expand_level = parseInt(attrs.expandLevel, 10);
+
                         if (!scope.treeData) {
                             alert('no treeData defined for the tree!');
                             return;
                         }
+
                         if (scope.treeData.length == null) {
                             if (treeData.label != null) {
                                 scope.treeData = [treeData];
@@ -84,52 +91,76 @@
                                 return;
                             }
                         }
+
                         for_each_branch = function (f) {
 
-
                             var do_f, root_branch, _i, _len, _ref, _results;
+
                             do_f = function (branch, level) {
+
                                 var child, _i, _len, _ref, _results;
+
                                 f(branch, level);
+
                                 if (branch.children != null) {
+
                                     _ref = branch.children;
                                     _results = [];
+
                                     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
                                         child = _ref[_i];
                                         _results.push(do_f(child, level + 1));
                                     }
+
                                     return _results;
                                 }
                             };
+
                             _ref = scope.treeData;
+
                             _results = [];
+
                             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+
                                 root_branch = _ref[_i];
                                 _results.push(do_f(root_branch, 1));
                             }
+
                             return _results;
                         };
+
                         selected_branch = null;
+
                         select_branch = function (branch) {
+
                             if (!branch) {
+
                                 if (selected_branch != null) {
                                     selected_branch.selected = false;
                                 }
+
                                 selected_branch = null;
                                 return;
                             }
+
                             if (branch !== selected_branch) {
+
                                 if (selected_branch != null) {
                                     selected_branch.selected = false;
                                 }
+
                                 branch.selected = true;
+
                                 selected_branch = branch;
+
                                 expand_all_parents(branch);
+
                                 if (branch.onSelect != null) {
                                     return $timeout(function () {
                                         return branch.onSelect(branch);
                                     });
                                 } else {
+
                                     if (scope.onSelect != null) {
                                         return $timeout(function () {
                                             return scope.onSelect({
@@ -142,13 +173,17 @@
                         };
 
                         scope.user_clicks_branch = function (branch) {
+
                             if (branch !== selected_branch) {
+
                                 return select_branch(branch);
                             }
                         };
 
                         scope.user_delete_branch = function (branch) {
+
                             if (branch.children.length > 0) {
+
                                 alert('Delete Children first!');
                             } else {
 
@@ -158,10 +193,12 @@
 
                         function recursiveGetProperty(obj, lookup, callback) {
 
-
                             for (var x = 0; x < obj.length; x++) {
+
                                 if (obj[x] != undefined) {
+
                                     if (lookup == obj[x].uid) {
+
                                         var params = {
                                             loc_cd: obj[x].loc_cd
                                         };
@@ -170,17 +207,20 @@
                                             if (data.result == 'deleted successfully') {
                                                 alert('deleted successfully');
                                             }
-                                        })
+                                        });
+
                                         obj.splice(x, 1);
                                     }
                                 }
-
                             }
 
                             for (property in obj) {
+
                                 if (property == lookup) {
+
                                     callback(obj[property]);
                                 } else if (obj[property] instanceof Object) {
+
                                     recursiveGetProperty(obj[property], lookup, callback);
                                 }
                             }
@@ -188,10 +228,15 @@
 
                         get_parent = function (child) {
                             var parent;
+
                             parent = void 0;
+
                             if (child.parent_uid) {
+
                                 for_each_branch(function (b) {
+
                                     if (b.uid === child.parent_uid) {
+
                                         return parent = b;
                                     }
                                 });
@@ -202,13 +247,18 @@
                         for_all_ancestors = function (child, fn) {
                             var parent;
                             parent = get_parent(child);
+
                             if (parent != null) {
+
                                 fn(parent);
                                 return for_all_ancestors(parent, fn);
                             }
                         };
+
                         expand_all_parents = function (child) {
+
                             return for_all_ancestors(child, function (b) {
+
                                 return b.expanded = true;
                             });
                         };
@@ -220,7 +270,9 @@
                             var add_branch_to_list, root_branch, _i, _len, _ref, _results;
 
                             for_each_branch(function (b, level) {
+
                                 if (!b.uid) {
+
                                     return b.uid = "" + Math.random();
                                 }
                             });
@@ -230,9 +282,12 @@
                                 var child, _i, _len, _ref, _results;
 
                                 if (angular.isArray(b.children)) {
+
                                     _ref = b.children;
                                     _results = [];
+
                                     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+
                                         child = _ref[_i];
                                         _results.push(child.parent_uid = b.uid);
                                     }

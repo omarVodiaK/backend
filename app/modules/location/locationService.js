@@ -24,7 +24,7 @@
 
             var getPlayers = function () {
 
-                return RequestService.postJsonRequest('location/getPlayers', params).then(function (data) {
+                    return RequestService.postJsonRequest('location/getPlayers', params).then(function (data) {
 
                     return data;
                 });

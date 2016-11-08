@@ -30,6 +30,9 @@
         $scope.text = 'hello';
         $scope.formData = {};
 
+        $scope.formData.email = "administrator@tractive.com.my";
+        $scope.formData.password = "123456"
+
         if ($stateParams.message !== null && $stateParams.message !== undefined) {
 
             alert($stateParams.message);
@@ -41,38 +44,34 @@
 
                 "email": $scope.formData.email,
                 "password": $scope.formData.password,
-                "application_id": APPLICATION_ID,
-                "g-recaptcha-response": $scope.formData.captcha
-            }).then(function (result) {
+                "application_id": APPLICATION_ID
 
-                console.log(result);
+            }).then(function (result) {
 
                 if (result === undefined) {
 
                     alert('Wrong email or password');
-
                 } else {
 
-                    if (result.success !== true) {
+                    if (result.result.success !== true) {
 
                         if (result.code == "ECONNREFUSED") {
 
-                            alert('TIPS is not accessible please contact us!');
-
+                            alert('TIPS is not accessible please try later!');
                         } else {
 
-                            if (result.messages != undefined) {
+                            if (result.result.messages != undefined) {
 
                                 var combinedMessage = "";
 
-                                $.each(result.messages, function (key, value) {
+                                $.each(result.result.messages, function (key, value) {
 
                                     combinedMessage += value;
                                 });
 
                                 notify({
                                     message: combinedMessage,
-                                    classes: 'alert-warning',
+                                    classes: 'alert-danger',
                                     position: 'center',
                                     duration: 2000
                                 });
@@ -81,10 +80,10 @@
 
                         }
 
-                    } else if (result.success === true) {
+                    } else if (result.result.success === true) {
 
-                        if (result.result.user.licenses.length > 0) {
-
+                        if (result.result.user.roles[0].licenses.length > 0) {
+                            console.log(result.result)
                             session.setUser(result.result);
                             $state.go('dashboard.associate');
 
