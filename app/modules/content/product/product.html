@@ -2,11 +2,11 @@
     <h1>Product</h1>
 </div>
 
-<div class="container" style="width: 100%" ng-controller="CategoryCtrl">
+<div class="container full-width-container" ng-controller="CategoryCtrl">
 
-    <div class="row" style="margin-top:20px;">
+    <div class="row margin-top-20px">
 
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6 col-xs-6">
             <form class="form-inline">
                 <div class="form-group">
                     <label>Filter by:</label>
@@ -22,7 +22,7 @@
             </form>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6 col-xs-6">
 
             <div class="pull-right" ng-controller="ModalProductCtrl">
 
@@ -35,7 +35,7 @@
                         <form class="form-horizontal">
 
                             <div class="row">
-                                <div class="col-md-6" style="margin-bottom: 10px;">
+                                <div class="col-md-6 col-sm-6 col-xs-6 margin-bottom-10px">
                                     <div class="row" ng-if="product.details.highlight.length > 0">
                                         <h3>Highlights</h3>
                                         <ul ng-repeat="highlight in product.details.highlight" class="list-unstyled">
@@ -50,7 +50,7 @@
                                     </div>
                                     <div class="row" ng-controller="SubProductCtrl">
                                         <div class="row" ng-if="product.sub_products.length > 0">
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
                                                 <h3>Sub Products</h3>
 
 
@@ -88,11 +88,11 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
                                     <uib-carousel>
                                         <uib-slide ng-repeat="image in product.product_image" active="slide.active"
                                                    index="slide.id">
-                                            <img ng-src="{{image.prd_img_url}}" style="margin:auto;">
+                                            <img ng-src="{{image.prd_img_url}}" class="margin-auto">
 
                                         </uib-slide>
                                     </uib-carousel>
@@ -126,12 +126,11 @@
                             <wizard current-step-number="currentStepNumber" submit="submit()">
                                 <wizard-step title="GeneralInformations" entered="stepEntered()">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3"
-                                                       style="text-align: left;">Title:</label>
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-3 text-align-left">Title:</label>
 
-                                                <div class="col-xs-9">
+                                                <div class="col-md-9 col-sm-9 col-xs-9">
                                                     <input id="product_title" value="{{product.prd_title}}" type="text"
                                                            class="form-control"
                                                            placeholder="Title"
@@ -141,10 +140,10 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3" style="text-align: left;">Original
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-3 text-align-left">Original
                                                     Price:</label>
 
-                                                <div class="col-xs-9">
+                                                <div class="col-md-9 col-sm-9 col-xs-9">
                                                     <div class="input-group">
                                                         <input id="product_original_price" type="text"
                                                                class="form-control"
@@ -157,10 +156,10 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3" style="text-align: left;">New
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-3 text-align-left">New
                                                     Price:</label>
 
-                                                <div class="col-xs-9">
+                                                <div class="col-md-9 col-sm-9 col-xs-9">
                                                     <div class="input-group">
                                                         <input id="product_new_price" type="text" class="form-control"
                                                                placeholder="New Price"
@@ -173,10 +172,10 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3"
-                                                       style="text-align: left;">Measure Unit:</label>
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-3 text-align-left">Measure
+                                                    Unit:</label>
 
-                                                <div class="col-xs-9">
+                                                <div class="col-md-9 col-sm-9 col-xs-9">
 
                                                     <input id="product_measure_unit"
                                                            value="{{product.prd_measure_unit}}" type="text"
@@ -187,12 +186,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3"
-                                                       style="text-align: left;">Description:</label>
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-3 text-align-left">Description:</label>
 
-                                                <div class="col-xs-9">
+                                                <div class="col-md-9 col-sm-9 col-xs-9">
                                              <textarea id="product_description" type="text" class="form-control"
                                                        rows="2"
                                                        placeholder="Description"
@@ -202,10 +200,9 @@
                                             </div>
 
                                             <div class="form-group" ng-controller="CategoryCtrl">
-                                                <label class="control-label col-xs-3"
-                                                       style="text-align: left;">Categories:</label>
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-3 text-align-left">Categories:</label>
 
-                                                <div class="col-xs-9">
+                                                <div class="col-md-9 col-sm-9 col-xs-9">
                                                     <oi-select
                                                             id="product_category"
                                                             oi-options="c.cat_group + '/' + c.cat_name for c in categories track by c.cat_cd"
@@ -218,10 +215,9 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3"
-                                                       style="text-align: left;">Availability:</label>
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-3 text-align-left">Availability:</label>
 
-                                                <div class="col-xs-9">
+                                                <div class="col-md-9 col-sm-9 col-xs-9">
 
                                                     <input id="product_availability"
                                                            value="{{product.prd_availability}}" type="text"
@@ -237,7 +233,7 @@
                                              entered="stepEntered()">
                                     <div class="row">
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
                                             <h4 class=" text-center">FinePrints</h4><br/>
 
                                             <ul class="list-unstyled">
@@ -270,7 +266,7 @@
                                             </ul>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 col-sm-6 col-xs-6">
                                             <h4 class=" text-center">HighLights</h4><br/>
                                             <ul class="list-unstyled">
 
@@ -323,7 +319,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-5" pagination-id="newSubProductPagination"
+                                        <div class="col-md-5 col-sm-5 col-xs-5" pagination-id="newSubProductPagination"
                                              dir-paginate="p in product.sub_products | itemsPerPage:6">
 
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -341,8 +337,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="offer-content sub_product_parent"
-                                                         style="padding-top: 0px; padding-left: 40px;">
+                                                    <div class="offer-content sub_product_parent">
 
                                                         <div class="form-group">
 
@@ -468,8 +463,9 @@
 
 
                                                         <div class="add-files">
-                                                            <input type="button" class="button add-files"
-                                                                   value="Add Files..." style="width: 100%;"/>
+                                                            <input type="button"
+                                                                   class="button add-files full-width-container"
+                                                                   value="Add Files..."/>
                                                             <droplet-upload-multiple
                                                                     ng-model="interface"></droplet-upload-multiple>
                                                         </div>
@@ -550,10 +546,10 @@
 
     </div>
 
-    <div class="container" style="width: 100%; margin-top:20px;" ng-if="products.length > 0">
+    <div class="container full-width-container margin-top-20px" ng-if="products.length > 0">
         <div class="row" ng-controller="ModalProductCtrl">
 
-            <div class="col-md-4 catalog fadeIn"
+            <div class="col-md-4 col-sm-4 col-xs-4 catalog fadeIn"
                  dir-paginate="product in products | filter : myFilter| itemsPerPage:10">
 
                 <div class="thumbnail">
@@ -577,31 +573,25 @@
                     <div class="text-center" ng-if="product.product_image.length > 0"
                          ng-repeat="image in product.product_image">
 
-                        <img style="height: 250px; width: 350px;"
-                             ng-if="image.prd_img_is_cover == true"
+                        <img ng-if="image.prd_img_is_cover == true"
                              lazy-src="{{image.prd_img_url}}"
-                             class="img-responsive center-block"/>
-
+                             class="img-responsive center-block product-image"/>
                     </div>
 
                     <div class="text-center" ng-if="product.product_image.length == 0">
 
-                        <img style="height: 250px; width: 350px;"
-                             lazy-src="assets/images/no-image.png"
-                             class="img-responsive center-block"/>
-
+                        <img lazy-src="assets/images/no-image.png"
+                             class="img-responsive center-block product-image"/>
                     </div>
-
-                    <!--<span class="badge badge-success pull-right" ng-if="product.prd_new_price != 0">{{product.prd_new_price}}</span>-->
 
                     <div class="caption">
 
                         <div class="row">
 
-                            <div class="col-md-6 col-xs-6 text-left">
+                            <div class="col-md-6 col-sm-6 col-xs-6 text-left">
                                 <h3>{{product.prd_original_price}}RM</h3>
                             </div>
-                            <div class="col-md-6 col-xs-6 text-right" ng-if="product.prd_new_price != 0">
+                            <div class="col-md-6 col-sm-6 col-xs-6 text-right" ng-if="product.prd_new_price != 0">
                                 <h3>
                                     {{product.prd_new_price}}RM
                                 </h3>
@@ -657,7 +647,7 @@
 
 </div>
 
-<div class="bs-component" style="margin-top:20px;" ng-if="products.length == 0">
+<div class="bs-component margin-top-20px" ng-if="products.length == 0">
 
     <div class="row">
 
@@ -667,553 +657,3 @@
     </div>
 
 </div>
-
-<style type="text/css">
-
-    .size {
-        width: 100px;
-        height: 100px;
-    }
-
-    .thumbnail {
-        background: transparent;
-    }
-
-    .stars {
-        color: #FFC107 !important;
-    }
-
-    .center-block {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .catalog {
-        margin-right: 0px;
-        margin-left: 0px;
-        padding-left: 10px;
-        padding-right: 10px;
-
-    }
-
-    .catalog-buttons {
-        padding-left: 3px;
-        padding-right: 3px;
-    }
-
-    .badge {
-        position: relative;
-    }
-
-    .title {
-        margin-bottom: 5px;
-    }
-
-    .carousel-fade .carousel-inner .item {
-        opacity: 0;
-        -webkit-transition-property: opacity;
-        -moz-transition-property: opacity;
-        -o-transition-property: opacity;
-        transition-property: opacity;
-    }
-
-    .carousel-fade .carousel-inner .active {
-        opacity: 1;
-    }
-
-    .carousel-fade .carousel-inner .active.left,
-    .carousel-fade .carousel-inner .active.right {
-        left: 0;
-        opacity: 0;
-        z-index: 1;
-    }
-
-    .carousel-fade .carousel-inner .next.left,
-    .carousel-fade .carousel-inner .prev.right {
-        opacity: 1;
-    }
-
-    .carousel-fade .carousel-control {
-        z-index: 2;
-    }
-
-    /*
-    * begin sub product CSS
-    */
-
-    .event-list {
-        list-style: none;
-        font-family: 'Lato', sans-serif;
-        margin: 0px;
-        padding: 0px;
-    }
-
-    .event-list > li {
-        background-color: rgb(255, 255, 255);
-        box-shadow: 0px 0px 5px rgb(51, 51, 51);
-        box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
-        padding: 0px;
-        margin: 0px 0px 20px;
-    }
-
-    .event-list > li > time {
-        display: inline-block;
-        width: 100%;
-        color: rgb(255, 255, 255);
-        background-color: rgb(197, 44, 102);
-        padding: 5px;
-        text-align: center;
-        text-transform: uppercase;
-    }
-
-    .event-list > li:nth-child(even) > time {
-        background-color: rgb(165, 82, 167);
-    }
-
-    .event-list > li > time > span {
-        display: none;
-    }
-
-    .event-list > li > time > .day {
-        display: block;
-        font-size: 56pt;
-        font-weight: 100;
-        line-height: 1;
-    }
-
-    .event-list > li time > .month {
-        display: block;
-        font-size: 24pt;
-        font-weight: 900;
-        line-height: 1;
-    }
-
-    .event-list > li > img {
-        width: 100%;
-    }
-
-    .event-list > li > .info {
-        padding-top: 5px;
-        text-align: center;
-    }
-
-    .event-list > li > .info > .title {
-        font-size: 17pt;
-        font-weight: 700;
-        margin: 0px;
-    }
-
-    .event-list > li > .info > .desc {
-        font-size: 13pt;
-        font-weight: 300;
-        margin: 0px;
-    }
-
-    .event-list > li > .info > ul,
-    .event-list > li > .social > ul {
-        display: table;
-        list-style: none;
-        margin: 10px 0px 0px;
-        padding: 0px;
-        width: 100%;
-        text-align: center;
-    }
-
-    .event-list > li > .social > ul {
-        margin: 0px;
-    }
-
-    .event-list > li > .info > ul > li,
-    .event-list > li > .social > ul > li {
-        display: table-cell;
-        cursor: pointer;
-        color: rgb(30, 30, 30);
-        font-size: 11pt;
-        font-weight: 300;
-        padding: 3px 0px;
-    }
-
-    .event-list > li > .info > ul > li > a {
-        display: block;
-        width: 100%;
-        color: rgb(30, 30, 30);
-        text-decoration: none;
-    }
-
-    @media (min-width: 768px) {
-        .event-list > li {
-            position: relative;
-            display: block;
-            width: 100%;
-            height: 120px;
-            padding: 0px;
-        }
-
-        .event-list > li > time,
-        .event-list > li > img {
-            display: inline-block;
-        }
-
-        .event-list > li > time,
-        .event-list > li > img {
-            width: 120px;
-            float: left;
-        }
-
-        .event-list > li > .info {
-            background-color: rgb(245, 245, 245);
-            overflow: hidden;
-        }
-
-        .event-list > li > time,
-        .event-list > li > img {
-            width: 120px;
-            height: 120px;
-            padding: 0px;
-            margin: 0px;
-        }
-
-        .event-list > li > .info {
-            position: relative;
-            height: 120px;
-            text-align: left;
-            padding-right: 40px;
-        }
-
-        .event-list > li > .info > .title,
-        .event-list > li > .info > .desc {
-            padding: 0px 10px;
-        }
-
-        .event-list > li > .info > ul {
-            position: absolute;
-            left: 0px;
-            bottom: 0px;
-        }
-
-        .event-list > li > .social {
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            display: block;
-            width: 40px;
-        }
-
-        .event-list > li > .social > ul {
-            border-left: 1px solid rgb(230, 230, 230);
-        }
-
-        .event-list > li > .social > ul > li {
-            display: block;
-            padding: 0px;
-        }
-
-        .event-list > li > .social > ul > li > a {
-            display: block;
-            width: 40px;
-            padding: 10px 0px 9px;
-        }
-
-        .shape {
-            border-style: solid;
-
-            float: right;
-            height: 0px;
-            width: 0px;
-            -ms-transform: rotate(360deg); /* IE 9 */
-            -o-transform: rotate(360deg); /* Opera 10.5 */
-            -webkit-transform: rotate(360deg); /* Safari and Chrome */
-            transform: rotate(360deg);
-        }
-
-        .offer {
-            background: #fff;
-            border: 1px solid #ddd;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            margin: 15px 0;
-            overflow: hidden;
-        }
-
-        .offer:hover {
-            -webkit-transform: scale(1.1);
-            -moz-transform: scale(1.1);
-            -ms-transform: scale(1.1);
-            -o-transform: scale(1.1);
-            transform: rotate scale(1.1);
-            -webkit-transition: all 0.4s ease-in-out;
-            -moz-transition: all 0.4s ease-in-out;
-            -o-transition: all 0.4s ease-in-out;
-            transition: all 0.4s ease-in-out;
-        }
-
-    }
-
-    /*
-    * end sub product CSS
-    */
-
-    .shape {
-        border-style: solid;
-        border-width: 0 70px 40px 0;
-        float: right;
-        height: 0px;
-        width: 0px;
-        -ms-transform: rotate(360deg); /* IE 9 */
-        -o-transform: rotate(360deg); /* Opera 10.5 */
-        -webkit-transform: rotate(360deg); /* Safari and Chrome */
-        transform: rotate(360deg);
-    }
-
-    .offer {
-        background: #fff;
-        border: 1px solid #ddd;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        margin: 15px 0;
-        overflow: hidden;
-    }
-
-    .offer:hover {
-        -webkit-transform: scale(1.1);
-        -moz-transform: scale(1.1);
-        -ms-transform: scale(1.1);
-        -o-transform: scale(1.1);
-        transform: rotate scale(1.1);
-        -webkit-transition: all 0.4s ease-in-out;
-        -moz-transition: all 0.4s ease-in-out;
-        -o-transition: all 0.4s ease-in-out;
-        transition: all 0.4s ease-in-out;
-    }
-
-    .shape {
-        border-color: rgba(255, 255, 255, 0) #d9534f rgba(255, 255, 255, 0) rgba(255, 255, 255, 0);
-
-    }
-
-    .offer-success {
-        border-color: #5cb85c;
-    }
-
-    .offer-success .shape {
-        border-color: transparent #5cb85c transparent transparent;
-    }
-
-    .shape-text {
-        color: #fff;
-        font-size: 12px;
-        font-weight: bold;
-        position: relative;
-        right: -15px;
-        top: 0px;
-        white-space: nowrap;
-        -ms-transform: rotate(30deg); /* IE 9 */
-        -o-transform: rotate(360deg); /* Opera 10.5 */
-        -webkit-transform: rotate(30deg); /* Safari and Chrome */
-        transform: rotate(30deg);
-    }
-
-    .offer-content {
-        padding: 0 20px 10px;
-    }
-
-    .rounded {
-        border-radius: 24px;
-    }
-
-    .btn-danger.raised {
-        box-shadow: 0 3px 0 0 #D32F2F;
-    }
-
-    .btn-danger.raised:active, .btn-primary.raised.active {
-        background: #33a6cc;
-        box-shadow: none;
-        margin-bottom: -3px;
-        margin-top: 3px;
-    }
-
-    .modal-body {
-        padding-top: 0px;
-        padding-bottom: 0px;
-        margin-bottom: 0px;
-    }
-
-    .modal-footer {
-        margin-top: 0px;
-    }
-
-    .show-hide.ng-hide-add,
-    .show-hide.ng-hide-remove {
-        transition: all linear 0.2s;
-        display: block !important;
-        position: absolute;
-    }
-
-    .show-hide.ng-hide-add.ng-hide-add-active,
-    .show-hide.ng-hide-remove {
-        top: -8px;
-        display: block !important;
-        position: absolute;
-        opacity: 0;
-    }
-
-    .show-hide.ng-hide-add,
-    .show-hide.ng-hide-remove.ng-hide-remove-active {
-        top: -14px;
-        opacity: 1;
-        display: block !important;
-        position: absolute;
-    }
-
-    .field {
-        position: relative;
-        margin-bottom: 1em;
-        padding-bottom: 0px;
-    }
-
-    .field > label {
-        position: absolute;
-        top: -14px;
-        color: #428bca;
-        font-size: 0.8em;
-    }
-
-    .field > input {
-        border: 0;
-        padding: 0.5em 0 !important;
-        box-shadow: none !important;
-        border-radius: 0;;
-        border-bottom: 1px solid #555555;
-        max-width: 400px;
-        margin-top: 15px
-    }
-
-    .ch-grid {
-        margin: 20px 0 0 0;
-        padding: 0;
-        list-style: none;
-        display: block;
-        text-align: center;
-        width: 100%;
-    }
-
-    .ch-grid:after,
-    .ch-item:before {
-        content: '';
-        display: table;
-    }
-
-    .ch-grid:after {
-        clear: both;
-    }
-
-    .ch-grid li {
-        width: 220px;
-        height: 220px;
-        display: inline-block;
-        margin: 20px;
-    }
-
-    .ch-item {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        position: relative;
-        cursor: default;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    }
-
-    .ch-thumb {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        overflow: hidden;
-        position: absolute;
-        box-shadow: inset 0 0 0 15px rgba(255, 255, 255, 0.5);
-        transform-origin: 95% 40%;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .ch-thumb:after {
-        width: 8px;
-        height: 8px;
-        position: absolute;
-        border-radius: 50%;
-        top: 40%;
-        left: 95%;
-        margin: -4px 0 0 -4px;
-        background: radial-gradient(ellipse at center, rgba(14, 14, 14, 1) 0%, rgba(125, 126, 125, 1) 100%);
-        box-shadow: 0 0 1px rgba(255, 255, 255, 0.9);
-    }
-
-    .ch-info {
-        position: absolute;
-        width: inherit;
-        height: inherit;
-        border-radius: 50%;
-        overflow: hidden;
-        box-shadow: inset 0 0 0 5px rgba(0, 0, 0, 0.05);
-    }
-
-    .ch-info h3 {
-        color: #fff;
-        text-transform: uppercase;
-        position: relative;
-        letter-spacing: 2px;
-        font-size: 18px;
-        margin: 0 60px;
-        padding: 22px 0 0 0;
-        height: 85px;
-        font-family: 'Open Sans', Arial, sans-serif;
-        text-shadow: 0 0 1px #fff,
-        0 1px 2px rgba(0, 0, 0, 0.3);
-    }
-
-    .ch-info p {
-        color: #fff;
-        padding: 10px 5px;
-        font-style: italic;
-        margin: 0 30px;
-        font-size: 12px;
-        border-top: 1px solid rgba(255, 255, 255, 0.5);
-    }
-
-    .ch-info p a {
-        display: block;
-        color: #333;
-        width: 80px;
-        height: 80px;
-        background: rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        color: #fff;
-        font-style: normal;
-        font-weight: 700;
-        text-transform: uppercase;
-        font-size: 9px;
-        letter-spacing: 1px;
-        padding-top: 24px;
-        margin: 7px auto 0;
-        margin-top: 50px;
-        font-family: 'Open Sans', Arial, sans-serif;
-        opacity: 0;
-        transition: transform 0.3s ease-in-out 0.2s,
-        opacity 0.3s ease-in-out 0.2s,
-        background 0.2s linear 0s;
-        transform: translateX(60px) rotate(90deg);
-    }
-
-    .ch-info p a:hover {
-        background: rgba(255, 255, 255, 0.5);
-    }
-
-    .ch-item:hover .ch-thumb {
-        box-shadow: inset 0 0 0 15px rgba(255, 255, 255, 0.5), 0 1px 3px rgba(0, 0, 0, 0.2);
-        transform: rotate(-110deg);
-    }
-
-    .ch-item:hover .ch-info p a {
-        opacity: 1;
-        transform: translateX(0px) rotate(0deg);
-    }
-
-</style>
-

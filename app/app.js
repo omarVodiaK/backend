@@ -3,7 +3,6 @@
 angular
     .module('app',
         [
-            'vcRecaptcha',
             'ngMessages',
             'ui.router',
             'ngRoute',
@@ -11,7 +10,6 @@ angular
             'cgNotify',
             'ngAnimate',
             'ngSanitize',
-            'angularMoment',
             'bootstrapLightbox',
             'angular-preload-image',
             'truncate',

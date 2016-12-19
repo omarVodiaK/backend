@@ -7,7 +7,7 @@
 
     <!-- menu -->
     <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-    <div data-ng-include=" 'components/layout/sections/sidemenuTemplate.html' " class="collapse navbar-collapse navbar-ex1-collapse" id="side-navigation">
+    <div data-ng-include=" 'components/layout/sections/sidemenuTemplate.html' " class="collapse navbar-collapse navbar-ex1-collapse" id="side-navigation" ng-controller="sidemenuController">
     </div>
     <!-- /.navbar-collapse -->
     <!-- / menu -->
@@ -17,8 +17,4 @@
 <div class="container-fluid" ui-view>
 </div>
 <!-- / view -->
-<!-- navbar -->
-<div class="app-footer navbar navbar-fixed-bottom bg-light lt b-t">
 
-</div>
-<!-- /navbar -->

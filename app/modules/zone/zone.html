@@ -2,9 +2,9 @@
     <h1>Zones</h1>
 </div>
 
-<div class="container" style="width: 100%">
-    <div class="row" style="margin-top:20px;">
-        <div class="col-md-6">
+<div class="container full-width-container">
+    <div class="row margin-top-20px">
+        <div class="col-md-6 col-sm-6 col-xs-6">
             <form class="form-inline">
                 <div class="form-group">
                     <label>Filter by: </label>
@@ -12,64 +12,69 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6 col-xs-6">
             <div class="pull-right">
                 <div ng-controller="ModalZoneCtrl">
                     <!-- angular ui modal -->
                     <script type="text/ng-template" id="zoneModalTpl">
-                        <form class="form-horizontal">
+                        <form class="form-horizontal" novalidate>
                             <div class="modal-header">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-xs-6 col-sm-6">
                                         <h3 class="modal-title">New Zone</h3>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-xs-6 col-sm-6">
                                         <div class="btn-group pull-right">
-                                            <i class="glyphicon glyphicon-ok-circle glyphiconLG glyphiconWhiteOk" ng-click="ok()"></i>
-                                            <i class="glyphicon glyphicon-remove-circle glyphiconLG glyphiconWhiteRemove" ng-click="cancel()"></i>
+                                            <i class="glyphicon glyphicon-ok-circle glyphiconLG glyphiconWhiteOk"
+                                               ng-click="ok()"></i>
+                                            <i class="glyphicon glyphicon-remove-circle glyphiconLG glyphiconWhiteRemove"
+                                               ng-click="cancel()"></i>
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                             <div class="modal-body">
 
                                 <div class="row" ng-controller="GeocodeCtrl">
-                                    <div class="col-sm-6">
+
+                                    <div class="col-sm-6 col-sm-6 col-xs-6">
 
                                         <div class="form-group">
-                                            <label class="control-label col-xs-3" style="text-align: left">Name:</label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-3 text-align-left">Name:</label>
 
-                                            <div class="col-xs-9">
+                                            <div class="col-md-9 col-sm-9 col-xs-9">
                                                 <input type="text" class="form-control" placeholder="Name"
                                                        value="{{zone.zone_name}}" ng-model="zone.zone_name"
                                                        id="zone_name" required>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-xs-3"
-                                                   style="text-align: left">Address:</label>
 
-                                            <div class="col-xs-9">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-3 text-align-left">Address:</label>
+
+                                            <div class="col-md-9 col-sm-9 col-xs-9">
+
                                                 <div class="input-group">
+
                                                 <textarea id="zone_address" type="text" id="zoneAddress"
                                                           data-ng-model="zone.zone_address"
                                                           class="form-control" rows="2"
                                                           placeholder="Address"
                                                           aria-describedby="geocode-addon" required></textarea>
+
                                                     <span class="input-group-addon"
                                                           ng-click="geoCode(zone.zone_address, zone.zone_range)"
                                                           id="geocode-addon"><i class="glyphicon glyphicon-search"></i></span>
                                                 </div>
+
                                             </div>
 
                                         </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-xs-3"
-                                                   style="text-align: left">Range:</label>
 
-                                            <div class="col-xs-9">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-3 text-align-left">Range:</label>
+
+                                            <div class="col-md-9 col-sm-9 col-xs-9">
                                                 <div class="input-group">
                                                     <input id="zone_range" type="text" class="form-control"
                                                            ng-model="zone.zone_range"
@@ -81,20 +86,18 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-xs-3"
-                                                   style="text-align: left">Latitude:</label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-3 text-align-left">Latitude:</label>
 
-                                            <div class="col-xs-9">
+                                            <div class="col-md-9 col-sm-9 col-xs-9">
                                                 <input id="zone_latitude" type="text" class="form-control"
                                                        placeholder="10.31315"
                                                        data-ng-model="zone.zone_latitude" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label col-xs-3"
-                                                   style="text-align: left">Longitude:</label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-3 text-align-left">Longitude:</label>
 
-                                            <div class="col-xs-9">
+                                            <div class="col-md-9 col-sm-9 col-xs-9">
                                                 <input id="zone_longitude" type="text" class="form-control"
                                                        placeholder="10.31315"
                                                        data-ng-model="zone.zone_longitude" required>
@@ -102,10 +105,11 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-sm-6">
-                                        <app-map style="height:400px; margin-bottom:10px; box-shadow:0 3px 25px black;"
-                                                 center="loc"
-                                                 markers="whoiswhere" ng-model="zone.zone_range">
+                                    <div class="col-md-6 col-sm-6 col-xs-6">
+                                        <app-map
+                                                class="app-map"
+                                                center="loc"
+                                                markers="whoiswhere" ng-model="zone.zone_range">
                                         </app-map>
                                         <span>*make sure to geocode your address</span>
                                     </div>
@@ -127,7 +131,7 @@
     </div>
 </div>
 
-<div class="bs-component" style="margin-top:20px;" ng-controller="ModalZoneCtrl" ng-if="zones.length > 0">
+<div class="bs-component margin-top-20px" ng-controller="ModalZoneCtrl" ng-if="zones.length > 0">
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
@@ -145,11 +149,11 @@
             <tbody dir-paginate="zone in zones |filter:search|itemsPerPage:5">
             <tr>
                 <td></td>
-                <td style=" max-width:50px;">{{zone.zone_name}}</td>
-                <td style=" max-width:50px;">{{zone.zone_address}}</td>
-                <td style=" max-width:50px;">{{zone.zone_range}}</td>
-                <td style=" max-width:50px;">{{zone.zone_latitude}}</td>
-                <td style=" max-width:50px;">{{zone.zone_longitude}}</td>
+                <td class="max-width-50px">{{zone.zone_name}}</td>
+                <td class="max-width-50px">{{zone.zone_address}}</td>
+                <td class="max-width-50px">{{zone.zone_range}}</td>
+                <td class="max-width-50px">{{zone.zone_latitude}}</td>
+                <td class="max-width-50px">{{zone.zone_longitude}}</td>
                 <td class="text-right">
                     <div class="btn-group" role="group">
                         <!-- Button delete row -->
@@ -180,11 +184,11 @@
     </dir-pagination-controls>
 </div>
 
-<div class="bs-component" style="margin-top:20px;" ng-if="zones.length == 0">
+<div class="bs-component margin-top-20px" ng-if="zones.length == 0">
 
     <div class="row">
 
-        <div class="alert alert-info" role="alert"><i class="glyphicon glyphicon-info-sign"></i> You have 0 zones!</div>
+        <div class="alert alert-info" role="alert"><i class="glyphicon glyphicon-info-sign"></i>You have 0 zones!</div>
 
     </div>
 
@@ -194,5 +198,5 @@
 <!-- The API Key must be included as a parameter in the URL -->
 <!-- The Key included is free but limited and cannot respond to more than 2500 request per day and/or 10 request per second -->
 <script type="text/javascript"
-        src="http://maps.google.com/maps/api/js?key=AIzaSyD_7_LuciWsEjEbgAmj-fVDgCiGsE6WaKE"></script>
+        src="http://maps.googleapis.com/maps/api/js?v=3&new_forward_geocoder=true&key=AIzaSyD_7_LuciWsEjEbgAmj-fVDgCiGsE6WaKE"></script>
 <!-- /Map -->

@@ -1,0 +1,240 @@
+@titillium-regular: TitilliumWeb-Regular;
+@titillium-bold: TitilliumWeb-Bold;
+@titillium-italic: TitilliumWeb-Italic;
+@font: 30px;
+
+.left-login {
+  width: 50%;
+  height: 50%;
+  background-image: url("../../images/login-background.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.right-login {
+  width: 50%;
+  height: 50%;
+  background-image: url("../../images/login-background.jpg");
+}
+
+.auth {
+  height: 100%;
+  width: 100%;
+  display: table;
+  color: white;
+
+  form {
+    font-family: @titillium-regular;
+
+    @media (max-width: 992px) {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    @media (min-width: 992px) {
+      margin-left: 50px;
+      padding-right: 270px;
+    }
+  }
+
+  a {
+    font-family: @titillium-regular;
+  }
+
+  button {
+    font-family: @titillium-regular;
+  }
+
+  label {
+    font-family: @titillium-regular;
+  }
+
+  h1 {
+    @media (max-width: 992px) {
+      color: #fff;
+      font-size: 60px;
+      font-family: @titillium-bold;
+    }
+
+    @media (min-width: 992px) {
+      color: #fff;
+      font-size: 85px;
+      font-family: @titillium-bold;
+    }
+  }
+
+  h3 {
+    color: #fff;
+    font-size: 24px;
+    font-family: @titillium-bold;
+  }
+
+  .login-div {
+    display: table;
+    height: 50%;
+  }
+
+  .logo-table {
+
+    display: table;
+    height: 50%;
+  }
+
+  .logo-cell {
+    margin: 0;
+    padding-left: 30px;
+    vertical-align: middle;
+    background: url("../../images/worldMap.png") no-repeat;
+    background-size: 100% 100%;
+    display: table-cell;
+    text-align: center;
+  }
+
+  .login-title {
+    font-family: TitilliumWeb-Bold;
+    font-size: 10px;
+  }
+
+  .login-subtitle {
+    font-family: TitilliumWeb-Bold;
+    font-size: 24px;
+  }
+
+  .login-form {
+
+    vertical-align: middle;
+    display: table-cell;
+  }
+
+  .middle {
+
+    display: table-cell;
+    vertical-align: middle;
+    padding-top: 25px;
+    background: #262A3C;
+  }
+
+  .sign-in {
+
+    border-width: 0px;
+    background: #00bfa5;
+    margin-top: 30px;
+    width: 141px;
+    font-family: @titillium-regular;
+    font-size: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .vertical-line-login {
+    border-left: 1px solid #FFFFFF;
+    height: 50%;
+  }
+
+  .vertical-line-register {
+    border-right: 1px solid #fff;
+    height: 494px;
+  }
+
+  .sign-up {
+    font-family: @titillium-bold;
+    font-size: 16px;
+  }
+
+  .password-recover {
+    color: #00bfa5;
+    font-family: @titillium-italic;
+    font-size: 16px;
+  }
+}
+
+.vertical-line {
+  border-right: 1px solid #FFFFFF;
+}
+
+.row {
+  &.vertical-divider {
+    overflow: hidden;
+
+    div[class^="col-"] {
+      text-align: center;
+      padding-bottom: 100px;
+      margin-bottom: -100px;
+      border-left: 3px solid #F2F7F9;
+      border-right: 3px solid #F2F7F9;
+
+      &:first-child {
+        border-left: none;
+      }
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+  }
+}
+
+.inner-addon {
+  position: relative;
+
+  .glyphicon {
+    position: absolute;
+    pointer-events: none;
+    padding-right: 20px;
+    padding-left: 10px;
+  }
+}
+
+.glyphicon {
+
+  &.glyphicon-user {
+
+    &.login {
+      font-size: @font;
+    }
+  }
+
+  &.glyphicon-phone {
+
+    &.login {
+      font-size: @font;
+    }
+  }
+
+  &.glyphicon-envelope {
+
+    &.login {
+      font-size: @font;
+    }
+  }
+
+  &.glyphicon-lock {
+    font-size: @font;
+  }
+}
+
+.form-control {
+
+  &.input-email {
+    padding-left: 50px;
+    border-radius: 0;
+  }
+
+  &.input-password {
+    padding-left: 50px;
+    border-radius: 0;
+  }
+}
+
+.left-addon {
+  .glyphicon {
+    left: 0px;
+  }
+}
+
+.right-addon {
+  .glyphicon {
+    right: 0px;
+  }
+}

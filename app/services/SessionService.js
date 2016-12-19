@@ -1,11 +1,9 @@
-'use strict';
-
 /*
  * Contains a service to communicate with the Backend
  */
 angular
     .module('app.services')
-    .service('session', sessionManagement);
+    .service('session', ['PROJECT_CODE', '$log', sessionManagement]);
 
 function sessionManagement(PROJECT_CODE, $log) {
     // Instantiate data when service

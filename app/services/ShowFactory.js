@@ -1,5 +1,3 @@
-'use strict';
-
 /*
  * Contains a service to communicate with the Backend
  */
@@ -7,7 +5,7 @@ angular
     .module('app.services')
     .constant('API_KEY', '')
     .constant('BASE_URL', 'http://')
-    .factory('ShowService', dataService);
+    .factory('ShowService', ['$http', 'API_KEY', 'BASE_URL', '$log', dataService]);
 
 function dataService($http, API_KEY, BASE_URL, $log) {
     var data = {

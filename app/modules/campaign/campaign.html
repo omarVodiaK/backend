@@ -2,9 +2,9 @@
     <h1>Campaign</h1>
 </div>
 
-<div class="container" style="width: 100%">
-    <div class="row" style="margin-top:20px;">
-        <div class="col-md-6">
+<div class="container full-width-container">
+    <div class="row margin-top-20px">
+        <div class="col-md-6 col-sm-6 col-xs-6">
             <form class="form-inline">
                 <div class="form-group">
                     <label>Filter by:</label>
@@ -12,7 +12,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6 col-xs-6">
             <div class="pull-right">
                 <button type="button" onclick="window.location.href='#/dashboard/new-campaign'" class="btn btn-primary">
                     New Campaign
@@ -22,10 +22,13 @@
     </div>
 </div>
 
-<div class="bs-component" id="level1" style="margin-top:20px;" ng-if="campaigns.length >0">
+<div class="bs-component margin-top-20px" id="level1" ng-if="campaigns.length > 0">
     <div id="level2" class="table-responsive" ng-controller="CampaignAlertCtrl">
+
         <table class="table table-striped table-hover">
+
             <thead>
+
             <tr>
                 <th></th>
                 <th>Name</th>
@@ -35,7 +38,9 @@
                 <th>Priority</th>
                 <th></th>
             </tr>
+
             </thead>
+
             <tbody pagination-id="campaignPagination"
                    dir-paginate="campaign in campaigns | filter:search | itemsPerPage:5">
             <tr>
@@ -51,69 +56,67 @@
 
                     <div class="btn-group" role="group">
 
-                        <!--<campaignaction campaign="campaign" confirmCancel="confirmCancel(campaign)"></campaignaction>-->
-
                         <button ng-click="confirmCancel(campaign)"
                                 ng-if="campaign.trueOwner.cmp_camp_owner == true && campaign.owner.camp_state == 'active'"
                                 class="btn btn-default">
-                            <i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i>
+                            <i class="glyphicon glyphicon-share-alt visible-md-inline-block visible-sm-inline-block visible-xs-inline-block"></i>
                             <span class="hidden-xs hidden-sm hidden-md">Deactivate</span>
                         </button>
 
                         <button ng-click="confirmCancel(campaign)"
                                 ng-if="campaign.trueOwner.cmp_camp_owner == true && campaign.owner.camp_state == 'inactive'"
                                 class="btn btn-success">
-                            <i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i>
+                            <i class="glyphicon glyphicon-share-alt visible-md-inline-block visible-sm-inline-block visible-xs-inline-block"></i>
                             <span class="hidden-xs hidden-sm hidden-md">activate</span>
                         </button>
 
                         <button ng-click="confirmCancel(campaign)"
                                 ng-if="campaign.trueOwner.cmp_camp_owner == true && campaign.owner.camp_state == 'expired'"
                                 class="btn btn-success">
-                            <i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i>
+                            <i class="glyphicon glyphicon-share-alt visible-md-inline-block visible-sm-inline-block visible-xs-inline-block"></i>
                             <span class="hidden-xs hidden-sm hidden-md">Reactivate</span>
                         </button>
 
                         <button ng-click="confirmCancel(campaign)"
                                 ng-if="campaign.trueOwner.cmp_camp_owner == false && campaign.trueOwner.camp_state == 'accepted'"
                                 class="btn btn-default">
-                            <i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i>
+                            <i class="glyphicon glyphicon-share-alt visible-md-inline-block visible-sm-inline-block visible-xs-inline-block"></i>
                             <span class="hidden-xs hidden-sm hidden-md">Deactivate</span>
                         </button>
 
                         <button ng-click="confirmCancel(campaign)"
                                 ng-if="campaign.trueOwner.cmp_camp_owner == false && campaign.trueOwner.camp_state == 'pending'"
                                 class="btn btn-success">
-                            <i class="glyphicon glyphicon-share-alt visible-xs-inline-block"></i>
+                            <i class="glyphicon glyphicon-share-alt visible-md-inline-block visible-sm-inline-block visible-xs-inline-block"></i>
                             <span class="hidden-xs hidden-sm hidden-md">activate</span>
                         </button>
 
                         <button class="btn btn-danger" ng-click="removeCampaignRow(campaign)">
-                            <i class="glyphicon glyphicon-remove visible-xs-inline-block"></i>
+                            <i class="glyphicon glyphicon-remove visible-md-inline-block visible-sm-inline-block visible-xs-inline-block"></i>
                             <span class="hidden-xs hidden-sm  hidden-md">Remove</span>
                         </button>
 
                         <button ng-click="updateCampaign(campaign, true)"
                                 ng-if="campaign.trueOwner.cmp_camp_owner == true" class="btn btn-warning">
-                            <i class="glyphicon glyphicon-pencil visible-xs-inline-block"></i>
+                            <i class="glyphicon glyphicon-pencil visible-md-inline-block visible-sm-inline-block visible-xs-inline-block"></i>
                             <span class="hidden-xs hidden-sm  hidden-md">Update</span>
                         </button>
 
                         <button ng-click="updateCampaign(campaign, false)"
                                 ng-if="campaign.trueOwner.cmp_camp_owner == false" class="btn btn-info">
-                            <i class="glyphicon glyphicon-info-sign visible-xs-inline-block"></i>
+                            <i class="glyphicon glyphicon-info-sign visible-md-inline-block visible-sm-inline-block visible-xs-inline-block"></i>
                             <span class="hidden-xs hidden-sm  hidden-md">Details</span>
                         </button>
 
                         <button ng-controller="PublishCampaignModal" class="btn btn-default"
                                 ng-if="campaign.trueOwner.cmp_camp_owner == true"
                                 ng-click="openModal('lg', 'publishModalContent.html',associates, campaign)">
-                            <i class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
+                            <i class="glyphicon glyphicon-phone visible-md-inline-block visible-sm-inline-block visible-xs-inline-block"></i>
                             <span class="hidden-xs hidden-sm  hidden-md">Publish</span>
                         </button>
 
                         <button disabled class="btn btn-default" ng-if="campaign.trueOwner.cmp_camp_owner == false">
-                            <i class="glyphicon glyphicon-phone visible-xs-inline-block"></i>
+                            <i class="glyphicon glyphicon-phone visible-md-inline-block visible-sm-inline-block visible-xs-inline-block"></i>
                             <span class="hidden-xs hidden-sm  hidden-md">Publish</span>
                         </button>
 
@@ -184,26 +187,27 @@
                     </div>
                 </td>
             </tr>
+
             </tbody>
         </table>
+
         <dir-pagination-controls
                 pagination-id="campaignPagination"
                 max-size="5"
                 direction-links="true"
                 boundary-links="true">
         </dir-pagination-controls>
+
     </div>
 </div>
 
-<div class="bs-component" style="margin-top:20px;" ng-if="campaigns.length == 0">
+<div class="bs-component margin-top-20px" ng-if="campaigns.length == 0">
     <div class="row">
         <div class="alert alert-info" role="alert"><i class="glyphicon glyphicon-info-sign"></i> You have 0
             campaign!
         </div>
     </div>
 </div>
-
-<link rel="stylesheet" type="text/css" href="assets/css/component.css"/>
 
 <script>
     var url = "assets/js/classie.js";

@@ -5,7 +5,7 @@
     <title ng-bind="pageTitle">Dashboard</title>
     <link rel="icon" type="image/png" href="assets/images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- build:css assets/css/styles.css -->
+
     <link rel="stylesheet" href="assets/bower_components/angular-notify/dist/angular-notify.min.css"/>
     <link rel="stylesheet" href="assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet"
@@ -19,20 +19,16 @@
 
     <link rel="stylesheet" href="directives/angular-bootstrap-nav-tree-js/dist/abn_tree.css">
     <link rel="stylesheet" href="assets/bower_components/ng-wizard/dest/ngWizard.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/Default.css"/>
-    <link rel='stylesheet' href='assets/bower_components/angular-loading-bar/build/loading-bar.min.css' type='text/css' media='all'/>
+
+    <link rel="stylesheet" href="assets/styles/css/master.min.css">
+
+    <!-- build:css assets/styles/css/master.min.css -->
+    <!-- endbuild -->
+
+    <link rel='stylesheet' href='assets/bower_components/angular-loading-bar/build/loading-bar.min.css' type='text/css'
+          media='all'/>
     <link rel="stylesheet" href="assets/bower_components/angular-chart.js/dist/angular-chart.css">
 
-    <!--<link rel="stylesheet" href="assets/css/font-icons.css" type='text/css'>-->
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-    <!-- login animation-->
-    <!-- Custom styles for this template -->
-    <link href="assets/css/dashboard.css" rel="stylesheet">
-    <link href="assets/css/wrap-around.css" rel="stylesheet">
-    <link href="assets/css/auth.css" rel="stylesheet">
-    <!-- endbuild -->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -45,7 +41,7 @@
 
 <div id="app" ui-view></div>
 
-<!-- build:assets assets.min.js -->
+
 <!-- ASSETS -->
 <!-- load jquery before bootstrap in order to have modal -->
 
@@ -58,11 +54,6 @@
 <script src="assets/bower_components/angular-notify/dist/angular-notify.min.js"></script>
 <script src="assets/bower_components/angular-messages/angular-messages.js"></script>
 
-<!-- reCAPTCHA -->
-<script src="https://www.google.com/recaptcha/api.js?onload=vcRecaptchaApiLoaded&render=explicit"></script>
-<script src="assets/bower_components/angular-recaptcha/release/angular-recaptcha.js"></script>
-<!-- /endreCAPTCHA -->
-
 <script type="text/javascript" src="assets/bower_components/ng-droplet/dist/ng-droplet.js"></script>
 <script type="text/javascript" src="assets/js/me-lazyload.js"></script>
 
@@ -71,11 +62,13 @@
 <script type='text/javascript' src='assets/bower_components/angular-loading-bar/build/loading-bar.min.js'></script>
 <!-- for no html5 browsers support -->
 <script src="assets/bower_components/ng-file-upload/ng-file-upload.min.js"></script>
+<!-- /for no html5 browsers support -->
 <script src="assets/bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
 <script src="directives/angular-bootstrap-lightbox.js"></script>
-<!-- always load before ngSweetAlert -->
+<!-- sweetalert-dev.js always load before ngSweetAlert.js -->
 <script src="assets/bower_components/sweetalert/dist/sweetalert-dev.js"></script>
 <script src="assets/bower_components/angular-sweetalert/dist/ngSweetAlert.js"></script>
+<!-- /sweetalert-dev.js always load before ngSweetAlert.js -->
 <script src="assets/bower_components/oi.select/dist/select-tpls.js"></script>
 
 <script src="assets/bower_components/angular-translate/angular-translate.min.js"></script>
@@ -86,13 +79,6 @@
 <script src="assets/bower_components/angular-route/angular-route.min.js"></script>
 <script src="assets/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="assets/bower_components/checklist-model/checklist-model.js"></script>
-
-<script src="assets/js/angular-touch.min.js"></script>
-<script src="assets/js/moment.min.js"></script>
-<script src="assets/js/angular-moment.min.js"></script>
-<script src="assets/js/angular-truncate.js"></script>
-<script src="assets/js/angular-preload-image.min.js"></script>
-
 <!-- Chart.js -->
 <script src="assets/bower_components/Chart.js/Chart.js"></script>
 <!-- /Chart.js -->
@@ -105,6 +91,15 @@
 <script src="assets/bower_components/angular-count-to/build/angular-count-to.min.js"></script>
 <!-- /count-to -->
 
+<script src="dist/scripts/scripts.min.js"></script>
+
+<!--<script src="services/RequestFactory.js"></script>-->
+<!--<script src="services/SessionService.js"></script>-->
+<!--<script src="services/ShowFactory.js"></script>-->
+
+<script src="assets/js/angular-truncate.js"></script>
+<script src="assets/js/angular-preload-image.min.js"></script>
+
 <!-- file input -->
 <script src="assets/js/bootstrap.file-input.js"></script>
 <!-- /file input -->
@@ -116,66 +111,60 @@
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
 <!-- / -->
+
+<!-- build:assets assets.min.js -->
 <!-- endbuild -->
 
-<!-- build:js app.min.js -->
-
 <!-- MODULES -->
-<script src="app.routes.js"></script>
-<script src="app.config.js"></script>
-<script src="app.core.js"></script>
-<script src="app.services.js"></script>
-<script src="app.js"></script>
+<!--<script src="app.routes.js"></script>-->
+<!--<script src="app.config.js"></script>-->
+<!--<script src="app.core.js"></script>-->
+<!--<script src="app.services.js"></script>-->
+<!--<script src="app.js"></script>-->
 <!-- /MODULES -->
 
+<!-- build:js dist/scripts/scripts.min.js -->
 <!-- CONTROLLERS -->
-<script src="components/layout/sections/headerController.js"></script>
-<script src="modules/user/userController.js"></script>
-<script src="modules/associates/associateController.js"></script>
-<script src="modules/location/locationController.js"></script>
-<script src="modules/category/categoryController.js"></script>
-<script src="modules/zone/zoneController.js"></script>
-<script src="modules/beacon/beaconController.js"></script>
-<script src="modules/content/normal/contentController.js"></script>
-<script src="modules/content/product/productController.js"></script>
-<script src="modules/campaign/campaignController.js"></script>
-<script src="modules/notification/notificationController.js"></script>
-<script src="modules/analytic/analyticController.js"></script>
+<!--<script src="components/layout/sections/headerController.js"></script>-->
+<!--<script src="components/layout/sections/sidemenuController.js"></script>-->
+<!--<script src="modules/user/userController.js"></script>-->
+<!--<script src="modules/associates/associateController.js"></script>-->
+<!--<script src="modules/location/locationController.js"></script>-->
+<!--<script src="modules/zone/zoneController.js"></script>-->
+<!--<script src="modules/beacon/beaconController.js"></script>-->
+<!--<script src="modules/content/normal/contentController.js"></script>-->
+<!--<script src="modules/content/product/productController.js"></script>-->
+<!--<script src="modules/campaign/campaignController.js"></script>-->
+<!--<script src="modules/notification/notificationController.js"></script>-->
+<!--<script src="modules/analytic/analyticController.js"></script>-->
 <!-- /CONTROLLERS -->
 
 <!-- SERVICES -->
-<script src="services/SessionService.js"></script>
-<script src="modules/associates/associateService.js"></script>
-<script src="modules/zone/zoneService.js"></script>
-<script src="modules/category/categoryService.js"></script>
-<script src="modules/content/normal/contentService.js"></script>
-<script src="modules/campaign/campaignService.js"></script>
-<script src="modules/location/locationService.js"></script>
-<script src="modules/notification/notificationService.js"></script>
-<script src="services/RequestFactory.js"></script>
-<script src="services/ShowFactory.js"></script>
-<script src="services/pageValue.js"></script>
+
+<!--<script src="modules/associates/associateService.js"></script>-->
+<!--<script src="modules/zone/zoneService.js"></script>-->
+<!--<script src="modules/content/normal/contentService.js"></script>-->
+<!--<script src="modules/campaign/campaignService.js"></script>-->
+<!--<script src="modules/location/locationService.js"></script>-->
+<!--<script src="modules/notification/notificationService.js"></script>-->
+
 <!-- /SERVICES -->
 
 <!-- DIRECTIVES -->
-<script src="directives/angular-bootstrap-nav-tree-js/dist/abn_tree_directive.js"></script>
-<script src="modules/associates/associateDirective.js"></script>
-<script src="modules/campaign/campaignDirective.js"></script>
-<script src="modules/beacon/beaconDirective.js"></script>
-<script src="modules/zone/mapDirective.js"></script>
-<script src="directives/ngPlaceholderDirective.js"></script>
-<script src="directives/ngCompareDirective.js"></script>
-<script src="modules/content/normal/contentDirective.js"></script>
+<!--<script src="directives/angular-bootstrap-nav-tree-js/dist/abn_tree_directive.js"></script>-->
+<!--<script src="directives/ngPlaceholderDirective.js"></script>-->
+<!--<script src="directives/ngCompareDirective.js"></script>-->
+<!--<script src="modules/associates/associateDirective.js"></script>-->
+<!--<script src="modules/campaign/campaignDirective.js"></script>-->
+<!--<script src="modules/beacon/beaconDirective.js"></script>-->
+<!--<script src="modules/zone/mapDirective.js"></script>-->
+<!--<script src="modules/content/normal/contentDirective.js"></script>-->
+<!--<script src="modules/user/userFormDirective.js"></script>-->
 <!-- /DIRECTIVES -->
 
 <!-- FILTERS -->
-<script src="modules/content/normal/contentFilter.js"></script>
-<script src="modules/campaign/campaignFilter.js"></script>
+<!--<script src="modules/content/normal/contentFilter.js"></script>-->
 <!-- /FILTERS -->
-
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="assets/js/ie10-viewport-bug-workaround.js"></script>
-<!-- /IE10 -->
 
 <!-- endbuild -->
 
@@ -192,133 +181,6 @@
     });
 </script>
 <!-- / -->
-
-<!-- CUSTOM STYLES -->
-<style>
-
-    @media (max-width: 768px) {
-        .btn-responsive {
-            padding: 2px 4px;
-            font-size: 80%;
-            line-height: 1;
-            border-radius: 3px;
-        }
-    }
-
-    @media (min-width: 769px) and (max-width: 992px) {
-        .btn-responsive {
-            padding: 4px 9px;
-            font-size: 90%;
-            line-height: 1.2;
-        }
-    }
-
-    @media (min-width: 100px) {
-        #app {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-
-        }
-    }
-
-    .modal.fade .modal-dialog {
-        -webkit-transform: scale(0.1);
-        -moz-transform: scale(0.1);
-        -ms-transform: scale(0.1);
-        transform: scale(0.1);
-        top: 300px;
-        opacity: 0;
-        -webkit-transition: all 0.3s;
-        -moz-transition: all 0.3s;
-        transition: all 0.3s;
-    }
-
-    .modal.fade.in .modal-dialog {
-        -webkit-transform: scale(1);
-        -moz-transform: scale(1);
-        -ms-transform: scale(1);
-        transform: scale(1);
-        -webkit-transform: translate3d(0, -300px, 0);
-        transform: translate3d(0, -300px, 0);
-        opacity: 1;
-    }
-
-    .checkbox {
-        margin-top: 0px;
-    }
-
-    .checkbox .cr {
-        position: relative;
-        display: inline-block;
-        border: 1px solid #a9a9a9;
-        border-radius: .25em;
-        width: 1.3em;
-        height: 1.3em;
-    }
-
-    .checkbox .cr .cr-icon {
-        position: absolute;
-        font-size: .8em;
-        line-height: 0;
-        top: 50%;
-        left: 20%;
-    }
-
-    .checkbox label input[type="checkbox"] {
-        display: none;
-    }
-
-    .checkbox label input[type="checkbox"] + .cr > .cr-icon {
-        transform: scale(3) rotateZ(-20deg);
-        opacity: 0;
-        transition: all .3s ease-in;
-    }
-
-    .checkbox label input[type="checkbox"]:checked + .cr > .cr-icon {
-        transform: scale(1) rotateZ(0deg);
-        opacity: 1;
-    }
-
-    .checkbox label input[type="checkbox"]:disabled + .cr {
-        opacity: .5;
-    }
-
-    .google-map {
-        width: 400px;
-        height: 300px;
-    }
-
-    @keyframes shake {
-        0% {
-            transform: translateX(0);
-        }
-        12.5% {
-            transform: translateX(-6px) rotateY(-5deg)
-        }
-        37.5% {
-            transform: translateX(5px) rotateY(4deg)
-        }
-        62.5% {
-            transform: translateX(-3px) rotateY(-2deg)
-        }
-        87.5% {
-            transform: translateX(2px) rotateY(1deg)
-        }
-        100% {
-            transform: translateX(0)
-        }
-    }
-
-</style>
-<!-- / -->
-
-<!-- inject:js -->
-
-<!-- endinject -->
-<!-- endbuild -->
 
 </body>
 </html>

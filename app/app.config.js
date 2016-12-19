@@ -1,22 +1,21 @@
 'use strict';
 angular
     .module('app.config', ['pascalprecht.translate', 'ngSanitize'])
-    .config(configs)
-    .config(translateConfigs)
+    .config(['$httpProvider', configs])
+    .config(['$translateProvider', translateConfigs])
     .config(toastrConfig)
     .constant("APPLICATION_NAME", "SANTA Dashboard")
     .constant("DEFAULT_BACKEND_CONFIG", {"HOST": "localhost", "PORT": "8283", "POSTFIX": "api", "API_KEY": ""})
-    .constant("SIGNAGE_CONFIG", {"HOST":"http://128.199.125.79", "PORT":"3020"})
+    .constant("SIGNAGE_CONFIG", {"HOST": "http://128.199.125.79", "PORT": "3020"})
     .constant("CDN_CONFIG", {"HOST": "http://128.199.125.79", "PORT": "3008"})
-    // .constant("APPLICATION_ID", 3)
-    .constant("APPLICATION_ID", 9)
+    .constant("APPLICATION_ID", 3)
     .constant("APP_VERSION", "1.0.0")
     .constant("PROJECT_NAME", "BACKEND CORE")
     .constant("PROJECT_CODE", "unique_code")
-    .run(function ($rootScope, $location, PageValues, $state, session, APPLICATION_NAME) {
+    .run(['$rootScope', '$location', '$state', 'session', 'APPLICATION_NAME', function ($rootScope, $location, $state, session, APPLICATION_NAME) {
 
-        runs($rootScope, $location, PageValues, $state, session, APPLICATION_NAME);
-    });
+        runs($rootScope, $state, session, APPLICATION_NAME);
+    }]);
 
 function configs($httpProvider) {
 
@@ -50,11 +49,9 @@ function configs($httpProvider) {
     $httpProvider.interceptors.push(interceptor);
 }
 
-function runs($rootScope, $location, PageValues, $state, session, APPLICATION_NAME) {
+function runs($rootScope, $state, session, APPLICATION_NAME) {
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-
-        PageValues.loading = true;
 
         if (toState.title) {
             $rootScope.pageTitle = APPLICATION_NAME + " > " + toState.title;
@@ -82,12 +79,6 @@ function runs($rootScope, $location, PageValues, $state, session, APPLICATION_NA
         }
 
     });
-
-    $rootScope.$on('$stateChangeSuccess', function () {
-
-        PageValues.loading = false;
-    });
-
 }
 
 function translateConfigs($translateProvider) {

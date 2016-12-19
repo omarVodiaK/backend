@@ -1,11 +1,9 @@
-'use strict';
-
 /*
  * Contains a service to communicate with the Backend
  */
 angular
     .module('app.services')
-    .factory('RequestService', dataService);
+    .factory('RequestService', ['$http', 'DEFAULT_BACKEND_CONFIG', '$log', 'session', '$state', dataService]);
 
 function dataService($http, DEFAULT_BACKEND_CONFIG, $log, session, $state) {
     var data = {

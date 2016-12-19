@@ -1,17 +1,20 @@
-<div class="navbar-header" style="background: #1D202D;">
+<div class="navbar-header">
 
     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#side-navigation"
-            aria-expanded="false">
+            aria-expanded="false" onclick="changeIcon(this)">
         <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
     </button>
 
     <span class="navbar-brand navbar-brand-inner">
-        <b class="icon icon-dashboard"></b>SANTA Dashboard</span>
+        <i class="glyphicon glyphicon-dashboard"></i>
+        <span class="hidden-xs"> SANTA </span>
+        <div class="navbar-dashboard hidden-xs">Dashboard</div>
+    </span>
 
-    <span class="navbar-brand" style="float: right !important;">
+    <span class="navbar-brand userName">
         <span data-toggle="dropdown" dropdown-toggle>
             {{userName}}
             <b class="custom-icon-sprites custom-caret"></b>
@@ -20,11 +23,11 @@
         <ul class="dropdown-menu">
 
             <li>
-                <a href=""><span class="glyphicon glyphicon-user"></span>Profile</a>
+                <a href=""><span class="glyphicon glyphicon-user"></span> Profile</a>
             </li>
 
             <li>
-                <a href=""><span class="glyphicon glyphicon-cog"></span>Settings</a>
+                <a href=""><span class="glyphicon glyphicon-cog"></span> Settings</a>
             </li>
 
             <li class="divider"></li>
@@ -37,125 +40,97 @@
     </span>
 
 </div>
+<!--<style type="text/css">-->
 
+    <!--.navbar-header {-->
+        <!--width: 100%;-->
+        <!--background: #1D202D;-->
+    <!--}-->
 
-<style type="text/css">
+    <!--.navbar-brand .userName {-->
+        <!--float: right;-->
+    <!--}-->
 
-    .outter-badge {
-        position: relative;
-        margin-top: 10px;
-        margin-right: -35px;
-    }
+    <!--.outter-badge {-->
+        <!--position: relative;-->
+        <!--margin-top: 10px;-->
+        <!--margin-right: -35px;-->
+    <!--}-->
 
-    .dropbtn {
-        background-color: transparent;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
+    <!--.dropbtn {-->
+        <!--background-color: transparent;-->
+        <!--color: white;-->
+        <!--border: none;-->
+        <!--cursor: pointer;-->
+    <!--}-->
 
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
+    <!--.dropdown {-->
+        <!--position: relative;-->
+        <!--display: inline-block;-->
+    <!--}-->
 
-    .dropdown-content {
-        border-radius: 10px;
-        width: 300px;
-        padding: 10px 10px 10px 10px;
-        display: none;
-        position: absolute;
-        background-color: #f9f9f9;
-        min-width: 160px;
-        overflow: auto;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    }
+    <!--.dropdown-content {-->
+        <!--border-radius: 10px;-->
+        <!--width: 300px;-->
+        <!--padding: 10px 10px 10px 10px;-->
+        <!--display: none;-->
+        <!--position: absolute;-->
+        <!--background-color: #f9f9f9;-->
+        <!--min-width: 160px;-->
+        <!--overflow: auto;-->
+        <!--box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);-->
+    <!--}-->
 
-    .navbar-header{
-        width: 100%;
-        color: #333333 !important;
-    }
+    <!--.dropdown-content a {-->
+        <!--color: black;-->
+        <!--padding: 12px 16px;-->
+        <!--text-decoration: none;-->
+        <!--display: block;-->
+    <!--}-->
 
-    .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-    }
+    <!--.dropdown a:hover {-->
+        <!--background-color: #f1f1f1-->
+    <!--}-->
 
-    .dropdown a:hover {
-        background-color: #f1f1f1
-    }
+    <!--.show {-->
+        <!--display: block;-->
+    <!--}-->
 
-    .show {
-        display: block;
-    }
+    <!--.oaerror {-->
+        <!--width: 100%;-->
+        <!--margin-bottom: 5px;-->
+        <!--background-color: #FFFFFF; /* Default background */-->
+        <!--border: 1px solid #eee;-->
+        <!--border-left-width: 5px;-->
+        <!--border-radius: 3px;-->
+        <!--font-family: 'Open Sans', sans-serif;-->
+        <!--font-size: 12px;-->
+    <!--}-->
 
-    .oaerror {
-        width: 100%;
-        margin-bottom: 5px;
-        background-color: #FFFFFF; /* Default background */
-        border: 1px solid #eee;
-        border-left-width: 5px;
-        border-radius: 3px;
-        font-family: 'Open Sans', sans-serif;
-        font-size: 12px;
-    }
+    <!--.warning {-->
+        <!--border-left-color: #f0ad4e;-->
+        <!--background-color: rgba(240, 173, 78, 0.1);-->
+    <!--}-->
 
-    .warning {
-        border-left-color: #f0ad4e;
-        background-color: rgba(240, 173, 78, 0.1);
-    }
+    <!--.warning strong {-->
+        <!--color: #f0ad4e;-->
+    <!--}-->
 
-    .warning strong {
-        color: #f0ad4e;
-    }
+    <!--.info {-->
+        <!--border-left-color: #5bc0de;-->
+        <!--background-color: rgba(91, 192, 222, 0.1);-->
+    <!--}-->
 
-    .info {
-        border-left-color: #5bc0de;
-        background-color: rgba(91, 192, 222, 0.1);
-    }
+    <!--.info strong {-->
+        <!--color: #5bc0de;-->
+    <!--}-->
 
-    .info strong {
-        color: #5bc0de;
-    }
-
-    .navbar-brand-inner{
-        color: #00d8ff !important;
-    }
-
-</style>
+<!--</style>-->
 
 <script>
 
-    /* When the user clicks on the button,
-     toggle between hiding and showing the dropdown content */
-
-    function campaignBadge() {
-
-        document.getElementById("campaignDropdown").classList.toggle("show");
-
-    }
-
-    function associateBadge() {
-
-        document.getElementById("associateDropdown").classList.toggle("show");
-
-    }
-
-    // Close the dropdown if the user clicks outside of it
-    window.onclick = function (event) {
-        if (!event.target.matches('.dropbtn')) {
-
-            var dropdowns = document.getElementsByClassName("dropdown-content");
-            var i;
-            for (i = 0; i < dropdowns.length; i++) {
-                var openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
-            }
-        }
+    function changeIcon(x) {
+        x.classList.toggle("change");
     }
 
 </script>

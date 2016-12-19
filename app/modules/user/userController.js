@@ -1,150 +1,140 @@
-(function () {
-    'use strict';
-    angular
-        .module('user', [])
-        .controller('LoginController', loginController)
-        .controller('RegisterController', registerController);
+'use strict';
+angular
+    .module('user', ["ngMessages"])
+    .controller('LoginController', ['$scope',  'RequestService', 'session', '$state', '$stateParams', 'APPLICATION_ID', 'notify', loginController])
+    .controller('RegisterController', ['$scope', 'RequestService', '$state', 'notify', registerController]);
 
-    /**
-     * @description
-     * @method loginController
-     * @param {object} $scope
-     * @param {array} PageValues
-     * @param {service} RequestService
-     * @param {object} session
-     * @param {object} $state
-     * @param {object} $stateParams
-     * @param {constant} APPLICATION_ID
-     * @param {object} notify
-     */
-    function loginController($scope, PageValues, RequestService, session, $state, $stateParams, APPLICATION_ID, notify) {
+/**
+ * @description
+ * @method loginController
+ * @param {object} $scope
+ * @param {service} RequestService
+ * @param {object} session
+ * @param {object} $state
+ * @param {object} $stateParams
+ * @param {constant} APPLICATION_ID
+ * @param {object} notify
+ */
+function loginController($scope, RequestService, session, $state, $stateParams, APPLICATION_ID, notify) {
 
-        //Set page title and description
-        PageValues.title = "Login";
-        PageValues.description = "";
 
-        //Setup view model object
-        var vm = this;
-        vm.title = "Login";
-        vm.description = "";
-        $scope.text = 'hello';
-        $scope.formData = {};
+    //Setup view model object
+    var vm = this;
+    vm.title = "Login";
+    vm.description = "";
+    $scope.text = 'hello';
+    $scope.formData = {};
 
-        $scope.formData.email = "administrator@tractive.com.my";
-        $scope.formData.password = "123456"
+    if ($stateParams.message !== null && $stateParams.message !== undefined) {
 
-        if ($stateParams.message !== null && $stateParams.message !== undefined) {
+        alert($stateParams.message);
+    }
 
-            alert($stateParams.message);
-        }
+    $scope.submit = function () {
 
-        $scope.submit = function () {
+        RequestService.postJsonRequest("auth/login", {
 
-            RequestService.postJsonRequest("auth/login", {
+            "email": $scope.formData.email,
+            "password": $scope.formData.password,
+            "application_id": APPLICATION_ID
 
-                "email": $scope.formData.email,
-                "password": $scope.formData.password,
-                "application_id": APPLICATION_ID
+        }).then(function (result) {
+            console.log(result)
+            if (result === undefined) {
 
-            }).then(function (result) {
+                notify({
+                    message: 'Service is not available, please try later',
+                    classes: 'alert-danger',
+                    position: 'center',
+                    duration: 2000
+                });
 
-                if (result === undefined) {
+            } else {
 
-                    alert('Wrong email or password');
-                } else {
+                if (result.result.success !== true) {
 
-                    if (result.result.success !== true) {
+                    if (result.result.code == "ECONNREFUSED") {
 
-                        if (result.code == "ECONNREFUSED") {
+                        alert('TIPS is not accessible please try later!');
+                    } else {
 
-                            alert('TIPS is not accessible please try later!');
-                        } else {
+                        if (result.result.messages != undefined) {
 
-                            if (result.result.messages != undefined) {
+                            var combinedMessage = "";
 
-                                var combinedMessage = "";
+                            $.each(result.result.messages, function (key, value) {
 
-                                $.each(result.result.messages, function (key, value) {
-
-                                    combinedMessage += value;
-                                });
-
-                                notify({
-                                    message: combinedMessage,
-                                    classes: 'alert-danger',
-                                    position: 'center',
-                                    duration: 2000
-                                });
-
-                            }
-
-                        }
-
-                    } else if (result.result.success === true) {
-
-                        if (result.result.user.roles[0].licenses.length > 0) {
-                            console.log(result.result)
-                            session.setUser(result.result);
-                            $state.go('dashboard.associate');
-
-                        } else {
+                                combinedMessage += value;
+                            });
 
                             notify({
-                                message: "seems that you don't have a license!",
-                                classes: 'alert-warning',
+                                message: combinedMessage,
+                                classes: 'alert-danger',
                                 position: 'center',
                                 duration: 2000
                             });
                         }
                     }
-                }
-            });
-        };
-    }
 
-    function registerController($scope, PageValues, RequestService, $state) {
+                } else if (result.result.success === true) {
 
-        //Set page title and description
-        PageValues.title = "Register";
-        PageValues.description = "";
+                    if (result.result.user.roles[0].licenses.length > 0) {
+                        console.log(result.result)
+                        session.setUser(result.result);
+                        $state.go('dashboard.associate');
 
-        //Setup view model object
-        var vm = this;
-        vm.title = "Register";
-        vm.description = "";
-        $scope.text = 'hello';
-        $scope.data = {};
-
-        $scope.submit = function (isValid) {
-
-            if (isValid) {
-
-                RequestService.postJsonRequest("auth/register", {
-
-                    "fname": this.data.firstName,
-                    "lname": this.data.lastName,
-                    "email": this.data.userEmail,
-                    "password": this.data.password,
-                    "confirm_password": this.data.confirmPassword,
-                    "cellphone": this.data.phone,
-                    "role_id": 2
-
-                }).then(function (result) {
-
-                    if (result.success === true) {
-
-                        $state.go('auth.login', {message: "You have been registered. Please, login in order to use the web application!"});
                     } else {
+
                         notify({
-                            message: 'An error occurred, please try later!',
+                            message: "seems that you don't have a license!",
                             classes: 'alert-warning',
                             position: 'center',
                             duration: 2000
                         });
                     }
-                });
+                }
             }
-        };
-    }
+        });
+    };
+}
 
-})();
+function registerController($scope, RequestService, $state, notify) {
+
+    //Setup view model object
+    var vm = this;
+    vm.title = "Register";
+    vm.description = "";
+    $scope.text = 'hello';
+    $scope.data = {};
+
+    $scope.submit = function (isValid) {
+
+        if (isValid) {
+
+            RequestService.postJsonRequest("auth/register", {
+
+                "fname": this.data.firstName,
+                "lname": this.data.lastName,
+                "email": this.data.userEmail,
+                "password": this.data.password,
+                "confirm_password": this.data.confirmPassword,
+                "cellphone": this.data.phone,
+                "role_id": 2
+
+            }).then(function (result) {
+
+                if (result.success === true) {
+
+                    $state.go('auth.login', {message: "You have been registered. Please, login in order to use the web application!"});
+                } else {
+                    notify({
+                        message: 'An error occurred, please try later!',
+                        classes: 'alert-warning',
+                        position: 'center',
+                        duration: 2000
+                    });
+                }
+            });
+        }
+    };
+}

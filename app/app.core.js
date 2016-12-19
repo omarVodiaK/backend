@@ -4,13 +4,11 @@ angular
         [
                 'app.associate',
                 'app.location',
-                'app.category',
                 'app.zone',
                 'app.beacon',
                 'app.content',
                 'app.product',
                 'app.campaign',
-                'app.notification',
                 'app.analytic',
                 'user'
         ]);

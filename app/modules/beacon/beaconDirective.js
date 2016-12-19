@@ -1,8 +1,6 @@
 'use strict';
 
-
 angular
-
     .module('app.beacon')
 
     .directive('ngThumb', ['$window', function ($window) {

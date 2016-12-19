@@ -2,7 +2,7 @@
 
 angular
     .module('app.routes', ['ui.router'])
-    .config(config);
+    .config(['$stateProvider', '$urlRouterProvider', config]);
 
 function config($stateProvider, $urlRouterProvider) {
 

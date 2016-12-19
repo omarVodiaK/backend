@@ -10,135 +10,93 @@
         </div>
     </div>
 
-    <div class="col-md-1 vertical-line-login hidden-xs hidden-sm"></div>
+    <div class="col-md-1 col-sm-1 col-xs-1 vertical-line-login hidden-xs hidden-sm"></div>
 
     <div class="col-md-5 col-xs-12 col-sm-12 login-div">
 
-        <form novalidate class="form-login" name='registerForm' ng-submit="submit(registerForm.$valid)"
+        <form class="form-login" autocomplete="off" method="post" name='registerForm' novalidate
+              ng-submit="submit(registerForm.$valid)"
               ng-controller="RegisterController">
 
             <div class="tips-form-group inner-addon left-addon">
                 <i class="glyphicon glyphicon-user login"></i>
-                <input placeholder="First Name" autofocus type="text" name="fistName" autocomplete="off"
-                       class="form-control input-email" required ng-model="data.firstName">
+                <input placeholder="First Name" ng-model="data.firstName" type="text" name="fistName"
+                       class="form-control input-email" autofocus required>
+                <div class="field-message" ng-messages="registerForm.fistName.$error"
+                     ng-if="registerForm.fistName.$dirty" ng-cloak>
+                    <div ng-message="required">First Name is required</div>
+                </div>
             </div>
-
-            <!--<div class="form-group">-->
-            <!--<input ng-placeholder="Name{}John" type="text" class="form-control" required name="firstName"-->
-            <!--autocomplete="off" autofocus ng-model="data.firstName">-->
-
-            <!--<div ng-messages="registerForm.firstName.$error" ng-show="registerForm.firstName.$touched">-->
-            <!--<p ng-message="required" class="error-block">-->
-            <!--You forgot to enter your First Name...-->
-            <!--</p>-->
-            <!--</div>-->
-            <!--</div>-->
 
             <div class="tips-form-group inner-addon left-addon">
                 <i class="glyphicon glyphicon-user login"></i>
-                <input placeholder="Last Name" type="text" class="form-control input-email" autocomplete="off"
-                       name="lastName" ng-model="data.lastName" required>
+                <input placeholder="Last Name" ng-model="data.lastName" type="text" class="form-control input-email"
+                       name="lastName" required>
+                <div class="field-message" ng-messages="registerForm.lastName.$error"
+                     ng-if="registerForm.lastName.$dirty" ng-cloak>
+                    <div ng-message="required">Last Name is required</div>
+                </div>
             </div>
-
-            <!--<div class="form-group">-->
-            <!--<input ng-placeholder="Last Name{}Smith" type="text" class="form-control" required name="lastName"-->
-            <!--ng-model="data.lastName">-->
-
-            <!--<div ng-messages="registerForm.lastName.$error" ng-show="registerForm.lastName.$touched">-->
-            <!--<p ng-message="required" class="error-block">-->
-            <!--You forgot to enter your Last Name...-->
-            <!--</p>-->
-            <!--</div>-->
-
-            <!--</div>-->
 
             <div class="tips-form-group inner-addon left-addon">
                 <i class="glyphicon glyphicon-phone login"></i>
-                <input placeholder="phone number" type="text" class="form-control input-email" autocomplete="off"
-                       name="phone" required ng-model="data.phone">
+                <input placeholder="phone number" ng-model="data.phone" type="text" class="form-control input-email"
+                       name="phone" ng-minlength="11" required>
+                <div class="field-message" ng-messages="registerForm.phone.$error" ng-if="registerForm.phone.$dirty"
+                     ng-cloak>
+                    <div ng-message="required">Phone number is required</div>
+                    <div ng-message="minlength">Phone number have minimum 11 digits</div>
+                </div>
             </div>
 
-            <!--<div class="form-group">-->
-            <!--<input ng-placeholder="Phone Number{}" type="text" class="form-control" required name="phone"-->
-            <!--ng-model="data.phone">-->
-
-            <!--<div ng-messages="registerForm.phone.$error" ng-show="registerForm.phone.$touched">-->
-            <!--<p ng-message="required" class="error-block">-->
-            <!--You forgot to enter your Phone Number...-->
-            <!--</p>-->
-            <!--</div>-->
-            <!--</div>-->
-
             <div class="tips-form-group inner-addon left-addon">
-                <i class="glyphicon glyphicon-inbox login"></i>
-                <input placeholder="email" type="email" class="form-control input-email" autocomplete="off"
+                <i class="glyphicon glyphicon-envelope login"></i>
+                <input placeholder="email" type="email" class="form-control input-email"
                        name="userEmail" ng-model="data.userEmail" required>
+                <div class="field-message" ng-messages="registerForm.userEmail.$error"
+                     ng-if="registerForm.userEmail.$dirty"
+                     ng-cloak>
+                    <div ng-message="required">Email is required</div>
+                    <div ng-message="email">Must be a valid email</div>
+                </div>
             </div>
-
-            <!--<div class="form-group">-->
-            <!--<input ng-placeholder="Email address{}john@smith.com" type="email" class="form-control" required-->
-            <!--name="userEmail" ng-model="data.userEmail">-->
-
-            <!--<div ng-messages="registerForm.userEmail.$error" ng-show="registerForm.userEmail.$touched">-->
-            <!--<p ng-message="required" class="error-block">-->
-            <!--You forgot to enter your Email...-->
-            <!--</p>-->
-
-            <!--<p ng-message="email" class="error-block">-->
-            <!--This needs to be a valid email-->
-            <!--</p>-->
-            <!--</div>-->
-            <!--</div>-->
 
             <div class="tips-form-group inner-addon left-addon">
                 <i class="glyphicon glyphicon-lock"></i>
-                <input placeholder="password" type="password" class="form-control input-email" autocomplete="off"
-                       name="password" ng-model="data.password" required>
+                <input ng-model="data.password" placeholder="password" type="password" class="form-control input-email"
+                       name="password" minlength="6" required>
+                <div class="field-message" ng-messages="registerForm.password.$error"
+                     ng-if="registerForm.password.$dirty" ng-cloak>
+                    <div ng-message="required">Password is required</div>
+                    <div ng-message="minlength">Password must be minimum 6 characters</div>
+                </div>
+
             </div>
-
-            <!--<div class="form-group">-->
-            <!--<input ng-placeholder="Password{}" type="password" class="form-control" name="password"-->
-            <!--required ng-model="data.password">-->
-
-            <!--<div ng-messages="registerForm.password.$error" ng-show="registerForm.password.$touched">-->
-            <!--<p ng-message="required" class="error-block">-->
-            <!--You forgot to enter your Password...-->
-            <!--</p>-->
-            <!--</div>-->
-            <!--</div>-->
 
             <div class="tips-form-group inner-addon left-addon">
                 <i class="glyphicon glyphicon-lock"></i>
-                <input placeholder="confirm password" type="password" class="form-control input-email"
-                       autocomplete="off" name="confirmPassword" ng-model="data.confirmPassword" required>
+                <input ng-model="data.confirmPassword" placeholder="confirm password" type="password"
+                       class="form-control input-email"
+                       name="confirmPassword" minlength="6" compare-to="data.password" required>
+                <div class="field-message" ng-messages="registerForm.confirmPassword.$error"
+                     ng-if="registerForm.confirmPassword.$dirty" ng-cloak>
+                    <div ng-message="required">Password confirmation is required</div>
+                    <div ng-message="minlength">Password must be minimum 6 characters</div>
+                    <div ng-message="compareTo">Must match the password</div>
+                </div>
             </div>
-
-            <!--<div class="form-group">-->
-            <!--<input ng-placeholder="Confirm Password{}" type="password" class="form-control"-->
-            <!--ng-compare="data.password" name="confirmPassword"-->
-            <!--required ng-model="data.confirmPassword">-->
-
-            <!--<div ng-messages="registerForm.confirmPassword.$error" ng-show="registerForm.confirmPassword.$touched">-->
-            <!--<p ng-message="required" class="error-block">-->
-            <!--Don't You forget to Confirm your Password...?-->
-            <!--</p>-->
-
-            <!--<p ng-message="compare" class="error-block">-->
-            <!--Hey, are you sure it is the same...?-->
-            <!--</p>-->
-            <!--</div>-->
-            <!--</div>-->
 
             <div class="tips-form-group">
                     <span class="tips-form-group">
-                    <input type="checkbox">
+                    <input type="checkbox" name="conditions" ng-model="conditions">
                         I understand and agree with Tractive terms and conditions.
                     </span>
             </div>
 
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <button id="loginSubmit" class="btn-block sign-in authSubmit pull-right" type="submit">
+                    <button id="loginSubmit" class="btn-block sign-in authSubmit pull-right" type="submit"
+                            ng-disabled="registerForm.$invalid || !conditions">
                         Sign Up
                     </button>
                 </div>

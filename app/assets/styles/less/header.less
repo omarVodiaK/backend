@@ -1,0 +1,58 @@
+@navbar-color: #00d8ff;
+@navbar-font-size: 24px;
+
+.navbar-font(@font, @size, @color) {
+  font-family: @font;
+  font-size: @size;
+  color: @color !important;
+}
+
+.hamburger-bars(@rotation, @translateX, @translateY) {
+  -webkit-transform: rotate(@rotation) translate(@translateX, @translateY);
+  transform: rotate(@rotation) translate(@translateX, @translateY);
+}
+
+.navbar-header {
+  width: 100%;
+  color: #333333 !important;
+  background: #1d202d;
+}
+
+.navbar-brand {
+  float: right;
+}
+
+.navbar-brand-inner {
+
+  .navbar-font(TitilliumWeb-Bold, @navbar-font-size, @navbar-color);
+  float: left !important;
+}
+
+.navbar-dashboard {
+
+  .navbar-font(TitilliumWeb-Light, @navbar-font-size, @navbar-color);
+  display: inline-block;
+}
+
+.bar1, .bar2, .bar3 {
+  width: 22px;
+  height: 2px;
+  background-color: #fff;
+  margin: 4px 0;
+  transition: 0.4s;
+}
+
+.change {
+
+  .bar1 {
+    .hamburger-bars(-45deg, -5px, 5px);
+  }
+
+  .bar2 {
+    opacity: 0;
+  }
+
+  .bar3 {
+    .hamburger-bars(45deg, -4px, -4px);
+  }
+}

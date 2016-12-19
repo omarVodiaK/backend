@@ -3,8 +3,8 @@
 </div>
 
 <div class="container-fluid">
-    <div class="row" style="margin-top:20px;">
-        <div class="col-md-6">
+    <div class="row margin-top-20px">
+        <div class="col-md-6 col-sm-6 col-xs-6">
             <form class="form-inline">
                 <div class="form-group">
                     <label>Filter by: </label>
@@ -12,7 +12,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6 col-xs-6">
             <div class="pull-right" ng-controller="ModalCategoryCtrl">
                 <!-- angular ui modal -->
                 <script type="text/ng-template" id="categoryModalTpl">
@@ -22,16 +22,16 @@
                     <div class="modal-body">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <label class="control-label col-xs-2">Name:</label>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-2">Name:</label>
 
-                                <div class="col-xs-10">
+                                <div class="col-md-10 col-sm-10 col-xs-10">
                                     <input type="text" class="form-control" placeholder="Name">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-xs-2">Description</label>
+                                <label class="control-label col-md-2 col-sm-2 col-xs-2">Description</label>
 
-                                <div class="col-xs-10">
+                                <div class="col-md-10 col-sm-10 col-xs-10">
                                     <textarea type="text" class="form-control" rows="2"
                                               placeholder="Description"></textarea>
                                 </div>
@@ -55,15 +55,15 @@
     </div>
 </div>
 
-<div class="bs-component" style="margin-top:20px;">
+<div class="bs-component margin-top-20px">
     <div class="clearfix visible-sm"></div>
     <table class="table table-responsive table-striped table-hover">
         <thead>
         <tr>
             <th></th>
-            <th class="col-md-4">name</th>
-            <th class="col-md-4">Description</th>
-            <th class="col-md-6  text-right" colspan="2"></th>
+            <th class="col-md-4 col-sm-4 col-xs-4">name</th>
+            <th class="col-md-4 col-sm-4 col-xs-4">Description</th>
+            <th class="col-md-6  col-sm-6 col-xs-6 text-right" colspan="2"></th>
         </tr>
         </thead>
         <tbody dir-paginate="category in categories |filter:search|itemsPerPage:3">

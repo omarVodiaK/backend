@@ -8,10 +8,11 @@
   },
   "keywords": [
     "angularjs",
-    "example",
-    "angularjs",
-    "tutorial",
-    "angularjs"
+    "bootstrap",
+    "beacon",
+    "ibeacon",
+    "ble",
+    "bluetooth"
   ],
   "author": "",
   "devDependencies": {
@@ -37,6 +38,12 @@
   },
   "dependencies": {
     "connect-modrewrite": "^0.8.2",
-    "gulp-install": "^0.6.0"
+    "gulp-install": "^0.6.0",
+    "gulp-less": "^3.3.0",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-remove-empty-lines": "0.0.8",
+    "gulp-rename": "^1.2.2",
+    "gulp-watch": "^4.3.10",
+    "merge-stream": "^1.0.0"
   }
 }

@@ -15,15 +15,17 @@
                         treeControl: '='
                     },
                     template: "<ul class='nav nav-list nav-pills nav-stacked abn-tree'>" +
-                    "<li ng-model='treeData' ng-repeat='row in tree_rows | filter:{visible:true} track by row.branch.uid' ng-animate='abn-tree-animate' ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"abn-tree-row\">" +
+                    "<li ng-model='treeData' ng-repeat='row in tree_rows | filter:{visible:true} track by row.branch.uid' ng-animate='abn-tree-animate' ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class='abn-tree-row'>" +
                     "<div class='row'>" +
-                    "<div class='col-md-3'>" +
-                    "<a><i ng-class='row.tree_icon' ng-click='row.branch.expanded = !row.branch.expanded'  style='color: black;' class='indented tree-icon'></i>" +
-                    "<span class='indented tree-label' ng-click='user_clicks_branch(row.branch)' style='color: black;'>{{ row.label }} </span></a>" +
+                    "<div class='col-md-7 col-xs-7 col-sm-7'>" +
+                    "<a>" +
+                    "<i ng-class='row.tree_icon' ng-click='row.branch.expanded = !row.branch.expanded' class='indented tree-icon'></i>" +
+                    "<span class='indented tree-label' style='color: black;'>{{ row.label }}</span>" +
+                    "</a>" +
                     "</div>" +
-                    "<div class='col-md-3'>" +
+                    "<div class='col-md-5 col-sm-5 col-xs-5'>" +
                     "<div class='btn-group pull-right' role='group'>" +
-                    "<button ng-click='open(row.branch)' class='btn btn-warning btn-sm'>" +
+                    "<button class='btn btn-warning btn-sm' ng-click='open(row.branch)'>" +
                     "<i class='glyphicon glyphicon-edit'></i>" +
                     "</button>" +
                     "<button class='btn btn-danger btn-sm' ng-click='user_delete_branch(row.branch)'>" +
@@ -462,7 +464,6 @@
                                         return b;
                                     }
                                 };
-
                                 tree.remove_branch = function (b) {
                                     select_branch(b);
                                     parent = scope.treeControl.select_parent_branch();
@@ -593,7 +594,6 @@
                                         }
                                     }
                                 };
-
                                 tree.last_descendant = function (b) {
                                     var last_child;
                                     if (b == null) {
@@ -637,12 +637,8 @@
                                 };
                             }
                         }
-
                     }
-
                 };
             }
         ])
-
-
 }).call(this);

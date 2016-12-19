@@ -1,6 +1,6 @@
-<ul class="nav navbar-nav side-nav cl-effect-15" style="background: #1d2133;">
+<ul class="nav navbar-nav side-nav cl-effect-15">
 
-    <li>
+    <li ng-class="{active: isActive('/dashboard/associate')}">
         <a href="#/dashboard/associate">
             <b class="badge bg-info pull-right"></b>
             <span class="glyphicon glyphicon-user nav-menu-icon" aria-hidden="true"></span>
@@ -8,7 +8,7 @@
         </a>
     </li>
 
-    <li>
+    <li ng-class="{active: isActive('/dashboard/campaign') || isActive('/dashboard/new-campaign')}">
         <a href="#/dashboard/campaign">
             <b class="badge bg-info pull-right"></b>
             <span class="glyphicon glyphicon-bullhorn nav-menu-icon" aria-hidden="true"></span>
@@ -16,7 +16,7 @@
         </a>
     </li>
 
-    <li>
+    <li ng-class="{active: isActive('/dashboard/location')}">
         <a href="#/dashboard/location">
             <b class="badge bg-info pull-right"></b>
             <span class="glyphicon glyphicon-record nav-menu-icon" aria-hidden="true"></span>
@@ -24,7 +24,7 @@
         </a>
     </li>
 
-    <li>
+    <li ng-class="{active: isActive('/dashboard/zone')}">
         <a href="#/dashboard/zone">
             <b class="badge bg-info pull-right"></b>
             <span class="glyphicon glyphicon-screenshot nav-menu-icon" aria-hidden="true"></span>
@@ -32,7 +32,7 @@
         </a>
     </li>
 
-    <li>
+    <li ng-class="{active: isActive('/dashboard/beacon')}">
         <a href="#/dashboard/beacon">
             <b class="badge bg-info pull-right"></b>
             <span class="glyphicon glyphicon-transfer nav-menu-icon" aria-hidden="true"></span>
@@ -47,14 +47,14 @@
             <span class="hide-toggled nav-menu">{{'CONTENT_MENU'| translate}}</span>
         </a>
         <ul class="dropdown-menu">
-            <li><a href="#/dashboard/content/normal"><span
+            <li ng-class="{active: isActive('/dashboard/content/normal')}"><a href="#/dashboard/content/normal"><span
                     class="hide-toggled nav-menu">{{'ADVERTISEMENT_MENU'| translate}}</span></a></li>
-            <li><a href="#/dashboard/content/product"><span
+            <li ng-class="{active: isActive('/dashboard/content/product')}"><a href="#/dashboard/content/product"><span
                     class="hide-toggled nav-menu">{{'PRODUCT_MENU'| translate}}</span></a></li>
         </ul>
     </li>
 
-    <li>
+    <li ng-class="{active: isActive('/dashboard/analytic')}">
         <a href="#/dashboard/analytic">
             <b class="badge bg-info pull-right"></b>
             <span class="glyphicon glyphicon-stats nav-menu-icon" aria-hidden="true"></span>
@@ -64,66 +64,61 @@
 
 </ul>
 
-<style>
 
-    .dropdown-submenu > .dropdown-menu {
-        position: relative;
-        background: transparent;
-        -webkit-box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
-        -moz-box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
-        -o-box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
-        box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
-        border: transparent;
-        width: 100%;
-    }
+<!--<style>-->
 
-    .dropdown-submenu:hover > .dropdown-menu {
-        display: none;
-    }
+    <!--.dropdown-submenu > .dropdown-menu {-->
+        <!--position: relative;-->
+        <!--background: transparent;-->
+        <!-- -webkit-box-shadow: 0 0px 0px rgba(0, 0, 0, 0);-->
+        <!-- -moz-box-shadow: 0 0px 0px rgba(0, 0, 0, 0);-->
+        <!-- -o-box-shadow: 0 0px 0px rgba(0, 0, 0, 0);-->
+        <!--box-shadow: 0 0px 0px rgba(0, 0, 0, 0);-->
+        <!--border: transparent;-->
+        <!--width: 100%;-->
+    <!--}-->
 
-    .dropdown-submenu:hover > a:after {
-        color: #999;
-    }
+    <!--.dropdown-submenu:hover > .dropdown-menu {-->
+        <!--display: none;-->
+    <!--}-->
 
-    .nav-menu {
-        color: #4D5A7E !important;
-        font-family: TitilliumWeb-Regular;
-        font-size: 18px;
-    }
+    <!--.dropdown-submenu:hover > a:after {-->
+        <!--color: #999;-->
+    <!--}-->
 
-    .nav-menu-icon {
-        color: #4D5A7E !important;
-    }
+    <!--.shown {-->
+        <!--display: block;-->
+    <!--}-->
 
-    .shown {
-        display: block;
-    }
+    <!--.dropdown-submenu:hover > .shown {-->
+        <!--display: block;-->
+    <!--}-->
 
-    .dropdown-submenu:hover > .shown {
-        display: block;
-    }
+    <!--/* Effect 15: scale down, reveal */-->
 
-    /* Effect 15: scale down, reveal */
-    .cl-effect-15 a {
-        color: rgba(0, 0, 0, 0.2);
-        font-weight: 700;
-        text-shadow: none;
-    }
+    <!--.cl-effect-15{-->
+        <!--background-color: #1d2133;-->
+    <!--}-->
+    <!--.cl-effect-15 a {-->
+        <!--color: rgba(0, 0, 0, 0.2);-->
+        <!--font-weight: 700;-->
+        <!--text-shadow: none;-->
+    <!--}-->
 
-    .cl-effect-15 a::before {
-        color: #fff;
-        content: attr(data-hover);
-        position: absolute;
-        transition: transform 0.3s, opacity 0.3s;
-    }
+    <!--.cl-effect-15 a::before {-->
+        <!--color: #fff;-->
+        <!--content: attr(data-hover);-->
+        <!--position: absolute;-->
+        <!--transition: transform 0.3s, opacity 0.3s;-->
+    <!--}-->
 
-    .cl-effect-15 a:hover::before,
-    .cl-effect-15 a:focus::before {
-        transform: scale(0.9);
-        opacity: 0;
-    }
+    <!--.cl-effect-15 a:hover::before,-->
+    <!--.cl-effect-15 a:focus::before {-->
+        <!--transform: scale(0.9);-->
+        <!--opacity: 0;-->
+    <!--}-->
 
-</style>
+<!--</style>-->
 
 <script>
 

@@ -1,177 +1,175 @@
-(function () {
-    'use strict';
+'use strict';
 
-    /**
-     * module app.analytic
-     * @module app.analytic
-     */
-    angular
-        .module('app.analytic', ['chart.js', 'countTo'])
-        .controller('AnalyticCtrl', analyticController);
+/**
+ * module app.analytic
+ * @module app.analytic
+ */
+angular
+    .module('app.analytic', ['chart.js', 'countTo'])
+    .controller('AnalyticCtrl', ['$scope', 'RequestService', 'session', 'notify', analyticController]);
 
-    /**
-     * @description app.analytic module controller for selecting respective information from RequestService.
-     * @method analyticController
-     * @param {object} $scope
-     * @param {Service} RequestService
-     * @param {object} session
-     * @param {object} notify
-     */
-    function analyticController($scope, RequestService, session, notify) {
-        $scope.data = [];
+/**
+ * @description app.analytic module controller for selecting respective information from RequestService.
+ * @method analyticController
+ * @param {object} $scope
+ * @param {Service} RequestService
+ * @param {object} session
+ * @param {object} notify
+ */
+function analyticController($scope, RequestService, session, notify) {
 
-        $scope.validateUserByCompany = false;
-        $scope.validatePercentageUsers = false;
-        $scope.validateInteraction = false;
-        $scope.validateVouchers = false;
+    var age;
+    $scope.data = [];
 
-        $scope.numberUsers = 0;
+    $scope.validateUserByCompany = false;
+    $scope.validatePercentageUsers = false;
+    $scope.validateInteraction = false;
+    $scope.validateVouchers = false;
 
-        // gender variables
-        $scope.genderLabels = ["Male", "Female"];
-        $scope.maleUsers = 0;
-        $scope.femaleUsers = 0;
+    $scope.numberUsers = 0;
 
-        // race variables
-        $scope.raceLabels = ["malay", "indian", "chinese", "expatriate"];
-        $scope.malay = 0;
-        $scope.indian = 0;
-        $scope.chinese = 0;
-        $scope.expatriate = 0;
+    // gender variables
+    $scope.genderLabels = ["Male", "Female"];
+    $scope.maleUsers = 0;
+    $scope.femaleUsers = 0;
 
-        // age group variables
-        $scope.ageLabels = ["16-25", "26-35", "36-50", "51-69", "70+"];
-        $scope.ageGroup1 = 0;
-        $scope.ageGroup2 = 0;
-        $scope.ageGroup3 = 0;
-        $scope.ageGroup4 = 0;
-        $scope.ageGroup5 = 0;
-        var age;
+    // race variables
+    $scope.raceLabels = ["malay", "indian", "chinese", "expatriate"];
+    $scope.malay = 0;
+    $scope.indian = 0;
+    $scope.chinese = 0;
+    $scope.expatriate = 0;
 
-        // beacon interaction variables
-        $scope.interactionLabels = [];
-        $scope.interactionData = [];
+    // age group variables
+    $scope.ageLabels = ["16-25", "26-35", "36-50", "51-69", "70+"];
+    $scope.ageGroup1 = 0;
+    $scope.ageGroup2 = 0;
+    $scope.ageGroup3 = 0;
+    $scope.ageGroup4 = 0;
+    $scope.ageGroup5 = 0;
 
-        RequestService.postJsonRequest('user/findUserByCompany', {cmp_cd: session.getUser().user.cmp_cd}).then(function (users) {
+    // beacon interaction variables
+    $scope.interactionLabels = [];
+    $scope.interactionData = [];
 
-            if (users.length > 0) {
+    RequestService.postJsonRequest('user/findUserByCompany', {cmp_cd: session.getUser().user.cmp_cd}).then(function (users) {
 
-                $scope.numberUsers = users.length;
+        if (users.length > 0) {
 
-                users.forEach(function (user) {
+            $scope.numberUsers = users.length;
 
-                    // Calculate user age
-                    age = _calculateAge(user.usr_dob);
+            users.forEach(function (user) {
 
-                    // Check and accumulate users by gender
-                    if (user.usr_gender == 'male') {
-                        $scope.maleUsers++;
-                    } else {
-                        $scope.femaleUsers++;
-                    }
+                // Calculate user age
+                age = _calculateAge(user.usr_dob);
 
-                    // Check and accumulate users by race
-                    if (user.usr_race == 'malay') {
-                        $scope.malay++;
-                    } else if (user.usr_race == 'indian') {
-                        $scope.indian++;
-                    } else if (user.usr_race == 'chinese') {
-                        $scope.chinese++;
-                    } else if (user.usr_race == 'expatriate') {
-                        $scope.expatriate++;
-                    }
+                // Check and accumulate users by gender
+                if (user.usr_gender == 'male') {
+                    $scope.maleUsers++;
+                } else {
+                    $scope.femaleUsers++;
+                }
 
-                    // Calculate age groups
-                    if (age >= 16 && age <= 25) {
-                        $scope.ageGroup1++;
-                    } else if (age >= 26 && age <= 35) {
-                        $scope.ageGroup2++;
-                    } else if (age >= 36 && age <= 50) {
-                        $scope.ageGroup3++;
-                    } else if (age >= 51 && age <= 69) {
-                        $scope.ageGroup4++;
-                    } else if (age >= 70) {
-                        $scope.ageGroup5++;
-                    }
+                // Check and accumulate users by race
+                if (user.usr_race == 'malay') {
+                    $scope.malay++;
+                } else if (user.usr_race == 'indian') {
+                    $scope.indian++;
+                } else if (user.usr_race == 'chinese') {
+                    $scope.chinese++;
+                } else if (user.usr_race == 'expatriate') {
+                    $scope.expatriate++;
+                }
 
-                });
+                // Calculate age groups
+                if (age >= 16 && age <= 25) {
+                    $scope.ageGroup1++;
+                } else if (age >= 26 && age <= 35) {
+                    $scope.ageGroup2++;
+                } else if (age >= 36 && age <= 50) {
+                    $scope.ageGroup3++;
+                } else if (age >= 51 && age <= 69) {
+                    $scope.ageGroup4++;
+                } else if (age >= 70) {
+                    $scope.ageGroup5++;
+                }
 
-                $scope.raceData = [$scope.malay, $scope.indian, $scope.chinese, $scope.expatriate];
+            });
 
-                $scope.ageData = [[$scope.ageGroup1, $scope.ageGroup2, $scope.ageGroup3, $scope.ageGroup4, $scope.ageGroup5]];
+            $scope.raceData = [$scope.malay, $scope.indian, $scope.chinese, $scope.expatriate];
 
-                $scope.genderData = [$scope.maleUsers, $scope.femaleUsers];
+            $scope.ageData = [[$scope.ageGroup1, $scope.ageGroup2, $scope.ageGroup3, $scope.ageGroup4, $scope.ageGroup5]];
 
-                $scope.validateUserByCompany = true;
+            $scope.genderData = [$scope.maleUsers, $scope.femaleUsers];
 
-            } else {
+            $scope.validateUserByCompany = true;
 
-                notify({
-                    message: "You don't have registered users!",
-                    classes: 'alert-info',
-                    position: 'center',
-                    duration: 2000
-                });
-            }
+        } else {
 
-        });
+            notify({
+                message: "You don't have registered users!",
+                classes: 'alert-info',
+                position: 'center',
+                duration: 2000
+            });
+        }
 
-        RequestService.postJsonRequest('userAction/findInteractionUsers', {cmp_cd: session.getUser().user.cmp_cd}).then(function (user_action) {
+    });
 
-            if (user_action.actions !== 0) {
+    RequestService.postJsonRequest('userAction/findInteractionUsers', {cmp_cd: session.getUser().user.cmp_cd}).then(function (user_action) {
 
-                var users = user_action.inactive_users + user_action.active_users;
-                $scope.percActiveUsersData = [percentage(user_action.active_users, users), percentage(user_action.inactive_users, users)];
-                $scope.percActiveUsersLabels = ["active", "inactive"];
-                $scope.validatePercentageUsers = true;
-            }
-        });
+        if (user_action.actions !== 0) {
 
-        RequestService.postJsonRequest('userAction/findCompanyVouchers', {cmp_cd: session.getUser().user.cmp_cd}).then(function (vouchers) {
+            var users = user_action.inactive_users + user_action.active_users;
+            $scope.percActiveUsersData = [percentage(user_action.active_users, users), percentage(user_action.inactive_users, users)];
+            $scope.percActiveUsersLabels = ["active", "inactive"];
+            $scope.validatePercentageUsers = true;
+        }
+    });
 
-            if (vouchers.vouchers != 0) {
+    RequestService.postJsonRequest('userAction/findCompanyVouchers', {cmp_cd: session.getUser().user.cmp_cd}).then(function (vouchers) {
 
-                var expiredVouchers = vouchers.vouchers - vouchers.redeemedVoucher;
-                $scope.voucherData = [vouchers.vouchers, vouchers.redeemedVoucher, expiredVouchers];
-                $scope.voucherLabels = ["vouchers", "Redeemed", "Expired"];
-                $scope.validateVouchers = true;
-            }
-        });
+        if (vouchers.vouchers != 0) {
 
-        RequestService.postJsonRequest('userAction/findBeacons', {cmp_cd: session.getUser().user.cmp_cd}).then(function (results) {
+            var expiredVouchers = vouchers.vouchers - vouchers.redeemedVoucher;
+            $scope.voucherData = [vouchers.vouchers, vouchers.redeemedVoucher, expiredVouchers];
+            $scope.voucherLabels = ["vouchers", "Redeemed", "Expired"];
+            $scope.validateVouchers = true;
+        }
+    });
 
-            if (results.length > 0) {
+    RequestService.postJsonRequest('userAction/findBeacons', {cmp_cd: session.getUser().user.cmp_cd}).then(function (results) {
 
-                results.forEach(function (result) {
+        if (results.length > 0) {
 
-                    $scope.interactionLabels.push(result.beacon.bcn_name);
-                    $scope.interactionData.push(result.occurrence);
-                });
+            results.forEach(function (result) {
 
-                $scope.validateInteraction = true;
-            }
-        });
+                $scope.interactionLabels.push(result.beacon.bcn_name);
+                $scope.interactionData.push(result.occurrence);
+            });
 
-        // onClick event for chart values
-        $scope.onClick = function (points, evt) {
-            console.log(points, evt);
-        };
+            $scope.validateInteraction = true;
+        }
+    });
 
-    }
+    // onClick event for chart values
+    $scope.onClick = function (points, evt) {
+        console.log(points, evt);
+    };
 
-    // Calculate age
-    function _calculateAge(dob) { // birthday is a date
+}
 
-        var ageDifMs = Date.now() - new Date(dob).getTime();
+// Calculate age
+function _calculateAge(dob) { // birthday is a date
 
-        var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    var ageDifMs = Date.now() - new Date(dob).getTime();
 
-        return Math.abs(ageDate.getUTCFullYear() - 1970);
-    }
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
 
-    // Calculate percentage
-    function percentage(num, amount) {
-        return ((num / amount) * 100).toFixed(2);
-    }
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
 
-})();
+// Calculate percentage
+function percentage(num, amount) {
+    return ((num / amount) * 100).toFixed(2);
+}

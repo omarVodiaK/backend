@@ -2,41 +2,59 @@
     <h1>Content</h1>
 </div>
 
-<div class="container" style="width: 100%">
-    <div class="row" style="margin-top:20px;">
+<div class="container full-width-container">
+    <div class="row margin-top-20px">
 
-        <div class="col-md-6">
+        <div class="col-md-9 col-sm-9 col-xs-9">
 
-            <form class="form-inline">
-
-                <div class="form-group">
-                    <label>Filter by: </label>
-                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
-                </div>
-
-            </form>
+            <label class="col-md-2 col-sm-2 col-xs-2">Filter :</label>
+            <div class="col-md-5 col-sm-5 col-xs-5">
+                <input type="text" ng-model="search" class="form-control pull-left" placeholder="Search">
+            </div>
 
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-3 col-sm-3 col-xs-3">
 
             <div class="pull-right" ng-controller="ModalContentCtrl">
 
                 <!-- angular ui modal -->
                 <script type="text/ng-template" id="contentModalTpl">
 
-                    <div class="modal-header">
-                        <h3 class="modal-title">New Content</h3>
+                    <div class="modal-header" ng-controller="ContentAlertCtrl">
+
+                        <div class="row">
+
+                            <div class="col-md-6 col-xs-6 col-sm-6">
+                                <h3 class="modal-title">New Content</h3>
+                            </div>
+
+                            <div class="col-md-6 col-xs-6 col-sm-6">
+                                <div class="btn-group pull-right">
+
+                                    <button type="button" class="btn btn-xs iconButton" ng-click="ok()">
+                                        <span class="glyphicon glyphicon-ok-circle glyphiconLG glyphiconWhiteOk gly-spin"></span>
+                                    </button>
+
+                                    <button type="button" class="btn btn-xs iconButton" ng-click="confirmCancel()">
+                                        <span class="glyphicon glyphicon-remove-circle glyphiconLG  glyphiconWhiteRemove gly-spin"></span>
+                                    </button>
+
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
 
                     <div class="modal-body">
                         <form class="form-horizontal">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
                                     <div class="form-group">
-                                        <label class="control-label col-xs-3" style="text-align: left;">Title:</label>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-3 text-align-left">Title:</label>
 
-                                        <div class="col-xs-9">
+                                        <div class="col-md-9 col-sm-9 col-xs-9">
                                             <input id="content_title" value="{{content.cnt_title}}" type="text"
                                                    class="form-control"
                                                    ng-model="content.cnt_title"
@@ -45,10 +63,9 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label col-xs-3"
-                                               style="text-align: left;">Description:</label>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-3 text-align-left">Description:</label>
 
-                                        <div class="col-xs-9">
+                                        <div class="col-md-9 col-sm-9 col-xs-9">
                                     <textarea id="content_content" ng-model="content.cnt_content" type="text"
                                               class="form-control" rows="2"
                                               placeholder="Details">{{content.cnt_content}}</textarea>
@@ -57,56 +74,53 @@
 
                                     <div ng-controller="ContentCtrl">
                                         <div class="form-group">
-                                            <div class="row">
-                                                <label class="control-label col-xs-3" style="text-align: left;">Content
-                                                    Type:</label>
-                                                <!-- Single button -->
-                                                <div class="col-xs-9">
-                                                    <select ng-model="content.cnt_type.lkp_cd" id="content_type"
-                                                            class="btn btn-defautl">
-                                                        <option value="">--Select Type--</option>
-                                                        <option ng-repeat="contentType in contentTypes"
-                                                                value="{{contentType.lkp_cd}}"
-                                                                ng-selected="{false: '', true: 'selected'} [content.cnt_type.lkp_cd == contentType.lkp_cd]">
-                                                            {{contentType.lkp_value}}
-                                                        </option>
-                                                    </select>
-                                                </div>
+
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-3 text-align-left">Content
+                                                Type:</label>
+                                            <!-- Single button -->
+                                            <div class="col-md-9 col-sm-9 col-xs-9">
+                                                <select ng-model="content.cnt_type.lkp_cd" id="content_type"
+                                                        class="btn btn-defautl">
+                                                    <option value="">--Select Type--</option>
+                                                    <option ng-repeat="contentType in contentTypes"
+                                                            value="{{contentType.lkp_cd}}"
+                                                            ng-selected="{false: '', true: 'selected'} [content.cnt_type.lkp_cd == contentType.lkp_cd]">
+                                                        {{contentType.lkp_value}}
+                                                    </option>
+                                                </select>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <div class="row">
-                                                <label class="control-label col-xs-3"
-                                                       style="text-align: left;">Tags:</label>
 
-                                                <div class="col-xs-9">
-                                                    <oi-select
-                                                            id="tagSelect"
-                                                            oi-options="t.tag_name for t in tag track by t.tag_cd"
-                                                            ng-model="content.tag"
-                                                            choseList
-                                                            oi-select-options="{ closeList: false }"
-                                                            multiple>
-                                                    </oi-select>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-3 text-align-left">Tags:</label>
 
-                                                </div>
+                                            <div class="col-md-9 col-sm-9 col-xs-9">
+                                                <oi-select
+                                                        id="tagSelect"
+                                                        oi-options="t.tag_name for t in tag track by t.tag_cd"
+                                                        ng-model="content.tag"
+                                                        choseList
+                                                        oi-select-options="{ closeList: false }"
+                                                        multiple>
+                                                </oi-select>
+
                                             </div>
+
                                         </div>
 
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
                                             <div ng-controller="GalleryCtrl">
 
                                                 <uib-tabset justified="true">
 
                                                     <uib-tab heading="DS Content">
 
-                                                        <ul class="thumbnails recipes list-unstyled panel"
-                                                            style="margin-top: 10%;">
+                                                        <ul class="thumbnails recipes list-unstyled panel margin-top-10px">
 
                                                             <li ng-repeat="image in images | contentPagesFilter: currentPage : itemsPerPage">
 
@@ -115,30 +129,24 @@
                                                                     <dsdirective image="image"
                                                                                  content="content"></dsdirective>
 
-                                                                    <div class="col-md-3 col-xs-3 text-right  v-center"
-                                                                         style="display:table; height:100px;">
+                                                                    <div class="col-md-3 col-sm-3 col-xs-3 text-right v-center content-thumbnail-col">
 
-                                                                        <div style="display:table-cell; vertical-align:middle; text-align:center;">
+                                                                        <div class="content-thumbnail">
 
                                                                             <label class="switch">
-
                                                                                 <input class="ds_content"
                                                                                        type="checkbox"
                                                                                        ng-model="image.checked"
                                                                                        ng-change="saveChecked($index, itemsPerPage, currentPage, images)"
                                                                                        ng-checked="{false: '', true: 'checked'} [content.med_cd == image.med_cd] || true == getIndex($index, itemsPerPage, currentPage)">
-
+                                                                                <!--need's a blank <i> tag to show the switch input-->
                                                                                 <i></i>
-
                                                                             </label>
 
                                                                         </div>
-
                                                                     </div>
-
                                                                 </div>
                                                             </li>
-
                                                         </ul>
 
                                                         <div class="text-center">
@@ -157,7 +165,7 @@
 
                                                     <uib-tab heading="URL">
 
-                                                        <div class="input-group" style="margin-top: 10%;">
+                                                        <div class="input-group margin-top-10px">
 
                                                             <span class="input-group-addon" id="basic-addon3">http://example.com/</span>
 
@@ -204,9 +212,9 @@
 
 
                                                                     <div class="add-file">
-                                                                        <input type="button" class="button add-files"
-                                                                               value="Add Files..."
-                                                                               style="width: 100%;"/>
+                                                                        <input type="button"
+                                                                               class="button add-files full-width-container"
+                                                                               value="Add Files..."/>
                                                                         <droplet-upload-single
                                                                                 ng-model="interface"></droplet-upload-single>
                                                                     </div>
@@ -275,17 +283,6 @@
 
                     </div>
 
-                    <div class="modal-footer">
-
-                        <div class="btn-group" ng-controller="ContentAlertCtrl">
-
-                            <button class="btn btn-danger" type="button" ng-click="confirmCancel()">Cancel</button>
-                            <button class="btn btn-primary" type="button" ng-click="ok()">Save</button>
-
-                        </div>
-
-                    </div>
-
                 </script>
                 <!-- / -->
                 <!-- Button trigger modal -->
@@ -303,14 +300,13 @@
 
 </div>
 
-<div class="bs-component" style="margin-top:20px;" ng-if="contents.length > 0">
+<div class="bs-component margin-top-20px" ng-if="contents.length > 0">
 
     <div class="table-responsive">
 
-        <table class="table table-striped table-hover">
+        <table class="table table-hover">
 
             <thead>
-
             <tr>
 
                 <th></th>
@@ -321,7 +317,6 @@
                 <th></th>
 
             </tr>
-
             </thead>
 
             <tbody dir-paginate="content in contents | filter:search | itemsPerPage:5">
@@ -343,14 +338,14 @@
                     <div class="btn-group checkbox" role="group" ng-controller="ModalContentCtrl">
 
                         <button class="btn btn-danger" ng-click="removeContentRow(content.cnt_cd)">
-                            <i class="glyphicon glyphicon-remove visible-xs-inline-block"></i>
-                            <span class="hidden-xs hidden-md">Remove</span>
+                            <i class="glyphicon glyphicon-remove visible-xs-inline-block visible-sm-inline-block visible-sm-inline-block visible-md-inline-block"></i>
+                            <span class="hidden-xs hidden-sm">Remove</span>
                         </button>
 
                         <!-- Button trigger modal -->
                         <button class="btn btn-warning" ng-click="open('lg', 'contentModalTpl', content, tag)">
-                            <i class="glyphicon glyphicon-pencil visible-xs-inline-block"></i>
-                            <span class="hidden-xs hidden-md">Update</span>
+                            <i class="glyphicon glyphicon-pencil visible-xs-inline-block visible-sm-inline-block visible-sm-inline-block visible-md-inline-block"></i>
+                            <span class="hidden-xs hidden-sm">Update</span>
                         </button>
 
                     </div>
@@ -373,7 +368,7 @@
 
 </div>
 
-<div class="bs-component" style="margin-top:20px;" ng-if="contents.length == 0">
+<div class="bs-component margin-top-20px" ng-if="contents.length == 0">
 
     <div class="row">
 
@@ -383,24 +378,3 @@
     </div>
 
 </div>
-
-<link rel="stylesheet" href="assets/css/toggle.css">
-
-<style type="text/css">
-
-    .size {
-        width: 100px;
-        height: 100px;
-    }
-
-    .wrapper {
-        display: inline-block;
-        padding: 10px;
-    }
-
-    .wrapper img {
-        width: 100%;
-        height: 100%;
-    }
-
-</style>

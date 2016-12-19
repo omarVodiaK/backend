@@ -1,0 +1,214 @@
+@navmenu-color: #4d5a7e;
+
+.dropdown-submenu {
+
+  .dropdown-menu {
+    position: relative;
+    background: transparent;
+    -webkit-box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
+    -o-box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
+    border: transparent;
+    width: 100%;
+  }
+
+  &:hover {
+    .dropdown-menu {
+      display: none;
+    }
+
+    a {
+      &:after {
+        color: #999;
+      }
+    }
+
+    .shown {
+      background-color: transparent !important;
+      display: block;
+    }
+  }
+}
+
+.dropdown-menu {
+  li {
+    a {
+      &:hover {
+        background-color: transparent !important;
+      }
+    }
+  }
+}
+
+.badge {
+  font-weight: normal;
+  font-family: TitilliumWeb-Regular;
+  border-radius: 160px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  vertical-align: middle;
+  background-color: #cfdadd;
+}
+
+.nav {
+  cursor: pointer;
+}
+
+.side-nav {
+  @media (min-width: 768px) {
+    font-family: TitilliumWeb-Regular !important;
+    font-size: 18px !important;
+    position: fixed;
+    top: 51px;
+    left: 225px;
+    width: 280px;
+    margin-left: -225px;
+    border: none;
+    border-radius: 0;
+    overflow-y: auto;
+    bottom: 0;
+    overflow-x: hidden;
+    padding-bottom: 40px;
+
+    > li {
+      > a {
+        width: 280px;
+      }
+    }
+  }
+
+  > li {
+    > ul {
+      padding: 0;
+
+      > li {
+        > a {
+          display: block;
+          padding: 10px 15px 10px 38px;
+          text-decoration: none;
+          color: #999999;
+        }
+      }
+    }
+
+  }
+
+  li {
+    a {
+      &:hover {
+        span {
+          color: #ffffff !important;
+        }
+      }
+    }
+    &:hover {
+      .bg-info {
+        background-color: #272E36;
+      }
+    }
+  }
+
+  .active {
+    a {
+      background-color: inherit !important;
+      span {
+        color: #ffffff !important;
+      }
+    }
+
+  }
+}
+
+.side-bar-toggled {
+
+  padding-left: 77px !important;
+
+  .hide-toggled {
+    @media (min-width: 768px) {
+      float: none !important;
+      display: none !important;
+    }
+  }
+
+  .side-nav {
+    @media (min-width: 768px) {
+      width: 77px;
+    }
+
+    .badge {
+      position: absolute;
+      top: 8px;
+      right: 29px;
+      z-index: 3;
+      padding: 2px 5px;
+      margin-top: 2px;
+      font-size: 10px;
+    }
+
+    span {
+      &.glyphicon {
+        @media (min-width: 768px) {
+          font-size: 1.4em;
+        }
+      }
+    }
+
+    > li {
+      @media (min-width: 768px) {
+        width: 77px;
+      }
+
+      > a {
+        @media (min-width: 768px) {
+          width: 77px;
+        }
+      }
+    }
+  }
+
+}
+
+.navbar-btn {
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+.navbar-inverse {
+  .navbar-brand {
+    &.userName {
+      color: white !important;
+    }
+  }
+}
+
+.navbar-brand {
+  .navbar-brand-inner {
+    font-family: TitilliumWeb-Bold;
+    font-size: 24px;
+    color: #000000;
+  }
+}
+
+.bg-info {
+  color: #dcf2f8;
+  background-color: #23b7e5;
+}
+
+.nav-menu {
+  color: @navmenu-color;
+  font-family: TitilliumWeb-Regular !important;
+  font-size: 18px !important;
+}
+
+.nav-menu-icon {
+  color: @navmenu-color !important;
+  font-size: 18px;
+}
+
+.navbar-nav {
+  @media (max-width: 768px) {
+    margin-top: 0 !important;
+  }
+
+}

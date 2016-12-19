@@ -2,13 +2,9 @@
     'use strict';
     angular
         .module('app.core')
-        .controller('headerController', headerController)
+        .controller('headerController', ['$scope', 'session', '$state', headerController]);
 
     function headerController($scope, session, $state) {
-        //Setup view model object
-        var vm = this;
-        vm.title = "";
-        vm.description = "";
 
         if (session.getUser() != null) {
 
@@ -20,8 +16,6 @@
 
             session.destroy();
             $state.go('auth.login');
-
         };
     }
-
 })();

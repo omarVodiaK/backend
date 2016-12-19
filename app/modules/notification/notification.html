@@ -5,10 +5,10 @@
 <div class="container" style="width: 100%">
     <div class="row" style="margin-top:20px;">
 
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6 col-xs-6">
 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6 col-xs-6">
             <div class="pull-right" ng-controller="ModalNotificationCtrl">
 
                 <!-- angular ui modal -->
@@ -19,11 +19,11 @@
                     <div class="modal-body">
                         <form class="form-horizontal">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group">
-                                        <label class="control-label col-xs-1" style="text-align: left;">Title:</label>
+                                        <label class="control-label col-md-1 col-sm-1 col-xs-1" style="text-align: left;">Title:</label>
 
-                                        <div class="col-xs-11">
+                                        <div class="col-md-11 col-sm-11 col-xs-11">
                                             <input type="text" class="form-control"
                                                    placeholder="Your Title goes here">
                                         </div>
@@ -32,12 +32,12 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="form-group">
-                                        <label class="control-label col-xs-1"
+                                        <label class="control-label col-md-1 col-sm-1 col-xs-1"
                                                style="text-align: left;">Content:</label>
 
-                                        <div class="col-xs-11">
+                                        <div class="col-md-11 col-sm-11 col-xs-11">
                                     <textarea type="text" class="form-control" rows="2"
                                               placeholder="Your content goes here"></textarea>
                                         </div>
@@ -47,13 +47,13 @@
 
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
                                     <div class="form-group"
                                          ng-controller="GenderMultiSelectCtrl">
-                                        <label class="control-label col-xs-2"
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-2"
                                                style="text-align: left;">Gender:</label>
 
-                                        <div class="col-xs-10">
+                                        <div class="col-md-10 col-sm-10 col-xs-10">
                                             <oi-select
                                                     oi-options="item.name for item in arrGender track by item.id"
                                                     ng-model="bundle"
@@ -63,14 +63,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
                                     <div class="form-group"
                                          ng-controller="GenderMultiSelectCtrl">
-                                        <label class="control-label col-xs-3"
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-3"
                                                style="text-align: left;">Nationality:
                                         </label>
 
-                                        <div class="col-xs-9">
+                                        <div class="col-md-9 col-sm-9 col-xs-9">
                                             <oi-select
                                                     oi-options="item.name for item in arrInteractWith track by item.id"
                                                     ng-model="bundle"
@@ -82,12 +82,12 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-6">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
                                     <div class="form-group">
-                                        <label class="control-label col-xs-2"
+                                        <label class="control-label col-md-2 col-sm-2 col-xs-2"
                                                style="text-align: left;">From: </label>
 
-                                        <div class="col-xs-10">
+                                        <div class="col-md-10 col-sm-10 col-xs-10">
                                             <input type="number"
                                                    class="form-control"
                                                    max="99"
@@ -95,12 +95,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xs-6">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
                                     <div class="form-group">
-                                        <label class="control-label col-xs-3"
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-3"
                                                style="text-align: left;">To:</label>
 
-                                        <div class="col-xs-9">
+                                        <div class="col-md-9 col-sm-9 col-xs-9">
                                             <input type="number"
                                                    class="form-control"
                                                    min="16"

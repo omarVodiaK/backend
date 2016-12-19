@@ -1,19 +1,19 @@
 <div class="page-header">
     <h1>Analytic</h1>
-
 </div>
 
-<div class="container" style="width: 100%">
-    <div class="row" style="text-align: center">
-        <div class="col-md-3" style="margin-top: 50px;">
+<div class="container full-width-container">
 
+    <div class="row analytic-center">
+
+        <div class="col-md-3 col-sm-3 col-xs-3 top-buffer">
             <div class="card hovercard">
-                <div class="col-md-6">
+                <div class="col-md-6 col-sm-6 col-xs-6">
                     <div class="avatar">
                         <img alt="" src="assets/images/registered-user.png">
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 col-sm-6 col-xs-6">
 
                     <div class="infos">
                         <div class="title">
@@ -25,15 +25,13 @@
 
                 </div>
             </div>
-
         </div>
 
-        <div class="col-md-3" ng-show="validateUserByCompany" style="text-align: center;">
+        <div class="col-md-3 col-sm-3 col-xs-3 analytic-center" ng-show="validateUserByCompany">
+
             <h4>Users gender</h4>
-
-
             <br>
-            <canvas id="genderChart"  class="chart chart-pie"
+            <canvas id="genderChart" class="chart chart-pie"
                     chart-data="genderData"
                     chart-options="{animation:false}"
                     chart-labels="genderLabels"
@@ -43,10 +41,10 @@
             </canvas>
         </div>
 
-        <div class="col-md-3" ng-show="validateUserByCompany" style="text-align: center;">
+        <div class="col-md-3 col-sm-3 col-xs-3 analytic-center" ng-show="validateUserByCompany">
             <h4>User Nationalities</h4>
             <br>
-            <canvas id="raceChart"  class="chart chart-pie" chart-data="raceData"
+            <canvas id="raceChart" class="chart chart-pie" chart-data="raceData"
                     chart-options="{animation:false}"
                     chart-labels="raceLabels"
                     chart-legend="true"
@@ -54,22 +52,23 @@
             </canvas>
         </div>
 
-        <div class="col-md-3" ng-show="validateUserByCompany" style="text-align: center;">
+        <div class="col-md-3 col-sm-3 col-xs-3 analytic-center" ng-show="validateUserByCompany">
             <h4>Users age groups</h4>
             <br>
-            <canvas id="ageChart"  class="chart chart-bar" class="chart chart-line"
+            <canvas id="ageChart" class="chart chart-bar" class="chart chart-line"
                     chart-options="{animation:false}"
                     chart-data="ageData" chart-labels="ageLabels" chart-colours="['#FF9800']">
             </canvas>
 
         </div>
+
     </div>
 
-    <div class="row top-buffer" ng-show="validatePercentageUsers" style="text-align: center;">
-        <div class="col-md-6 top-buffer">
-            <h1 style="margin-top: 100px;">% of active users</h1>
+    <div class="row top-buffer analytic-center" ng-show="validatePercentageUsers">
+        <div class="col-md-6 col-sm-6 col-xs-6 top-buffer">
+            <h1 class="margin-top">% of active users</h1>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6 col-xs-6">
             <canvas id="percentageChart" class="chart chart-polar-area"
                     chart-data="percActiveUsersData"
                     chart-options="{animation:false}"
@@ -80,22 +79,22 @@
         </div>
     </div>
 
-    <div  ng-show="validateInteraction"  class="row top-buffer" style="text-align: center;">
-        <div class="col-md-6 top-buffer">
-            <h1 style="margin-top: 100px;">Beacon Interactions</h1>
+    <div ng-show="validateInteraction" class="row top-buffer analytic-center">
+        <div class="col-md-6 col-sm-6 col-xs-6 top-buffer">
+            <h1 class="margin-top">Beacon Interactions</h1>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6 col-xs-6">
             <canvas id="InteractionChart" class="chart chart-radar"
                     chart-data="[interactionData]" chart-labels="interactionLabels" chart-colours="[ '#803690']">
             </canvas>
         </div>
     </div>
 
-    <div class="row top-buffer"  ng-show="validateVouchers" style="text-align: center;">
-        <div class="col-md-6 top-buffer">
-            <h1 style="margin-top: 100px;">Vouchers Generated</h1>
+    <div class="row top-buffer analytic-center" ng-show="validateVouchers">
+        <div class="col-md-6 col-sm-6 col-xs-6 top-buffer">
+            <h1 class="margin-top">Vouchers Generated</h1>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-6 col-xs-6">
             <canvas class="chart chart-polar-area" id="VoucherChart"
                     chart-options="{animation:false}"
                     chart-data="voucherData" chart-labels="voucherLabels"
@@ -104,106 +103,4 @@
         </div>
     </div>
 
-
 </div>
-
-<style>
-
-    .top-buffer {
-        margin-top: 50px;
-    }
-
-    .card {
-        padding-top: 20px;
-        margin: 10px 0 20px 0;
-        border-top-width: 0;
-        border-bottom-width: 2px;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        box-shadow: none;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-    }
-
-    .card .card-heading.image img {
-        display: inline-block;
-        width: 46px;
-        height: 46px;
-        margin-right: 15px;
-        vertical-align: top;
-        border: 0;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        border-radius: 50%;
-    }
-
-    .card .card-heading.image .card-heading-header span {
-        font-size: 12px;
-    }
-
-    .card .card-media img {
-        max-width: 100%;
-        max-height: 100%;
-    }
-
-    .card.people .card-info .title {
-        display: block;
-        overflow: hidden;
-        font-size: 16px;
-        font-weight: bold;
-        line-height: 18px;
-    }
-
-    .card.hovercard {
-        position: relative;
-        padding-top: 0;
-        overflow: hidden;
-    }
-
-    .card.hovercard .avatar img {
-        width: 100px;
-        height: 100px;
-        max-width: 100px;
-        max-height: 100px;
-    }
-
-    .card.hovercard .infos .title {
-        margin-bottom: 4px;
-        font-size: 24px;
-        line-height: 1;
-    }
-
-    .pie-legend li span {
-        width: auto;
-        padding-left: 3px;
-        padding-right: 3px;
-        margin-right: 5px;
-        margin-left: 5px;
-
-    }
-
-    .pie-legend li {
-        margin-right: 10px;
-        margin-left: 5px;
-    }
-
-    .polararea-legend li span {
-        width: auto;
-        padding-left: 3px;
-        padding-right: 3px;
-        margin-right: 5px;
-        margin-left: 5px;
-    }
-
-    .polararea-legend li {
-        margin-right: 10px;
-        margin-left: 5px;
-    }
-
-
-</style>
-

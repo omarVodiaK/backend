@@ -11,9 +11,9 @@
 
     angular
         .module('app.category', ['angularUtils.directives.dirPagination', 'ui.bootstrap', 'app.zone'])
-        .controller('CategoryCtrl', categoryController)
-        .controller('ModalCategoryCtrl', modalController)
-        .controller('CategoryModalInstanceCtrl', modalInstanceController);
+        .controller('CategoryCtrl', ['$scope', 'ZoneService', 'CategoryService', categoryController])
+        .controller('ModalCategoryCtrl', ['$scope', '$uibModal', 'ZoneService', modalController])
+        .controller('CategoryModalInstanceCtrl', ['$scope', '$modalInstance', 'zones', modalInstanceController]);
 
     /**
      *
@@ -35,7 +35,7 @@
 
         CategoryService.getCategory(function (data) {
             $scope.categories = data;
-        })
+        });
 
         /**
          * remove category row
